@@ -408,7 +408,7 @@ public class ManagementGui {
 
         viewVideoFormatMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewVideoFormatMenuItem.setText(l.getString("menu.view.format"));
-        viewVideoFormatMenuItem.setSelection(true);
+        viewVideoFormatMenuItem.setSelection(false);
         viewVideoFormatMenuItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemFormat == null || tabItemFormat.isDisposed()){
@@ -524,7 +524,7 @@ public class ManagementGui {
         
         viewMovieMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewMovieMenuItem.setText(l.getString("menu.view.movie"));
-        viewMovieMenuItem.setSelection(false);
+        viewMovieMenuItem.setSelection(true);
         viewMovieMenuItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemMovie == null || tabItemMovie.isDisposed()){

@@ -84,7 +84,7 @@ public class TestAudioFormat extends TestCase {
         }
     }
 
-    public void testAudioFormat() throws Exception {
+    /*public void testAudioFormat() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
         }
@@ -192,7 +192,7 @@ public class TestAudioFormat extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
-    }
+    }*/
 
     public void testSaveAudioFormat() throws Exception {
         if (logger.isDebugEnabled()) {

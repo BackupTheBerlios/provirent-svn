@@ -31,6 +31,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import de.hsharz.provirent.objects.AudioFormat;
+import de.hsharz.provirent.objects.AudioFormat;
+import de.hsharz.provirent.objects.AudioFormat;
 import de.hsharz.provirent.objects.VideoFormat;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
@@ -69,14 +72,24 @@ public class CompositeFormate extends AbstractComposite {
     private Label labelVideoFormatName;
 
     private Text textVideoFormatID;
+    
+    private Group groupAudioFormatOverview;
+
+    private Group groupAudioFormatDetail;
+
+    private Label labelAudioFormatId;
+
+    private Label labelAudioFormatShortname;
+
+    private Text textAudioFormatName;
+
+    private Label labelAudioFormatName;
+
+    private Text textAudioFormatID;
 
     private Composite composite2;
 
-    private Group groupAudioFormatOverview;
-
     private List list1;
-
-    private Group groupAudioFormatDetail;
 
     private Text textAudioFormatSearch;
 
@@ -103,12 +116,28 @@ public class CompositeFormate extends AbstractComposite {
     private Button buttonVideoFormatEdit;
 
     private Button buttonVideoFormatNew;
+    
+    private Button buttonAudioFormatCancel;
+
+    private Button buttonAudioFormatSave;
+
+    private Button buttonAudioFormatFill;
+
+    private Button buttonAudioFormatDelete;
+
+    private Button buttonAudioFormatEdit;
+
+    private Button buttonAudioFormatNew;
+
 
     private Text textVideoFormatShortname;
 
     private Text textVideoFormatSearch;
 
     private Label labelVideoFormatSearch;
+    
+    private Text textAudioFormatShortname;
+
 
     private Table tableVideoFormat;
 
@@ -207,6 +236,7 @@ public class CompositeFormate extends AbstractComposite {
         
         //die VideoFormattabelle wird gefüllt
         refreshVideoFormatTable("");
+        refreshAudioFormatTable("");
         
     }
 
@@ -836,138 +866,666 @@ public class CompositeFormate extends AbstractComposite {
    
     
     private void initAudioFormatGroup() {
+        //init a group for the AudioFormat
         groupAudioFormat = new Group(sashForm1, SWT.NONE);
-        
-        GridLayout group1Layout = new GridLayout();
-        group1Layout.makeColumnsEqualWidth = true;
-        groupAudioFormat.setText("AudioFormat");
-        FormData group1LData = new FormData();
-        groupAudioFormat.setLayout(group1Layout);
-        group1LData.height = 240;
-        group1LData.width = 750;
-        groupAudioFormat.setLayoutData(group1LData);
+        GridLayout group2Layout = new GridLayout();
+        group2Layout.makeColumnsEqualWidth = true;
+        groupAudioFormat.setText(l.getString("AudioFormat.group.label"));
+        groupAudioFormat.setSize(758, 284);
+        FormData group2LData = new FormData();
+        groupAudioFormat.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
+                System.out.println("groupAudioFormat.focusLost, event="
+                    + evt);
+                buttonAudioFormatCancel.setEnabled(false);
+                buttonAudioFormatDelete.setEnabled(false);
+                buttonAudioFormatEdit.setEnabled(false);
+                buttonAudioFormatNew.setEnabled(false);
+                buttonAudioFormatSave.setEnabled(false);
+                
+            }
+        });
+        groupAudioFormat.setLayout(group2Layout);
+        groupAudioFormat.setLayoutData(group2LData);
         {
             sashFormAudioFormat = new SashForm(groupAudioFormat, SWT.NONE);
-            FormLayout sashForm1Layout = new FormLayout();
-            GridData sashForm1LData = new GridData();
-            sashFormAudioFormat.setLayout(sashForm1Layout);
-            sashForm1LData.verticalAlignment = GridData.FILL;
-            sashForm1LData.horizontalAlignment = GridData.FILL;
-            sashForm1LData.horizontalSpan = 6;
-            sashForm1LData.grabExcessHorizontalSpace = true;
-            sashForm1LData.grabExcessVerticalSpace = true;
-            sashFormAudioFormat.setLayoutData(sashForm1LData);
-            {
-                groupAudioFormatOverview = new Group(sashFormAudioFormat,
-                        SWT.NONE);
-                GridLayout group3Layout = new GridLayout();
-                group3Layout.numColumns = 6;
-                groupAudioFormatOverview.setText("Übersicht");
-                FormData group3LData = new FormData();
-                groupAudioFormatOverview.setLayout(group3Layout);
-                group3LData.right = new FormAttachment(100, 100, -5);
-                group3LData.top = new FormAttachment(0, 100, 5);
-                group3LData.bottom = new FormAttachment(100, 100, -5);
-                groupAudioFormatOverview.setLayoutData(group3LData);
-                {
-                    tableAudioFormat = new Table(groupAudioFormatOverview,
-                            SWT.SINGLE | SWT.FULL_SELECTION | SWT.V_SCROLL
-                                    | SWT.BORDER);
-                    tableAudioFormat.setHeaderVisible(true);
-                    tableAudioFormat.setLinesVisible(true);
-                    GridData table1LData = new GridData();
-                    tableAudioFormat
-                            .addSelectionListener(new SelectionAdapter() {
-                                public void widgetSelected(SelectionEvent evt) {
+            FormLayout sashForm2Layout = new FormLayout();
+            sashFormAudioFormat.setSize(748, 300);
+            GridData sashForm2LData = new GridData();
+            sashFormAudioFormat.setLayout(sashForm2Layout);
+            sashForm2LData.verticalAlignment = GridData.FILL;
+            sashForm2LData.horizontalAlignment = GridData.FILL;
+            sashForm2LData.grabExcessHorizontalSpace = true;
+            sashForm2LData.grabExcessVerticalSpace = true;
+            sashFormAudioFormat.setLayoutData(sashForm2LData);
 
-                                    int index = tableDirector
-                                            .getSelectionIndex();
-                                    System.out.println("Table select. id: "
-                                            + index
-                                            + " TableItem:"
-                                            + tableDirector.getItem(index)
-                                            + " id: "
-                                            + tableDirector.getItem(index)
-                                                    .getText(0));
-                                }
-                            });
-                    table1LData.verticalAlignment = GridData.FILL;
-                    table1LData.horizontalAlignment = GridData.FILL;
-                    table1LData.horizontalSpan = 6;
-                    table1LData.grabExcessHorizontalSpace = true;
-                    table1LData.grabExcessVerticalSpace = true;
-                    tableAudioFormat.setLayoutData(table1LData);
-                    {
-                        tableColumn1 = new TableColumn(tableAudioFormat,
-                                SWT.CENTER);
-                        tableColumn1.setText("id");
-                        tableColumn1.setWidth(100);
-                    }
-                    {
-                        tableColumn2 = new TableColumn(tableAudioFormat,
-                                SWT.CENTER);
-                        tableColumn2.setText("Name");
-                        tableColumn2.setWidth(100);
-                    }
-                    {
-                        tableColumn3 = new TableColumn(tableAudioFormat,
-                                SWT.CENTER);
-                        tableColumn3.setText("vorname");
-                        tableColumn3.setWidth(100);
-                    }
-                }
-                {
-                    labelAudioFormatSearch = new Label(
-                            groupAudioFormatOverview, SWT.NONE);
-                    labelAudioFormatSearch.setText("Suche nach:");
-                    GridData label1LData = new GridData();
-                    label1LData.horizontalSpan = 2;
-                    labelAudioFormatSearch.setLayoutData(label1LData);
-                }
-                {
-                    textAudioFormatSearch = new Text(groupAudioFormatOverview,
-                            SWT.BORDER);
-                    GridData text1LData = new GridData();
-                    text1LData.horizontalAlignment = GridData.FILL;
-                    text1LData.horizontalSpan = 4;
-                    text1LData.grabExcessHorizontalSpace = true;
-                    textAudioFormatSearch.setLayoutData(text1LData);
-                }
-            }
-            {
-                groupAudioFormatDetail = new Group(sashFormAudioFormat,
-                        SWT.NONE);
-                GridLayout group4Layout = new GridLayout();
-                group4Layout.numColumns = 2;
-                groupAudioFormatDetail.setText("Detail");
-                FormData group4LData = new FormData();
-                groupAudioFormatDetail.setLayout(group4Layout);
-                group4LData.left = new FormAttachment(0, 100, 5);
-                group4LData.top = new FormAttachment(0, 100, 5);
-                group4LData.bottom = new FormAttachment(100, 100, -5);
-                groupAudioFormatDetail.setLayoutData(group4LData);
-                {
-                    list1 = new List(groupAudioFormatDetail, SWT.SINGLE
-                            | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-                    GridData list1LData = new GridData();
-                    list1.addSelectionListener(new SelectionAdapter() {
-                        public void widgetSelected(SelectionEvent evt) {
-                            System.out.println("list1.widgetSelected, event="
-                                    + evt);
-
-                            //TODO add your
-                            // code for
-                            // list1.widgetSelected
-                        }
-                    });
-                    list1LData.verticalAlignment = GridData.FILL;
-                    list1LData.horizontalAlignment = GridData.FILL;
-                    list1LData.grabExcessHorizontalSpace = true;
-                    list1LData.grabExcessVerticalSpace = true;
-                    list1.setLayoutData(list1LData);
-                }
-            }
+            //init die Gruppe für AudioFormat Überblick
+            initAudioFormatGroupOverview();
+            //init die Detailansicht
+            initAudioFormatGroupDetail();
         }
+    }
+
+    /**
+     * 
+     */
+    private void initAudioFormatGroupDetail() {
+        groupAudioFormatDetail = new Group(sashFormAudioFormat, SWT.NONE);
+        GridLayout groupAudioFormatDetailLayout = new GridLayout();
+        groupAudioFormatDetailLayout.marginHeight = 25;
+        groupAudioFormatDetailLayout.numColumns = 6;
+        groupAudioFormatDetailLayout.verticalSpacing = 15;
+        groupAudioFormatDetail.setText(l
+                .getString("AudioFormat.groupdetail.label"));
+        FormData formData = new FormData();
+        groupAudioFormatDetail.setLayout(groupAudioFormatDetailLayout);
+        formData.right = new FormAttachment(100, 100, -5);
+        formData.top = new FormAttachment(0, 100, 5);
+        formData.bottom = new FormAttachment(100, 100, -5);
+        groupAudioFormatDetail.setLayoutData(formData);
+        {
+            labelAudioFormatId = new Label(groupAudioFormatDetail, SWT.NONE);
+            labelAudioFormatId.setText(l
+                    .getString("AudioFormat.groupdetail.idlabel")
+                    + ":");
+            labelAudioFormatId.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.widthHint = 125;
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 2;
+            labelAudioFormatId.setLayoutData(formData2);
+        }
+        {
+            textAudioFormatID = new Text(groupAudioFormatDetail, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 4;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textAudioFormatID.setLayoutData(text1LData1);
+        }
+        {
+            labelAudioFormatName = new Label(groupAudioFormatDetail, SWT.NONE);
+            labelAudioFormatName.setText(l
+                    .getString("AudioFormat.groupdetail.namelabel")
+                    + ":");
+            labelAudioFormatName.setSize(125, 15);
+            GridData labelAudioFormatNameLData = new GridData();
+            labelAudioFormatNameLData.widthHint = 125;
+            labelAudioFormatNameLData.heightHint = 15;
+            labelAudioFormatNameLData.horizontalSpan = 2;
+            labelAudioFormatName.setLayoutData(labelAudioFormatNameLData);
+        }
+        {
+            textAudioFormatName = new Text(groupAudioFormatDetail,
+                    SWT.READ_ONLY | SWT.BORDER);
+            GridData text1LData2 = new GridData();
+            text1LData2.horizontalAlignment = GridData.FILL;
+            text1LData2.heightHint = 13;
+            text1LData2.horizontalSpan = 4;
+            text1LData2.grabExcessHorizontalSpace = true;
+            textAudioFormatName.setLayoutData(text1LData2);
+        }
+        {
+            labelAudioFormatShortname = new Label(groupAudioFormatDetail,
+                    SWT.NONE);
+            labelAudioFormatShortname.setText(l
+                    .getString("AudioFormat.groupdetail.shortcutlabel")
+                    + ":");
+            labelAudioFormatShortname.setSize(125, 15);
+            GridData label1LData1 = new GridData();
+            label1LData1.widthHint = 125;
+            label1LData1.heightHint = 15;
+            label1LData1.horizontalSpan = 2;
+            labelAudioFormatShortname.setLayoutData(label1LData1);
+        }
+        {
+            textAudioFormatShortname = new Text(groupAudioFormatDetail,
+                    SWT.READ_ONLY | SWT.BORDER);
+            GridData text1LData3 = new GridData();
+            text1LData3.horizontalAlignment = GridData.FILL;
+            text1LData3.heightHint = 13;
+            text1LData3.horizontalSpan = 4;
+            text1LData3.grabExcessHorizontalSpace = true;
+            textAudioFormatShortname.setLayoutData(text1LData3);
+        }
+        {
+
+//          die Buttons bekommen ein eigenes Composite
+            composite2 = new Composite(groupAudioFormatDetail, SWT.EMBEDDED);
+            GridLayout composite2Layout = new GridLayout();
+            composite2Layout.numColumns = 6;
+            GridData composite2LData = new GridData();
+            composite2.setLayout(composite2Layout);
+            composite2LData.verticalAlignment = GridData.END;
+            composite2LData.horizontalAlignment = GridData.CENTER;
+            composite2LData.widthHint = 391;
+            composite2LData.horizontalSpan = 6;
+            composite2LData.grabExcessHorizontalSpace = true;
+            composite2LData.grabExcessVerticalSpace = true;
+            composite2LData.heightHint = 35;
+            composite2.setLayoutData(composite2LData);
+
+            //init all the Buttons
+            initAudioFormatDetailButtons();
+
+        }
+    }
+
+    /**
+     * 
+     */
+    private void initAudioFormatDetailButtons() {
+        buttonAudioFormatNew = new Button(composite2, SWT.PUSH | SWT.CENTER);
+        buttonAudioFormatNew.setText(l.getString("button.new"));
+        buttonAudioFormatNew.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+
+                textAudioFormatID.setText("");
+                textAudioFormatName.setText("");
+                textAudioFormatShortname.setText("");
+                
+
+                textAudioFormatName.setEditable(true);
+                textAudioFormatShortname.setEditable(true);
+                buttonAudioFormatCancel.setEnabled(true);
+                buttonAudioFormatSave.setEnabled(true);
+                buttonAudioFormatNew.setEnabled(false);
+                buttonAudioFormatEdit.setEnabled(false);
+                buttonAudioFormatDelete.setEnabled(false);
+                
+                textAudioFormatSearch.setEditable(false);
+                tableAudioFormat.setEnabled(false);
+
+                mode_AudioFormat = ManagementGui.MODE_ADD;
+
+            }
+        });
+
+        buttonAudioFormatEdit = new Button(composite2, SWT.PUSH | SWT.CENTER);
+        buttonAudioFormatEdit.setText(l.getString("button.edit"));
+        buttonAudioFormatEdit.setEnabled(false);
+        buttonAudioFormatEdit.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+
+                mode_AudioFormat = ManagementGui.MODE_EDIT;
+
+
+                textAudioFormatID.setEditable(false);
+
+                textAudioFormatName.setEditable(true);
+                textAudioFormatName.setFocus();
+                textAudioFormatShortname.setEditable(true);
+                buttonAudioFormatCancel.setEnabled(true);
+                buttonAudioFormatSave.setEnabled(true);
+                buttonAudioFormatNew.setEnabled(false);
+                buttonAudioFormatEdit.setEnabled(false);
+                buttonAudioFormatDelete.setEnabled(false);
+
+
+                tableAudioFormat.setEnabled(false);
+                textAudioFormatSearch.setEnabled(false);
+                
+
+            }
+        });
+
+        buttonAudioFormatDelete = new Button(composite2, SWT.PUSH | SWT.CENTER);
+        buttonAudioFormatDelete.setText(l.getString("button.delete"));
+        buttonAudioFormatDelete.setEnabled(false);
+        buttonAudioFormatDelete.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+                System.out
+                        .println("buttonAudioFormatDelete.widgetSelected, event="
+                                + evt);
+                
+                
+               String msg = MessageFormat.format(
+                       l.getString("AudioFormat.groupdetail.deletebutton.question.text"),
+                               new Object[]{textAudioFormatName.getText()+" "+textAudioFormatShortname.getText()});
+                
+               int question = showMsg(msg,
+                       l.getString("AudioFormat.groupdetail.deletebutton.question.header"), 
+                       SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+               
+               if (question != SWT.YES){
+                   return;
+               }
+                
+                AudioFormat o = new AudioFormat();
+                o.setAudioFormatId(new Integer(Integer.parseInt(textAudioFormatID.getText())));
+                o.setName(textAudioFormatName.getText());
+                o.setShortname(textAudioFormatShortname.getText());
+                
+                try {
+                    //object speichern
+                    // Fehlerbehandlung
+                    Database.deleteObject(o);
+
+                    //ÜbersichtsTabelle aktualisieren
+                    refreshAudioFormatTable(textAudioFormatSearch.getText());
+                    
+                    //Detailansicht leeren
+                    textAudioFormatID.setText("");
+                    textAudioFormatName.setText("");
+                    textAudioFormatShortname.setText("");
+                    
+                    //in Tabelle nächsten auswählen
+                    try {
+                        tableAudioFormat.select(0);
+                    } catch (Exception ex) {}
+                    
+                    //Statusline Nachricht sezten
+                    statusLine.setStatus(1,l.getString("AudioFormat.groupdetail.deletebutton.newok"));
+
+                } catch (DataBaseException e) {
+                    if (e.getMessage().equalsIgnoreCase("1")) {
+                        //Fehler beim Speichern des Objectes
+
+                        statusLine.setStatus(3,l.getString("AudioFormat.groupdetail.deletebutton.errorsave"));
+                        showMsg(l.getString("AudioFormat.groupdetail.deletebutton.errorsave"),
+                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else if (e.getMessage().equalsIgnoreCase("2")) {
+                        //fehler beim db aufbau
+                        statusLine.setStatus(3,l.getString("AudioFormat.groupdetail.deletebutton.errordb"));
+                        showMsg(l.getString("AudioFormat.groupdetail.deletebutton.errordb"),
+                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else {
+                        //@todo
+                        e.printStackTrace();
+                    }
+                    
+                }                
+                
+
+                }
+
+            }
+        );
+
+        //leerer nicht sichtbarer Button
+        buttonAudioFormatFill = new Button(composite2, SWT.PUSH | SWT.CENTER);
+        GridData buttonAudioFormatFillLData = new GridData();
+        buttonAudioFormatFill.setVisible(false);
+        buttonAudioFormatFill.setEnabled(false);
+        buttonAudioFormatFillLData.widthHint = 30;
+        buttonAudioFormatFillLData.heightHint = 23;
+        buttonAudioFormatFill.setLayoutData(buttonAudioFormatFillLData);
+
+        buttonAudioFormatSave = new Button(composite2, SWT.PUSH | SWT.CENTER);
+        buttonAudioFormatSave.setText(l.getString("button.save"));
+        buttonAudioFormatSave.setEnabled(false);
+        buttonAudioFormatSave.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+                System.out
+                        .println("buttonAudioFormatSave.widgetSelected, event="
+                                + evt);
+
+                
+                //testen ob Name leer ist
+                if (textAudioFormatName.getText().trim().equalsIgnoreCase("")) {
+                    
+                    showMsg(l.getString("AudioFormat.groupdetail.savebutton.warn.noname.msg"),
+                            l.getString("AudioFormat.groupdetail.savebutton.warn.noname.title"),
+                            SWT.ICON_WARNING | SWT.YES);
+
+                    	return;
+                }
+                
+                //testen welcher mode
+                
+                if (mode_AudioFormat == ManagementGui.MODE_ADD) {
+                    
+                    /**
+                     * @todo eine Exception bekommen wieder leider NOCH nicht mit
+                     * d.h. es muss noch ein rückgabewert kommen oder eine Exception 
+                     * übermitteln werden (aus der DB Klasse)
+                     */
+                    //neues Objekt erzeugen
+                    AudioFormat tmp = new AudioFormat(textAudioFormatName.getText(),
+                            textAudioFormatShortname.getText());
+                    
+                    try {
+                        //object speichern
+                        // Fehlerbehandlung
+                        Object o = Database.saveObject(
+                                new AudioFormat(textAudioFormatName.getText(),
+                                        textAudioFormatShortname.getText()));
+                        
+                        // in Übersichtstabelle einfügen
+                        insertIntoAudioFormatTable((AudioFormat)o);
+                        textAudioFormatID.setText( ((AudioFormat)o).getAudioFormatId()+"" );
+                        
+                        
+                        //Statusline Nachricht sezten
+                        statusLine.setStatus(1,l.getString("AudioFormat.groupdetail.savebutton.newok"));
+
+                    } catch (DataBaseException e) {
+                        if (e.getMessage().equalsIgnoreCase("1")) {
+                            //Fehler beim Speichern des Objectes
+
+                            statusLine.setStatus(3,l.getString("AudioFormat.groupdetail.savebutton.errorsave"));
+                            showMsg(l.getString("AudioFormat.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                            
+                        } else if (e.getMessage().equalsIgnoreCase("2")) {
+                            //fehler beim db aufbau
+                            statusLine.setStatus(3,l.getString("AudioFormat.groupdetail.savebutton.errordb"));
+                            showMsg(l.getString("AudioFormat.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                            
+                        } else {
+                            //@todo
+                            e.printStackTrace();
+                        }
+                        
+                    }
+                    
+                    
+                    //alle Buttons auf aktiv setzen
+                    setVideoGroupButtonSaveCancel();
+                    
+                } else if (mode_AudioFormat == ManagementGui.MODE_EDIT) {
+                    
+                    AudioFormat tmp = new AudioFormat(textAudioFormatName.getText(),
+                                    textAudioFormatShortname.getText());
+        		tmp.setAudioFormatId( new Integer (Integer.parseInt(textAudioFormatID.getText())) );
+                try {
+                    //object speichern
+                    // Fehlerbehandlung
+                    Database.saveObject(tmp);
+                    //Übersichtstabelle aktualisieren
+                    refreshAudioFormatTable(textAudioFormatSearch.getText());
+                    
+                    //Statusline Nachricht sezten
+                    statusLine.setStatus(1,l.getString("AudioFormat.groupdetail.savebutton.editok"));
+                   
+
+                } catch (DataBaseException e) {
+                    if (e.getMessage().equalsIgnoreCase("1")) {
+                        //Fehler beim Speichern des Objectes
+
+                        statusLine.setStatus(3,l.getString("AudioFormat.groupdetail.savebutton.errorsave"));
+                        showMsg(l.getString("AudioFormat.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else if (e.getMessage().equalsIgnoreCase("2")) {
+                        //fehler beim db aufbau
+                        statusLine.setStatus(3,l.getString("AudioFormat.groupdetail.savebutton.errordb"));
+                        showMsg(l.getString("AudioFormat.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else {
+                        //@todo
+                        e.printStackTrace();
+                    }
+                    
+                }
+                    
+ 
+                    //alle Buttons auf aktiv setzen
+                    setVideoGroupButtonSaveCancel();
+                    
+                }
+                
+                
+                
+                /**
+                 * @todo Exception werfen, da nur die zwei Modes sein dürfen
+                 */
+                
+            }
+        });
+
+        buttonAudioFormatCancel = new Button(composite2, SWT.PUSH | SWT.CENTER);
+        buttonAudioFormatCancel.setText(l.getString("button.cancel"));
+        buttonAudioFormatCancel.setEnabled(false);
+        buttonAudioFormatCancel.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+                System.out
+                        .println("buttonAudioFormatCancel.widgetSelected, event="
+                                + evt);
+                setVideoGroupButtonSaveCancel();
+            }
+        });
+
+    }
+
+    /**
+     * @param format
+     */
+    protected void insertIntoAudioFormatTable(AudioFormat format) {
+        TableItem item = new TableItem(tableAudioFormat, SWT.NONE);
+        item.setText(new String[] { format.getAudioFormatId() + "", format.getName(),
+                format.getShortname() });
+    }
+
+    /**
+     * @param text
+     */
+    protected void refreshAudioFormatTable(final String filter) {
+        if (tableAudioFormat == null) {
+            System.out
+                    .println("Konnte AudioFormattable nicht refreshen, da diese null ist!");
+            return;
+        }
+        System.out.println("Versuche nun VideoListe zu refreshen. Filter: "
+                + filter);
+        tableAudioFormat.removeAll();
+        TableItem item;
+        java.util.List AudioFormatlist = Database.getAudioFormat(filter);
+
+        for (int i = 0; i < AudioFormatlist.size(); i++) {
+
+            AudioFormat o = (AudioFormat) AudioFormatlist.get(i);
+            item = new TableItem(tableAudioFormat, SWT.NONE);
+            item.setText(new String[] { o.getAudioFormatId() + "", o.getName(),
+                    o.getShortname() });
+
+        }
+
+    }
+
+    /**
+     * 
+     */
+    private void initAudioFormatGroupOverview() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("initAudioFormatGroupOverview() - start");
+        }
+
+        groupAudioFormatOverview = new Group(sashFormAudioFormat, SWT.NONE);
+        GridLayout group5Layout = new GridLayout();
+        group5Layout.numColumns = 8;
+        groupAudioFormatOverview.setText(l
+                .getString("AudioFormat.groupoverview.label"));
+        FormData group5LData = new FormData();
+        groupAudioFormatOverview.setLayout(group5Layout);
+        group5LData.left = new FormAttachment(0, 100, 0);
+        group5LData.top = new FormAttachment(0, 100, 0);
+        groupAudioFormatOverview.setLayoutData(group5LData);
+
+        //Tabelle anzeigen
+        initTableAudioFormat();
+        //Suche darunter anzeigen
+        initAudioFormatSearch();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("initAudioFormatGroupOverview() - end");
+        }
+    }
+
+    /**
+     * 
+     */
+    private void initAudioFormatSearch() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("initAudioFormatSearch() - start");
+        }
+
+        //label für die Suche
+        labelAudioFormatSearch = new Label(groupAudioFormatOverview, SWT.NONE);
+        labelAudioFormatSearch.setText(l
+                .getString("AudioFormat.groupoverview.searchlabel")
+                + ":");
+        GridData label2LData = new GridData();
+        label2LData.horizontalSpan = 3;
+        labelAudioFormatSearch.setLayoutData(label2LData);
+
+        //das Suchfeld
+        textAudioFormatSearch = new Text(groupAudioFormatOverview, SWT.BORDER);
+        GridData text2LData = new GridData();
+        textAudioFormatSearch.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("focusLost(FocusEvent evt = " + evt + " "
+                            + textAudioFormatSearch.getText() + ") - start");
+                }
+
+                refreshAudioFormatTable(textAudioFormatSearch.getText());
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("focusLost(FocusEvent) - end");
+                }
+            }
+        });
+
+        textAudioFormatSearch.addListener(SWT.DefaultSelection, new Listener() {
+            public void handleEvent(Event e) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("handleEvent(Event e = " + e + " "
+                            + textAudioFormatSearch.getText() + ") - start");
+                }
+
+                refreshAudioFormatTable(textAudioFormatSearch.getText());
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("handleEvent(Event) - end");
+                }
+            }
+        });
+
+        text2LData.horizontalAlignment = GridData.FILL;
+        text2LData.horizontalSpan = 5;
+        text2LData.grabExcessHorizontalSpace = true;
+        textAudioFormatSearch.setLayoutData(text2LData);
+
+
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("initAudioFormatSearch() - end");
+        }
+    }
+
+    /**
+     * 
+     */
+    private void initTableAudioFormat() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("initTableAudioFormat() - start");
+        }
+
+        tableAudioFormat = new Table(groupAudioFormatOverview, SWT.SINGLE
+                | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER);
+        tableAudioFormat.setHeaderVisible(true);
+        tableAudioFormat.setLinesVisible(true);
+        GridData table2LData = new GridData();
+        tableAudioFormat.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
+                System.out.println("tableAudioFormat.focusLost, event=" + evt);
+                
+            }
+            public void focusGained(FocusEvent evt) {
+                System.out
+                    .println("tableAudioFormat.focusGained, event=" + evt);
+                
+            }
+        });
+        tableAudioFormat.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("widgetSelected(SelectionEvent evt = "
+                        + evt
+                        + ") - start");
+                }
+
+                int index = tableAudioFormat.getSelectionIndex();
+
+                System.out.println("Table select. id: "
+                    + index
+                    + " TableItem:"
+                    + tableAudioFormat.getItem(index)
+                    + " id: "
+                    + tableAudioFormat.getItem(index).getText(0));
+
+                //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss die
+                //Detailansicht aktualisiert werden
+                refreshAudioFormatDetail(tableAudioFormat.getItem(index)
+                    .getText(0));
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("widgetSelected(SelectionEvent) - end");
+                }
+            }
+        });
+        table2LData.verticalAlignment = GridData.FILL;
+        table2LData.horizontalAlignment = GridData.FILL;
+        table2LData.horizontalSpan = 8;
+        table2LData.grabExcessHorizontalSpace = true;
+        table2LData.grabExcessVerticalSpace = true;
+        tableAudioFormat.setLayoutData(table2LData);
+
+        //einzelne Spalten hinzufügen
+        tableColumn = new TableColumn(tableAudioFormat, SWT.CENTER);
+        tableColumn.setText(l.getString("AudioFormat.groupoverview.columnid"));
+        tableColumn.setWidth(50);
+
+        tableColumn = new TableColumn(tableAudioFormat, SWT.CENTER);
+        tableColumn.setText(l.getString("AudioFormat.groupoverview.columnname"));
+        tableColumn.setWidth(200);
+
+        tableColumn = new TableColumn(tableAudioFormat, SWT.CENTER);
+        tableColumn.setText(l.getString("AudioFormat.groupoverview.columnshortname"));
+        tableColumn.setWidth(75);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("initTableAudioFormat() - end");
+        }
+    }
+
+    /**
+     * @param text
+     */
+    protected void refreshAudioFormatDetail(final String id) {
+        AudioFormat object;
+        try {
+            //since we only can get a String value from the table, we
+            //need to convert this
+            object = Database.getSingleAudioFormat(Integer.parseInt(id));
+
+            if (object == null) {
+
+                /*
+                 * 
+                 * @TODO Statusbar aktualiseren
+                 */
+                return;
+            }
+        } catch (Exception e) {
+            
+            //id ist keine Zahl
+            return;
+        }
+
+        textAudioFormatID.setText(object.getAudioFormatId() + "");
+        textAudioFormatName.setText(object.getName());
+        textAudioFormatShortname.setText(object.getShortname());
+
+        //Buttons zum löschen und editieren aktivieren
+        buttonAudioFormatEdit.setEnabled(true);
+        buttonAudioFormatDelete.setEnabled(true);
+
+        //Mode auf view setzen
+        mode_AudioFormat = ManagementGui.MODE_VIEW;
 
     }
 
@@ -1052,7 +1610,6 @@ public class CompositeFormate extends AbstractComposite {
                 return;
             }
         } catch (Exception e) {
-            // TODO: handle exception
             //id ist keine Zahl
             return;
         }

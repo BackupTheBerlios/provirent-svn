@@ -1304,6 +1304,43 @@ public class Database {
      */
     public Database(String arg0) {
 
-    }
+    }	
+	
+	public static AudioFormat getSingleAudioFormat(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleAudioFormat() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    AudioFormat returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (AudioFormat)s.get(AudioFormat.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleAudioFormat() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleAudioFormat() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleAudioFormat() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
 
 }
