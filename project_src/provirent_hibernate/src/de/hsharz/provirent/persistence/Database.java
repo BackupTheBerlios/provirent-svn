@@ -1619,19 +1619,20 @@ public class Database {
 	            
 	            //init the criteria
 	            Criteria criteria = s.createCriteria(Customer.class);
+	            Criteria personCriteria = criteria.createCriteria("person");
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
-	            //Disjunction any2 = Expression.disjunction();
+	            Disjunction any2 = Expression.disjunction();
 
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
 	                any.add(Expression.like("userName", "%"+filter+"%"));
-	                any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
-	                //any2.add(Expression.like("lastName", "%"+filter+"%"));
-	                //any2.add(Expression.like("firstName", "%"+filter+"%"));
+	                //any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
+	                any2.add(Expression.like("lastName", "%"+filter+"%"));
+	                any2.add(Expression.like("firstName", "%"+filter+"%"));
 	                //any2.add(Expression.like("dayOfBirth", "%"+filter+"%"));
 	                //maybe we are searching for the id?
 	                try {
-	                    any.add(Expression.eq("CustomerId", new Integer(Integer.parseInt(filter))));
+	                    any.add(Expression.eq("customerId", new Integer(Integer.parseInt(filter))));
 	                } catch (Exception e) {
 	                }
 	                
@@ -1639,8 +1640,8 @@ public class Database {
 	            
 	            //add all criteria
 	            
-	            criteria.add(any);
-	            //criteria.createCriteria("person").add(any2);
+	            //criteria.add(any);
+	            personCriteria.add(any2);
 	            
 	            //get the results
 	            returnlist = criteria.list();
