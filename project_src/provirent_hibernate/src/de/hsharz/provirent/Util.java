@@ -124,12 +124,11 @@ public class Util {
         }
     }
 
-    
-    public static String formatCalendar(Calendar cal){
-        
+    public static String formatCalendar(Calendar cal) {
+
         return "";
     }
-    
+
     public static void main(String[] args) {
         Util h = new Util();
 
@@ -139,28 +138,23 @@ public class Util {
      * @param text
      * @return
      */
-    public static Calendar getDateByText(String textdate) throws DataBaseException {
-        StringTokenizer tokenizer = new StringTokenizer(textdate, ".");
-        Vector vec = new Vector();
+    public static Calendar getDateByText(String textdate) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Calendar date = Calendar.getInstance();
-        try {
-            date.setTime(format.parse(textdate));
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
+        date.setTime(format.parse(textdate));
+
         return date;
     }
-    
-    public static String getTextByDate(Calendar date) throws DataBaseException {
+
+    public static String getTextByDate(Calendar date) {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        
+
         return format.format(date.getTime());
     }
-    
+
     public static int compareDates(Calendar Date1, Calendar Date2) {
-        
+
         return 0;
     }
 }
