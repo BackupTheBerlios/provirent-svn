@@ -43,8 +43,10 @@ import org.eclipse.swt.widgets.Display;
 public class StatusLineStyledText extends StyledText {
 
     private static final int SLEEP_TIME = 5;
-    
-    
+    public static final int STATUS_INFO =1; 
+    public static final int STATUS_WARN =2;
+    public static final int STATUS_STANDARD =0;
+    public static final int STATUS_ERROR =3;
     
     public void setStatus(final int mode, final String message) {
         /**

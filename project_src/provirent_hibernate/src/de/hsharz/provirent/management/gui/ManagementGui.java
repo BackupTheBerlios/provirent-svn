@@ -61,6 +61,23 @@ import com.cloudgarden.resource.SWTResourceManager;
 
 import de.hsharz.provirent.management.exceptions.GuiInitException;
 import de.hsharz.provirent.persistence.Database;
+
+/**
+* This code was generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* *************************************
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED
+* for this machine, so Jigloo or this code cannot be used legally
+* for any corporate or commercial purpose.
+* *************************************
+*/
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 /**
  * @author Philipp Schneider
  *  
@@ -77,9 +94,13 @@ public class ManagementGui {
 
     public final static int MODE_EDIT = 2;
 
-    private static final int MAIN_WINDOW_WIDTH = 700;
+    private static final int MAIN_WINDOW_WIDTH = 830;
 
-    private static final int MAIN_WINDOW_HEIGHT = 500;
+    private static final int MAIN_WINDOW_HEIGHT = 520;
+    private static final int MIN_WINDOW_WIDTH = 830;
+    private static final int MIN_WINDOW_HEIGHT = 520;
+    private static final int MIN_WINDOW_X = 50;
+    private static final int MIN_WINDOW_Y = 50;
 
     private CTabFolder cTabFolderMain;
 
@@ -196,7 +217,7 @@ public class ManagementGui {
         shell.setText(l.getString("mainwindow.title"));
 
         //set the Site
-        shell.setSize(476, 216);
+        shell.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
 
         {
             //Register as a resource user - SWTResourceManager will
@@ -205,6 +226,16 @@ public class ManagementGui {
         }
         //set the layout for the shell
         FillLayout thisLayout = new FillLayout(SWT.HORIZONTAL);
+        shell.addControlListener(new ControlAdapter() {
+            public void controlResized(ControlEvent evt) {
+                //TODO add your code for shell.controlResized
+                //min Size of the Main Window
+                if (shell.getBounds().height < 520 || shell.getBounds().width < 830) {
+                    shell.setBounds(MIN_WINDOW_X,MIN_WINDOW_Y,MIN_WINDOW_WIDTH,MIN_WINDOW_HEIGHT);
+                    statusLine.setStatus(StatusLineStyledText.STATUS_WARN,l.getString("status.resizewarn")); 
+                }                         
+            }
+        });
         shell.setLayout(thisLayout);
         
        
