@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.hibernate.Criteria;
-import net.sf.hibernate.Hibernate;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
@@ -45,7 +44,11 @@ import net.sf.hibernate.expression.Expression;
 
 import org.apache.log4j.Logger;
 
-import de.hsharz.provirent.objects.*;
+import de.hsharz.provirent.objects.AudioFormat;
+import de.hsharz.provirent.objects.Director;
+import de.hsharz.provirent.objects.Genre;
+import de.hsharz.provirent.objects.Language;
+import de.hsharz.provirent.objects.VideoFormat;
 
 
 
@@ -243,6 +246,7 @@ public class Database {
                             + "des Objectes:" + o + " Exception: " + e);
                     exception = 1;
                 }
+                
                 s.flush();
                
                 tx.commit();
