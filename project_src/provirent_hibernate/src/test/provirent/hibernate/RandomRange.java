@@ -32,8 +32,6 @@
  */
 package test.provirent.hibernate;
 
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

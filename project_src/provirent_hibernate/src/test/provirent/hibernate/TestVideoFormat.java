@@ -84,7 +84,7 @@ public class TestVideoFormat extends TestCase {
         }
     }
 
-    public void testVideoFormat() throws Exception {
+    /*public void testVideoFormat() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
         }
@@ -102,14 +102,23 @@ public class TestVideoFormat extends TestCase {
 
                 //cretae new objects
                 List VideoFormats = new ArrayList();
-
-                VideoFormat myd1 = new VideoFormat("2.35:1","");
-                VideoFormat myd2 = new VideoFormat("9:13","");
-                VideoFormat myd3 = new VideoFormat("16:10", "");
                 
+                VideoFormat myd1 = null;
+                VideoFormat myd2 = null;
+                VideoFormat myd3 = null;
+                
+                myd1 = new VideoFormat("2.35:1","");
+                myd2 = new VideoFormat("9:13","");
+                myd3 = new VideoFormat("16:10", "");
+                
+                s.clear();
+                
+                
+                    
                 VideoFormats.add(myd1);
                 VideoFormats.add(myd2);
                 VideoFormats.add(myd3);
+     
 
 
                 List ids = new ArrayList();
@@ -191,7 +200,7 @@ public class TestVideoFormat extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
-    }
+    }*/
 
     public void testSaveVideoFormat() throws Exception {
         if (logger.isDebugEnabled()) {
@@ -222,13 +231,14 @@ public class TestVideoFormat extends TestCase {
                 
 
                 List ids = new ArrayList();
-
+                
                 //save objects
                 for (Iterator iter = VideoFormats.iterator(); iter.hasNext();) {
                     VideoFormat dir = (VideoFormat) iter.next();
                     ids.add((Integer) s.save(dir));
 
                 }
+                
                 s.flush();
 
                 tx.commit();

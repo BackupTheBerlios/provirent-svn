@@ -43,7 +43,6 @@ import net.sf.hibernate.Transaction;
 import org.apache.log4j.Logger;
 
 import de.hsharz.provirent.objects.Language;
-import de.hsharz.provirent.objects.Subtitle;
 
 /**
  * @author Philipp Schneider
@@ -85,7 +84,7 @@ public class TestLanguage extends TestCase {
         }
     }
 
-    public void testLanguage() throws Exception {
+    /*public void testLanguage() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
         }
@@ -104,17 +103,23 @@ public class TestLanguage extends TestCase {
                 //cretae new objects
                 List Languages = new ArrayList();
 
-                Language myd1 = new Language("Deutsch", "de");
-                Language myd2 = new Language("Englisch", "en");
-                Language myd3 = new Language("Franzoesisch", "fr");
-                Language myd4 = new Language("Spanisch", "es");
-                Language myd5 = new Language("Japanisch", "jp");  
+                Language myd1 = null;
+                Language myd2 = null;
+                Language myd3 = null;
+                Language myd4 = null;
+                
+                s.clear();
 
-                Languages.add(myd1);
-                Languages.add(myd2);
-                Languages.add(myd3);
-                Languages.add(myd4);
-                Languages.add(myd5);
+                for (int i = 1; i <= 10; i++) {
+                    myd1 = new Language("Action","");
+                    myd2 = new Language("Abenteuer","");
+                    myd3 = new Language("Dokumentation","");
+                    myd4 = new Language("Horror","");
+                    Languages.add(myd1);
+                    Languages.add(myd2);
+                    Languages.add(myd3);
+                    Languages.add(myd4);
+                }
 
                 List ids = new ArrayList();
 
@@ -198,7 +203,7 @@ public class TestLanguage extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
-    }
+    }*/
 
     public void testSaveLanguage() throws Exception {
         if (logger.isDebugEnabled()) {

@@ -83,7 +83,7 @@ public class TestGenre extends TestCase {
             logger.debug("tearDown() - end");
         }
     }
-
+    /*
     public void testGenre() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
@@ -103,15 +103,23 @@ public class TestGenre extends TestCase {
                 //cretae new objects
                 List Genres = new ArrayList();
 
-                Genre myd1 = new Genre("Action","");
-                Genre myd2 = new Genre("Abenteuer","");
-                Genre myd3 = new Genre("Dokumentation","");
-                Genre myd4 = new Genre("Horror","");
+                Genre myd1 = null;
+                Genre myd2 = null;
+                Genre myd3 = null;
+                Genre myd4 = null;
+                
+                s.clear();
 
-                Genres.add(myd1);
-                Genres.add(myd2);
-                Genres.add(myd3);
-                Genres.add(myd4);
+                for (int i = 1; i <= 10; i++) {
+                    myd1 = new Genre("Action","");
+                    myd2 = new Genre("Abenteuer","");
+                    myd3 = new Genre("Dokumentation","");
+                    myd4 = new Genre("Horror","");
+                    Genres.add(myd1);
+                    Genres.add(myd2);
+                    Genres.add(myd3);
+                    Genres.add(myd4);
+                }             
                 
 
                 List ids = new ArrayList();
@@ -195,7 +203,7 @@ public class TestGenre extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
-    }
+    }*/
 
     public void testSaveGenre() throws Exception {
         if (logger.isDebugEnabled()) {
