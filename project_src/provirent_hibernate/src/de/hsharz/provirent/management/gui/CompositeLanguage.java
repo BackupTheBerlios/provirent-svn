@@ -687,7 +687,7 @@ public class CompositeLanguage extends AbstractComposite{
                     .println("Konnte Languagetable nicht refreshen, da diese null ist!");
             return;
         }
-        System.out.println("Versuche nun VideoListe zu refreshen. Filter: "
+        System.out.println("Versuche nun LanguageListe zu refreshen. Filter: "
                 + filter);
         tableLanguage.removeAll();
         TableItem item;
