@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
@@ -44,6 +45,7 @@ import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.persistence.Database;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.widgets.Table;
 public class DialogActors extends org.eclipse.swt.widgets.Dialog {
     
 	private Shell dialogShell;
@@ -55,8 +57,8 @@ public class DialogActors extends org.eclipse.swt.widgets.Dialog {
 	
 	private Label labelDescriptionAdvice;
 
-	private List list1;
 	private Button button1;
+	private Table table1 ;
 	private Button button2;
 	private Text text1;
 
@@ -164,34 +166,42 @@ public class DialogActors extends org.eclipse.swt.widgets.Dialog {
         
                     }
                     {
-                        list1 = new List(groupDialogDescription, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
-                        list1.setSize(57, 30);
-                        GridData list1LData = new GridData();
-                        list1LData.horizontalSpan = 5;
-                        list1LData.horizontalAlignment = GridData.FILL;
-                        list1LData.grabExcessHorizontalSpace = true;
-                        list1LData.verticalAlignment = GridData.FILL;
-                        list1LData.grabExcessVerticalSpace = true;
-                        list1.setLayoutData(list1LData);
+                        table1 =  new Table(groupDialogDescription, SWT.MULTI | SWT.FULL_SELECTION);
+                        GridData table1LData = new GridData();
+                        table1LData.horizontalAlignment = GridData.FILL;
+                        table1LData.horizontalSpan = 5;
+                        table1LData.grabExcessHorizontalSpace = true;
+                        table1LData.verticalAlignment = GridData.FILL;
+                        table1LData.grabExcessVerticalSpace = true;
+                        table1.setLayoutData(table1LData);
+                        {
+                            TableColumn item = new TableColumn(
+                                    table1,
+                                SWT.CENTER);
+                            item.setText("id");
+                            item.setWidth(0);
+                            item.setResizable(false);
+                        }                        
+                        {
+                            TableColumn item = new TableColumn(
+                                    table1,
+                                SWT.CENTER);
+                            item.setText("nachname");
+                            item.setAlignment(SWT.LEFT);
+                            item.setWidth(100);
+                            
+                        }                        
+                        {
+                            TableColumn item = new TableColumn(
+                                    table1,
+                                SWT.CENTER);
+                            item.setText("Vorname");
+                            item.setAlignment(SWT.LEFT);
+                            item.setWidth(100);
+                            
+                        }                        
                         
-                        list1.add("Hallo0",0);
-                        list1.add("Hallo1",1);
-                        list1.add("Hallo2",2);
-                        list1.add("Hallo3",3);
-                        list1.add("Hallo2",4);
-                        list1.add("Hallo5",5);
                         
-            			{
-                            list1.addMouseListener(new MouseAdapter() {
-                                public void mouseDoubleClick(MouseEvent evt) {
-                                    System.out.println("list1.mouseDoubleClick, event="
-                                        + evt);
-                                    
-                                    
-                                    //TODO add your code for list1.mouseDoubleClick
-                                }
-                            });
-            			}                         
                     }
                     {
                         buttonDescriptionAccept = new Button(groupDialogDescription, SWT.PUSH | SWT.CENTER);
@@ -209,10 +219,11 @@ public class DialogActors extends org.eclipse.swt.widgets.Dialog {
                                         .println("buttonDescriptionAccept.widgetSelected, event="
                                             + evt);
                                     
-                                    String[] sel = list1.getSelection();
+                                    int[] sel = table1.getSelectionIndices();
                                     for (int i = 0; i < sel.length; i++) {
-                                        System.out.println("Auswahl:"+i+" "+sel[i]);
-                                        list1.remove(sel[i]);
+                                        System.out.println("Auswahl:"+i+" "+table1.getItem(sel[i]));
+
+                                        table1.remove(sel[i]);
                                     }
                                     
                                     //TODO add your code for buttonDescriptionAccept.widgetSelected
@@ -256,20 +267,21 @@ public class DialogActors extends org.eclipse.swt.widgets.Dialog {
 	}
 	
 	  private void refreshActorsList(final String filter) {
-	        if (list1 == null || list1.isDisposed()) {
+	        if (table1 == null || table1.isDisposed()) {
 	            System.out
 	                    .println("Konnte DialogActors List nicht refreshen, da diese null ist!");
 	            return;
 	        }
 	        System.out.println("Versuche nun DialogActors List zu refreshen. Filter: "
 	                + filter);
-	        list1.removeAll();
+	        table1.removeAll();
 	        
 	        java.util.List actorList = Database.getActor(filter);
 
 	        for (int i = 0; i < actorList.size(); i++) {
 	            Actor o = (Actor)actorList.get(i);
-	            list1.add(o.getLastName()+", "+ o.getFirstName()+" ("+o.getActorId() + ")");
+	            TableItem item = new TableItem(table1, SWT.NONE);
+	            item.setText(new String[] {o.getActorId()+"",o.getLastName(), o.getFirstName() });
 	        }
-	    }
+	  }
 }
