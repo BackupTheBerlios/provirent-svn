@@ -32,6 +32,8 @@
  */
 package test.provirent.hibernate;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -44,6 +46,7 @@ import net.sf.hibernate.Transaction;
 import net.sf.hibernate.expression.Expression;
 import net.sf.hibernate.expression.Order;
 import de.hsharz.provirent.objects.Customer;
+import de.hsharz.provirent.objects.Dvd;
 import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.OrderItem;
 import de.hsharz.provirent.objects.Payment;
@@ -53,6 +56,10 @@ import de.hsharz.provirent.objects.Payment;
  *
  */
 public class TestMovieOrder extends TestCase {
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = Logger.getLogger(TestMovieOrder.class);
 
     /*
      * @see TestCase#setUp()
@@ -85,16 +92,26 @@ public class TestMovieOrder extends TestCase {
             s = HibernateUtil.currentSession();
             tx = s.beginTransaction();
 
-            List customers = new ArrayList();
+            List customers = s.find("from Customer as customer");
+            assertNotNull(
+                    "testCreateMovieOrder(): Can't get Customer from DB. Null",
+                    customers);
+            assertTrue(
+                    "testCreateMovieOrder(): Can not find Customer in DB",
+                    customers.size() > 0);
             
-            List dvds = new ArrayList();
-            
+            List dvds = s.find("from Dvd as dvd");
+            assertNotNull(
+                    "testCreateMovieOrder(): Can't get Dvd from DB. Null",
+                    dvds);
+            assertTrue(
+                    "testCreateMovieOrder(): Can not find Dvd in DB",
+                    dvds.size() > 0);          
             
             //for each movie 
             for (int i = 0; i < 1; i++) {
 
-                Customer customer =null;
-                //customer = (Customer) customers.get(i);
+                Customer customer = (Customer) customers.get(i);
 
 
                 MovieOrder movieOrder = new MovieOrder();
@@ -102,9 +119,6 @@ public class TestMovieOrder extends TestCase {
 
                 List orderItems = new ArrayList();
 
-
-                
-                
                 
                 for (int j = 0; j < 1; j++) {
 
@@ -113,35 +127,31 @@ public class TestMovieOrder extends TestCase {
                     orderItem.setDuration(2);
 
                     
-                    //Dvd dvd = (Dvd)dvds.get(0);
-                    //orderItem.setDvd(dvd);
+                    Dvd dvd = (Dvd)dvds.get(0);
+                    orderItem.setDvd(dvd);
                     
                     orderItem.setOrderTime(Calendar.getInstance());
                     
-                    //dvd.getPaymentCategory();
+
                     
                     //get the Payment where the PaymentCategory are the one
                     //from dvd and the date is the highest
                     
-                    
-                    
-                    
-            		Criteria criteria = s.createCriteria(Payment.class).addOrder(Order.desc("startdate")).setMaxResults(1)
-            				.createAlias("PaymentCategory", "pc").add(Expression.eq("pc.name","A"));
-
-            		List pay = criteria.list();
-            		System.out.println("Payment: "+pay.size());
-            		for (int k = 0; k < pay.size(); k++) {
-            		    System.out.println(k+" "+pay.get(k) );
-                    }
+                    List payment = s.createCriteria(Payment.class)
+            				.addOrder(Order.desc("startdate"))
+            				.setMaxResults(1)
+            				.createAlias("PaymentCategory", "pc")
+            				.add(Expression.eq("pc.name",dvd.getPaymentCategory().getName()))
+            				.list();
+                    assertNotNull(
+                            "testCreateMovieOrder(): Can't get Payment from DB. Null",
+                            payment);
+                    assertTrue(
+                            "testCreateMovieOrder(): Can not find Payment in DB",
+                            payment.size() > 0);  
             		
-            		
                     
-                    
-                    
-                    
-                    
-                    orderItem.setPayment(new Payment());
+                    orderItem.setPayment((Payment)payment.get(0));
 
                     //this data is to be set when the dvd is beeing
                     //send to the customer
@@ -160,6 +170,7 @@ public class TestMovieOrder extends TestCase {
                 movieOrder.setMovieOrderItems(orderItems);
 
                 //save the movieOrder
+                logger.debug("MovieOrder: "+movieOrder);
                 //s.save(movieOrder);
             }
         } catch (HibernateException e) {

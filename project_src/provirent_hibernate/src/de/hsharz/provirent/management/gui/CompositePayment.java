@@ -603,7 +603,7 @@ public class CompositePayment extends AbstractComposite {
 					Payment o = new Payment();
 					o.setPaymentId(new Integer(Integer.parseInt(textPaymentID
 							.getText())));
-					o.setName(textPaymentName.getText());
+					//o.setName(textPaymentName.getText());
 					o.setDuration1(Float.parseFloat(textduration1.getText()));
 					o.setDuration2(Float.parseFloat(textduration2.getText()));
 					o.setDuration3(Float.parseFloat(textduration3.getText()));
