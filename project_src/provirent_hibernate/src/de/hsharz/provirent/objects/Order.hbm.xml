@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.Order" table="ORDER">
+      <meta attribute="class-description">
+        Represents an Order.
+        @author Philipp Schneider
+      </meta>
+      
+  		
+ 			<meta attribute="implement-equals">true</meta>
+ 			
+      <id name="orderId" type="int" column="ORDERID">
+        <meta attribute="scope-set">protected</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="native"/>
+      </id>
+
+		 <many-to-one
+				name="customer"
+				class="de.hsharz.provirent.objects.Customer"
+		 >
+		 	<meta attribute="use-in-tostring">true</meta>
+		 </many-to-one>
+
+ 			<list	name="orderItems"
+ 						table="ORDERORDERITEMS"
+ 						>
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="ORDERID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.OrderItem" column="ORDERITEMID"/>
+
+ 			</list>
+
+ 
+      <property name="name" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+				
+ 
+      <property name="shortname" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+             
+ 
+    </class>
+  </hibernate-mapping>

@@ -4,39 +4,38 @@
              "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
   <hibernate-mapping>
  
-   <class name="de.hsharz.provirent.objects.Dvd" table="DVD">
+   <class name="de.hsharz.provirent.objects.Image" table="IMAGE">
       <meta attribute="class-description">
-        Represents a single Dvd.
+        Represents an Image.
         @author Philipp Schneider
       </meta>
       
   		
  			<meta attribute="implement-equals">true</meta>
  			
-      <id name="dvdId" type="int" column="DVDID">
+      <id name="imageId" type="int" column="IMAGEID">
         <meta attribute="scope-set">protected</meta>
         <meta attribute="use-in-equals">true</meta>
         <generator class="native"/>
       </id>
- 
- 
-		 <many-to-one
-				name="movie"
-				column="movie"
-				class="de.hsharz.provirent.objects.Movie"
-				
-		>
-						<meta attribute="use-in-tostring">true</meta>
-				</many-to-one>
-  
-  	<many-to-one name="condition" class="de.hsharz.provirent.objects.Condition" column="CONDITION"/>
-  	
-  	<many-to-one name="status" class="de.hsharz.provirent.objects.Status" column="STATUS"/>
-  
-      <property name="barcode" type="string" unique="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
 
- 			
+ 
+      <property name="imageFile" type="binary">
+      	<column name="pdffile" sql-type="blob" />
+      </property>
+				
+      <property name="imageFileSize" type="int">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property> 
+             
+      <property name="imageFileName" type="string">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property> 
+
+      <property name="imageFileDescription" type="string">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property> 
+
+ 
     </class>
   </hibernate-mapping>

@@ -134,6 +134,7 @@ public class Customer implements Serializable {
             .append("hiddenQuestion", getHiddenQuestion())
             .append("hiddenAnswer", getHiddenAnswer())
             .append("dayOfBirth", getDayOfBirth())
+            .append("dayOfRegistration", getDayOfRegistration())
             .toString();
     }
 

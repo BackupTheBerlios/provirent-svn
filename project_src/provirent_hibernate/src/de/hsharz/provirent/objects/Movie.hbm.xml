@@ -38,6 +38,22 @@
 				<meta attribute="use-in-tostring">true</meta>
       </property>
  
+			<one-to-one name="mainImage" class="de.hsharz.provirent.objects.Image" cascade="all">
+					<meta attribute="use-in-tostring">true</meta>
+			</one-to-one>
+
+ 			<list	name="images"
+ 						table="MOVIEIMAGES"
+ 						cascade="all"
+ 						>
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Image" column="IMAGEID"/>
+
+ 			</list>
+
+
  
  			<list	name="actors"
  						table="MOVIEACTORS"
@@ -46,9 +62,7 @@
 				<key column="MOVIEID"/>
 				<index column="POS"/>
 				<many-to-many class="de.hsharz.provirent.objects.Actor" column="ACTORID"/>
-				
-				
-						
+
  			</list>
  			
 			

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.Bill" table="BILL">
+      <meta attribute="class-description">
+        Represents a Bill.
+        @author Philipp Schneider
+        @todo Orderid muss noch irgendwie rein
+      </meta>
+      
+  		
+ 			<meta attribute="implement-equals">true</meta>
+ 			
+      <id name="billId" type="int" column="BILLID">
+        <meta attribute="scope-set">protected</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="native"/>
+      </id>
+
+		 <many-to-one
+				name="customer"
+				class="de.hsharz.provirent.objects.Customer"
+		 >
+		 	<meta attribute="use-in-tostring">true</meta>
+		 </many-to-one>
+
+
+ 
+      <property name="pdfFile" type="binary">
+      	<column name="pdffile" sql-type="blob" />
+      </property>
+				
+      <property name="pdfFileSize" type="int">
+					<meta attribute="use-in-tostring">true</meta>      	
+      </property> 
+             
+ 
+    </class>
+  </hibernate-mapping>

@@ -30,6 +30,12 @@ public class Movie implements Serializable {
     /** nullable persistent field */
     private Date releaseDate;
 
+    /** nullable persistent field */
+    private de.hsharz.provirent.objects.Image mainImage;
+
+    /** persistent field */
+    private List images;
+
     /** persistent field */
     private List actors;
 
@@ -52,11 +58,13 @@ public class Movie implements Serializable {
     private List videoFormats;
 
     /** full constructor */
-    public Movie(String title, String description, int runtime, Date releaseDate, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
+    public Movie(String title, String description, int runtime, Date releaseDate, de.hsharz.provirent.objects.Image mainImage, List images, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
         this.title = title;
         this.description = description;
         this.runtime = runtime;
         this.releaseDate = releaseDate;
+        this.mainImage = mainImage;
+        this.images = images;
         this.actors = actors;
         this.director = director;
         this.languages = languages;
@@ -71,9 +79,10 @@ public class Movie implements Serializable {
     }
 
     /** minimal constructor */
-    public Movie(String title, String description, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
+    public Movie(String title, String description, List images, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
         this.title = title;
         this.description = description;
+        this.images = images;
         this.actors = actors;
         this.director = director;
         this.languages = languages;
@@ -127,6 +136,22 @@ public class Movie implements Serializable {
 
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public de.hsharz.provirent.objects.Image getMainImage() {
+        return this.mainImage;
+    }
+
+    public void setMainImage(de.hsharz.provirent.objects.Image mainImage) {
+        this.mainImage = mainImage;
+    }
+
+    public List getImages() {
+        return this.images;
+    }
+
+    public void setImages(List images) {
+        this.images = images;
     }
 
     public List getActors() {
@@ -192,6 +217,8 @@ public class Movie implements Serializable {
             .append("description", getDescription())
             .append("runtime", getRuntime())
             .append("releaseDate", getReleaseDate())
+            .append("mainImage", getMainImage())
+            .append("images", getImages())
             .append("actors", getActors())
             .append("director", getDirector())
             .append("languages", getLanguages())

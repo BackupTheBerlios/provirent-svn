@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.OrderItem" table="ORDERITEM">
+      <meta attribute="class-description">
+        Represents an OrderItem.
+        @author Philipp Schneider
+      </meta>
+      
+  		
+ 			<meta attribute="implement-equals">true</meta>
+ 			
+      <id name="orderItemId" type="int" column="ORDERITEMID">
+        <meta attribute="scope-set">protected</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="native"/>
+      </id>
+
+			<timestamp	name="orderTime">
+				<meta attribute="use-in-tostring">true</meta>
+			</timestamp>
+
+
+      <property name="senderTime" type="calendar">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+				
+ 
+      <property name="receivingTime" type="calendar">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+
+
+		 <many-to-one
+				name="customer"
+				class="de.hsharz.provirent.objects.Customer"
+		 >
+			 	<meta attribute="use-in-tostring">true</meta>
+		 </many-to-one>
+		 
+
+		 <many-to-one
+				name="dvd"
+				class="de.hsharz.provirent.objects.Dvd"
+		 >
+			 	<meta attribute="use-in-tostring">true</meta>
+		 </many-to-one>
+
+				
+ 
+      <property name="duration" type="int" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+             
+ 
+		 <many-to-one
+				name="conditionSend"
+				class="de.hsharz.provirent.objects.Condition"
+		 >
+			 	<meta attribute="use-in-tostring">true</meta>
+		 </many-to-one> 
+ 
+ 
+		 <many-to-one
+				name="conditionReceiving"
+				class="de.hsharz.provirent.objects.Condition"
+		 >
+			 	<meta attribute="use-in-tostring">true</meta>
+		 </many-to-one> 
+ 
+    </class>
+  </hibernate-mapping>
