@@ -39,6 +39,7 @@ import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
+import net.sf.hibernate.expression.Conjunction;
 import net.sf.hibernate.expression.Disjunction;
 import net.sf.hibernate.expression.Expression;
 
@@ -474,10 +475,22 @@ public class Database {
 	 * @param filter 
 	 * @return List of Director objects, or an empty List
 	 */
-	public static List getGenre(final String filter){
+    public static List getGenre(final String filter){
+        return getGenreExcept(filter, new ArrayList());
+    }
+    
+	public static List getGenreExcept(final String filter, List genre){
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getGenre() - start. String filter= "+filter);
+	        logger.debug("getGenreExcept() - start. String filter= "+filter);
 	    }
+	    
+	    //check if elements in list are Genre Objects
+	    if (genre.size() > 0){
+	        if ( !(genre.get(0) instanceof Genre) ){
+	            logger.error("Elemente in Liste sind keine Genre");
+	            return new ArrayList();
+	        }
+	    }	    
 	    //init the returnlist
 	    List returnlist = new ArrayList();
 	
@@ -504,6 +517,12 @@ public class Database {
 	                }
 	                
 	            }
+	            logger.debug("Anzahl der Genre:"+genre.size());
+	            for (int i = 0; i < genre.size(); i++) {
+                    Genre tmp = (Genre)genre.get(i);
+                    criteria.add(Expression.not(Expression.eq("genreId",tmp.getGenreId())));
+                }	            
+	            
 	            //add all criteria
 	            criteria.add(any);
 	            //get the results
@@ -514,7 +533,7 @@ public class Database {
 	
 	    } catch (Exception e) {
 	        logger.error(
-	                "getGenre() - Error while trying to do Transaction",
+	                "getGenreExcept() - Error while trying to do Transaction",
 	                e);
 	        returnlist = new ArrayList();
 	    } finally {
@@ -522,12 +541,12 @@ public class Database {
 	            // No matter what, close the session
 	            HibernateUtil.closeSession();
 	        } catch (HibernateException e1) {
-	            logger.error("getGenre() - Could not Close the Session", e1);
+	            logger.error("getGenreExcept() - Could not Close the Session", e1);
 	        }
 	    }
 	
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getGenre() - end");
+	        logger.debug("getGenreExcept() - end");
 	    }
 	    return returnlist;
 	    
@@ -683,9 +702,20 @@ public class Database {
 	 * @return List of Image objects, or an empty List
 	 */
 	public static List getImages(final String filter){
+	    return getImagesExcept(filter, new ArrayList());
+	}
+	public static List getImagesExcept(final String filter, List images){
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getImages() - start. String filter= "+filter);
+	        logger.debug("getImagesExcept() - start. String filter= "+filter);
 	    }
+	    //check if elements in list are Director Objects
+	    if (images.size() > 0){
+	        if ( !(images.get(0) instanceof Image) ){
+	            logger.error("Elemente in Liste sind keine Image");
+	            return new ArrayList();
+	        }
+	    }	    
+	    
 	    //init the returnlist
 	    List returnlist = new ArrayList();
 	
@@ -710,8 +740,13 @@ public class Database {
 	                    any.add(Expression.eq("imageId", new Integer(Integer.parseInt(filter))));
 	                } catch (Exception e) {
 	                }
-	                
 	            }
+	            logger.debug("Anzahl der Images:"+images.size());
+	            for (int i = 0; i < images.size(); i++) {
+                    Image tmp = (Image)images.get(i);
+                    criteria.add(Expression.not(Expression.eq("imageId",tmp.getImageId())));
+                }
+	            
 	            //add all criteria
 	            criteria.add(any);
 	            //get the results
@@ -722,7 +757,7 @@ public class Database {
 	
 	    } catch (Exception e) {
 	        logger.error(
-	                "getImages() - Error while trying to do Transaction",
+	                "getImagesExcept() - Error while trying to do Transaction",
 	                e);
 	        returnlist = new ArrayList();
 	    } finally {
@@ -730,12 +765,12 @@ public class Database {
 	            // No matter what, close the session
 	            HibernateUtil.closeSession();
 	        } catch (HibernateException e1) {
-	            logger.error("getImages() - Could not Close the Session", e1);
+	            logger.error("getImagesExcept() - Could not Close the Session", e1);
 	        }
 	    }
 	
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getImages() - end");
+	        logger.debug("getImagesExcept() - end");
 	    }
 	    return returnlist;
 	    	
@@ -1097,9 +1132,24 @@ public class Database {
 	 * @return List of Director objects, or an empty List
 	 */
 	public static List getDirector(final String filter){
+	    return getDirectorExcept(filter, new ArrayList());
+	    
+	}
+	
+	public static List getDirectorExcept(final String filter, List directors){
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getDirector() - start. String filter= "+filter);
+	        logger.debug("getDirectorExcept() - start. String filter= "+filter);
 	    }
+	
+	    //check if elements in list are Director Objects
+	    if (directors.size() > 0){
+	        if ( !(directors.get(0) instanceof Director) ){
+	            logger.error("Elemente in Liste sind keine Director");
+	            return new ArrayList();
+	        }
+	    }
+	    
+	    
 	    //init the returnlist
 	    List returnlist = new ArrayList();
 	
@@ -1126,6 +1176,13 @@ public class Database {
 	                }
 	                
 	            }
+	            
+	            logger.debug("Anzahl der Directors:"+directors.size());
+	            for (int i = 0; i < directors.size(); i++) {
+                    Director tmp = (Director)directors.get(i);
+                    criteria.add(Expression.not(Expression.eq("directorId",tmp.getDirectorId())));
+                }
+	            
 	            //add all criteria
 	            criteria.add(any);
 	            //get the results
@@ -1136,7 +1193,7 @@ public class Database {
 	
 	    } catch (Exception e) {
 	        logger.error(
-	                "getDirector() - Error while trying to do Transaction",
+	                "getDirectorExcept() - Error while trying to do Transaction",
 	                e);
 	        returnlist = new ArrayList();
 	    } finally {
@@ -1144,12 +1201,12 @@ public class Database {
 	            // No matter what, close the session
 	            HibernateUtil.closeSession();
 	        } catch (HibernateException e1) {
-	            logger.error("getDirector() - Could not Close the Session", e1);
+	            logger.error("getDirectorExcept() - Could not Close the Session", e1);
 	        }
 	    }
 	
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getDirector() - end");
+	        logger.debug("getDirectorExcept() - end");
 	    }
 	    return returnlist;
 	    	
@@ -1200,9 +1257,29 @@ public class Database {
 	 * @return List of Actors objects, or an empty List
 	 */
 	public static List getActor(final String filter){
+	    return getActorExcept(filter, new ArrayList());	    	
+	}
+	
+	
+	
+	/**
+	 * This method gets all Actor from the database.
+	 * searches for firstname or lastname or id
+	 * @param filter 
+	 * @return List of Actors objects, or an empty List
+	 */
+	public static List getActorExcept(final String filter, List actors){
 	    if (logger.isDebugEnabled()) {
 	        logger.debug("getActor() - start. String filter= "+filter);
 	    }
+	    //check if elements in list are Actor Objects
+	    if (actors.size() > 0){
+	        if ( !(actors.get(0) instanceof Actor) ){
+	            logger.error("Elemente in Liste sind keine Actors");
+	            return new ArrayList();
+	        }
+	    }
+	    
 	    //init the returnlist
 	    List returnlist = new ArrayList();
 	
@@ -1229,12 +1306,18 @@ public class Database {
 	                }
 	                
 	            }
-	            //add all criteria
+	            logger.debug("Anzahl der Actors:"+actors.size());
+	            for (int i = 0; i < actors.size(); i++) {
+                    Actor tmp = (Actor)actors.get(i);
+                    logger.debug("Actor: "+tmp.getActorId());
+                    criteria.add(Expression.not(Expression.eq("actorId",tmp.getActorId())));
+                }
+
+	            //add all filter criteria
 	            criteria.add(any);
+	            
 	            //get the results
 	            returnlist = criteria.list();
-	
-	
 	
 	
 	    } catch (Exception e) {
@@ -1256,8 +1339,7 @@ public class Database {
 	    }
 	    return returnlist;
 	    	
-	}
-	
+	}	
 	
 	public static Actor getSingleActor(final int id){
 	    if (logger.isDebugEnabled()) {
