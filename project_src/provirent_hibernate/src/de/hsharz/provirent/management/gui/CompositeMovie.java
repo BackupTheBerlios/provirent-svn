@@ -420,7 +420,7 @@ public class CompositeMovie extends
 	 *  
 	 */
 	private void initMoviesDetail() {
-		// Group Actors Detail
+		// Group Movies Detail
 		{
 			groupMoviesDetail = new Group(sashForm1, SWT.H_SCROLL);
 			GridLayout group2Layout = new GridLayout();

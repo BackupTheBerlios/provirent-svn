@@ -11,6 +11,8 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -53,7 +55,10 @@ public class CompositeDVD extends AbstractComposite {
     .getLogger(CompositeDVD.class);
     
     private Group groupDVD;
+    
     private Group groupDVDOverview;
+    
+    private Group groupDVDDetail;
     
     private Table tableDVDOverview;
     
@@ -67,7 +72,11 @@ public class CompositeDVD extends AbstractComposite {
     
     private Text textDVDSearch;
     
+    private Text textDVDID;
+    
     private Label labelDVDSearch;
+   
+    private Label labelDVDID;
     
     private Composite parent;
     
@@ -314,7 +323,43 @@ public class CompositeDVD extends AbstractComposite {
      */
     private void initDVDDetail() {
         // TODO Auto-generated method stub
-        
+        //      Group DVD Detail
+		{
+			groupDVDDetail = new Group(sashForm1, SWT.H_SCROLL);
+			GridLayout group2Layout = new GridLayout();
+			GridData group2LData = new GridData();
+			group2Layout.verticalSpacing = 15;
+			group2Layout.numColumns = 6;
+			groupDVDDetail.setText(l.getString("dvd.groupdetail.label"));
+			FormData formData = new FormData();
+			groupDVDDetail.setLayout(group2Layout);
+			formData.right = new FormAttachment(100, 100, -5);
+			formData.top = new FormAttachment(0, 100, 5);
+			formData.bottom = new FormAttachment(100, 100, -5);
+			groupDVDDetail.setLayoutData(formData);
+		}
+		//      labels and text for detail
+		{
+			labelDVDID = new Label(groupDVDDetail, SWT.NONE);
+			labelDVDID.setText(l.getString("dvd.groupdetail.labelid")
+					+ ":");
+			labelDVDID.setSize(125, 15);
+			GridData formData2 = new GridData();
+			formData2.heightHint = 15;
+			formData2.horizontalAlignment = GridData.FILL;
+			formData2.verticalAlignment = GridData.BEGINNING;
+			labelDVDID.setLayoutData(formData2);
+		}
+		{
+			textDVDID = new Text(groupDVDDetail, SWT.READ_ONLY
+					| SWT.BORDER);
+			GridData text1LData1 = new GridData();
+			text1LData1.horizontalAlignment = GridData.FILL;
+			text1LData1.heightHint = 13;
+			text1LData1.grabExcessHorizontalSpace = true;
+			text1LData1.horizontalSpan = 5;
+			textDVDID.setLayoutData(text1LData1);
+		}
     }
 
     
