@@ -42,7 +42,14 @@ import com.cloudgarden.resource.SWTResourceManager;
  */
 public class ColorDef {
     
+    public static final Color STANDARD = SWTResourceManager.getColor(
+            212,
+            208,
+            200);
 
+    
+    
+    
     public static final Color STATUS_B_STANDARD = SWTResourceManager.getColor(
             204,
             200,
