@@ -524,11 +524,6 @@ public class ManagementGui {
         tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemFormat.setText(l.getString("tab.format.title"));
         
-        tabItemFormat.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent evt) {
-                viewVideoFormatMenuItem.setSelection(false);
-           }
-        });
         {
             compositeFormate = new CompositeFormate(
                 cTabFolderMain,
@@ -543,12 +538,7 @@ public class ManagementGui {
     private void initDirectorTab() {
         tabItemDirector = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemDirector.setText(l.getString("tab.director.title"));
-        
-        tabItemDirector.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent evt) {
-                viewDirectorMenuItem.setSelection(false);
-           }
-        });        
+      
         {
             compositeDirector = new CompositeDirectors(
                 cTabFolderMain,
@@ -562,12 +552,7 @@ public class ManagementGui {
     private void initActorTab() {
         tabItemActor = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemActor.setText(l.getString("tab.actor.title"));
-        
-        tabItemActor.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent evt) {
-                viewActorMenuItem.setSelection(false);
-           }
-        });      
+  
         {
             compositeActor = new CompositeActors(
                 cTabFolderMain,
@@ -582,11 +567,7 @@ public class ManagementGui {
         tabItemGenre = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemGenre.setText(l.getString("tab.genre.title"));
         
-        tabItemGenre.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent evt) {
-                viewGenreMenuItem.setSelection(false);
-           }
-        });      
+  
         {
             compositeGenre = new CompositeGenre(
                 cTabFolderMain,
@@ -600,11 +581,7 @@ public class ManagementGui {
     private void initLanguageTab() {
         tabItemLanguage = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemLanguage.setText(l.getString("tab.language.title"));
-        tabItemLanguage.addDisposeListener(new DisposeListener() {
-            public void widgetDisposed(DisposeEvent evt) {
-                viewLanguageMenuItem.setSelection(false);
-           }
-        });      
+     
         {
             compositeLanguage = new CompositeLanguage(
                 cTabFolderMain,
