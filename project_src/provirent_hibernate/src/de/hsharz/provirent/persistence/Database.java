@@ -60,6 +60,23 @@ public class Database {
     private static final Logger logger = Logger.getLogger(Database.class);
 
 
+    public static void initDB() {
+        try {
+            HibernateUtil.currentSession();
+        } catch (HibernateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                HibernateUtil.closeSession();
+            } catch (HibernateException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+        
+    }
+    
     /**
      * This method gets all Directors from the database.
      * searches for firstname or lastname or id
@@ -140,9 +157,132 @@ public class Database {
         
 
     }
+    public static void saveObject(Object o) throws DataBaseException{
+        if (logger.isDebugEnabled()) {
+            logger
+                    .debug("saveObject(Object o = " + o
+                            + ") - start");
+        }
+        int exception =0;
+        
+        Session s = null;
+        Transaction tx = null;
+  
+            try {
+                //get new Session and begin Transaction
+                s = HibernateUtil.currentSession();
+                tx = s.beginTransaction();
+                try{
+                    s.saveOrUpdate(o);
+                } catch (HibernateException e) {
+                    logger.error("saveObject(). Fehler beim Speichern/Updaten "
+                            +"des Objectes:"+o+" Exception: "+e);
+                    exception = 1;
+                }
+                s.flush();
+               
+                tx.commit();
+                
+            } catch (HibernateException e) {
+                exception = 2;
+                logger
+                .error(
+                        "saveObject() - Something went wrong here; discard all partial changes",
+                        e);
+                if (tx != null) {
+                    try {
+                        // Something went wrong; discard all partial changes
+                        tx.rollback();
+                    } catch (HibernateException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                }    
 
+            } finally {
+                try {
+                    // No matter what, close the session
+                    HibernateUtil.closeSession();
+                } catch (HibernateException e1) {
+                    
+                    logger.error("saveObject() - Could not Close the Session", e1);
+                    
+                }
+            }
+
+            if (exception > 0) {
+                throw new DataBaseException("exception");
+            }
+            
+        if (logger.isDebugEnabled()) {
+            logger.debug("saveObject(VideoFormat) - end");
+        }
+    }
     
+  
     
+    public static void deleteObject(Object o) throws DataBaseException{
+        if (logger.isDebugEnabled()) {
+            logger.debug("deleteObject(Object o = " + o + ") - start");
+        }
+        int exception =0;
+        
+        Session s = null;
+        Transaction tx = null;
+  
+            try {
+                //get new Session and begin Transaction
+                s = HibernateUtil.currentSession();
+                tx = s.beginTransaction();
+                try{
+                    s.delete(o);
+                } catch (HibernateException e) {
+                    logger.error("saveObject(). Fehler beim Speichern/Updaten "
+                            + "des Objectes:" + o + " Exception: " + e);
+                    exception = 1;
+                }
+                s.flush();
+               
+                tx.commit();
+                
+            } catch (HibernateException e) {
+                exception = 2;
+                logger
+                        .error(
+                                "deleteObject(Object) - Something went wrong here; discard all partial changes",
+                                e);
+                if (tx != null) {
+                    try {
+                        // Something went wrong; discard all partial changes
+                        tx.rollback();
+                    } catch (HibernateException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                }    
+
+            } finally {
+                try {
+                    // No matter what, close the session
+                    HibernateUtil.closeSession();
+                } catch (HibernateException e1) {
+                    
+                    logger
+                            .error(
+                                    "deleteObject(Object) - Could not Close the Session",
+                                    e1);
+                    
+                }
+            }
+
+            if (exception > 0) {
+                throw new DataBaseException("exception");
+            }
+            
+        if (logger.isDebugEnabled()) {
+            logger.debug("deleteObject(Object) - end");
+        }
+    }
     
     
     /**
@@ -159,13 +299,10 @@ public class Database {
         List returnlist = new ArrayList();
 
         Session s = null;
-        Transaction tx = null;
+        
         try {
             //get new Session and begin Transaction
             s = HibernateUtil.currentSession();
-            tx = s.beginTransaction();
-
-            try {
                 
                 //init the criteria
                 Criteria criteria = s.createCriteria(VideoFormat.class);
@@ -190,19 +327,7 @@ public class Database {
                 returnlist = criteria.list();
 
 
-            } catch (Exception e) {
-                if (tx != null) {
-                    logger
-                            .error(
-                                    "getVideoFormat() - Something went wrong here; discard all partial changes",
-                                    e);
 
-                    // Something went wrong; discard all partial changes
-                    tx.rollback();
-                }
-
-		                
-            }
 
         } catch (Exception e) {
             logger.error(
@@ -239,27 +364,8 @@ public class Database {
         try {
             //get new Session and begin Transaction
             s = HibernateUtil.currentSession();
-            tx = s.beginTransaction();
-
-            try {
 
                 returnobject = (VideoFormat)s.get(VideoFormat.class, new Integer(id));
-                
-
-
-            } catch (Exception e) {
-                if (tx != null) {
-                    logger
-                            .error(
-                                    "getSingleVideoFormat() - Something went wrong here; discard all partial changes",
-                                    e);
-
-                    // Something went wrong; discard all partial changes
-                    tx.rollback();
-                }
-
-		                
-            }
 
         } catch (Exception e) {
             logger.error(
@@ -298,13 +404,10 @@ public class Database {
         List returnlist = new ArrayList();
 
         Session s = null;
-        Transaction tx = null;
+
         try {
             //get new Session and begin Transaction
             s = HibernateUtil.currentSession();
-            tx = s.beginTransaction();
-
-            try {
                 
                 //init the criteria
                 Criteria criteria = s.createCriteria(AudioFormat.class);
@@ -329,19 +432,6 @@ public class Database {
                 returnlist = criteria.list();
 
 
-            } catch (Exception e) {
-                if (tx != null) {
-                    logger
-                            .error(
-                                    "getAudioFormat() - Something went wrong here; discard all partial changes",
-                                    e);
-
-                    // Something went wrong; discard all partial changes
-                    tx.rollback();
-                }
-
-		                
-            }
 
         } catch (Exception e) {
             logger.error(
