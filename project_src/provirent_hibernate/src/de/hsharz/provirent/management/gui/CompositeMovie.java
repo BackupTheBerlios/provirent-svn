@@ -93,7 +93,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Text textMoviesSearch;
     private Text textMoviesID;
     private Text textMoviesTitle;
-    private StyledText textMoviesDescription;
+    private Text textMoviesDescription;
     
     private Label labelMoviesSearch;
     private Label labelMoviesID;
@@ -586,15 +586,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    labelMoviesAdvice.setLayoutData(formData2);
     	}
         {
-            textMoviesDescription = new StyledText(groupMoviesDetail,SWT.BORDER);
+            textMoviesDescription = new Text(groupMoviesDetail, SWT.MULTI 
+                    | SWT.READ_ONLY | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
             GridData formData2 = new GridData();
     	    formData2.horizontalSpan = 5;
     	    formData2.verticalSpan = 5;
     	    formData2.verticalAlignment = GridData.FILL;
     	    formData2.horizontalAlignment = GridData.FILL;
     	    textMoviesDescription.setLayoutData(formData2);
-    	    textMoviesDescription.setEnabled(false);
-    	    //textMoviesDescription.setBackground();
         }
         {
             buttonMoviesEditDirectors = new Button(groupMoviesDetail
@@ -700,7 +699,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 textMoviesDescription.setText("");
                 textMoviesTitle.setEditable(true);
                 textMoviesDate.setEditable(true);
-                textMoviesDescription.setEnabled(true);
+                textMoviesDescription.setEditable(true);
                 
                 buttonMoviesCancel.setEnabled(true);
                 buttonMoviesSave.setEnabled(true);
@@ -981,7 +980,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         tableMoviesOverview.setEnabled(true);
         textMoviesTitle.setEditable(false);
         textMoviesDate.setEditable(false);
-        textMoviesDescription.setEnabled(false);
+        textMoviesDescription.setEditable(false);
         buttonMoviesCancel.setEnabled(false);
         buttonMoviesSave.setEnabled(false);
         buttonMoviesNew.setEnabled(true);

@@ -94,7 +94,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
 
             Shell shell = new Shell(display);
             DialogMovie inst = new DialogMovie(shell, SWT.NULL, Locale.GERMAN,
-                    film, TYPE_IMAGE);
+                    film, TYPE_ACTOR);
             inst.open();
         } catch (Exception e) {
             e.printStackTrace();
