@@ -515,7 +515,7 @@ public class ManagementGui {
 				    return;   
 				}
 				
-				cTabFolderMain.setSelection(tabItemStatus);
+				cTabFolderMain.setSelection(tabItemImage);
 				viewStatusMenuItem.setSelection(true);
 				cTabFolderMain.showSelection();
             }
@@ -532,7 +532,7 @@ public class ManagementGui {
 				    return;   
 				}
 				
-				cTabFolderMain.setSelection(tabItemActor);
+				cTabFolderMain.setSelection(tabItemMovie);
 				viewActorMenuItem.setSelection(true);
 				cTabFolderMain.showSelection();				
             
