@@ -71,17 +71,18 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private final static int MODE_EDIT = 2;
     
     private Table tableMoviesOverview;
+    private Table tableMoviesOverviewDetail;
     private TableColumn tableMoviesOverview_ColumnID;
     private TableColumn tableMoviesOverview_ColumnTitle;
     private TableColumn tableMoviesOverview_ColumnSubtitles;
-    private TableColumn tableMoviesOverview_ColumnGenres;
-    private TableColumn tableMoviesOverview_ColumnActors;
-    private TableColumn tableMoviesOverview_ColumnDescription;
     private TableColumn tableMoviesOverview_ColumnDate;
-    private TableColumn tableMoviesOverview_ColumnVideoformats;
-    private TableColumn tableMoviesOverview_ColumnAudioformats;
-    
-    private TableColumn tableMoviesOverview_Column;
+    private TableColumn tableMoviesOverviewDetail_ColumnGenres;
+    private TableColumn tableMoviesOverviewDetail_ColumnActors;
+    private TableColumn tableMoviesOverviewDetail_ColumnVideoformats;
+    private TableColumn tableMoviesOverviewDetail_ColumnAudioformats;
+    private TableColumn tableMoviesOverviewDetail_ColumnLanguages;   
+    private TableColumn tableMoviesOverviewDetail_ColumnDescription;
+    private TableColumn tableMoviesOverviewDetail_ColumnImages;
     
     
     
@@ -327,8 +328,121 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                         .getString("movies.groupoverview.columndate"));
                     tableMoviesOverview_ColumnDate.setWidth(120);
                 }
-            }
-            // table Movies Overview
+            }// table Movies Overview
+            //Table Movies Overview Detail
+            tableMoviesOverviewDetail = new Table(
+                    groupMoviesOverview,
+                    SWT.SINGLE
+                        | SWT.FULL_SELECTION
+                        | SWT.V_SCROLL | SWT.BORDER);
+                GridData tableMoviesOverviewLData = new GridData();
+                tableMoviesOverviewDetail.setHeaderVisible(true);
+                tableMoviesOverviewDetail.setLinesVisible(true);
+                tableMoviesOverviewLData.horizontalAlignment = GridData.FILL;
+                tableMoviesOverviewLData.verticalAlignment = GridData.FILL;
+                tableMoviesOverviewLData.horizontalSpan = 8;
+                tableMoviesOverviewLData.grabExcessHorizontalSpace = true;
+                tableMoviesOverviewLData.grabExcessVerticalSpace = true;
+                tableMoviesOverviewDetail.setLayoutData(tableMoviesOverviewLData);
+                tableMoviesOverviewDetail.addFocusListener(new FocusAdapter() {
+                        public void focusLost(FocusEvent evt) {
+                            System.out
+                                .println("tableMoviesOverviewDetail.focusLost, event="
+                                    + evt);
+                        }
+                        public void focusGained(FocusEvent evt) {
+                            System.out
+                                .println("tableMoviesOverviewDetail.focusGained, event="
+                                    + evt);
+                        }
+                    });
+                tableMoviesOverviewDetail.addSelectionListener(new SelectionAdapter() {
+                        public void widgetSelected(SelectionEvent evt) {
+                            if (logger.isDebugEnabled()) {
+                                logger
+                                    .debug("widgetSelected(SelectionEvent evt = "
+                                        + evt
+                                        + ") - start");
+                            }
+
+                            int index = tableMoviesOverview
+                                .getSelectionIndex();
+
+                            System.out.println("Table select. id: "
+                                + index
+                                + " TableItem:"
+                                + tableMoviesOverviewDetail.getItem(index)
+                                + " id: "
+                                + tableMoviesOverviewDetail.getItem(index)
+                                    .getText(0));
+
+                            //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss die
+                            //Detailansicht aktualisiert werden
+                            //folgende Zeile nicht notwendig
+                            //refreshMoviesDetail(tableMoviesOverview.getItem(index).getText(0));
+
+                            if (logger.isDebugEnabled()) {
+                                logger
+                                    .debug("widgetSelected(SelectionEvent) - end");
+                            }
+                        }
+                    });
+                {
+                    tableMoviesOverviewDetail_ColumnGenres = new TableColumn(
+                        tableMoviesOverviewDetail,
+                        SWT.CENTER);
+                    tableMoviesOverviewDetail_ColumnGenres.setText(l
+                        .getString("movies.groupoverviewdetail.columngenres"));
+                    tableMoviesOverviewDetail_ColumnGenres.setWidth(80);
+                }
+                {
+                    tableMoviesOverviewDetail_ColumnActors = new TableColumn(
+                        tableMoviesOverviewDetail,
+                        SWT.CENTER);
+                    tableMoviesOverviewDetail_ColumnActors.setText(l
+                        .getString("movies.groupoverviewdetail.columnactors"));
+                    tableMoviesOverviewDetail_ColumnActors.setWidth(80);
+                }
+                {
+                    tableMoviesOverviewDetail_ColumnVideoformats = new TableColumn(
+                        tableMoviesOverviewDetail,
+                        SWT.CENTER);
+                    tableMoviesOverviewDetail_ColumnVideoformats.setText(l
+                        .getString("movies.groupoverviewdetail.columnvideoformats"));
+                    tableMoviesOverviewDetail_ColumnVideoformats.setWidth(80);
+                }
+                {
+                    tableMoviesOverviewDetail_ColumnAudioformats = new TableColumn(
+                        tableMoviesOverviewDetail,
+                        SWT.CENTER);
+                    tableMoviesOverviewDetail_ColumnAudioformats.setText(l
+                        .getString("movies.groupoverviewdetail.columnaudioformats"));
+                    tableMoviesOverviewDetail_ColumnAudioformats.setWidth(80);
+                }
+                {
+                    tableMoviesOverviewDetail_ColumnLanguages = new TableColumn(
+                        tableMoviesOverviewDetail,
+                        SWT.CENTER);
+                    tableMoviesOverviewDetail_ColumnLanguages.setText(l
+                        .getString("movies.groupoverviewdetail.columnlanguages"));
+                    tableMoviesOverviewDetail_ColumnLanguages.setWidth(80);
+                }
+                {
+                    tableMoviesOverviewDetail_ColumnDescription = new TableColumn(
+                        tableMoviesOverviewDetail,
+                        SWT.CENTER);
+                    tableMoviesOverviewDetail_ColumnDescription.setText(l
+                        .getString("movies.groupoverviewdetail.columndescription"));
+                    tableMoviesOverviewDetail_ColumnDescription.setWidth(80);
+                }
+                {
+                    tableMoviesOverviewDetail_ColumnImages = new TableColumn(
+                        tableMoviesOverviewDetail,
+                        SWT.CENTER);
+                    tableMoviesOverviewDetail_ColumnImages.setText(l
+                        .getString("movies.groupoverviewdetail.columnimages"));
+                    tableMoviesOverviewDetail_ColumnImages.setWidth(80);
+                }
             // Search
             {
                 //label for Search
