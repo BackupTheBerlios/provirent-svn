@@ -32,6 +32,8 @@
  */
 package test.provirent.hibernate;
 
+import org.apache.log4j.Logger;
+
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
@@ -63,6 +65,10 @@ import de.hsharz.provirent.objects.VideoFormat;
  *  
  */
 public class HibernateUtil {
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = Logger.getLogger(HibernateUtil.class);
 
     private static Log log = LogFactory.getLog(HibernateUtil.class);
 
@@ -93,20 +99,36 @@ public class HibernateUtil {
     public static final ThreadLocal session = new ThreadLocal();
 
     public static Session currentSession() throws HibernateException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("currentSession() - start");
+        }
+
         Session s = (Session) session.get();
         //     Open a new Session, if this Thread has none yet
         if (s == null) {
             s = sessionFactory.openSession();
             session.set(s);
         }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("currentSession() - end");
+        }
         return s;
     }
 
     public static void closeSession() throws HibernateException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("closeSession() - start");
+        }
+
         Session s = (Session) session.get();
         session.set(null);
         if (s != null)
             s.close();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("closeSession() - end");
+        }
     }
 
 }

@@ -163,6 +163,8 @@ public class TestCustomer extends TestCase {
 
                 
                 int id = c.getCustomerId().intValue();
+                int personid = c.getPerson().getPersonId().intValue();
+                
                 //get Condition from Hibernate
                 Customer dbc = (Customer) s.get(Customer.class, new Integer(id));
                 assertNotNull("Can't get Customer" + id + " from DB", dbc);
@@ -191,6 +193,14 @@ public class TestCustomer extends TestCase {
                 //should be null, because data deleted
                 assertNull("Deleted: Customer ID:" + id + ", but still in DB", obj);
 
+
+                obj = s.get(Person.class, new Integer(personid));
+
+                //should be null, because data deleted
+                assertNull("Deleted Customer, but Person is still there: Customer ID:" 
+                        + id + " Personid: "+ personid + ", but still in DB", obj);
+                
+                
                 
                 tx.commit();
 
@@ -200,7 +210,7 @@ public class TestCustomer extends TestCase {
                 if (tx != null) {
                     logger
                             .error(
-                                    "TestCreatingCustomer() - Something went wrong here; discard all partial changes",
+                                    "testCustomer() - Something went wrong here; discard all partial changes",
                                     e);
 
                     // Something went wrong; discard all partial changes
@@ -210,7 +220,7 @@ public class TestCustomer extends TestCase {
 
         } catch (Exception e) {
             logger.error(
-                    "TestCreatingCustomer() - Error while trying to beginTransaction",
+                    "testCustomer() - Error while trying to beginTransaction",
                     e);
             throw e;
         } finally {
@@ -221,9 +231,180 @@ public class TestCustomer extends TestCase {
         
         
         if (logger.isDebugEnabled()) {
-            logger.debug("TestCreatingCustomer() - end");
+            logger.debug("testCustomer() - end");
+        }
+    }
+
+    public void testCreateCustomer() throws Exception{
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreateCustomer() - start");
+        }
+
+        //get new Session and begin Transaction
+        Session s = HibernateUtil.currentSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+
+            try {
+                //is DB open and connected
+                assertTrue("Connected to Db? ", s.isConnected());
+                assertTrue("Db Open? ", s.isOpen());
+
+                List customer = new ArrayList();
+                
+                //create new objects
+
+                Customer c = new Customer();
+                c.setUserName("kunde1");
+                c.setPassword("kunde1");
+                c.setHiddenQuestion(" ");
+                c.setHiddenAnswer(" ");
+
+                Date birth = new Date();
+                birth.setMonth(4);
+                birth.setYear(1981);
+                birth.setDate(14);
+                Calendar birthday = Calendar.getInstance();
+                birthday.setTime(birth);
+                
+                c.setDayOfBirth(birthday);
+                
+                Person person = new Person();
+                person.setFirstName("Philipp");
+                person.setLastName("Schneider");
+                person.setStreet("Kastanienring");
+                person.setStreetNumber("16");
+                person.setCity("Leipzig");
+                person.setZipCode("04316");
+                person.setCountry("Deutschland");
+                person.setSalutation("Herr");
+                person.setEmailAddress("kunde2-provirent@phil-schneider.de");
+                c.setPerson(person);
+                customer.add(c);
+
+                //second Customer
+                c = new Customer();
+                c.setUserName("kunde2");
+                c.setPassword("kunde2");
+                c.setHiddenQuestion(" ");
+                c.setHiddenAnswer(" ");
+
+                birth = new Date();
+                birth.setMonth(5);
+                birth.setYear(1988);
+                birth.setDate(18);
+                birthday = Calendar.getInstance();
+                birthday.setTime(birth);
+                
+                c.setDayOfBirth(birthday);
+                
+                person = new Person();
+                person.setFirstName("Max");
+                person.setLastName("Meier");
+                person.setStreet("Kohlgartenstr.");
+                person.setStreetNumber("67");
+                person.setCity("Wernigerode");
+                person.setZipCode("38855");
+                person.setCountry("Deutschland");
+                person.setSalutation("Herr");
+                person.setEmailAddress("kunde2-provirent@phil-schneider.de");
+                c.setPerson(person);
+                customer.add(c);
+                
+       
+                //third Customer
+                c = new Customer();
+                c.setUserName("kunde3");
+                c.setPassword("kunde3");
+                c.setHiddenQuestion(" ");
+                c.setHiddenAnswer(" ");
+
+                birth = new Date();
+                birth.setMonth(8);
+                birth.setYear(1956);
+                birth.setDate(02);
+                birthday = Calendar.getInstance();
+                birthday.setTime(birth);
+                
+                c.setDayOfBirth(birthday);
+                
+                person = new Person();
+                person.setFirstName("Thomas");
+                person.setLastName("Pech");
+                person.setStreet("Riebeck.");
+                person.setStreetNumber("7a");
+                person.setCity("Leipzig");
+                person.setZipCode("04317");
+                person.setCountry("Deutschland");
+                person.setSalutation("Herr");
+                person.setEmailAddress("kunde3-provirent@phil-schneider.de");
+                c.setPerson(person);
+                customer.add(c);
+              
+                
+                List ids = new ArrayList();
+
+                //save objects
+                for (Iterator iter = customer.iterator(); iter.hasNext();) {
+                    Customer custe = (Customer) iter.next();
+                    ids.add((Integer) s.save(custe));
+
+                }
+                s.flush();
+
+                for (int i =0;i < ids.size(); i++) {
+                    
+                    int id = ((Integer)ids.get(i)).intValue();
+                    
+                    //get Condition from Hibernate
+                    Customer dbc = (Customer) s.get(Customer.class, new Integer(id));
+                    assertNotNull("Can't get Customer" + id + " from DB", dbc);
+                    if (dbc == null) {
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("testCreateCustomer() Kein object mit id "
+                                    + id + "gefunden.");
+                        }
+                        return;
+                    }
+                    //are both equal?
+                    assertEquals(
+                            "Select: Customer aus DB nicht gleich meiner. DB: "
+                                    + dbc + " My:" + c, c, dbc); 
+
+                }
+                
+
+                
+            } catch (Exception e) {
+                if (tx != null) {
+                    logger
+                            .error(
+                                    "testCreateCustomer() - Something went wrong here; discard all partial changes",
+                                    e);
+
+                    // Something went wrong; discard all partial changes
+                    tx.rollback();
+                }
+            }
+
+        } catch (Exception e) {
+            logger.error(
+                    "testCreateCustomer() - Error while trying to beginTransaction",
+                    e);
+            throw e;
+        } finally {
+            // No matter what, close the session
+            HibernateUtil.closeSession();
+        }
+        
+        
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreateCustomer() - end");
         }
     }
     
+  
     
 }
