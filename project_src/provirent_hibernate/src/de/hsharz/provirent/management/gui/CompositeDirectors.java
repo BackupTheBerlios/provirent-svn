@@ -75,7 +75,7 @@ public class CompositeDirectors extends AbstractComposite{
     public void initLanguage(Locale locale) {
 
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language.directors", locale);
+                "de.hsharz.provirent.management.gui.language.directors", locale);
 
     }
     

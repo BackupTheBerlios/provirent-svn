@@ -183,7 +183,7 @@ public class ManagementGui {
         
         
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language.main", locale);
+                "de.hsharz.provirent.management.gui.language.main", locale);
 
         //@todo hier muss noch was gemacht werden
         if (l == null) {
@@ -495,9 +495,10 @@ public class ManagementGui {
         tabItemFormat.setText(l.getString("tab.format.title"));
         tabItemFormat.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
-                System.out
-                    .println("tabItemFormat.widgetDisposed, event=" + evt);
-                viewVideoFormatMenuItem.setSelection(false);
+
+                if (!viewVideoFormatMenuItem.isDisposed()){
+                    viewVideoFormatMenuItem.setSelection(false);
+                }
             }
         });
 
@@ -518,9 +519,10 @@ public class ManagementGui {
         tabItemDirector.addDisposeListener(new DisposeListener() {
 
             public void widgetDisposed(DisposeEvent evt) {
-                System.out
-                    .println("tabItemDirector.widgetDisposed, event=" + evt);
-                viewDirectorMenuItem.setSelection(false);
+
+                if(!viewDirectorMenuItem.isDisposed()){
+                    viewDirectorMenuItem.setSelection(false);
+                }
             }
             
         });
@@ -540,9 +542,9 @@ public class ManagementGui {
         tabItemActor.addDisposeListener(new DisposeListener() {
 
             public void widgetDisposed(DisposeEvent evt) {
-                System.out
-                    .println("tabItemActor.widgetDisposed, event=" + evt);
+                if(!viewActorMenuItem.isDisposed()){
                 viewActorMenuItem.setSelection(false);
+                }
             }
             
         });
@@ -562,9 +564,9 @@ public class ManagementGui {
         tabItemGenre.addDisposeListener(new DisposeListener() {
 
             public void widgetDisposed(DisposeEvent evt) {
-                System.out
-                    .println("tabItemGenre.widgetDisposed, event=" + evt);
+                if(!viewGenreMenuItem.isDisposed()){
                 viewGenreMenuItem.setSelection(false);
+                }
             }
             
         });
@@ -585,9 +587,9 @@ public class ManagementGui {
         tabItemLanguage.addDisposeListener(new DisposeListener() {
 
             public void widgetDisposed(DisposeEvent evt) {
-                System.out
-                    .println("tabItemLanguage.widgetDisposed, event=" + evt);
+if(!viewLanguageMenuItem.isDisposed()){
                 viewLanguageMenuItem.setSelection(false);
+}
             }
             
         });

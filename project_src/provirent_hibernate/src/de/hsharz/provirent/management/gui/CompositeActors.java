@@ -75,7 +75,7 @@ public class CompositeActors extends AbstractComposite{
     public void initLanguage(Locale locale) {
 
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language.actors", locale);
+                "de.hsharz.provirent.management.gui.language.actors", locale);
 
     }
     

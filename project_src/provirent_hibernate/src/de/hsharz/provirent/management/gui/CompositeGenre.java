@@ -142,7 +142,7 @@ public class CompositeGenre extends AbstractComposite{
     public void initLanguage(Locale locale) {
 
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language.genre", locale);
+                "de.hsharz.provirent.management.gui.language.genre", locale);
 
     }
     
