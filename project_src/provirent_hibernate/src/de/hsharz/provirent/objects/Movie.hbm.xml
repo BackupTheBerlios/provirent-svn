@@ -41,9 +41,9 @@
 				<meta attribute="use-in-tostring">true</meta>
       </property>
  
-			<one-to-one name="mainImage" class="de.hsharz.provirent.objects.Image">
+			<many-to-one name="mainImage" class="de.hsharz.provirent.objects.Image">
 					<meta attribute="use-in-tostring">true</meta>
-			</one-to-one>
+			</many-to-one>
 
  			<list	name="images"
  						table="MOVIEIMAGES"
