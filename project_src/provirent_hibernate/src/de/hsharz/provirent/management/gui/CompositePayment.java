@@ -1141,7 +1141,7 @@ public class CompositePayment extends AbstractComposite{
      * @param text
      */
     protected void refreshPaymentDetail(final String id) {
-        if (!id.equals("") && id != null) {
+        if (id != null && !id.equals("") ) {
 	        Payment object;
 	        try {
 	            //since we only can get a String value from the table, we

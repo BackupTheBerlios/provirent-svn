@@ -1627,7 +1627,7 @@ public class Database {
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
 
-<<<<<<< .mine
+
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
 	                any.add(Expression.like("userName", "%"+filter+"%"));
 	                any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
@@ -1713,7 +1713,7 @@ public class Database {
 	
 	}
 
-=======
+
 	/**
 	 * This method gets all Movies from the database.
 	 * searches for ID,Title,Date,Description,Actor,Director...
@@ -1821,6 +1821,5 @@ public class Database {
 	}
 
 
->>>>>>> .r180
 }
 
