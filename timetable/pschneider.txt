@@ -4,3 +4,4 @@ Datum		h	Beschreibung
 08.10.2004	5	Hibernate mapping files
 09.10.2004	3	Hibernate mapping files
 09.10.2004	4,5	JUnit Simple Object Test
+11.10.2004	2	JUnit Complex Object Test
