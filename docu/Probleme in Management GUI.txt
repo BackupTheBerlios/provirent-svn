@@ -15,3 +15,11 @@ Lösung:
 - Sobald Reiter fokus erhält sollte Daten geladen bzw. angezeigt werden
 - doppelte Formate ?
 - bei leeren Suchfeld  sollte auch keine Suche aktiv sein ( Anwender weiß nicht das er erst suchfeld leeren und enter drücken muß)
+
+
+Probleme 9.11.2004
+
+ManagementGui.java
+
+-Editorfenster sollte (oder ganzes Fenster) sollte eine bestimmte Größe nicht  unterschreiten
+ Grund: Buttons werden nicht mit verschoben so das erst ab einer bestimmten  Größe die Bedienbarkeit gegeben ist
