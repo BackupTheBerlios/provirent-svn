@@ -567,7 +567,7 @@ public class CompositeActors extends AbstractComposite{
                             
                         } else if (e.getMessage().equalsIgnoreCase("2")) {
                             //fehler beim db aufbau
-                            statusLine.setStatus(3,l.getString("Actor.groupdetail.deletebutton.errordb"));
+                            statusLine.setStatus(3,l.getString("actors.groupdetail.deletebutton.errordb"));
                             showMsg(l.getString("actors.groupdetail.deletebutton.errordb"),
                                     l.getString("error"), SWT.ICON_ERROR | SWT.OK);
                             

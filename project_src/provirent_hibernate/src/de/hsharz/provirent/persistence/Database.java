@@ -737,7 +737,7 @@ public class Database {
 	
 	public static Actor getSingleActor(final int id){
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getSingleGenre() - start. int filter= "+id);
+	        logger.debug("getSingleActor() - start. int filter= "+id);
 	    }
 	    //init the returnlist
 	    Actor returnobject = null;
@@ -771,6 +771,108 @@ public class Database {
 	    	
 	}
 
+	/**
+	 * This method gets all Directors from the database.
+	 * searches for firstname or lastname or id
+	 * @param filter 
+	 * @return List of Director objects, or an empty List
+	 */
+	public static List getDirector(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getDirector() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Director.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("firstName", "%"+filter+"%"));
+	                any.add(Expression.like("lastName", "%"+filter+"%"));
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("directorId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getDirector() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getDirector() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getDirector() - end");
+	    }
+	    return returnlist;
+	    	
+	}
+	
+	
+	public static Director getSingleDirector(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleDirector() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Director returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Director)s.get(Director.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleDirector() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleDirector() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleDirector() - end");
+	    }
+	    return returnobject;
+	    	
+	}
+	
 	
 	/**
      * Constructor for TestActor.
