@@ -63,7 +63,7 @@ import de.hsharz.provirent.objects.PaymentCategory;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
-
+import de.hsharz.provirent.objects.Dvd;
 /**
  * @author Philipp Schneider
  *
@@ -1942,10 +1942,10 @@ public class Database {
 
 	
 	/**
-	 * This method gets all Movies from the database.
-	 * searches for ID,Title,Date,Description,Actor,Director...
+	 * This method gets all PaymentCategory from the database.
+	 * searches for ID
 	 * @param filter 
-	 * @return List of Movie objects, or an empty List
+	 * @return List of PaymentCategory objects, or an empty List
 	 */
 	public static List getPaymentCategory() {
 		if (logger.isDebugEnabled()) {
@@ -1983,5 +1983,104 @@ public class Database {
 
 	}
 	
+	/**
+	 * This method gets all DVDs from the database.
+	 * searches for ID,Title,...
+	 * @param filter 
+	 * @return List of Dvd objects, or an empty List
+	 */
+	public static List getDVD(final String filter) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getDVD() - start. String filter= " + filter);
+		}
+		//init the returnlist
+		List returnlist = new ArrayList();
+
+		Session s = null;
+
+		try {
+			//get new Session and begin Transaction
+			s = HibernateUtil.currentSession();
+
+			//init the criteria
+			Criteria criteria = s.createCriteria(Dvd.class);
+			//any of the criteria 
+			Disjunction any = Expression.disjunction();
+
+			//if filter not empty
+			if (filter != null && !filter.equalsIgnoreCase("")) {
+				any.add(Expression.like("barcode", "%" + filter + "%"));
+				
+				//maybe we are searching for the id?
+				try {
+					any.add(Expression.eq("dvdId", new Integer(Integer
+							.parseInt(filter))));
+				} catch (Exception e) {
+				}
+
+			}
+
+			//add all criteria
+			criteria.add(any);
+			//get the results
+			returnlist = criteria.list();
+
+		} catch (Exception e) {
+			logger
+					.error("getDVD() - Error while trying to do Transaction",
+							e);
+			returnlist = new ArrayList();
+		} finally {
+			try {
+				// No matter what, close the session
+				HibernateUtil.closeSession();
+			} catch (HibernateException e1) {
+				logger.error("getDVD() - Could not Close the Session", e1);
+			}
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getDVD() - end");
+		}
+		return returnlist;
+
+	}
+
+	public static Dvd getSingleDVD(final int id) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getSingleDVD) - start. int filter= " + id);
+		}
+		//init the returnlist
+		Dvd returnobject = null;
+
+		Session s = null;
+		Transaction tx = null;
+		try {
+			//get new Session and begin Transaction
+			s = HibernateUtil.currentSession();
+
+			returnobject = (Dvd) s.get(Dvd.class, new Integer(id));
+
+		} catch (Exception e) {
+			logger.error(
+					"getSingleDVD() - Error while trying to do Transaction",
+					e);
+
+		} finally {
+			try {
+				// No matter what, close the session
+				HibernateUtil.closeSession();
+			} catch (HibernateException e1) {
+				logger.error("getSingleDVD() - Could not Close the Session",
+						e1);
+			}
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getSingleDVD() - end");
+		}
+		return returnobject;
+
+	}
 }
 

@@ -1,5 +1,10 @@
 package de.hsharz.provirent.management.gui;
 
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -32,7 +37,11 @@ import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
+import de.hsharz.provirent.objects.Actor;
+import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Dvd;
+import de.hsharz.provirent.objects.Genre;
+import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
@@ -41,6 +50,7 @@ import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.PaymentCategory;
 import de.hsharz.provirent.objects.Condition;
 import de.hsharz.provirent.objects.Status;
+import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
 /**
@@ -142,6 +152,8 @@ public class CompositeDVD extends AbstractComposite {
     
     private Composite compositeDVDEditAudioformat;
     
+    private Composite compositeButtons;
+    
     private Button buttonDVDAddLanguages;
     
     private Button buttonDVDDeleteLanguages;
@@ -157,6 +169,18 @@ public class CompositeDVD extends AbstractComposite {
     private Button buttonDVDAddAudioformat;
     
     private Button buttonDVDDeleteAudioformat;
+    
+    private Button buttonDVDNew;
+    
+    private Button buttonDVDDelete;
+    
+    private Button buttonDVDEdit;
+    
+    private Button buttonDVDCancel;
+    
+    private Button buttonDVDSave;
+    
+    private Button buttonDVDFill;
     
     private SashForm sashForm1;
     
@@ -265,7 +289,7 @@ public class CompositeDVD extends AbstractComposite {
             // init the rest of the layout
             initDVDOverview();
             initDVDDetail();
-            //refreshDVDOverviewTable(textDVDSearch.getText());
+            refreshDVDOverviewTable(textDVDSearch.getText());
         }
 
         this.layout();
@@ -477,6 +501,7 @@ public class CompositeDVD extends AbstractComposite {
             for(int i=0;i<l.size();i++)  {
                 comboDVDMovie.add(((Movie)l.get(i)).getTitle(),i);
             }
+            comboDVDMovie.setEnabled(false);
         }
         {
             labelDVDPayment = new Label(groupDVDDetail, SWT.NONE);
@@ -496,6 +521,7 @@ public class CompositeDVD extends AbstractComposite {
             for(int i=0;i<l.size();i++)  {
                 comboDVDPayment.add(((PaymentCategory)l.get(i)).getName(),i);
             }
+            comboDVDPayment.setEnabled(false);
         }
         {
             labelDVDStatus = new Label(groupDVDDetail, SWT.NONE);
@@ -516,6 +542,7 @@ public class CompositeDVD extends AbstractComposite {
             for(int i=0;i<l.size();i++)  {
                 comboDVDStatus.add(((Status)l.get(i)).getStatusName(),i);
             }
+            comboDVDStatus.setEnabled(false);
         }
         {
             labelDVDCondition = new Label(groupDVDDetail, SWT.NONE);
@@ -536,8 +563,9 @@ public class CompositeDVD extends AbstractComposite {
             for(int i=0;i<l.size();i++)  {
                 comboDVDCondition.add(((Condition)l.get(i)).getConditionName(),i);
             }
+            comboDVDCondition.setEnabled(false);
         }
-//      EditDirectors
+        //      EditLanguages
 		{
 
 			compositeDVDEditLanguages = new Composite(groupDVDDetail,
@@ -669,8 +697,8 @@ public class CompositeDVD extends AbstractComposite {
 								.getString("dvd.groupoverviewdetail.columnlanguages"));
 				tableDVDDetail_ColumnName.setWidth(200);
 			}
-		}// EditDirectors
-		// Edit Actors
+		}// Edit Languages
+		// Edit Subtitles
 		{
 			compositeDVDEditSubtitles = new Composite(groupDVDDetail,
 					SWT.NONE);
@@ -791,8 +819,8 @@ public class CompositeDVD extends AbstractComposite {
 						.getString("dvd.groupoverviewdetail.columnsubtitles"));
 				tableDVDDetail_ColumnName.setWidth(200);
 			}
-		}//Edit Actors
-		//Edit Genres
+		}//Edit Subtitles
+		//Edit Videoformat
 		{
 			compositeDVDEditVideoformat = new Composite(groupDVDDetail,
 					SWT.NONE);
@@ -911,8 +939,8 @@ public class CompositeDVD extends AbstractComposite {
 						.getString("dvd.groupoverviewdetail.columnvideoformat"));
 				tableDVDDetail_ColumnName.setWidth(200);
 			}
-		}// Edit Genre
-		// Edit Images
+		}// Edit Videoformat
+		// Edit Audioformat
 		{
 			compositeDVDEditAudioformat = new Composite(groupDVDDetail,
 					SWT.NONE);
@@ -1032,25 +1060,505 @@ public class CompositeDVD extends AbstractComposite {
 						.getString("dvd.groupoverviewdetail.columnaudioformat"));
 				tableDVDDetail_ColumnName.setWidth(200);
 			}
-		}// Edit Images
+		}// Edit Audioformat
+		{
+			compositeButtons = new Composite(groupDVDDetail, SWT.EMBEDDED);
+			GridLayout composite2Layout = new GridLayout();
+			composite2Layout.numColumns = 6;
+			GridData composite2LData = new GridData();
+			compositeButtons.setLayout(composite2Layout);
+			composite2LData.verticalAlignment = GridData.END;
+			composite2LData.horizontalAlignment = GridData.CENTER;
+			composite2LData.widthHint = 391;
+			composite2LData.horizontalSpan = 6;
+			composite2LData.grabExcessHorizontalSpace = true;
+			composite2LData.grabExcessVerticalSpace = true;
+			composite2LData.heightHint = 35;
+			compositeButtons.setLayoutData(composite2LData);
+		}
+		{
+			buttonDVDNew = new Button(compositeButtons, SWT.PUSH
+					| SWT.CENTER);
+			buttonDVDNew.setText(l.getString("button.new"));
+			buttonDVDNew.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent evt) {
+
+					mode_dvd = ManagementGui.MODE_ADD;
+
+					textDVDID.setText("");
+					textDVDBarcode.setText("");
+					textDVDBarcode.setEditable(true);
+					textDVDSearch.setEditable(false);
+					comboDVDMovie.setEnabled(true);
+					comboDVDPayment.setEnabled(true);
+					comboDVDStatus.setEnabled(true);
+					comboDVDCondition.setEnabled(true);
+					
+					buttonDVDCancel.setEnabled(true);
+					buttonDVDSave.setEnabled(true);
+					buttonDVDNew.setEnabled(false);
+					buttonDVDEdit.setEnabled(false);
+					buttonDVDDelete.setEnabled(false);
+					buttonDVDAddLanguages.setEnabled(true);
+					buttonDVDDeleteLanguages.setEnabled(true);
+					buttonDVDAddSubtitles.setEnabled(true);
+					buttonDVDDeleteSubtitles.setEnabled(true);
+					buttonDVDAddVideoformat.setEnabled(true);
+					buttonDVDDeleteVideoformat.setEnabled(true);
+					buttonDVDAddAudioformat.setEnabled(true);
+					buttonDVDDeleteAudioformat.setEnabled(true);
+
+					tableDVDOverview.setEnabled(false);
+					tableDVDLanguagesDetail.removeAll();
+					tableDVDSubtitlesDetail.removeAll();
+					tableDVDVideoformatDetail.removeAll();
+					tableDVDAudioformatDetail.removeAll();
+
+					localdvd = new Dvd();
+					localdvd.setLanguages(new ArrayList());
+					localdvd.setSubtitles(new ArrayList());
+					localdvd.setVideoFormats(new ArrayList());
+					localdvd.setAudioFormats(new ArrayList());
+				}
+			});
+
+			buttonDVDEdit = new Button(compositeButtons, SWT.PUSH
+					| SWT.CENTER);
+			buttonDVDEdit.setText(l.getString("button.edit"));
+			buttonDVDEdit.setEnabled(false);
+			buttonDVDEdit.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent evt) {
+
+					mode_dvd = ManagementGui.MODE_EDIT;
+
+					textDVDBarcode.setEditable(true);
+					textDVDSearch.setEditable(false);
+					comboDVDMovie.setEnabled(true);
+					comboDVDPayment.setEnabled(true);
+					comboDVDStatus.setEnabled(true);
+					comboDVDCondition.setEnabled(true);
+					
+					buttonDVDCancel.setEnabled(true);
+					buttonDVDSave.setEnabled(true);
+					buttonDVDNew.setEnabled(false);
+					buttonDVDEdit.setEnabled(false);
+					buttonDVDDelete.setEnabled(false);
+					buttonDVDAddLanguages.setEnabled(true);
+					buttonDVDDeleteLanguages.setEnabled(true);
+					buttonDVDAddSubtitles.setEnabled(true);
+					buttonDVDDeleteSubtitles.setEnabled(true);
+					buttonDVDAddVideoformat.setEnabled(true);
+					buttonDVDDeleteVideoformat.setEnabled(true);
+					buttonDVDAddAudioformat.setEnabled(true);
+					buttonDVDDeleteAudioformat.setEnabled(true);
+
+					tableDVDOverview.setEnabled(false);
+
+				}
+			});
+
+			buttonDVDDelete = new Button(compositeButtons, SWT.PUSH
+					| SWT.CENTER);
+			buttonDVDDelete.setText(l.getString("button.delete"));
+			buttonDVDDelete.setEnabled(false);
+			buttonDVDDelete.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent evt) {
+					if (logger.isDebugEnabled()) {
+						logger.debug("widgetSelected(SelectionEvent) - buttonDVDDelete.widgetSelected, event="
+										+ evt);
+					}
+
+					String msg = MessageFormat
+							.format(l.getString("dvd.groupdetail.deletebutton.question.text"),
+									new Object[] { localdvd.getMovie().getTitle()
+											+ " " });
+
+					int question = showMsg(
+							msg,
+							l
+									.getString("dvd.groupdetail.deletebutton.question.header"),
+							SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+
+					if (question != SWT.YES) {
+						return;
+					}
+
+					try {
+						//object speichern
+						// Fehlerbehandlung
+						Database.deleteObject(localdvd);
+
+						//ÜbersichtsTabelle aktualisieren
+						refreshDVDOverviewTable(textDVDSearch.getText());
+
+						//Detailansicht leeren
+						textDVDID.setText("");
+						textDVDBarcode.setText("");
+						tableDVDLanguagesDetail.removeAll();
+						tableDVDSubtitlesDetail.removeAll();
+						tableDVDVideoformatDetail.removeAll();
+						tableDVDAudioformatDetail.removeAll();
+						//in Tabelle nächsten auswählen
+						try {
+							tableDVDOverview.select(0);
+						} catch (Exception ex) {
+						}
+
+						//Statusline Nachricht sezten
+						statusLine
+								.setStatus(
+										1,
+										l
+												.getString("dvd.groupdetail.deletebutton.newok"));
+
+					} catch (DataBaseException e) {
+						if (e.getMessage().equalsIgnoreCase("1")) {
+							//Fehler beim Speichern des Objectes
+
+							statusLine
+									.setStatus(
+											3,
+											l
+													.getString("dvd.groupdetail.deletebutton.errorsave"));
+							showMsg(
+									l
+											.getString("dvd.groupdetail.deletebutton.errorsave"),
+									l.getString("error"), SWT.ICON_ERROR
+											| SWT.OK);
+
+						} else if (e.getMessage().equalsIgnoreCase("2")) {
+							//fehler beim db aufbau
+							statusLine
+									.setStatus(
+											3,
+											l
+													.getString("dvd.groupdetail.deletebutton.errordb"));
+							showMsg(
+									l
+											.getString("dvd.groupdetail.deletebutton.errordb"),
+									l.getString("error"), SWT.ICON_ERROR
+											| SWT.OK);
+
+						} else {
+							//@todo
+							logger.error("widgetSelected(SelectionEvent)", e);
+						}
+
+					}
+
+				}
+
+			});
+
+			//leerer nicht sichtbarer Button
+			buttonDVDFill = new Button(compositeButtons, SWT.PUSH
+					| SWT.CENTER);
+			GridData buttonActorFillLData = new GridData();
+			buttonDVDFill.setVisible(false);
+			buttonDVDFill.setEnabled(false);
+			buttonActorFillLData.widthHint = 30;
+			buttonActorFillLData.heightHint = 23;
+			buttonDVDFill.setLayoutData(buttonActorFillLData);
+
+			buttonDVDSave = new Button(compositeButtons, SWT.PUSH
+					| SWT.CENTER);
+			buttonDVDSave.setText(l.getString("button.save"));
+			buttonDVDSave.setEnabled(false);
+			buttonDVDSave.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent evt) {
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("widgetSelected(SelectionEvent) - buttonDVDSave.widgetSelected, event="
+										+ evt);
+					}
+
+					/*List errors = validateInput();
+
+					if (errors.size() > 0) {
+						StringBuffer buf = new StringBuffer();
+
+						for (int i = 0; i < errors.size(); i++) {
+							buf.append("- ").append(errors.get(i)).append("\n");
+						}
+
+						showMsg(
+								l
+										.getString("dvd.groupdetail.savebutton.warn.noitems.msg")
+										+ new String(buf),
+								l
+										.getString("dvd.groupdetail.savebutton.warn.noitems.title"),
+								SWT.ICON_WARNING | SWT.YES);
+						return;
+
+					}
+					*/
+					//testen welcher mode
+					localdvd.setBarcode(textDVDBarcode.getText());
+					
+					/*
+					try {
+						localmovie.setRuntime(Integer
+								.parseInt(textMoviesRuntime.getText()));
+					} catch (Exception ex) {
+						logger.error("widgetSelected(SelectionEvent)", ex);
+						showMsg(
+								l
+										.getString("movies.groupdetail.savebutton.warn.noname.msg"),
+								l
+										.getString("movies.groupdetail.savebutton.warn.noname.title"),
+								SWT.ICON_WARNING | SWT.YES);
+						return;
+					}
+					*/
+					/**
+					 * @todo eine Exception bekommen wieder leider NOCH nicht
+					 *       mit d.h. es muss noch ein rückgabewert kommen oder
+					 *       eine Exception übermitteln werden (aus der DB
+					 *       Klasse)
+					 */
+					//neues Objekt erzeugen
+					try {
+						//object speichern
+						// Fehlerbehandlung
+
+						if (mode_dvd == ManagementGui.MODE_ADD) {
+
+							logger.debug("Objektid: " + localdvd.getDvdId()
+									+ " vor speichern");
+							Database.saveObject(localdvd);
+							logger.debug("Objektid: " + localdvd.getDvdId()
+									+ " nach speichern");
+
+							// in Übersichtstabelle einfügen
+							insertIntoMoviesOverviewTable(localdvd);
+							textDVDID.setText(localdvd.getDvdId() + "");
+						} else if (mode_dvd == ManagementGui.MODE_EDIT) {
+							Database.updateObject(localdvd);
+						}
+						//Statusline Nachricht sezten
+						statusLine
+								.setStatus(
+										1,
+										l
+												.getString("dvd.groupdetail.savebutton.newok"));
+					} catch (DataBaseException e) {
+						logger.debug("DataBaseException: " + e);
+						if (e.getMessage().equalsIgnoreCase("1")) {
+							//Fehler beim Speichern des Objectes
+
+							statusLine
+									.setStatus(
+											3,
+											l
+													.getString("dvd.groupdetail.savebutton.errorsave"));
+							showMsg(
+									l
+											.getString("dvd.groupdetail.savebutton.errorsave"),
+									"Fehler", SWT.ICON_ERROR | SWT.OK);
+
+						} else if (e.getMessage().equalsIgnoreCase("2")) {
+							//fehler beim db aufbau
+							statusLine
+									.setStatus(
+											3,
+											l
+													.getString("dvd.groupdetail.savebutton.errordb"));
+							showMsg(
+									l
+											.getString("dvd.groupdetail.savebutton.errordb"),
+									"Fehler", SWT.ICON_ERROR | SWT.OK);
+
+						} else {
+							//@todo
+							logger.error("widgetSelected(SelectionEvent)", e);
+						}
+
+					} catch (Exception ex) {
+						logger.debug("Unbekannte Exception: ", ex);
+					}
+
+					//activate buttons
+					setDVDGroupButtonSaveCancel();
+
+				}
+
+			});
+
+			buttonDVDCancel = new Button(compositeButtons, SWT.PUSH
+					| SWT.CENTER);
+			buttonDVDCancel.setText(l.getString("button.cancel"));
+			buttonDVDCancel.setEnabled(false);
+			buttonDVDCancel.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent evt) {
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("widgetSelected(SelectionEvent) - buttonDVDCancel.widgetSelected, event="
+										+ evt);
+					}
+					setDVDGroupButtonSaveCancel();
+				}
+			});
+		}
+
     }
 
-    
+
+    /**
+     * 
+     */
+    private void setDVDGroupButtonSaveCancel() {
+		textDVDBarcode.setEditable(false);
+		textDVDSearch.setEditable(true);
+		comboDVDMovie.setEnabled(false);
+		comboDVDPayment.setEnabled(false);
+		comboDVDStatus.setEnabled(false);
+		comboDVDCondition.setEnabled(false);
+		
+		buttonDVDCancel.setEnabled(false);
+		buttonDVDSave.setEnabled(false);
+		buttonDVDNew.setEnabled(true);
+		buttonDVDEdit.setEnabled(false);
+		buttonDVDDelete.setEnabled(false);
+		buttonDVDAddLanguages.setEnabled(false);
+		buttonDVDDeleteLanguages.setEnabled(false);
+		buttonDVDAddSubtitles.setEnabled(false);
+		buttonDVDDeleteSubtitles.setEnabled(false);
+		buttonDVDAddVideoformat.setEnabled(false);
+		buttonDVDDeleteVideoformat.setEnabled(false);
+		buttonDVDAddAudioformat.setEnabled(false);
+		buttonDVDDeleteAudioformat.setEnabled(false);
+
+		tableDVDOverview.setEnabled(true);
+		tableDVDLanguagesDetail.removeAll();
+		tableDVDSubtitlesDetail.removeAll();
+		tableDVDVideoformatDetail.removeAll();
+		tableDVDAudioformatDetail.removeAll();
+
+        
+    }
+
+    /**
+     * @param localdvd2
+     */
+    private void insertIntoMoviesOverviewTable(Dvd localdvd2) {
+        // TODO Auto-generated method stub
+        
+    }
+
     /**
      * @param text
      */
-    private void refreshDVDOverviewTable(String text) {
-        // TODO Auto-generated method stub
-        
+    private void refreshDVDOverviewTable(String filter) {
+        if (tableDVDOverview == null) {
+			if (logger.isDebugEnabled()) {
+				logger
+						.debug("refreshDVDOverviewTable(String) - Konnte DVDOverviewtable nicht refreshen, da diese null ist!");
+			}
+			return;
+		}
+		if (logger.isDebugEnabled()) {
+			logger
+					.debug("refreshDVDOverviewTable(String) - Versuche nun DVDOverviewtable zu refreshen. Filter: "
+							+ filter);
+		}
+		tableDVDOverview.removeAll();
+		TableItem item;
+		java.util.List DVDlist = Database.getDVD(filter);
+
+		for (int i = 0; i < DVDlist.size(); i++) {
+
+			Dvd o = (Dvd) DVDlist.get(i);
+			item = new TableItem(tableDVDOverview, SWT.NONE);
+			item.setText(new String[] {
+					o.getDvdId() + "",
+					o.getMovie().getTitle()+"",
+					o.getStatus().getStatusName()+"",
+					o.getCondition().getConditionName()+""
+					 });
+
+		}
+
     }
   
     
     /**
      * @param text
      */
-    protected void refreshDVDDetail(String text) {
+    protected void refreshDVDDetail(String id) {
         // TODO Auto-generated method stub
-        
+        Dvd object;
+		try {
+			//since we only can get a String value from the table, we
+			//need to convert this
+			object = Database.getSingleDVD(Integer.parseInt(id));
+
+			if (object == null) {
+
+				/*
+				 * 
+				 * @TODO Statusbar aktualiseren
+				 */
+				return;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			//id ist keine Zahl
+			return;
+		}
+		localdvd = object;
+		textDVDID.setText(object.getDvdId() + "");
+		textDVDBarcode.setText(object.getBarcode());
+		comboDVDMovie.setText(object.getMovie().getTitle());
+		comboDVDPayment.setText(object.getPaymentCategory().getName());
+		comboDVDStatus.setText(object.getStatus().getStatusName());
+		comboDVDCondition.setText(object.getCondition().getConditionName());
+		
+		TableItem item;
+		// Fill Directorstable
+		tableDVDLanguagesDetail.removeAll();
+		for (int i = 0; i < object.getLanguages().size(); i++) {
+			Language o = (Language) object.getLanguages().get(i);
+			item = new TableItem(tableDVDLanguagesDetail, SWT.NONE);
+			item.setText(new String[] { o.getLanguageId() + "",
+					o.getName()});
+		}
+
+		//Fill Actorstable
+		tableDVDSubtitlesDetail.removeAll();
+		for (int i = 0; i < object.getSubtitles().size(); i++) {
+			Subtitle o = (Subtitle) object.getSubtitles().get(i);
+			item = new TableItem(tableDVDSubtitlesDetail, SWT.NONE);
+			item.setText(new String[] { o.getSubtitleId() + "",
+					o.getName()  });
+		}
+
+		//Fill Genretable
+		tableDVDVideoformatDetail.removeAll();
+		logger.debug("Anzahl der Videoformate: " + object.getVideoFormats().size());
+		for (int i = 0; i < object.getVideoFormats().size(); i++) {
+			VideoFormat o = (VideoFormat) object.getVideoFormats().get(i);
+			logger.debug(i + " " + o);
+			item = new TableItem(tableDVDVideoformatDetail, SWT.NONE);
+			item.setText(new String[] { o.getVideoFormatId() + "",
+							o.getName() + "" });
+		}
+
+		//Fill Imagetable
+		tableDVDAudioformatDetail.removeAll();
+		logger.debug("Anzahl der Audioformate: " + object.getAudioFormats().size());
+		for (int i = 0; i < object.getAudioFormats().size(); i++) {
+			AudioFormat o = (AudioFormat) object.getAudioFormats().get(i);
+			item = new TableItem(tableDVDAudioformatDetail, SWT.NONE);
+			item.setText(new String[] { o.getAudioFormatId() + "",
+					o.getName() + "" });
+		}
+
+		//Enable Buttons for Delete and Edit
+		buttonDVDEdit.setEnabled(true);
+		buttonDVDDelete.setEnabled(true);
+
+		//Change mode to view
+		mode_dvd = ManagementGui.MODE_VIEW;
     }
 
 }
