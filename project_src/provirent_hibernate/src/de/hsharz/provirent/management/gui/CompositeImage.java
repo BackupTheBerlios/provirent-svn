@@ -546,6 +546,7 @@ public class CompositeImage extends AbstractComposite {
                     if (ideaImage != null && !ideaImage.isDisposed()) {
                         paintImage(e);
                         //e.gc.drawImage(scaledImage, 0, 0);
+                        e.gc.dispose();
                     }
                 }
             });
@@ -1107,6 +1108,8 @@ public class CompositeImage extends AbstractComposite {
                 scaledImage.getImageData().height, ix
                         + scaledImage.getImageData().x, iy
                         + scaledImage.getImageData().y, w, h);
+        event.gc.dispose();
+        paintImage.dispose();
     }
 
     /**
@@ -1152,7 +1155,6 @@ public class CompositeImage extends AbstractComposite {
             canvasImg.redraw();
         }
 
-        canvasImg.redraw();
 
         //Buttons zum löschen und editieren aktivieren
 
@@ -1208,6 +1210,7 @@ public class CompositeImage extends AbstractComposite {
                     o.getImageFileName(), o.getImageFileDescription() });
 
         }
+        Imagelist = null;
     }
     
     private Image createThumbnailImage(byte[] data){
@@ -1233,6 +1236,8 @@ public class CompositeImage extends AbstractComposite {
         final Image scaledtemp = new Image(getDisplay(),
                 image.getImageData().scaledTo((int)(width*scalefactor),(int)(height*scalefactor)));
         
+        
+        image.dispose();
 
         System.out.println("Größe: "+scaledtemp.getBounds());
         

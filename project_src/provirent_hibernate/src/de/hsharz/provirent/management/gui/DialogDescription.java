@@ -50,7 +50,6 @@ public class DialogDescription extends org.eclipse.swt.widgets.Dialog {
 	
 	private StyledText styledTextDescritpion;
 	
-	private SashForm sashForm1;
 
 	private ResourceBundle l;
 	
@@ -84,7 +83,7 @@ public class DialogDescription extends org.eclipse.swt.widgets.Dialog {
      */
     public void initLanguage(Locale locale) {
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.management.gui.language.dialogmovies", locale);
+                "de.hsharz.provirent.management.gui.language.movies", locale);
 
     }
 	
@@ -105,19 +104,19 @@ public class DialogDescription extends org.eclipse.swt.widgets.Dialog {
 
 			dialogShell.setLayout(new GridLayout());
             {
-                sashForm1 = new SashForm(dialogShell, SWT.NONE);
-                GridData sashForm1LData = new GridData();
-                sashForm1LData.widthHint = 300;
-                sashForm1LData.heightHint = 200;
-                sashForm1.setLayoutData(sashForm1LData);
-                {
-                    groupDialogDescription = new Group(sashForm1, SWT.NONE);
+
+                    groupDialogDescription = new Group(dialogShell, SWT.NONE);
                     GridLayout groupDialogDescriptionLayout = new GridLayout();
                     groupDialogDescriptionLayout.numColumns = 5;
                     groupDialogDescriptionLayout.makeColumnsEqualWidth = true;
                     groupDialogDescription.setBounds(0, 0, 316, 178);
                     groupDialogDescription.setLayout(groupDialogDescriptionLayout);
                     groupDialogDescription.setText("Beschreibung");
+                    GridData groupForm1LData = new GridData();
+                    groupForm1LData.widthHint = 300;
+                    groupForm1LData.heightHint = 200;
+                    groupDialogDescription.setLayoutData(groupForm1LData);                      
+                    
                     {
                         labelDescriptionAdvice = new Label(groupDialogDescription, SWT.NONE);
                         labelDescriptionAdvice.setText("Beschreibung ins Textfeld schreiben oder ändern");
@@ -161,7 +160,7 @@ public class DialogDescription extends org.eclipse.swt.widgets.Dialog {
                     }
 
                 }
-            }
+            
 			dialogShell.layout();
 			dialogShell.pack();
 			dialogShell.open();

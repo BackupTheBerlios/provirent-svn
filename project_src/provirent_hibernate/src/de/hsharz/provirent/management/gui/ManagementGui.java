@@ -583,6 +583,11 @@ public class ManagementGui {
                 if(!viewImageMenuItem.isDisposed()){
                     viewImageMenuItem.setSelection(false);
                 }
+                if (compositeImage != null && !compositeImage.isDisposed()){
+                    compositeImage.dispose();
+                    compositeImage = null;
+                }
+                
             }
             
         });

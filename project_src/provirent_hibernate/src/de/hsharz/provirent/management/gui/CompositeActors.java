@@ -769,7 +769,7 @@ public class CompositeActors extends AbstractComposite{
     /**
      * 
      */
-    protected void setActorsGroupButtonSaveCancel() {
+    private void setActorsGroupButtonSaveCancel() {
         buttonActorsSave.setEnabled(false);
         buttonActorsCancel.setEnabled(false);
         buttonActorsEdit.setEnabled(true);
@@ -786,13 +786,13 @@ public class CompositeActors extends AbstractComposite{
         textActorsSearch.setEnabled(true);        
     }
 
-    protected void insertIntoActorsOverviewTable(Actor actor) {
+    private void insertIntoActorsOverviewTable(Actor actor) {
         TableItem item = new TableItem(tableActorsOverview, SWT.NONE);
         item.setText(new String[] { actor.getActorId() + "", actor.getFirstName(),
                 actor.getLastName() });        
     }
     
-    protected void refreshActorsOverviewTable(final String filter) {
+    private void refreshActorsOverviewTable(final String filter) {
         if (tableActorsOverview == null) {
             System.out
                     .println("Konnte ActorsOverviewtable nicht refreshen, da diese null ist!");
