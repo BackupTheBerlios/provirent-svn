@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.TableItem;
  * for any corporate or commercial purpose.
  * *************************************
  */
-public class CopyOfNewSWTApp {
+public class NewSWTApp {
 
 	private Menu menu1;
 
@@ -113,7 +113,7 @@ public class CopyOfNewSWTApp {
 
 	private Shell shell;
 
-	public CopyOfNewSWTApp() {
+	public NewSWTApp() {
 		Display display = Display.getDefault();
 		shell = new Shell(display);
 		shell.setSize(400, 300);
@@ -559,7 +559,7 @@ public class CopyOfNewSWTApp {
 	 * org.eclipse.swt.widgets.Composite inside a new Shell.
 	 */
 	public static void main(String[] args) {
-		CopyOfNewSWTApp app = new CopyOfNewSWTApp();
+		NewSWTApp app = new NewSWTApp();
 	}
 
 }

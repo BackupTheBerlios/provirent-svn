@@ -456,6 +456,214 @@ public class Database {
         
 
     }
+    
+	/**
+	 * This method gets all Genres from the database.
+	 * searches for firstname or lastname or id
+	 * @param filter 
+	 * @return List of Director objects, or an empty List
+	 */
+	public static List getGenre(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getGenre() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Genre.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("name", "%"+filter+"%"));
+	                any.add(Expression.like("shortname", "%"+filter+"%"));
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("GenreId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getGenre() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getGenre() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getGenre() - end");
+	    }
+	    return returnlist;
+	    
+	
+	}
+	
+	
+	public static Genre getSingleGenre(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleGenre() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Genre returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Genre)s.get(Genre.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleGenre() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleGenre() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleGenre() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
+	
+	/**
+	 * This method gets all Languages from the database.
+	 * searches for firstname or lastname or id
+	 * @param filter 
+	 * @return List of Director objects, or an empty List
+	 */
+	public static List getLanguage(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getLanguage() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Language.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("name", "%"+filter+"%"));
+	                any.add(Expression.like("shortname", "%"+filter+"%"));
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("LanguageId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getLanguage() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getLanguage() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getLanguage() - end");
+	    }
+	    return returnlist;
+	    
+	
+	}
+	
+	
+	public static Language getSingleLanguage(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleLanguage() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Language returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Language)s.get(Language.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleLanguage() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleLanguage() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleLanguage() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
 
      /**
      * Constructor for TestActor.

@@ -97,11 +97,11 @@ import de.hsharz.provirent.persistence.Database;
  * @author Philipp Schneider
  *  
  */
-public class ManagmentGui {
+public class ManagementGui {
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(ManagmentGui.class);
+    private static final Logger logger = Logger.getLogger(ManagementGui.class);
 
     public final static int MODE_VIEW = 0;
 
@@ -134,7 +134,7 @@ public class ManagmentGui {
 
     private MenuItem viewDirectorMenuItem;
     
-    private MenuItem viewFormatMenuItem,viewActorMenuItem,viewGenreMenuItem;
+    private MenuItem viewVideoFormatMenuItem,viewActorMenuItem,viewGenreMenuItem;
     private MenuItem viewSubtitleMenuItem,viewLanguageMenuItem,viewStatusMenuItem;
     private MenuItem viewConditionMenuItem,viewMovieMenuItem,viewDvdMenuItem, viewBillMenuItem;
     
@@ -142,8 +142,6 @@ public class ManagmentGui {
     private Shell shell;
 
     private Display display;
-
-    private MenuItem viewVideoFormatMenuItem;
 
     private Menu viewMenu;
 
@@ -193,7 +191,7 @@ public class ManagmentGui {
      * org.eclipse.swt.widgets.Composite inside a new Shell.
      */
     public static void main(String[] args) {
-        ManagmentGui inst = new ManagmentGui();
+        ManagementGui inst = new ManagementGui();
         inst.run();
     }
 
@@ -207,10 +205,10 @@ public class ManagmentGui {
         }
     }
 
-    public ManagmentGui() {
+    public ManagementGui() {
 
         if (logger.isDebugEnabled()) {
-            logger.debug("ManagmentGui() Locale: " + Locale.getDefault());
+            logger.debug("ManagementGui() Locale: " + Locale.getDefault());
         }
         
         locale = Locale.getDefault();
@@ -525,10 +523,10 @@ public class ManagmentGui {
     private void initFormatTab() {
         tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemFormat.setText(l.getString("tab.format.title"));
-        /*
+        
         tabItemFormat.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
-                viewFormatMenuItem.setSelection(false);
+                viewVideoFormatMenuItem.setSelection(false);
            }
         });
         {
@@ -538,14 +536,14 @@ public class ManagmentGui {
             
             tabItemFormat.setControl(compositeFormate);
         }
-        */
+        
     }
     
     
     private void initDirectorTab() {
         tabItemDirector = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemDirector.setText(l.getString("tab.director.title"));
-        /*
+        
         tabItemDirector.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
                 viewDirectorMenuItem.setSelection(false);
@@ -558,13 +556,13 @@ public class ManagmentGui {
             
             tabItemDirector.setControl(compositeDirector);
         }
-        */
+        
     }    
     
     private void initActorTab() {
         tabItemActor = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemActor.setText(l.getString("tab.actor.title"));
-        /*
+        
         tabItemActor.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
                 viewActorMenuItem.setSelection(false);
@@ -577,13 +575,13 @@ public class ManagmentGui {
             
             tabItemActor.setControl(compositeActor);
         }
-        */
+        
     }
 
     private void initGenreTab() {
         tabItemGenre = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemGenre.setText(l.getString("tab.genre.title"));
-        /*
+        
         tabItemGenre.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
                 viewGenreMenuItem.setSelection(false);
@@ -596,7 +594,7 @@ public class ManagmentGui {
             
             tabItemGenre.setControl(compositeGenre);
         }
-        */
+        
     }
 
     private void initLanguageTab() {
