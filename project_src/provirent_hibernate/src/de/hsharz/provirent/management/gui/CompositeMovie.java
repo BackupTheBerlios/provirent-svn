@@ -2,6 +2,7 @@ package de.hsharz.provirent.management.gui;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -23,7 +24,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -75,7 +75,6 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private final static int MODE_EDIT = 2;
     
     private Table tableMoviesOverview;
-    private Table tableMoviesOverviewDetail;
     private Table tableMoviesDirectorsDetail;
     private Table tableMoviesActorsDetail;
     private Table tableMoviesGenresDetail;
@@ -84,13 +83,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private TableColumn tableMoviesDetail_ColumnName;
     private TableColumn tableMoviesOverview_ColumnID;
     private TableColumn tableMoviesOverview_ColumnTitle;
-    private TableColumn tableMoviesOverview_ColumnSubtitles;
     private TableColumn tableMoviesOverview_ColumnDate;
-    private TableColumn tableMoviesOverviewDetail_ColumnGenres;
-    private TableColumn tableMoviesOverviewDetail_ColumnActors;
-    private TableColumn tableMoviesOverviewDetail_ColumnDirectors;   
-    private TableColumn tableMoviesOverviewDetail_ColumnDescription;
-    private TableColumn tableMoviesOverviewDetail_ColumnImages;
        
     private Group groupMovie;
     private Group groupMoviesOverview;
@@ -338,14 +331,6 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     tableMoviesOverview_ColumnTitle.setWidth(120);
                 }
                 {
-                    tableMoviesOverview_ColumnSubtitles = new TableColumn(
-                        tableMoviesOverview,
-                        SWT.CENTER);
-                    tableMoviesOverview_ColumnSubtitles.setText(l
-                        .getString("movies.groupoverview.columnsubtitles"));
-                    tableMoviesOverview_ColumnSubtitles.setWidth(120);
-                }
-                {
                     tableMoviesOverview_ColumnDate = new TableColumn(
                         tableMoviesOverview,
                         SWT.CENTER);
@@ -354,104 +339,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     tableMoviesOverview_ColumnDate.setWidth(120);
                 }
             }// table Movies Overview
-            //Table Movies Overview Detail
-            tableMoviesOverviewDetail = new Table(
-                    groupMoviesOverview,
-                    SWT.SINGLE
-                        | SWT.FULL_SELECTION
-                        | SWT.V_SCROLL | SWT.BORDER);
-                GridData tableMoviesOverviewLData = new GridData();
-                tableMoviesOverviewDetail.setHeaderVisible(true);
-                tableMoviesOverviewDetail.setLinesVisible(true);
-                tableMoviesOverviewLData.horizontalAlignment = GridData.FILL;
-                tableMoviesOverviewLData.verticalAlignment = GridData.FILL;
-                tableMoviesOverviewLData.horizontalSpan = 8;
-                tableMoviesOverviewLData.grabExcessHorizontalSpace = true;
-                tableMoviesOverviewLData.grabExcessVerticalSpace = true;
-                tableMoviesOverviewDetail.setLayoutData(tableMoviesOverviewLData);
-                tableMoviesOverviewDetail.addFocusListener(new FocusAdapter() {
-                        public void focusLost(FocusEvent evt) {
-                            System.out
-                                .println("tableMoviesOverviewDetail.focusLost, event="
-                                    + evt);
-                        }
-                        public void focusGained(FocusEvent evt) {
-                            System.out
-                                .println("tableMoviesOverviewDetail.focusGained, event="
-                                    + evt);
-                        }
-                    });
-                tableMoviesOverviewDetail.addSelectionListener(new SelectionAdapter() {
-                        public void widgetSelected(SelectionEvent evt) {
-                            if (logger.isDebugEnabled()) {
-                                logger
-                                    .debug("widgetSelected(SelectionEvent evt = "
-                                        + evt
-                                        + ") - start");
-                            }
-
-                            int index = tableMoviesOverview
-                                .getSelectionIndex();
-
-                            System.out.println("Table select. id: "
-                                + index
-                                + " TableItem:"
-                                + tableMoviesOverviewDetail.getItem(index)
-                                + " id: "
-                                + tableMoviesOverviewDetail.getItem(index)
-                                    .getText(0));
-
-                            //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss die
-                            //Detailansicht aktualisiert werden
-                            //folgende Zeile nicht notwendig
-                            //refreshMoviesDetail(tableMoviesOverview.getItem(index).getText(0));
-
-                            if (logger.isDebugEnabled()) {
-                                logger
-                                    .debug("widgetSelected(SelectionEvent) - end");
-                            }
-                        }
-                    });
-                {
-                    tableMoviesOverviewDetail_ColumnDirectors = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnDirectors.setText(l
-                        .getString("movies.groupoverviewdetail.columndirectors"));
-                    tableMoviesOverviewDetail_ColumnDirectors.setWidth(80);
-                }
-                {
-                    tableMoviesOverviewDetail_ColumnGenres = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnGenres.setText(l
-                        .getString("movies.groupoverviewdetail.columngenres"));
-                    tableMoviesOverviewDetail_ColumnGenres.setWidth(80);
-                }
-                {
-                    tableMoviesOverviewDetail_ColumnActors = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnActors.setText(l
-                        .getString("movies.groupoverviewdetail.columnactors"));
-                    tableMoviesOverviewDetail_ColumnActors.setWidth(80);
-                }
-                {
-                    tableMoviesOverviewDetail_ColumnDescription = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnDescription.setText(l
-                        .getString("movies.groupoverviewdetail.columndescription"));
-                    tableMoviesOverviewDetail_ColumnDescription.setWidth(80);
-                }
-                {
-                    tableMoviesOverviewDetail_ColumnImages = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnImages.setText(l
-                        .getString("movies.groupoverviewdetail.columnimages"));
-                    tableMoviesOverviewDetail_ColumnImages.setWidth(80);
-                }
+           
             // Search
             {
                 //label for Search
@@ -647,6 +535,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddDirectors.setLayoutData(text1LData2);        
         	    buttonMoviesAddDirectors.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
+        	            //open responsible Dialog and insert objects into table
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_DIRECTOR);
         	            dialog.open();
                     
@@ -655,7 +544,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            for(int i =0; i< movie.getDirector().size(); i++){
         	                item = new TableItem(tableMoviesDirectorsDetail, SWT.NONE);
         	                item.setText(new String[] { ((Director)movie.getDirector().get(i)).getDirectorId()+ ""
-        	                        ,((Director)movie.getDirector().get(i)).getLastName() + ""});
+        	                        ,((Director)movie.getDirector().get(i)).getLastName() + " , "
+        	                        + ((Director)movie.getDirector().get(i)).getFirstName()});
         	            }                    
         	            
         	        }
@@ -673,16 +563,31 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesDeleteDirectors.setLayoutData(text1LData2);        
         	    buttonMoviesDeleteDirectors.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
-                    
+        	            //get selected Item
+        	            //get id from object 
+        	            //search for id in list and delete object
+        	            //remove table entry
+        	            int index=tableMoviesDirectorsDetail.getSelectionIndex();
+        	            if(index>=0)  {
+        	                String strid=tableMoviesDirectorsDetail.getItem(index).getText(0);
+        	                int id = Integer.parseInt(strid);
+        	                for (int i=0;i<movie.getDirector().size();i++)  {
+        	                    Director o =(Director)movie.getDirector().get(i);    
+        	                    if (o.getDirectorId().intValue()==id) {
+        	                        movie.getDirector().remove(o);
+        	                        break;
+        	                    }
+        	                }
+        	                tableMoviesDirectorsDetail.remove(index);
+        	            }
         	        }
         	    });  
         	}
         {
             tableMoviesDirectorsDetail = new Table(groupMoviesDetail,SWT.SINGLE
-                    | SWT.V_SCROLL | SWT.BORDER);
-            tableMoviesDirectorsDetail.setHeaderVisible(true);
-            tableMoviesDirectorsDetail.setLinesVisible(true);
+                    | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER);
+            //tableMoviesDirectorsDetail.setHeaderVisible(true);
+            //tableMoviesDirectorsDetail.setLinesVisible(true);
             GridData tableMoviesDirectorsDetailLData = new GridData();
             tableMoviesDirectorsDetailLData.horizontalAlignment = GridData.FILL;
             tableMoviesDirectorsDetailLData.horizontalSpan = 5;
@@ -700,7 +605,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             {
                 tableMoviesDetail_ColumnName = new TableColumn(
                         tableMoviesDirectorsDetail,
-                     SWT.CENTER);              
+                        SWT.LEFT);              
                 tableMoviesDetail_ColumnName.setText(
                         l.getString("movies.groupoverviewdetail.columndirectors"));
                 tableMoviesDetail_ColumnName.setWidth(200);            
@@ -739,6 +644,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddActors.setLayoutData(text1LData2);        
         	    buttonMoviesAddActors.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
+        	            //open responsible Dialog and insert objects into table
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_ACTOR);
         	            dialog.open();
 
@@ -764,8 +670,23 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesDeleteActors.setLayoutData(text1LData2);        
         	    buttonMoviesDeleteActors.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
-                    
+        	            //get selected Item
+        	            //get id from object 
+        	            //search for id in list and delete object
+        	            //remove table entry
+        	            int index=tableMoviesActorsDetail.getSelectionIndex();
+        	            if(index>=0)  {
+        	                String strid=tableMoviesActorsDetail.getItem(index).getText(0);
+        	                int id = Integer.parseInt(strid);
+        	                for (int i=0;i<movie.getActors().size();i++)  {
+        	                    Actor o =(Actor)movie.getActors().get(i);    
+        	                    if (o.getActorId().intValue()==id) {
+        	                        movie.getActors().remove(o);
+        	                        break;
+        	                    }
+        	                }
+        	                tableMoviesActorsDetail.remove(index);
+        	            }
         	        }
         	    });  
         	}
@@ -829,6 +750,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddGenres.setLayoutData(text1LData2);        
         	    buttonMoviesAddGenres.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
+        	            //open responsible Dialog and insert objects into table
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_GENRE);
         	            dialog.open();
 
@@ -854,16 +776,31 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesDeleteGenres.setLayoutData(text1LData2);        
         	    buttonMoviesDeleteGenres.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
-                    
+        	            //get selected Item
+        	            //get id from object 
+        	            //search for id in list and delete object
+        	            //remove table entry
+        	            int index=tableMoviesGenresDetail.getSelectionIndex();
+        	            if(index>=0)  {
+        	                String strid=tableMoviesGenresDetail.getItem(index).getText(0);
+        	                int id = Integer.parseInt(strid);
+        	                for (int i=0;i<movie.getGenres().size();i++)  {
+        	                    Genre o =(Genre)movie.getGenres().get(i);    
+        	                    if (o.getGenreId().intValue()==id) {
+        	                        movie.getGenres().remove(o);
+        	                        break;
+        	                    }
+        	                }
+        	                tableMoviesGenresDetail.remove(index);
+        	            }
         	        }
         	    });  
         	}
         	{
                 tableMoviesGenresDetail = new Table(groupMoviesDetail,SWT.SINGLE
-                        | SWT.V_SCROLL | SWT.BORDER);
-                tableMoviesGenresDetail.setHeaderVisible(true);
-                tableMoviesGenresDetail.setLinesVisible(true);
+                        | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER);
+                //tableMoviesGenresDetail.setHeaderVisible(true);
+                //tableMoviesGenresDetail.setLinesVisible(true);
                 GridData tableMoviesGenresDetailLData = new GridData();
                 tableMoviesGenresDetailLData.horizontalAlignment = GridData.FILL;
                 tableMoviesGenresDetailLData.horizontalSpan = 5;
@@ -881,7 +818,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 {
                     tableMoviesDetail_ColumnName = new TableColumn(
                             tableMoviesGenresDetail,
-                         SWT.CENTER);              
+                            SWT.LEFT);              
                     tableMoviesDetail_ColumnName.setText(
                             l.getString("movies.groupoverviewdetail.columngenres"));
                     tableMoviesDetail_ColumnName.setWidth(200);            
@@ -920,6 +857,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddImages.setLayoutData(text1LData2);        
         	    buttonMoviesAddImages.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
+        	            //open responsible Dialog and insert objects into table
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_IMAGE);
         	            dialog.open();
 
@@ -945,23 +883,38 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesDeleteImages.setLayoutData(text1LData2);        
         	    buttonMoviesDeleteImages.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
+        	            //get selected Item
+        	            //get id from object 
+        	            //search for id in list and delete object
+        	            //remove table entry
+        	            int index=tableMoviesImagesDetail.getSelectionIndex();
+        	            if(index>=0)  {
+        	                String strid=tableMoviesImagesDetail.getItem(index).getText(0);
+        	                int id = Integer.parseInt(strid);
+        	                for (int i=0;i<movie.getImages().size();i++)  {
+        	                    Image o =(Image)movie.getImages().get(i);    
+        	                    if (o.getImageId().intValue()==id) {
+        	                        movie.getImages().remove(o);
+        	                        break;
+        	                    }
+        	                }
+        	                tableMoviesImagesDetail.remove(index);
+        	            }
                     
         	        }
         	    });  
         	}
         	{
                 tableMoviesImagesDetail = new Table(groupMoviesDetail,SWT.SINGLE
-                        | SWT.V_SCROLL | SWT.BORDER);
-                tableMoviesImagesDetail.setHeaderVisible(true);
-                tableMoviesImagesDetail.setLinesVisible(true);
+                        | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER);
+                //tableMoviesImagesDetail.setHeaderVisible(true);
+                //tableMoviesImagesDetail.setLinesVisible(true);
                 GridData tableMoviesImagesDetailLData = new GridData();
                 tableMoviesImagesDetailLData.horizontalAlignment = GridData.FILL;
                 tableMoviesImagesDetailLData.horizontalSpan = 5;
                 tableMoviesImagesDetailLData.grabExcessVerticalSpace = true;
                 tableMoviesImagesDetailLData.verticalAlignment = GridData.FILL;
-                tableMoviesImagesDetail.setLayoutData(tableMoviesImagesDetailLData);
-                
+                tableMoviesImagesDetail.setLayoutData(tableMoviesImagesDetailLData);               
                 {
                     tableMoviesDetail_ColumnID = new TableColumn(
                             tableMoviesImagesDetail,
@@ -972,7 +925,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 {
                     tableMoviesDetail_ColumnName = new TableColumn(
                             tableMoviesImagesDetail,
-                         SWT.CENTER);              
+                            SWT.LEFT);              
                     tableMoviesDetail_ColumnName.setText(
                             l.getString("movies.groupoverviewdetail.columnimages"));
                     tableMoviesDetail_ColumnName.setWidth(200);            
@@ -1051,16 +1004,28 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 textMoviesTitle.setEditable(true);
                 textMoviesTitle.setFocus();
                 textMoviesDate.setEditable(true);
+                textMoviesDescription.setEditable(true);
                 
                 buttonMoviesCancel.setEnabled(true);
                 buttonMoviesSave.setEnabled(true);
                 buttonMoviesNew.setEnabled(false);
                 buttonMoviesEdit.setEnabled(false);
                 buttonMoviesDelete.setEnabled(false);
-
+                buttonMoviesAddDirectors.setEnabled(true);
+                buttonMoviesDeleteDirectors.setEnabled(true);
+                buttonMoviesAddActors.setEnabled(true);
+                buttonMoviesDeleteActors.setEnabled(true);
+                buttonMoviesAddGenres.setEnabled(true);
+                buttonMoviesDeleteGenres.setEnabled(true);
+                buttonMoviesAddImages.setEnabled(true);
+                buttonMoviesDeleteImages.setEnabled(true);
+                
                 tableMoviesOverview.setEnabled(false);
                 textMoviesSearch.setEnabled(false);
                 
+                java.util.List Movielist = Database.getMovie(textMoviesID.getText());
+                //only one element because of ID
+                movie = (Movie)Movielist.get(0);
             }
         });
 
@@ -1088,17 +1053,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                    return;
                }
                 
-                Movie o = new Movie();
-                o.setMovieId(new Integer(Integer.parseInt(textMoviesID.getText())));
-                o.setTitle(textMoviesTitle.getText());
-                //TODO
-                //entsprechendes Objekt erzeugen
-                //o.setReleaseDate(textMoviesDate.getText());
                 
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.deleteObject(o);
+                    Database.deleteObject(movie);
 
                     //ÜbersichtsTabelle aktualisieren
                     refreshMoviesOverviewTable(textMoviesSearch.getText());
@@ -1107,7 +1066,6 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     textMoviesID.setText("");
                     textMoviesTitle.setText("");
                     textMoviesDate.setText("");
-                    tableMoviesOverviewDetail.removeAll();
                     //in Tabelle nächsten auswählen
                     try {
                         tableMoviesOverview.select(0);
@@ -1140,8 +1098,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
 
                 }
 
-            }
-    	    );
+            });
 
     	    //leerer nicht sichtbarer Button
     	    buttonMoviesFill = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
@@ -1161,62 +1118,59 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                         .println("buttonMoviesSave.widgetSelected, event="
                                 + evt);
 
-                
-                //testen ob Name leer ist
-                //TODO
-                //komplette Speichervorgan muss erweitert werden da
-                //Ausmaß von Film größer als bei anderen Composite
-                /*
-                if (textActorsFName.getText().trim().equalsIgnoreCase("") 
-                    ||  textActorsLName.getText().trim().equalsIgnoreCase("")   ) {
+                if (textMoviesTitle.getText().trim().equalsIgnoreCase("") 
+                    ||  textMoviesDescription.getText().trim().equalsIgnoreCase("")
+                    ||  textMoviesDate.getText().trim().equalsIgnoreCase("")
+                    ||  movie.getDirector().size() == 0
+                    ||  movie.getActors().size() == 0
+                    ||  movie.getGenres().size() == 0
+                    ||  movie.getImages().size() == 0) {
                     
-                    showMsg(l.getString("actors.groupdetail.savebutton.warn.noname.msg"),
-                            l.getString("actors.groupdetail.savebutton.warn.noname.title"),
+                    showMsg(l.getString("movies.groupdetail.savebutton.warn.noname.msg"),
+                            l.getString("movies.groupdetail.savebutton.warn.noname.title"),
                             SWT.ICON_WARNING | SWT.YES);
 
                     	return;
                 }
                 
                 //testen welcher mode
-                
-                if (mode_actor == ManagementGui.MODE_ADD) {
-                */    
+                if(mode_movie == ManagementGui.MODE_ADD)  {
+                    movie.setTitle(textMoviesTitle.getText());
+                    movie.setDescription(textMoviesDescription.getText());
+                    movie.setReleaseDate(new GregorianCalendar());
+                }
                     /**
                      * @todo eine Exception bekommen wieder leider NOCH nicht mit
                      * d.h. es muss noch ein rückgabewert kommen oder eine Exception 
                      * übermitteln werden (aus der DB Klasse)
                      */
                     //neues Objekt erzeugen
-                /*
-                	Actor tmp = new Actor(textActorsFName.getText(),
-                            textActorsLName.getText());
+                
                     
                     try {
                         //object speichern
                         // Fehlerbehandlung
-                        Object o = Database.saveObject(
-                                new Actor(textActorsFName.getText(),
-                                        textActorsLName.getText()));
+                        Object o = Database.saveObject(movie);
                         
                         // in Übersichtstabelle einfügen
-                        insertIntoActorsOverviewTable((Actor)o);
-                        textActorsID.setText( ((Actor)o).getActorId()+"" );
+                        insertIntoMoviesOverviewTable((Movie)o);
+                        textMoviesID.setText( ((Movie)o).getMovieId()+"" );
                         
                         
                         //Statusline Nachricht sezten
-                        statusLine.setStatus(1,l.getString("actors.groupdetail.savebutton.newok"));
+                        statusLine.setStatus(1,l.getString("movies.groupdetail.savebutton.newok"));
 
                     } catch (DataBaseException e) {
                         if (e.getMessage().equalsIgnoreCase("1")) {
                             //Fehler beim Speichern des Objectes
 
-                            statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errorsave"));
-                            showMsg(l.getString("actors.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                            statusLine.setStatus(3,l.getString("movies.groupdetail.savebutton.errorsave"));
+                            showMsg(l.getString("movies.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
                             
                         } else if (e.getMessage().equalsIgnoreCase("2")) {
                             //fehler beim db aufbau
-                            statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errordb"));
-                            showMsg(l.getString("actors.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                            statusLine.setStatus(3,l.getString("movies.groupdetail.savebutton.errordb"));
+                            showMsg(l.getString("movies.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
                             
                         } else {
                             //@todo
@@ -1226,56 +1180,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     }
                     
                     
-                    //alle Buttons auf aktiv setzen
-                    setActorsGroupButtonSaveCancel();
+                    //activate buttons
+                    setMoviesGroupButtonSaveCancel();
                     
-                } else if (mode_actor == ManagementGui.MODE_EDIT) {
-                    
-                    Actor tmp = new Actor(textActorsFName.getText(),
-                                    textActorsLName.getText());
-        		tmp.setActorId( new Integer (Integer.parseInt(textActorsID.getText())) );
-                try {
-                    //object speichern
-                    // Fehlerbehandlung
-                    Database.saveObject(tmp);
-                    //Übersichtstabelle aktualisieren
-                    refreshActorsOverviewTable(textActorsSearch.getText());
-                    
-                    //Statusline Nachricht sezten
-                    statusLine.setStatus(1,l.getString("actors.groupdetail.savebutton.editok"));
-                   
-
-                } catch (DataBaseException e) {
-                    if (e.getMessage().equalsIgnoreCase("1")) {
-                        //Fehler beim Speichern des Objectes
-
-                        statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errorsave"));
-                        showMsg(l.getString("actors.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                        
-                    } else if (e.getMessage().equalsIgnoreCase("2")) {
-                        //fehler beim db aufbau
-                        statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errordb"));
-                        showMsg(l.getString("actors.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                        
-                    } else {
-                        //@todo
-                        e.printStackTrace();
-                    }
-                    
-                }
-                    
- 
-                    //alle Buttons auf aktiv setzen
-                    setActorsGroupButtonSaveCancel();
-                    
-                }
-                
-                
-                
-                
-                 // @todo Exception werfen, da nur die zwei Modes sein dürfen
-                 
-            */   
+                    //Execption because only 2 modes posiibel
+              
             }
         
         });
@@ -1296,6 +1205,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
   }
 
     /**
+     * @param movie2
+     */
+    protected void insertIntoMoviesOverviewTable(Movie movie2) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
      * 
      */
     protected void setMoviesGroupButtonSaveCancel() {
@@ -1303,6 +1220,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         textMoviesTitle.setEditable(false);
         textMoviesDate.setEditable(false);
         textMoviesDescription.setEditable(false);
+        textMoviesSearch.setEnabled(true);
         buttonMoviesCancel.setEnabled(false);
         buttonMoviesSave.setEnabled(false);
         buttonMoviesNew.setEnabled(true);
@@ -1321,9 +1239,27 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     /**
      * @param text
      */
-    protected void refreshMoviesOverviewTable(String text) {
+    protected void refreshMoviesOverviewTable(String filter) {
         // TODO Auto-generated method stub
-        
+        if (tableMoviesOverview == null) {
+            System.out
+                    .println("Konnte MoviesOverviewtable nicht refreshen, da diese null ist!");
+            return;
+        }
+        System.out.println("Versuche nun MoviesOverviewtable zu refreshen. Filter: "
+                + filter);
+        tableMoviesOverview.removeAll();
+        TableItem item;
+        java.util.List Movielist = Database.getMovie(filter);
+
+        for (int i = 0; i < Movielist.size(); i++) {
+
+            Movie o = (Movie) Movielist.get(i);
+            item = new TableItem(tableMoviesOverview, SWT.NONE);
+            item.setText(new String[] { o.getMovieId() + "", o.getTitle(),
+                    o.getReleaseDate().getTime().toString() });
+
+        }
     }
 
     /**
@@ -1353,15 +1289,47 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
 
         textMoviesID.setText(object.getMovieId() + "");
         textMoviesTitle.setText(object.getTitle());
-        textMoviesDate.setText(object.getReleaseDate().toString());
+        textMoviesDate.setText(object.getReleaseDate().getTime().toString());
         textMoviesDescription.setText(object.getDescription());
-        //listMoviesImages.
-
-        //Buttons zum löschen und editieren aktivieren
+        
+        TableItem item;
+        // Fill Directorstable
+        for (int i=0;i<object.getDirector().size();i++)  {
+            Director o=(Director)object.getDirector().get(i);
+            item = new TableItem(tableMoviesDirectorsDetail , SWT.NONE);
+            item.setText(new String[] {o.getDirectorId() 
+                    + " ",o.getLastName() + " , " + o.getFirstName()});
+        }
+        
+        //Fill Actorstable
+        for (int i=0;i<object.getActors().size();i++)  {
+            Actor o=(Actor)object.getActors().get(i);
+            item = new TableItem(tableMoviesActorsDetail , SWT.NONE);
+            item.setText(new String[] {o.getActorId() 
+                    + " ",o.getLastName() + " , " + o.getFirstName()});
+        }
+        
+        //Fill Genretable
+        for (int i=0;i<object.getGenres().size();i++)  {
+            Genre o=(Genre)object.getGenres().get(i);
+            item = new TableItem(tableMoviesGenresDetail , SWT.NONE);
+            item.setText(new String[] {o.getGenreId() 
+                    + " ",o.getName()});
+        }
+        
+        //Fill Imagetable
+        for (int i=0;i<object.getImages().size();i++)  {
+            Image o=(Image)object.getImages().get(i);
+            item = new TableItem(tableMoviesImagesDetail , SWT.NONE);
+            item.setText(new String[] {o.getImageId() 
+                    + " ",o.getImageFileName()});
+        }
+        
+        //Enable Buttons for Delete and Edit
         buttonMoviesEdit.setEnabled(true);
         buttonMoviesDelete.setEnabled(true);
 
-        //Mode auf view setzen
+        //Change mode to view
         mode_movie = ManagementGui.MODE_VIEW;
           
     }
