@@ -70,12 +70,16 @@ public class AudioFormat implements Serializable {
         AudioFormat castOther = (AudioFormat) other;
         return new EqualsBuilder()
             .append(this.getAudioFormatId(), castOther.getAudioFormatId())
+            .append(this.getName(), castOther.getName())
+            .append(this.getShortname(), castOther.getShortname())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getAudioFormatId())
+            .append(getName())
+            .append(getShortname())
             .toHashCode();
     }
 

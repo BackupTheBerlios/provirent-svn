@@ -144,12 +144,26 @@ public class Customer implements Serializable {
         Customer castOther = (Customer) other;
         return new EqualsBuilder()
             .append(this.getCustomerId(), castOther.getCustomerId())
+            .append(this.getUserName(), castOther.getUserName())
+            .append(this.getPassword(), castOther.getPassword())
+            .append(this.getHiddenQuestion(), castOther.getHiddenQuestion())
+            .append(this.getHiddenAnswer(), castOther.getHiddenAnswer())
+            .append(this.getDayOfBirth(), castOther.getDayOfBirth())
+            .append(this.getDayOfRegistration(), castOther.getDayOfRegistration())
+            .append(this.getPerson(), castOther.getPerson())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getCustomerId())
+            .append(getUserName())
+            .append(getPassword())
+            .append(getHiddenQuestion())
+            .append(getHiddenAnswer())
+            .append(getDayOfBirth())
+            .append(getDayOfRegistration())
+            .append(getPerson())
             .toHashCode();
     }
 

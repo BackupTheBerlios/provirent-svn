@@ -213,12 +213,36 @@ public class Person implements Serializable {
         Person castOther = (Person) other;
         return new EqualsBuilder()
             .append(this.getPersonId(), castOther.getPersonId())
+            .append(this.getFirstName(), castOther.getFirstName())
+            .append(this.getLastName(), castOther.getLastName())
+            .append(this.getMiddleName(), castOther.getMiddleName())
+            .append(this.getSalutation(), castOther.getSalutation())
+            .append(this.getTitle(), castOther.getTitle())
+            .append(this.getStreet(), castOther.getStreet())
+            .append(this.getStreetNumber(), castOther.getStreetNumber())
+            .append(this.getCity(), castOther.getCity())
+            .append(this.getZipCode(), castOther.getZipCode())
+            .append(this.getCountry(), castOther.getCountry())
+            .append(this.getEmailAddress(), castOther.getEmailAddress())
+            .append(this.getDayOfBirth(), castOther.getDayOfBirth())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getPersonId())
+            .append(getFirstName())
+            .append(getLastName())
+            .append(getMiddleName())
+            .append(getSalutation())
+            .append(getTitle())
+            .append(getStreet())
+            .append(getStreetNumber())
+            .append(getCity())
+            .append(getZipCode())
+            .append(getCountry())
+            .append(getEmailAddress())
+            .append(getDayOfBirth())
             .toHashCode();
     }
 

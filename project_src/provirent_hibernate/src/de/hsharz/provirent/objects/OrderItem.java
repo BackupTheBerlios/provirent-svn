@@ -155,12 +155,28 @@ public class OrderItem implements Serializable {
         OrderItem castOther = (OrderItem) other;
         return new EqualsBuilder()
             .append(this.getOrderItemId(), castOther.getOrderItemId())
+            .append(this.getSenderTime(), castOther.getSenderTime())
+            .append(this.getReceivingTime(), castOther.getReceivingTime())
+            .append(this.getDuration(), castOther.getDuration())
+            .append(this.getOrderTime(), castOther.getOrderTime())
+            .append(this.getCustomer(), castOther.getCustomer())
+            .append(this.getDvd(), castOther.getDvd())
+            .append(this.getConditionSend(), castOther.getConditionSend())
+            .append(this.getConditionReceiving(), castOther.getConditionReceiving())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getOrderItemId())
+            .append(getSenderTime())
+            .append(getReceivingTime())
+            .append(getDuration())
+            .append(getOrderTime())
+            .append(getCustomer())
+            .append(getDvd())
+            .append(getConditionSend())
+            .append(getConditionReceiving())
             .toHashCode();
     }
 

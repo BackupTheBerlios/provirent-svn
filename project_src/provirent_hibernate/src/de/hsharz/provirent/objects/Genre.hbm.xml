@@ -12,7 +12,8 @@
       
   		
  			<meta attribute="implement-equals">true</meta>
- 			
+ 			<meta attribute="use-in-equals">true</meta>
+ 			 			
       <id name="genreId" type="int" column="GENREID">
         <meta attribute="scope-set">protected</meta>
         <meta attribute="use-in-equals">true</meta>

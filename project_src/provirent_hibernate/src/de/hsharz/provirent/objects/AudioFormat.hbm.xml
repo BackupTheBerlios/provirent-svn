@@ -12,6 +12,7 @@
       
   		
  			<meta attribute="implement-equals">true</meta>
+ 			<meta attribute="use-in-equals">true</meta>
  			
       <id name="audioFormatId" type="int" column="AUIOFORMATID">
         <meta attribute="scope-set">protected</meta>

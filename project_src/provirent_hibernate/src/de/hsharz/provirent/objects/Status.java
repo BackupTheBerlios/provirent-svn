@@ -70,12 +70,16 @@ public class Status implements Serializable {
         Status castOther = (Status) other;
         return new EqualsBuilder()
             .append(this.getStatusId(), castOther.getStatusId())
+            .append(this.getStatusName(), castOther.getStatusName())
+            .append(this.getStatusShortname(), castOther.getStatusShortname())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getStatusId())
+            .append(getStatusName())
+            .append(getStatusShortname())
             .toHashCode();
     }
 

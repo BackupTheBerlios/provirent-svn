@@ -94,12 +94,20 @@ public class Dvd implements Serializable {
         Dvd castOther = (Dvd) other;
         return new EqualsBuilder()
             .append(this.getDvdId(), castOther.getDvdId())
+            .append(this.getBarcode(), castOther.getBarcode())
+            .append(this.getMovie(), castOther.getMovie())
+            .append(this.getCondition(), castOther.getCondition())
+            .append(this.getStatus(), castOther.getStatus())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getDvdId())
+            .append(getBarcode())
+            .append(getMovie())
+            .append(getCondition())
+            .append(getStatus())
             .toHashCode();
     }
 

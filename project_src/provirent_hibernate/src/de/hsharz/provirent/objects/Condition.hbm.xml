@@ -10,8 +10,8 @@
         @author Philipp Schneider
       </meta>
       
-  		
  			<meta attribute="implement-equals">true</meta>
+			<meta attribute="use-in-equals">true</meta>
  			
       <id name="conditionId" type="int" column="CONDITIONID">
         <meta attribute="scope-set">protected</meta>

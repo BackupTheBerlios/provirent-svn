@@ -70,12 +70,16 @@ public class Genre implements Serializable {
         Genre castOther = (Genre) other;
         return new EqualsBuilder()
             .append(this.getGenreId(), castOther.getGenreId())
+            .append(this.getName(), castOther.getName())
+            .append(this.getShortname(), castOther.getShortname())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getGenreId())
+            .append(getName())
+            .append(getShortname())
             .toHashCode();
     }
 

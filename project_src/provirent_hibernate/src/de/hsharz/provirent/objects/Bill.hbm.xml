@@ -11,8 +11,8 @@
         @todo Orderid muss noch irgendwie rein
       </meta>
       
-  		
  			<meta attribute="implement-equals">true</meta>
+			<meta attribute="use-in-equals">true</meta>
  			
       <id name="billId" type="int" column="BILLID">
         <meta attribute="scope-set">protected</meta>

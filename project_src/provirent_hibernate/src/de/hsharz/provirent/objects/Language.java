@@ -70,12 +70,16 @@ public class Language implements Serializable {
         Language castOther = (Language) other;
         return new EqualsBuilder()
             .append(this.getLanguageId(), castOther.getLanguageId())
+            .append(this.getName(), castOther.getName())
+            .append(this.getShortname(), castOther.getShortname())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getLanguageId())
+            .append(getName())
+            .append(getShortname())
             .toHashCode();
     }
 

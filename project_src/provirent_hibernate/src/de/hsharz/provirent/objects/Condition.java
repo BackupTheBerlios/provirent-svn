@@ -70,12 +70,16 @@ public class Condition implements Serializable {
         Condition castOther = (Condition) other;
         return new EqualsBuilder()
             .append(this.getConditionId(), castOther.getConditionId())
+            .append(this.getConditionName(), castOther.getConditionName())
+            .append(this.getConditionshortname(), castOther.getConditionshortname())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getConditionId())
+            .append(getConditionName())
+            .append(getConditionshortname())
             .toHashCode();
     }
 

@@ -70,12 +70,16 @@ public class VideoFormat implements Serializable {
         VideoFormat castOther = (VideoFormat) other;
         return new EqualsBuilder()
             .append(this.getVideoFormatId(), castOther.getVideoFormatId())
+            .append(this.getName(), castOther.getName())
+            .append(this.getShortname(), castOther.getShortname())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getVideoFormatId())
+            .append(getName())
+            .append(getShortname())
             .toHashCode();
     }
 

@@ -70,12 +70,16 @@ public class Actor implements Serializable {
         Actor castOther = (Actor) other;
         return new EqualsBuilder()
             .append(this.getActorId(), castOther.getActorId())
+            .append(this.getFirstName(), castOther.getFirstName())
+            .append(this.getLastName(), castOther.getLastName())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getActorId())
+            .append(getFirstName())
+            .append(getLastName())
             .toHashCode();
     }
 

@@ -95,12 +95,20 @@ public class Image implements Serializable {
         Image castOther = (Image) other;
         return new EqualsBuilder()
             .append(this.getImageId(), castOther.getImageId())
+            .append(this.getImageFile(), castOther.getImageFile())
+            .append(this.getImageFileSize(), castOther.getImageFileSize())
+            .append(this.getImageFileName(), castOther.getImageFileName())
+            .append(this.getImageFileDescription(), castOther.getImageFileDescription())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getImageId())
+            .append(getImageFile())
+            .append(getImageFileSize())
+            .append(getImageFileName())
+            .append(getImageFileDescription())
             .toHashCode();
     }
 

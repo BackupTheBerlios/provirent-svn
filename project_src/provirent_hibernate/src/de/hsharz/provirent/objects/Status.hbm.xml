@@ -12,6 +12,7 @@
       
   		
  			<meta attribute="implement-equals">true</meta>
+ 			<meta attribute="use-in-equals">true</meta>
  			
       <id name="statusId" type="int" column="STATUSID">
         <meta attribute="scope-set">protected</meta>

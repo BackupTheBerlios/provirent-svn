@@ -12,6 +12,7 @@
       
   		
  			<meta attribute="implement-equals">true</meta>
+ 			<meta attribute="use-in-equals">true</meta>
  			
       <id name="movieId" type="int" column="MOVIEID">
         <meta attribute="scope-set">protected</meta>

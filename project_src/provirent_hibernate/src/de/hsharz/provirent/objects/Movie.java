@@ -235,12 +235,38 @@ public class Movie implements Serializable {
         Movie castOther = (Movie) other;
         return new EqualsBuilder()
             .append(this.getMovieId(), castOther.getMovieId())
+            .append(this.getTitle(), castOther.getTitle())
+            .append(this.getDescription(), castOther.getDescription())
+            .append(this.getRuntime(), castOther.getRuntime())
+            .append(this.getReleaseDate(), castOther.getReleaseDate())
+            .append(this.getMainImage(), castOther.getMainImage())
+            .append(this.getImages(), castOther.getImages())
+            .append(this.getActors(), castOther.getActors())
+            .append(this.getDirector(), castOther.getDirector())
+            .append(this.getLanguages(), castOther.getLanguages())
+            .append(this.getSubtitles(), castOther.getSubtitles())
+            .append(this.getGenres(), castOther.getGenres())
+            .append(this.getAudioFormats(), castOther.getAudioFormats())
+            .append(this.getVideoFormats(), castOther.getVideoFormats())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getMovieId())
+            .append(getTitle())
+            .append(getDescription())
+            .append(getRuntime())
+            .append(getReleaseDate())
+            .append(getMainImage())
+            .append(getImages())
+            .append(getActors())
+            .append(getDirector())
+            .append(getLanguages())
+            .append(getSubtitles())
+            .append(getGenres())
+            .append(getAudioFormats())
+            .append(getVideoFormats())
             .toHashCode();
     }
 

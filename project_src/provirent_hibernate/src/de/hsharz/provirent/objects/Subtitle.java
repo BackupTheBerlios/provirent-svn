@@ -70,12 +70,16 @@ public class Subtitle implements Serializable {
         Subtitle castOther = (Subtitle) other;
         return new EqualsBuilder()
             .append(this.getSubtitleId(), castOther.getSubtitleId())
+            .append(this.getName(), castOther.getName())
+            .append(this.getShortname(), castOther.getShortname())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getSubtitleId())
+            .append(getName())
+            .append(getShortname())
             .toHashCode();
     }
 

@@ -70,12 +70,16 @@ public class Director implements Serializable {
         Director castOther = (Director) other;
         return new EqualsBuilder()
             .append(this.getDirectorId(), castOther.getDirectorId())
+            .append(this.getFirstName(), castOther.getFirstName())
+            .append(this.getLastName(), castOther.getLastName())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getDirectorId())
+            .append(getFirstName())
+            .append(getLastName())
             .toHashCode();
     }
 

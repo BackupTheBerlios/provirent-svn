@@ -104,12 +104,20 @@ public class Order implements Serializable {
         Order castOther = (Order) other;
         return new EqualsBuilder()
             .append(this.getOrderId(), castOther.getOrderId())
+            .append(this.getName(), castOther.getName())
+            .append(this.getShortname(), castOther.getShortname())
+            .append(this.getCustomer(), castOther.getCustomer())
+            .append(this.getOrderItems(), castOther.getOrderItems())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getOrderId())
+            .append(getName())
+            .append(getShortname())
+            .append(getCustomer())
+            .append(getOrderItems())
             .toHashCode();
     }
 

@@ -12,6 +12,7 @@
       
   		
  			<meta attribute="implement-equals">true</meta>
+ 			<meta attribute="use-in-equals">true</meta>
  			
       <id name="orderItemId" type="int" column="ORDERITEMID">
         <meta attribute="scope-set">protected</meta>

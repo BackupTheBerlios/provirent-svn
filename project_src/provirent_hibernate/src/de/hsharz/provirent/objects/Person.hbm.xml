@@ -11,7 +11,8 @@
       </meta>
  			
  			<meta attribute="implement-equals">true</meta>
- 
+ 			<meta attribute="use-in-equals">true</meta>
+ 			
       <id name="personId" type="int" column="PERSONID">
         <meta attribute="scope-set">protected</meta>
         <meta attribute="use-in-equals">true</meta>

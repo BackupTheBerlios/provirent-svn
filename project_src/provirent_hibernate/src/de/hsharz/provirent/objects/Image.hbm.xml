@@ -12,6 +12,7 @@
       
   		
  			<meta attribute="implement-equals">true</meta>
+ 			<meta attribute="use-in-equals">true</meta>
  			
       <id name="imageId" type="int" column="IMAGEID">
         <meta attribute="scope-set">protected</meta>
@@ -21,7 +22,7 @@
 
  
       <property name="imageFile" type="binary">
-      	<column name="pdffile" sql-type="blob" />
+      	<column name="pdffile" sql-type="BYTEA" />
       </property>
 				
       <property name="imageFileSize" type="int">

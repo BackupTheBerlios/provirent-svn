@@ -83,12 +83,18 @@ public class Bill implements Serializable {
         Bill castOther = (Bill) other;
         return new EqualsBuilder()
             .append(this.getBillId(), castOther.getBillId())
+            .append(this.getPdfFile(), castOther.getPdfFile())
+            .append(this.getPdfFileSize(), castOther.getPdfFileSize())
+            .append(this.getCustomer(), castOther.getCustomer())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getBillId())
+            .append(getPdfFile())
+            .append(getPdfFileSize())
+            .append(getCustomer())
             .toHashCode();
     }
 
