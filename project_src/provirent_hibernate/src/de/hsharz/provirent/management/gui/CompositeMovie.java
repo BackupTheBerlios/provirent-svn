@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -31,7 +32,6 @@ import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
-import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
@@ -118,9 +118,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Button buttonMoviesEditVideoformats;
     private Button buttonMoviesEditImages;
     private Button buttonMoviesEditDescription;
-    
-    
-    
+     
     private SashForm sashForm1;
     
     private Composite parent;
@@ -131,6 +129,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private StatusLineStyledText statusLine;
     
     private ResourceBundle l;
+    
     
     /*
      * Ändert die Sprache aller Elemente
@@ -641,7 +640,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             buttonMoviesEditDescription.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
                    // TODO
-                    
+                   openDialogDescription();
                 }
             });
         }
@@ -830,6 +829,15 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 buttonMoviesNew.setEnabled(false);
                 buttonMoviesEdit.setEnabled(false);
                 buttonMoviesDelete.setEnabled(false);
+                buttonMoviesEditDescription.setEnabled(true);
+                buttonMoviesEditDirectors.setEnabled(true);
+                buttonMoviesEditActors.setEnabled(true);
+                buttonMoviesEditGenres.setEnabled(true);
+                buttonMoviesEditSubtitles.setEnabled(true);
+                buttonMoviesEditLanguages.setEnabled(true);
+                buttonMoviesEditVideoformats.setEnabled(true);
+                buttonMoviesEditAudioformats.setEnabled(true);
+                buttonMoviesEditImages.setEnabled(true);
                 
                 textMoviesSearch.setEditable(false);
                 tableMoviesOverview.setEnabled(false);
@@ -1105,7 +1113,15 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         buttonMoviesNew.setEnabled(true);
         buttonMoviesEdit.setEnabled(false);
         buttonMoviesDelete.setEnabled(false);
-        
+        buttonMoviesEditDescription.setEnabled(false);
+        buttonMoviesEditDirectors.setEnabled(false);
+        buttonMoviesEditActors.setEnabled(false);
+        buttonMoviesEditGenres.setEnabled(false);
+        buttonMoviesEditSubtitles.setEnabled(false);
+        buttonMoviesEditLanguages.setEnabled(false);
+        buttonMoviesEditVideoformats.setEnabled(false);
+        buttonMoviesEditAudioformats.setEnabled(false);
+        buttonMoviesEditImages.setEnabled(false);
     }
 
     /**
@@ -1123,4 +1139,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         // TODO Auto-generated method stub
         
     }
+
+    protected void openDialogDescription() {
+        // TODO Auto-generated method stub
+        Shell dialogShell = new Shell();
+        //Dialog dialogDescription=new Dialog(dialogShell);
+        //dialogDescription.open();
+        DialogDescription test= new DialogDescription(dialogShell,0);
+        test.open();
+    }
+    
 }
