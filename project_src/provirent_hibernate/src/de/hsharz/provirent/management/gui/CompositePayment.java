@@ -3,9 +3,7 @@ package de.hsharz.provirent.management.gui;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -203,7 +201,12 @@ public class CompositePayment extends AbstractComposite{
             sashForm1.setLayoutData(sashForm1LData1);
 
             initPaymentGroup();
-            refreshPaymentTable(textPaymentSearch.getText());
+            try {
+                refreshPaymentTable(textPaymentSearch.getText());
+            } catch (DataBaseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
         }
         this.layout();
@@ -847,8 +850,9 @@ public class CompositePayment extends AbstractComposite{
 
     /**
      * @param text
+     * @throws DataBaseException
      */
-    protected void refreshPaymentTable(final String filter) {
+    protected void refreshPaymentTable(final String filter) throws DataBaseException {
         if (tablePayment == null) {
             System.out
                     .println("Konnte Paymenttable nicht refreshen, da diese null ist!");
@@ -869,7 +873,7 @@ public class CompositePayment extends AbstractComposite{
                     					Double.toString(o.getDuration1()),
                     					Double.toString(o.getDuration2()), 
                     					Double.toString(o.getDuration3()),
-                    			        DateFormat.getDateInstance(DateFormat.MEDIUM).format(o.getStartdate().getTime())
+                    					Util.getTextByDate(o.getStartdate())
                     					});
 
         }
@@ -934,7 +938,12 @@ public class CompositePayment extends AbstractComposite{
                             + textPaymentSearch.getText() + ") - start");
                 }
 
-                refreshPaymentTable(textPaymentSearch.getText());
+                try {
+                    refreshPaymentTable(textPaymentSearch.getText());
+                } catch (DataBaseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("focusLost(FocusEvent) - end");
@@ -949,7 +958,12 @@ public class CompositePayment extends AbstractComposite{
                             + textPaymentSearch.getText() + ") - start");
                 }
 
-                refreshPaymentTable(textPaymentSearch.getText());
+                try {
+                    refreshPaymentTable(textPaymentSearch.getText());
+                } catch (DataBaseException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("handleEvent(Event) - end");
