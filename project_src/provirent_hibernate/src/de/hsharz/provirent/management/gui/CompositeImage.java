@@ -906,7 +906,10 @@ public class CompositeImage extends AbstractComposite {
                              
                              ImageLoader imageLoader = new ImageLoader();
                              imageLoader.data = new ImageData[] { scaled_imagedata };
+
                              ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                             imageLoader.save(bos, scaled_imagedata.type);
+
                              localImage.setImageFile( bos.toByteArray() );
                              
                              
@@ -962,6 +965,19 @@ public class CompositeImage extends AbstractComposite {
                              }
 
                              }
+                        tableImagesOverview.setEnabled(true);
+                        textImagesSearch.setEnabled(true);
+
+                        textImagesDescription.setEnabled(false);
+                        textImagesName.setEnabled(false);
+
+                        buttonImageCancel.setEnabled(false);
+                        buttonImageDelete.setEnabled(false);
+                        buttonImageEdit.setEnabled(false);
+                        buttonSelectFile.setEnabled(false);
+                        buttonImageSave.setEnabled(false);
+                        buttonImageNew.setEnabled(true);
+                        scaleResize.setEnabled(false);
                         }
                     
                 });

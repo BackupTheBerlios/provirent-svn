@@ -810,7 +810,7 @@ public class Database {
 	                } catch (Exception e) {
 	                }
 	            }
-	            logger.debug("Anzahl der Images:"+images.size());
+
 	            for (int i = 0; i < images.size(); i++) {
                     Image tmp = (Image)images.get(i);
                     criteria.add(Expression.not(Expression.eq("imageId",tmp.getImageId())));
