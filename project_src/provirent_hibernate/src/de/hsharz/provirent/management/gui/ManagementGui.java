@@ -94,10 +94,11 @@ public class ManagementGui {
 
     public final static int MODE_EDIT = 2;
 
-    private static final int MAIN_WINDOW_WIDTH = 850;
-
+    private static final int MAIN_WINDOW_WIDTH = 830;
     private static final int MAIN_WINDOW_HEIGHT = 700;
-    private static final int MIN_WINDOW_WIDTH = 850;
+    private static final int MAIN_WINDOW_X = 25;
+    private static final int MAIN_WINDOW_Y = 25;
+    private static final int MIN_WINDOW_WIDTH = 830;
     private static final int MIN_WINDOW_HEIGHT = 700;
     private static final int MIN_WINDOW_X = 25;
     private static final int MIN_WINDOW_Y = 25;
@@ -218,7 +219,7 @@ public class ManagementGui {
 
         //set the Site
         shell.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-
+        shell.setLocation(MAIN_WINDOW_X,MAIN_WINDOW_Y);
         {
             //Register as a resource user - SWTResourceManager will
             //handle the obtaining and disposing of resources
