@@ -41,6 +41,7 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.expression.Disjunction;
 import net.sf.hibernate.expression.Expression;
+import net.sf.hibernate.type.Type;
 
 import org.apache.log4j.Logger;
 
