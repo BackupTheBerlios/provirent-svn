@@ -13,6 +13,9 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.DeviceData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -28,6 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.custom.StyledText;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
@@ -78,15 +82,10 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private TableColumn tableMoviesOverview_ColumnDate;
     private TableColumn tableMoviesOverviewDetail_ColumnGenres;
     private TableColumn tableMoviesOverviewDetail_ColumnActors;
-    private TableColumn tableMoviesOverviewDetail_ColumnDirectors;
-    private TableColumn tableMoviesOverviewDetail_ColumnVideoformats;
-    private TableColumn tableMoviesOverviewDetail_ColumnAudioformats;
-    private TableColumn tableMoviesOverviewDetail_ColumnLanguages;   
+    private TableColumn tableMoviesOverviewDetail_ColumnDirectors;   
     private TableColumn tableMoviesOverviewDetail_ColumnDescription;
     private TableColumn tableMoviesOverviewDetail_ColumnImages;
-    
-    
-    
+       
     private Group groupMovie;
     private Group groupMoviesOverview;
     private Group groupMoviesDetail;
@@ -94,7 +93,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Text textMoviesSearch;
     private Text textMoviesID;
     private Text textMoviesTitle;
-    private Text textMoviesDate;
+    private StyledText textMoviesDescription;
     
     private Label labelMoviesSearch;
     private Label labelMoviesID;
@@ -111,18 +110,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Button buttonMoviesEditActors;
     private Button buttonMoviesEditDirectors;
     private Button buttonMoviesEditGenres;
-    private Button buttonMoviesEditLanguages;
-    private Button buttonMoviesEditSubtitles;
-    private Button buttonMoviesEditAudioformats;
-    private Button buttonMoviesEditVideoformats;
     private Button buttonMoviesEditImages;
-    private Button buttonMoviesEditDescription;
      
     private SashForm sashForm1;
     
     private Composite parent;
     private Composite compositeButtons;
-    
+    private Text textMoviesDate;
+
     protected int mode_actor;
     
     private StatusLineStyledText statusLine;
@@ -425,30 +420,6 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     tableMoviesOverviewDetail_ColumnActors.setWidth(80);
                 }
                 {
-                    tableMoviesOverviewDetail_ColumnVideoformats = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnVideoformats.setText(l
-                        .getString("movies.groupoverviewdetail.columnvideoformats"));
-                    tableMoviesOverviewDetail_ColumnVideoformats.setWidth(80);
-                }
-                {
-                    tableMoviesOverviewDetail_ColumnAudioformats = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnAudioformats.setText(l
-                        .getString("movies.groupoverviewdetail.columnaudioformats"));
-                    tableMoviesOverviewDetail_ColumnAudioformats.setWidth(80);
-                }
-                {
-                    tableMoviesOverviewDetail_ColumnLanguages = new TableColumn(
-                        tableMoviesOverviewDetail,
-                        SWT.CENTER);
-                    tableMoviesOverviewDetail_ColumnLanguages.setText(l
-                        .getString("movies.groupoverviewdetail.columnlanguages"));
-                    tableMoviesOverviewDetail_ColumnLanguages.setWidth(80);
-                }
-                {
                     tableMoviesOverviewDetail_ColumnDescription = new TableColumn(
                         tableMoviesOverviewDetail,
                         SWT.CENTER);
@@ -543,9 +514,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	            + ":");
     	    labelMoviesID.setSize(125, 15);
     	    GridData formData2 = new GridData();
-    	    formData2.widthHint = 125;
     	    formData2.heightHint = 15;
-    	    formData2.horizontalSpan = 2;
+    	    formData2.horizontalAlignment = GridData.FILL;
     	    labelMoviesID.setLayoutData(formData2);
     	}
     	{
@@ -555,7 +525,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    GridData text1LData1 = new GridData();
     	    text1LData1.horizontalAlignment = GridData.FILL;
     	    text1LData1.heightHint = 13;
-    	    text1LData1.horizontalSpan = 4;
+    	    text1LData1.horizontalSpan = 5;
     	    text1LData1.grabExcessHorizontalSpace = true;
     	    textMoviesID.setLayoutData(text1LData1);
     	}
@@ -568,11 +538,9 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 + ":");
             labelMoviesTitle.setSize(125, 15);
             GridData labelActorNameLData = new GridData();
-            labelActorNameLData.widthHint = 125;
             labelActorNameLData.heightHint = 15;
-            labelActorNameLData.horizontalSpan = 2;
-            labelMoviesTitle
-                .setLayoutData(labelActorNameLData);
+            labelActorNameLData.horizontalAlignment = GridData.FILL;
+            labelMoviesTitle.setLayoutData(labelActorNameLData);
         }
         {
     	    textMoviesTitle = new Text(groupMoviesDetail,
@@ -580,7 +548,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    GridData text1LData2 = new GridData();
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    text1LData2.heightHint = 13;
-    	    text1LData2.horizontalSpan = 4;
+    	    text1LData2.horizontalSpan = 5;
     	    text1LData2.grabExcessHorizontalSpace = true;
     	    textMoviesTitle.setLayoutData(text1LData2);        
     	}     
@@ -593,55 +561,40 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 + ":");
             labelMoviesDate.setSize(125, 15);
             GridData labelActorNameLData = new GridData();
-            labelActorNameLData.widthHint = 125;
             labelActorNameLData.heightHint = 15;
-            labelActorNameLData.horizontalSpan = 2;
-            labelMoviesDate
-                .setLayoutData(labelActorNameLData);
+            labelActorNameLData.horizontalAlignment = GridData.FILL;
+            labelMoviesDate.setLayoutData(labelActorNameLData);
         }
         {
-    	    textMoviesDate = new Text(groupMoviesDetail,
-    	            SWT.READ_ONLY | SWT.BORDER);
-    	    GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 13;
-    	    text1LData2.horizontalSpan = 4;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    textMoviesDate.setLayoutData(text1LData2);        
-    	    textMoviesDate.setText(l
-                .getString("movies.groupdetail.textdate"));
-        }// label and text for detail
+            textMoviesDate = new Text(groupMoviesDetail, SWT.READ_ONLY
+                | SWT.BORDER);
+            GridData text1LData2 = new GridData();
+            text1LData2.horizontalAlignment = GridData.FILL;
+            text1LData2.heightHint = 13;
+            text1LData2.horizontalSpan = 5;
+            text1LData2.grabExcessHorizontalSpace = true;
+            textMoviesDate.setLayoutData(text1LData2);
+            textMoviesDate.setText(l.getString("movies.groupdetail.textdate"));
+        }
         //labels and buttons for Detail
         {
     	    labelMoviesAdvice = new Label(groupMoviesDetail, SWT.NONE);
-    	    labelMoviesAdvice.setText(l
-    	            .getString("movies.groupdetail.labeladvice")
-    	            + ":");
+    	    labelMoviesAdvice.setText(l.getString("movies.groupdetail.textdescription"));
     	    GridData formData2 = new GridData();
-    	    formData2.horizontalSpan = 6;
-    	    formData2.horizontalAlignment = GridData.FILL;
-    	    formData2.grabExcessHorizontalSpace = true;
-    	    formData2.verticalSpan = 3;
+    	    formData2.horizontalSpan = 1;
+    	    formData2.verticalSpan = 5;
     	    labelMoviesAdvice.setLayoutData(formData2);
     	}
         {
-            buttonMoviesEditDescription = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditDescription.setText(l
-                .getString("movies.button.editdescription"));
-            buttonMoviesEditDescription.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditDescription.setLayoutData(text1LData2);        
-            buttonMoviesEditDescription.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                   openDialogDescription();
-                }
-            });
+            textMoviesDescription = new StyledText(groupMoviesDetail,SWT.BORDER);
+            GridData formData2 = new GridData();
+    	    formData2.horizontalSpan = 5;
+    	    formData2.verticalSpan = 5;
+    	    formData2.verticalAlignment = GridData.FILL;
+    	    formData2.horizontalAlignment = GridData.FILL;
+    	    textMoviesDescription.setLayoutData(formData2);
+    	    textMoviesDescription.setEnabled(false);
+    	    //textMoviesDescription.setBackground();
         }
         {
             buttonMoviesEditDirectors = new Button(groupMoviesDetail
@@ -652,7 +605,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData text1LData2 = new GridData();
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
+    	    text1LData2.horizontalSpan = 1;
     	    text1LData2.grabExcessHorizontalSpace = true;
     	    buttonMoviesEditDirectors.setLayoutData(text1LData2);        
             buttonMoviesEditDirectors.addSelectionListener(new SelectionAdapter() {
@@ -671,7 +624,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData text1LData2 = new GridData();
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
+    	    text1LData2.horizontalSpan = 5;
     	    text1LData2.grabExcessHorizontalSpace = true;
     	    buttonMoviesEditActors.setLayoutData(text1LData2);        
             buttonMoviesEditActors.addSelectionListener(new SelectionAdapter() {
@@ -690,86 +643,10 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData text1LData2 = new GridData();
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
+    	    text1LData2.horizontalSpan = 1;
     	    text1LData2.grabExcessHorizontalSpace = true;
     	    buttonMoviesEditGenres.setLayoutData(text1LData2);        
             buttonMoviesEditGenres.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
-        }
-        {
-            buttonMoviesEditSubtitles = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditSubtitles.setText(l
-                .getString("movies.button.editsubtitles"));
-            buttonMoviesEditSubtitles.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditSubtitles.setLayoutData(text1LData2);        
-            buttonMoviesEditSubtitles.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
-        }
-        {
-            buttonMoviesEditLanguages = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditLanguages.setText(l
-                .getString("movies.button.editlanguages"));
-            buttonMoviesEditLanguages.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditLanguages.setLayoutData(text1LData2);        
-            buttonMoviesEditLanguages.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
-        }
-        {
-            buttonMoviesEditVideoformats = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditVideoformats.setText(l
-                .getString("movies.button.editvideoformats"));
-            buttonMoviesEditVideoformats.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditVideoformats.setLayoutData(text1LData2);        
-            buttonMoviesEditVideoformats.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
-        }
-        {
-            buttonMoviesEditAudioformats = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditAudioformats.setText(l
-                .getString("movies.button.editaudioformats"));
-            buttonMoviesEditAudioformats.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditAudioformats.setLayoutData(text1LData2);        
-            buttonMoviesEditAudioformats.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
                    // TODO
                     
@@ -784,7 +661,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             buttonMoviesEditImages.setEnabled(false);
             GridData text1LData2 = new GridData();
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
+    	    text1LData2.horizontalSpan = 5;
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    buttonMoviesEditImages.setLayoutData(text1LData2);        
             buttonMoviesEditImages.addSelectionListener(new SelectionAdapter() {
@@ -820,22 +697,19 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 textMoviesID.setText("");
                 textMoviesTitle.setText("");
                 textMoviesDate.setText("");
+                textMoviesDescription.setText("");
                 textMoviesTitle.setEditable(true);
                 textMoviesDate.setEditable(true);
+                textMoviesDescription.setEnabled(true);
                 
                 buttonMoviesCancel.setEnabled(true);
                 buttonMoviesSave.setEnabled(true);
                 buttonMoviesNew.setEnabled(false);
                 buttonMoviesEdit.setEnabled(false);
                 buttonMoviesDelete.setEnabled(false);
-                buttonMoviesEditDescription.setEnabled(true);
                 buttonMoviesEditDirectors.setEnabled(true);
                 buttonMoviesEditActors.setEnabled(true);
                 buttonMoviesEditGenres.setEnabled(true);
-                buttonMoviesEditSubtitles.setEnabled(true);
-                buttonMoviesEditLanguages.setEnabled(true);
-                buttonMoviesEditVideoformats.setEnabled(true);
-                buttonMoviesEditAudioformats.setEnabled(true);
                 buttonMoviesEditImages.setEnabled(true);
                 
                 textMoviesSearch.setEditable(false);
@@ -1107,19 +981,15 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         tableMoviesOverview.setEnabled(true);
         textMoviesTitle.setEditable(false);
         textMoviesDate.setEditable(false);
+        textMoviesDescription.setEnabled(false);
         buttonMoviesCancel.setEnabled(false);
         buttonMoviesSave.setEnabled(false);
         buttonMoviesNew.setEnabled(true);
         buttonMoviesEdit.setEnabled(false);
         buttonMoviesDelete.setEnabled(false);
-        buttonMoviesEditDescription.setEnabled(false);
         buttonMoviesEditDirectors.setEnabled(false);
         buttonMoviesEditActors.setEnabled(false);
         buttonMoviesEditGenres.setEnabled(false);
-        buttonMoviesEditSubtitles.setEnabled(false);
-        buttonMoviesEditLanguages.setEnabled(false);
-        buttonMoviesEditVideoformats.setEnabled(false);
-        buttonMoviesEditAudioformats.setEnabled(false);
         buttonMoviesEditImages.setEnabled(false);
     }
 
