@@ -9,40 +9,41 @@ import org.eclipse.swt.widgets.*;
  *
  */
 public class Snippet {
-
-    public static void main(String[] args) {
-    	Display display = new Display();
-    	Shell shell = new Shell(display);
-    	
-    	shell.setLayout(new FillLayout());
-    	CTabFolder folder = new CTabFolder(shell, SWT.CLOSE);
-    	for (int i = 0; i < 4; i++) {
-    		CTabItem item = new CTabItem(folder, SWT.NONE);
-    		item.setText("Item "+i);
-    		Text text = new Text(folder, SWT.BORDER | SWT.MULTI);
-    		text.setText("Content for Item "+i);
-    		item.setControl(text);
-    	}
-    	
-    	final CTabItem specialItem = new CTabItem(folder, SWT.NONE);
-    	specialItem.setText("Don't Close Me");
-    	Text text = new Text(folder, SWT.BORDER | SWT.MULTI);
-    	text.setText("This tab can never be closed");
-    	specialItem.setControl(text);
-    		
-    	folder.addCTabFolder2Listener(new CTabFolder2Adapter() {
-    		public void close(CTabFolderEvent event) {
-    			if (event.item.equals(specialItem)) {
-    				event.doit = false;
-    			}
+    public static void main (String [] args) {
+        
+        
+    	Display display = new Display ();
+    	Shell shell = new Shell (display);
+    	shell.pack ();
+    	shell.open ();
+    	final boolean [] result = new boolean [1];
+    	final Shell dialog = new Shell (shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+    	dialog.setLayout (new RowLayout ());
+    	final Button ok = new Button (dialog, SWT.PUSH);
+    	ok.setText ("Ok");
+    	Button cancel = new Button (dialog, SWT.PUSH);
+    	cancel.setText ("Cancel");
+    	Listener listener =new Listener () {
+    		public void handleEvent (Event event) {
+    			result [0] = event.widget == ok;
+    			dialog.close ();
     		}
-    	});
-    	shell.setSize(400, 400);
-    	shell.open();
-    	while (!shell.isDisposed()) {
-    		if (!display.readAndDispatch())
-    			display.sleep();
+    	};
+    	ok.addListener (SWT.Selection, listener);
+    	cancel.addListener (SWT.Selection, listener);
+    	dialog.pack ();
+    	dialog.open ();
+    	System.out.println ("Prompt ...");
+    	while (!dialog.isDisposed ()) {
+    		if (!display.readAndDispatch ()) display.sleep ();
     	}
-    	display.dispose();
+    	System.out.println ("Result: " + result [0]);
+    	while (!shell.isDisposed ()) {
+    		if (!display.readAndDispatch ()) display.sleep ();
+    	}
+    	display.dispose ();
+    
+        
+        
     }
 }

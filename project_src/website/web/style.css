@@ -1,0 +1,155 @@
+.body{
+	background-color: #F9EFD2;
+}
+a:hover, a:active, a:focus, a:link, a:visited  {
+	color: Black;
+	text-decoration: none;
+}
+
+a:link{
+	text-decoration: underline;
+}
+
+.head_menue {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.copyright {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+}
+.menue_tbl, .menue_suche{
+	font-size: 12px;
+	background-color: #CCDDCE;
+	margin: 5px;
+	width: 90%;
+
+}
+a.menue_tbl:hover, a.menue_suche:hover{
+
+}
+
+thead.menue_tbl {
+	background-color: #B0CAB1;
+	text-align: center;
+	margin: 5px;
+
+
+}
+
+tbody.menue_tbl{
+background-color: #CCDDCE;
+	font-weight: bolder;
+	margin: 10px;
+}
+
+a:hover.menue_tbl{
+	text-decoration: underline;
+
+}
+
+td.menue_tbl{
+	display: block;
+	height: 10px;
+}
+
+
+
+.head_menue{
+
+}
+
+a.head_menue{
+  	text-decoration: underline;
+}
+a:hover.head_menue{
+
+	text-decoration: none;
+}
+
+
+a.pref, a:visited.pref{
+	text-decoration: underline;
+}
+
+a:hover.pref{
+  text-decoration: none;
+}
+
+input{
+ background-color: #F9EFD2;
+	border-top: #BABABA 2px solid;
+	border-left: #BABABA 2px solid;
+	border-right: #AFAFAF 3px solid;
+	border-bottom: #AFAFAF 3px solid;
+}
+
+#submit_search{
+	background-color: #8CB390;
+	border-top: #558059 2px solid;
+	border-left: #558059 2px solid;
+	border-right: #558059 3px solid;
+	border-bottom: #558059 3px solid;
+
+}
+
+#select_search{
+	background-color: #F9EFD2;
+	border-top: #BABABA 2px solid;
+	border-left: #BABABA 2px solid;
+	border-right: #AFAFAF 3px solid;
+	border-bottom: #AFAFAF 3px solid;
+}
+
+td.prev_page_browse{
+	text-align: left;
+	width: 20%;
+	padding-left: 5px;
+}
+.prev_page_browse, .next_page_browse{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+.next_page_browse{
+	text-align: right; width: 20%;
+}
+
+td.overview_page_browse{
+	text-align: center;
+}
+.overview_page_browse{
+		font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+		font-size: 11px;
+}
+
+a.single_page_browse{
+	text-decoration: underline;
+}
+a:hover.single_page_browse{
+	text-decoration: line-through;
+}
+
+
+
+.list_title{
+
+}
+
+.list_summary{
+
+}
+
+.detail_title, .detail_artist, .detail_hartist, .detail_describ,
+.detail_genre, .detail_hartist, .detail_artist, .detail_hdir, .detail_dir,
+.detail_haudio, .detail_audio, .detail_hvideo, .detail_video, .detail_hpicture, .detail_picture  {
+
+}
+
+
+.basket_head, .basket_item{
+
+
+}
