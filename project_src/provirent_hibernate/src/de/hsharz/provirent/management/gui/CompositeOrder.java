@@ -33,6 +33,8 @@
 package de.hsharz.provirent.management.gui;
 
 import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -49,6 +51,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -62,12 +65,32 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import sun.security.krb5.internal.ak;
+
 import com.cloudgarden.resource.SWTResourceManager;
 
+import de.hsharz.provirent.objects.Condition;
 import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.OrderItem;
+import de.hsharz.provirent.objects.Payment;
+import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
+
+/**
+* This code was generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* *************************************
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED
+* for this machine, so Jigloo or this code cannot be used legally
+* for any corporate or commercial purpose.
+* *************************************
+*/
 /**
  * @author Stefan Forstner
  *
@@ -116,7 +139,7 @@ public class CompositeOrder extends AbstractComposite {
 
     private Group groupOrderDetail;
 
-    private MovieOrder localCustomer;
+    private MovieOrder aktMovieOrder;
 
     private SashForm sashFormOrderDetail;
 
@@ -139,6 +162,58 @@ public class CompositeOrder extends AbstractComposite {
     private Label labelOrderCustomerFirstName;
 
     private Text textOrderCustomerFirstName;
+
+    private Composite compositeOrderButtons;
+
+    private Button buttonOrderNew;
+
+    protected int mode_Order;
+
+    private Button buttonOrderDelete;
+
+    private Label labelOrderItemId;
+
+    private Text textOrderItemId;
+
+    private Label labelOrderItemDvd;
+
+    private Text textOrderItemDvdId;
+
+    private Text textOrderItemMovieName;
+
+    private Label labelOrderItemOrderDate;
+
+    private Text textOrderItemOrderDate;
+
+    private Label labelOrderItemSenderDate;
+
+    private Text textOrderItemSenderDate;
+
+    private Label labelOrderItemReceivingDate;
+
+    private Text textOrderItemReceivingDate;
+
+    private Label labelOrderItemConditionSend;
+
+    private Text textOrderItemConditionSend;
+
+    private Label labelOrderItemConditionReceiving;
+
+    private Text textOrderItemConditionReceiving;
+
+    private Label labelOrderItemDuration;
+
+    private Text textOrderItemDuration;
+
+    private Label labelOrderItemPayment;
+
+    private Text textOrderItemPayment;
+
+    private Button buttonOrderItemDelete;
+
+    private Composite compositeOrderItemButtons;
+
+    private OrderItem aktOrderItem;
     
     /**
      * @param p
@@ -230,6 +305,7 @@ public class CompositeOrder extends AbstractComposite {
                     					o.getCustomer() == null ? "" : o.getCustomer().getPerson().getLastName(),
                     					o.getCustomer() == null ? "" : o.getCustomer().getPerson().getFirstName()});
         }
+        refreshOrderItemTable("");
     }
     
     /**
@@ -247,6 +323,8 @@ public class CompositeOrder extends AbstractComposite {
             return;
         }
         
+        tableOrderItems.removeAll();
+        
         if (!id.equals("") && id != null) {
             MovieOrder object;
             try {
@@ -263,11 +341,11 @@ public class CompositeOrder extends AbstractComposite {
                 //id ist keine Zahl
                 return;
             }
-            localCustomer = object;            
+                        
             
             tableOrderItems.removeAll();
             TableItem item;
-            java.util.List OrderItemlist = localCustomer.getMovieOrderItems();
+            java.util.List OrderItemlist = aktMovieOrder.getMovieOrderItems();
 
 	        for (int i = 0; i < OrderItemlist.size(); i++) {
 	
@@ -374,9 +452,9 @@ public class CompositeOrder extends AbstractComposite {
         groupOrderDetail.setText(l.getString("Order.groupdetail.label"));
         FormData formData = new FormData();
         groupOrderDetail.setLayout(groupOrderDetailLayout);
-        formData.right = new FormAttachment(100, 100, -5);
-        formData.top = new FormAttachment(0, 100, 5);
-        formData.bottom = new FormAttachment(100, 100, -5);
+        //formData.right = new FormAttachment(100, 100, -5);
+        //formData.top = new FormAttachment(0, 100, 5);
+        //formData.bottom = new FormAttachment(100, 100, -5);
         groupOrderDetail.setLayoutData(formData);
         {
             sashFormOrderDetail = new SashForm(groupOrderDetail, SWT.VERTICAL | SWT.V_SCROLL);
@@ -406,6 +484,306 @@ public class CompositeOrder extends AbstractComposite {
         FormData formData = new FormData();
         groupOrderItemDetails.setLayout(groupOrderDetailLayout);
         groupOrderItemDetails.setLayoutData(formData);
+        {
+            labelOrderItemId = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemId.setText(l
+                    .getString("Order.groupdetail.orderitems.idlabel")
+                    + ":");
+            labelOrderItemId.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemId.setLayoutData(formData2);
+        }
+        {
+            textOrderItemId = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 3;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemId.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemDvd = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemDvd.setText(l
+                    .getString("Order.groupdetail.orderitems.dvdlabel")
+                    + ":");
+            labelOrderItemDvd.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemDvd.setLayoutData(formData2);
+        }
+        {
+            textOrderItemDvdId = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 1;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemDvdId.setLayoutData(text1LData1);
+        }
+        {
+            textOrderItemMovieName = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 2;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemMovieName.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemOrderDate = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemOrderDate.setText(l
+                    .getString("Order.groupdetail.orderitems.orderdate")
+                    + ":");
+            labelOrderItemOrderDate.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemOrderDate.setLayoutData(formData2);
+        }
+        {
+            textOrderItemOrderDate = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 3;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemOrderDate.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemSenderDate = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemSenderDate.setText(l
+                    .getString("Order.groupdetail.orderitems.senderdate")
+                    + ":");
+            labelOrderItemSenderDate.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemSenderDate.setLayoutData(formData2);
+        }
+        {
+            textOrderItemSenderDate = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 1;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemSenderDate.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemReceivingDate = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemReceivingDate.setText(l
+                    .getString("Order.groupdetail.orderitems.receivingdate")
+                    + ":");
+            labelOrderItemReceivingDate.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemReceivingDate.setLayoutData(formData2);
+        }
+        {
+            textOrderItemReceivingDate = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 1;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemReceivingDate.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemConditionSend = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemConditionSend.setText(l
+                    .getString("Order.groupdetail.orderitems.conditionsend")
+                    + ":");
+            labelOrderItemConditionSend.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemConditionSend.setLayoutData(formData2);
+        }
+        {
+            textOrderItemConditionSend = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 1;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemConditionSend.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemConditionReceiving = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemConditionReceiving.setText(l
+                    .getString("Order.groupdetail.orderitems.conditionreceiving")
+                    + ":");
+            labelOrderItemConditionReceiving.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemConditionReceiving.setLayoutData(formData2);
+        }
+        {
+            textOrderItemConditionReceiving = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 1;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemConditionReceiving.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemDuration = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemDuration.setText(l
+                    .getString("Order.groupdetail.orderitems.duration")
+                    + ":");
+            labelOrderItemDuration.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemDuration.setLayoutData(formData2);
+        }
+        {
+            textOrderItemDuration = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 1;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemDuration.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderItemPayment = new Label(groupOrderItemDetails, SWT.NONE);
+            labelOrderItemPayment.setText(l
+                    .getString("Order.groupdetail.orderitems.payment")
+                    + ":");
+            labelOrderItemPayment.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 1;
+            labelOrderItemPayment.setLayoutData(formData2);
+        }
+        {
+            textOrderItemPayment = new Text(groupOrderItemDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 1;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderItemPayment.setLayoutData(text1LData1);
+        }
+        {
+
+            //die Buttons bekommen ein eigenes Composite
+            compositeOrderItemButtons = new Composite(groupOrderItemDetails, SWT.EMBEDDED);
+            GridLayout composite2Layout = new GridLayout();
+            GridData composite2LData = new GridData();
+            compositeOrderItemButtons.setLayout(composite2Layout);
+            composite2LData.verticalAlignment = GridData.END;
+            composite2LData.horizontalAlignment = GridData.FILL;
+            composite2LData.horizontalSpan = 4;
+            composite2LData.grabExcessHorizontalSpace = true;
+            composite2LData.grabExcessVerticalSpace = true;
+            composite2LData.heightHint = 35;
+            compositeOrderItemButtons.setLayoutData(composite2LData);
+
+            //init all the Buttons
+            initOrderItemDetailButtons();
+
+        }
+    }
+
+    /**
+     * 
+     */
+    private void initOrderItemDetailButtons() {
+        buttonOrderItemDelete = new Button(compositeOrderItemButtons, SWT.PUSH | SWT.CENTER);
+        buttonOrderItemDelete.setText(l.getString("button.delete"));
+        buttonOrderItemDelete.setEnabled(false);
+        buttonOrderItemDelete.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+                System.out
+                        .println("buttonOrderItemDelete.widgetSelected, event="
+                                + evt);
+                
+                
+               String msg = MessageFormat.format(
+                       l.getString("Order.groupdetail.deletebutton.question.text"),
+                               new Object[]{textOrderCustomerName.getText()+" " +
+                               				textOrderCustomerLastName.getText() + " " +
+                               				textOrderCustomerFirstName.getText()});
+                
+               int question = showMsg(msg,
+                       l.getString("Order.groupdetail.deletebutton.question.header"), 
+                       SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+               
+               if (question != SWT.YES){
+                   return;
+               }
+                
+               try {
+                   
+					//object speichern
+					// Fehlerbehandlung
+					aktMovieOrder.getMovieOrderItems().remove(aktOrderItem);   
+					Database.updateObject(aktMovieOrder);
+					
+					//ÜbersichtsTabelle aktualisieren
+					refreshOrderItemTable(aktMovieOrder.getMovieOrderId().toString());
+					
+					//Detailansicht leeren
+					textOrderItemId.setText("");
+					textOrderItemDvdId.setText("");
+					textOrderItemMovieName.setText("");
+					textOrderItemOrderDate.setText("");
+					textOrderItemSenderDate.setText("");
+					textOrderItemReceivingDate.setText("");
+					textOrderItemConditionSend.setText("");
+					textOrderItemConditionReceiving.setText("");
+					textOrderItemDuration.setText("");
+					textOrderItemPayment.setText("");
+					
+					
+					//Statusline Nachricht sezten
+					statusLine.setStatus(1,l.getString("Order.groupdetail.deletebutton.newok"));
+
+                } catch (DataBaseException e) {
+                    if (e.getMessage().equalsIgnoreCase("1")) {
+                        //Fehler beim Speichern des Objectes
+
+                        statusLine.setStatus(3,l.getString("Order.groupdetail.deletebutton.errorsave"));
+                        showMsg(l.getString("Order.groupdetail.deletebutton.errorsave"),
+                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else if (e.getMessage().equalsIgnoreCase("2")) {
+                        //fehler beim db aufbau
+                        statusLine.setStatus(3,l.getString("Order.groupdetail.deletebutton.errordb"));
+                        showMsg(l.getString("Order.groupdetail.deletebutton.errordb"),
+                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else {
+                        //@todo
+                        e.printStackTrace();
+                    }
+                    
+                }                
+                
+
+                }
+
+            }
+        );
     }
 
     /**
@@ -424,7 +802,7 @@ public class CompositeOrder extends AbstractComposite {
         {
             labelOrderId = new Label(groupOrderDetails, SWT.NONE);
             labelOrderId.setText(l
-                    .getString("order.groupdetail.order.idlabel")
+                    .getString("Order.groupdetail.order.idlabel")
                     + ":");
             labelOrderId.setSize(125, 15);
             GridData formData2 = new GridData();
@@ -446,7 +824,7 @@ public class CompositeOrder extends AbstractComposite {
         {
             labelOrderCustomerName = new Label(groupOrderDetails, SWT.NONE);
             labelOrderCustomerName.setText(l
-                    .getString("order.groupdetail.order.customernamelabel")
+                    .getString("Order.groupdetail.order.customernamelabel")
                     + ":");
             labelOrderCustomerName.setSize(125, 15);
             GridData formData2 = new GridData();
@@ -466,9 +844,7 @@ public class CompositeOrder extends AbstractComposite {
         }
         {
             labelOrderCustomerLastName = new Label(groupOrderDetails, SWT.NONE);
-            labelOrderCustomerLastName.setText(l
-                    .getString("order.groupdetail.order.customerlastnamelabel")
-                    + ":");
+            labelOrderCustomerLastName.setText("");
             labelOrderCustomerLastName.setSize(125, 15);
             GridData formData2 = new GridData();
             formData2.widthHint = 125;
@@ -481,31 +857,111 @@ public class CompositeOrder extends AbstractComposite {
             GridData text1LData1 = new GridData();
             text1LData1.horizontalAlignment = GridData.FILL;
             text1LData1.heightHint = 13;
-            text1LData1.horizontalSpan = 2;
+            text1LData1.horizontalSpan = 1;
             text1LData1.grabExcessHorizontalSpace = true;
             textOrderCustomerLastName.setLayoutData(text1LData1);
-        }
-        {
-            labelOrderCustomerFirstName = new Label(groupOrderDetails, SWT.NONE);
-            labelOrderCustomerFirstName.setText(l
-                    .getString("order.groupdetail.order.customerfirstnamelabel")
-                    + ":");
-            labelOrderCustomerFirstName.setSize(125, 15);
-            GridData formData2 = new GridData();
-            formData2.widthHint = 125;
-            formData2.heightHint = 15;
-            formData2.horizontalSpan = 2;
-            labelOrderCustomerFirstName.setLayoutData(formData2);
         }
         {
             textOrderCustomerFirstName = new Text(groupOrderDetails, SWT.READ_ONLY | SWT.BORDER);
             GridData text1LData1 = new GridData();
             text1LData1.horizontalAlignment = GridData.FILL;
             text1LData1.heightHint = 13;
-            text1LData1.horizontalSpan = 2;
+            text1LData1.horizontalSpan = 1;
             text1LData1.grabExcessHorizontalSpace = true;
             textOrderCustomerFirstName.setLayoutData(text1LData1);
         }
+        {
+
+            //die Buttons bekommen ein eigenes Composite
+            compositeOrderButtons = new Composite(groupOrderDetails, SWT.EMBEDDED);
+            GridLayout composite2Layout = new GridLayout();
+            GridData composite2LData = new GridData();
+            compositeOrderButtons.setLayout(composite2Layout);
+            composite2LData.verticalAlignment = GridData.END;
+            composite2LData.horizontalAlignment = GridData.FILL;
+            composite2LData.horizontalSpan = 4;
+            composite2LData.grabExcessHorizontalSpace = true;
+            composite2LData.grabExcessVerticalSpace = true;
+            composite2LData.heightHint = 35;
+            compositeOrderButtons.setLayoutData(composite2LData);
+
+            //init all the Buttons
+            initOrderDetailButtons();
+
+        }
+    }
+
+    /**
+     * 
+     */
+    private void initOrderDetailButtons() {       
+        buttonOrderDelete = new Button(compositeOrderButtons, SWT.PUSH | SWT.CENTER);
+        buttonOrderDelete.setText(l.getString("button.delete"));
+        buttonOrderDelete.setEnabled(false);
+        buttonOrderDelete.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+                System.out
+                        .println("buttonOrderDelete.widgetSelected, event="
+                                + evt);
+                
+                
+               String msg = MessageFormat.format(
+                       l.getString("Order.groupdetail.deletebutton.question.text"),
+                               new Object[]{textOrderCustomerName.getText()+" " +
+                               				textOrderCustomerLastName.getText() + " " +
+                               				textOrderCustomerFirstName.getText()});
+                
+               int question = showMsg(msg,
+                       l.getString("Order.groupdetail.deletebutton.question.header"), 
+                       SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+               
+               if (question != SWT.YES){
+                   return;
+               }
+                
+               try {
+                    //object speichern
+                    // Fehlerbehandlung
+                    Database.deleteObject(aktMovieOrder);
+
+                    //ÜbersichtsTabelle aktualisieren
+                    refreshOrderTable(textOrderSearch.getText());
+                    
+                    //Detailansicht leeren
+                    textOrderId.setText("");
+                    textOrderCustomerName.setText("");
+                    textOrderCustomerLastName.setText("");
+                    textOrderCustomerFirstName.setText("");
+                                        
+                    //Statusline Nachricht sezten
+                    statusLine.setStatus(1,l.getString("Order.groupdetail.deletebutton.newok"));
+
+                } catch (DataBaseException e) {
+                    if (e.getMessage().equalsIgnoreCase("1")) {
+                        //Fehler beim Speichern des Objectes
+
+                        statusLine.setStatus(3,l.getString("Order.groupdetail.deletebutton.errorsave"));
+                        showMsg(l.getString("Order.groupdetail.deletebutton.errorsave"),
+                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else if (e.getMessage().equalsIgnoreCase("2")) {
+                        //fehler beim db aufbau
+                        statusLine.setStatus(3,l.getString("Order.groupdetail.deletebutton.errordb"));
+                        showMsg(l.getString("Order.groupdetail.deletebutton.errordb"),
+                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+                        
+                    } else {
+                        //@todo
+                        e.printStackTrace();
+                    }
+                    
+                }                
+                
+
+                }
+
+            }
+        );     
     }
 
     /**
@@ -562,8 +1018,8 @@ public class CompositeOrder extends AbstractComposite {
 
                 //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss die
                 //Detailansicht aktualisiert werden
-                refreshOrderItemTable(tableOrderItems.getItem(index).getText(0));
-
+                String tabItem = tableOrderItems.getItem(index).getText(0);
+                refreshOrderItemDetails(tabItem);
             }
         });
         table2LData.verticalAlignment = GridData.FILL;
@@ -719,7 +1175,9 @@ public class CompositeOrder extends AbstractComposite {
 
                 //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss die
                 //Detailansicht aktualisiert werden
-                refreshOrderItemTable(tableOrder.getItem(index).getText(0));
+                String tabItem = tableOrder.getItem(index).getText(0);
+                refreshOrderDetails(tabItem);
+                refreshOrderItemTable(tabItem);
 
             }
         });
@@ -754,13 +1212,125 @@ public class CompositeOrder extends AbstractComposite {
             logger.debug("initTableOrder() - end");
         }
     }
+    
+    /**
+     * @param text
+     */
+    private void refreshOrderDetails(final String id) {
+        try {
+            //since we only can get a String value from the table, we
+            //need to convert this
+            aktMovieOrder = (MovieOrder) Database.getSingleObject(MovieOrder.class, Integer.parseInt(id));
+
+            if (aktMovieOrder == null) {
+
+                /*
+                 * 
+                 * @TODO Statusbar aktualiseren
+                 */
+                return;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            //id ist keine Zahl
+            return;
+        }
+
+        textOrderId.setText(aktMovieOrder.getMovieOrderId() + "");
+        textOrderCustomerName.setText(aktMovieOrder.getCustomer().getUserName());
+        textOrderCustomerLastName.setText(aktMovieOrder.getCustomer().getPerson().getLastName());
+        textOrderCustomerFirstName.setText(aktMovieOrder.getCustomer().getPerson().getFirstName());
+
+        buttonOrderDelete.setEnabled(true);
+
+        //Mode auf view setzen
+        mode_Order = ManagementGui.MODE_VIEW;
+        
+    }
+    
+    /**
+     * @param text
+     */
+    private void refreshOrderItemDetails(final String id) {
+        try {
+            //since we only can get a String value from the table, we
+            //need to convert this
+            aktOrderItem = (OrderItem) Database.getSingleObject(OrderItem.class, Integer.parseInt(id));
+
+            if (aktOrderItem == null) {
+
+                /*
+                 * 
+                 * @TODO Statusbar aktualiseren
+                 */
+                return;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            //id ist keine Zahl
+            return;
+        }
+
+        textOrderItemId.setText(aktOrderItem.getOrderItemId() + "");
+        textOrderItemDvdId.setText(aktOrderItem.getDvd().getDvdId() + "");
+        textOrderItemMovieName.setText(aktOrderItem.getDvd().getMovie().getTitle() + "");
+        Calendar cal = aktOrderItem.getOrderTime();
+        if (cal == null) {
+            textOrderItemOrderDate.setText("");
+        } else {
+            textOrderItemOrderDate.setText(DateFormat
+                    .getDateInstance(DateFormat.MEDIUM).format(
+                            cal.getTime()));
+        }
+        cal = aktOrderItem.getSenderTime();
+        if (cal == null) {
+            textOrderItemSenderDate.setText("");
+        } else {
+            textOrderItemSenderDate.setText(DateFormat
+                    .getDateInstance(DateFormat.MEDIUM).format(
+                            cal.getTime()));
+        }
+        cal = aktOrderItem.getReceivingTime();
+        if (cal == null) {
+            textOrderItemReceivingDate.setText("");
+        } else {
+            textOrderItemReceivingDate.setText(DateFormat
+                    .getDateInstance(DateFormat.MEDIUM).format(
+                            cal.getTime()));
+        }
+        Condition con = aktOrderItem.getConditionSend();
+        if(con == null) {
+            textOrderItemConditionSend.setText("");
+        } else {
+            textOrderItemConditionSend.setText(con.getConditionName());
+        }
+        con = aktOrderItem.getConditionSend();
+        if(con == null) {
+            textOrderItemConditionReceiving.setText("");
+        } else {
+            textOrderItemConditionReceiving.setText(con.getConditionName());
+        }
+        textOrderItemDuration.setText(aktOrderItem.getDuration() + "");
+        Payment pay = aktOrderItem.getPayment();
+        if (pay == null) {
+            textOrderItemPayment.setText("");
+        } else {
+            textOrderItemPayment.setText(pay.getPaymentCategory().getName());
+        }
+        
+        
+
+        buttonOrderItemDelete.setEnabled(true);
+
+        //Mode auf view setzen
+        mode_Order = ManagementGui.MODE_VIEW;
+        
+    }
 
     /* (non-Javadoc)
      * @see de.hsharz.provirent.management.gui.AbstractComposite#changeLanguage(java.util.Locale)
      */
     public void changeLanguage(Locale l) {
-        // TODO Auto-generated method stub
-
     }
 
     /* (non-Javadoc)
@@ -772,5 +1342,6 @@ public class CompositeOrder extends AbstractComposite {
     }
 
     public static void main(String[] args) {
+        showGUI();
     }
 }
