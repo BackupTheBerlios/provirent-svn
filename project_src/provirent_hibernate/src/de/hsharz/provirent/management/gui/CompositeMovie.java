@@ -747,7 +747,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            for(int i =0; i< movie.getActors().size(); i++){
         	                item = new TableItem(tableMoviesActorsDetail, SWT.NONE);
         	                item.setText(new String[] { ((Actor)movie.getActors().get(i)).getActorId() + ""
-        	                        , ((Actor)movie.getActors().get(i)).getLastName() + ""});
+        	                        , ((Actor)movie.getActors().get(i)).getLastName() + ", "+((Actor)movie.getActors().get(i)).getFirstName()});
         	            }                    
         	        }
         	    });  
@@ -770,10 +770,9 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    });  
         	}
         	{
-                tableMoviesActorsDetail = new Table(groupMoviesDetail,SWT.SINGLE
-                        | SWT.V_SCROLL | SWT.BORDER);
-                tableMoviesActorsDetail.setHeaderVisible(true);
-                tableMoviesActorsDetail.setLinesVisible(true);
+                tableMoviesActorsDetail = new Table(groupMoviesDetail, SWT.SINGLE | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER);
+                //tableMoviesActorsDetail.setHeaderVisible(true);
+                //tableMoviesActorsDetail.setLinesVisible(true);
                 GridData tableMoviesActorsDetailLData = new GridData();
                 tableMoviesActorsDetailLData.horizontalAlignment = GridData.FILL;
                 tableMoviesActorsDetailLData.horizontalSpan = 5;
@@ -791,7 +790,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 {
                     tableMoviesDetail_ColumnName = new TableColumn(
                             tableMoviesActorsDetail,
-                         SWT.CENTER);              
+                         SWT.LEFT);              
                     tableMoviesDetail_ColumnName.setText(
                             l.getString("movies.groupoverviewdetail.columnactors"));
                     tableMoviesDetail_ColumnName.setWidth(200);            
