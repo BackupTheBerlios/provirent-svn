@@ -6,13 +6,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
+import net.sf.hibernate.Criteria;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
+import net.sf.hibernate.expression.Disjunction;
+import net.sf.hibernate.expression.Expression;
 
 import org.apache.log4j.Logger;
 
 import de.hsharz.provirent.objects.Customer;
 import de.hsharz.provirent.objects.Person;
+import de.hsharz.provirent.objects.Subtitle;
+import de.hsharz.provirent.persistence.HibernateUtil;
 /*
  * Created on 09.10.2004
  *
@@ -95,6 +100,9 @@ public class TestCustomer extends TestCase {
     }
     
 
+    
+
+    
     
     public void testCustomer() throws Exception{
         if (logger.isDebugEnabled()) {
@@ -399,5 +407,38 @@ public class TestCustomer extends TestCase {
     }
     
   
+    
+    public void testSelectCustomer() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSelectCustomer() - start");
+        }
+
+	    Session s = HibernateUtil.currentSession();
+	
+	    
+        Criteria criteria = s.createCriteria(Customer.class);
+        List returnlist = criteria.list();
+	    
+        
+        for (int i = 0; i < returnlist.size(); i++) {
+            Customer customer = (Customer)returnlist.get(i);
+            assertNotNull("Customer "+i+" Objekt ist null",customer);
+            assertNotNull("Customer "+i+" Person ist null",customer.getPerson());
+            logger.debug("Customer "+i+": "+customer+" Person: "+customer.getPerson());
+            s.delete(customer);
+        }
+	    s.flush();
+	    returnlist = criteria.list();
+	    logger.debug("Anzahl Customer nach Löschen: "+returnlist.size());
+	    
+	    criteria = s.createCriteria(Person.class);
+	    returnlist = criteria.list();
+	    logger.debug("Anzahl Personen nach Löschen: "+returnlist.size());
+	    
+	
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSelectCustomer() - end");
+        }
+    }
     
 }

@@ -23,9 +23,8 @@
  				<meta attribute="use-in-tostring">true</meta>
  			</timestamp>
  
-	  <property name="person" type="int" not-null="true">
-		<meta attribute="use-in-tostring">true</meta>
-	  </property>
+	<many-to-one name="person" class="de.hsharz.provirent.objects.Person" column="person_id" unique="true" cascade="all"/>
+ 
       
       <property name="userName" type="string" not-null="true">
       	<meta attribute="use-in-tostring">true</meta>
