@@ -737,8 +737,8 @@ public class CompositeOrder extends AbstractComposite {
 					//object speichern
 					// Fehlerbehandlung
 					aktMovieOrder.getMovieOrderItems().remove(aktOrderItem);
-					Database.deleteObject(aktOrderItem);
 					Database.updateObject(aktMovieOrder);
+					Database.deleteObject(aktOrderItem);
 					
 					//ÜbersichtsTabelle aktualisieren
 					refreshOrderItemTable(aktMovieOrder.getMovieOrderId().toString());
@@ -928,6 +928,7 @@ public class CompositeOrder extends AbstractComposite {
                     //ÜbersichtsTabelle aktualisieren
                     refreshOrderTable(textOrderSearch.getText());
                     
+                    
                     //Detailansicht leeren
                     textOrderId.setText("");
                     textOrderCustomerName.setText("");
@@ -1112,12 +1113,8 @@ public class CompositeOrder extends AbstractComposite {
                             + textOrderSearch.getText() + ") - start");
                 }
                 
-                /* TODO
-                try {
-                    refreshOrderTable(textOrderSearch.getText());
-                } catch (DataBaseException e) {
-                    logger.error("focusLost(FocusEvent)", e);
-                }*/
+                
+                refreshOrderTable(textOrderSearch.getText());
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("focusLost(FocusEvent) - end");
@@ -1132,12 +1129,8 @@ public class CompositeOrder extends AbstractComposite {
                             + textOrderSearch.getText() + ") - start");
                 }
                 
-                /* TODO
-                try {
-                    refreshOrderTable(textOrderSearch.getText());
-                } catch (DataBaseException e1) {
-                    logger.error("handleEvent(Event)", e1);
-                }*/
+                
+                refreshOrderTable(textOrderSearch.getText());
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("handleEvent(Event) - end");
@@ -1178,6 +1171,7 @@ public class CompositeOrder extends AbstractComposite {
                 //Detailansicht aktualisiert werden
                 String tabItem = tableOrder.getItem(index).getText(0);
                 refreshOrderDetails(tabItem);
+                refreshOrderItemDetails("");
                 refreshOrderItemTable(tabItem);
 
             }
@@ -1253,78 +1247,93 @@ public class CompositeOrder extends AbstractComposite {
      * @param text
      */
     private void refreshOrderItemDetails(final String id) {
-        try {
-            //since we only can get a String value from the table, we
-            //need to convert this
-            aktOrderItem = (OrderItem) Database.getSingleObject(OrderItem.class, Integer.parseInt(id));
-
-            if (aktOrderItem == null) {
-
-                /*
-                 * 
-                 * @TODO Statusbar aktualiseren
-                 */
-                return;
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-            //id ist keine Zahl
-            return;
-        }
-
-        textOrderItemId.setText(aktOrderItem.getOrderItemId() + "");
-        textOrderItemDvdId.setText(aktOrderItem.getDvd().getDvdId() + "");
-        textOrderItemMovieName.setText(aktOrderItem.getDvd().getMovie().getTitle() + "");
-        Calendar cal = aktOrderItem.getOrderTime();
-        if (cal == null) {
-            textOrderItemOrderDate.setText("");
+        if (id == "") {
+//          Detailansicht leeren
+			textOrderItemId.setText("");
+			textOrderItemDvdId.setText("");
+			textOrderItemMovieName.setText("");
+			textOrderItemOrderDate.setText("");
+			textOrderItemSenderDate.setText("");
+			textOrderItemReceivingDate.setText("");
+			textOrderItemConditionSend.setText("");
+			textOrderItemConditionReceiving.setText("");
+			textOrderItemDuration.setText("");
+			textOrderItemPayment.setText("");
         } else {
-            textOrderItemOrderDate.setText(DateFormat
-                    .getDateInstance(DateFormat.MEDIUM).format(
-                            cal.getTime()));
-        }
-        cal = aktOrderItem.getSenderTime();
-        if (cal == null) {
-            textOrderItemSenderDate.setText("");
-        } else {
-            textOrderItemSenderDate.setText(DateFormat
-                    .getDateInstance(DateFormat.MEDIUM).format(
-                            cal.getTime()));
-        }
-        cal = aktOrderItem.getReceivingTime();
-        if (cal == null) {
-            textOrderItemReceivingDate.setText("");
-        } else {
-            textOrderItemReceivingDate.setText(DateFormat
-                    .getDateInstance(DateFormat.MEDIUM).format(
-                            cal.getTime()));
-        }
-        Condition con = aktOrderItem.getConditionSend();
-        if(con == null) {
-            textOrderItemConditionSend.setText("");
-        } else {
-            textOrderItemConditionSend.setText(con.getConditionName());
-        }
-        con = aktOrderItem.getConditionSend();
-        if(con == null) {
-            textOrderItemConditionReceiving.setText("");
-        } else {
-            textOrderItemConditionReceiving.setText(con.getConditionName());
-        }
-        textOrderItemDuration.setText(aktOrderItem.getDuration() + "");
-        Payment pay = aktOrderItem.getPayment();
-        if (pay == null) {
-            textOrderItemPayment.setText("");
-        } else {
-            textOrderItemPayment.setText(pay.getPaymentCategory().getName());
-        }
         
-        
-
-        buttonOrderItemDelete.setEnabled(true);
-
-        //Mode auf view setzen
-        mode_Order = ManagementGui.MODE_VIEW;
+	        try {
+	            //since we only can get a String value from the table, we
+	            //need to convert this
+	            aktOrderItem = (OrderItem) Database.getSingleObject(OrderItem.class, Integer.parseInt(id));
+	
+	            if (aktOrderItem == null) {
+	
+	                /*
+	                 * 
+	                 * @TODO Statusbar aktualiseren
+	                 */
+	                return;
+	            }
+	        } catch (Exception e) {
+	            // TODO: handle exception
+	            //id ist keine Zahl
+	            return;
+	        }
+	
+	        textOrderItemId.setText(aktOrderItem.getOrderItemId() + "");
+	        textOrderItemDvdId.setText(aktOrderItem.getDvd().getDvdId() + "");
+	        textOrderItemMovieName.setText(aktOrderItem.getDvd().getMovie().getTitle() + "");
+	        Calendar cal = aktOrderItem.getOrderTime();
+	        if (cal == null) {
+	            textOrderItemOrderDate.setText("");
+	        } else {
+	            textOrderItemOrderDate.setText(DateFormat
+	                    .getDateInstance(DateFormat.MEDIUM).format(
+	                            cal.getTime()));
+	        }
+	        cal = aktOrderItem.getSenderTime();
+	        if (cal == null) {
+	            textOrderItemSenderDate.setText("");
+	        } else {
+	            textOrderItemSenderDate.setText(DateFormat
+	                    .getDateInstance(DateFormat.MEDIUM).format(
+	                            cal.getTime()));
+	        }
+	        cal = aktOrderItem.getReceivingTime();
+	        if (cal == null) {
+	            textOrderItemReceivingDate.setText("");
+	        } else {
+	            textOrderItemReceivingDate.setText(DateFormat
+	                    .getDateInstance(DateFormat.MEDIUM).format(
+	                            cal.getTime()));
+	        }
+	        Condition con = aktOrderItem.getConditionSend();
+	        if(con == null) {
+	            textOrderItemConditionSend.setText("");
+	        } else {
+	            textOrderItemConditionSend.setText(con.getConditionName());
+	        }
+	        con = aktOrderItem.getConditionSend();
+	        if(con == null) {
+	            textOrderItemConditionReceiving.setText("");
+	        } else {
+	            textOrderItemConditionReceiving.setText(con.getConditionName());
+	        }
+	        textOrderItemDuration.setText(aktOrderItem.getDuration() + "");
+	        Payment pay = aktOrderItem.getPayment();
+	        if (pay == null) {
+	            textOrderItemPayment.setText("");
+	        } else {
+	            textOrderItemPayment.setText(pay.getPaymentCategory().getName());
+	        }
+	        
+	        
+	
+	        buttonOrderItemDelete.setEnabled(true);
+	
+	        //Mode auf view setzen
+	        mode_Order = ManagementGui.MODE_VIEW;
+        }
         
     }
 
