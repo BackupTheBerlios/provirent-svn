@@ -247,6 +247,9 @@ public class ManagmentGui {
         
         //init the rest
         initGUI();
+        
+        //initMainTabFolder
+        initMainTabFolder();
 
     }
 
