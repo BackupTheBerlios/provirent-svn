@@ -1875,13 +1875,19 @@ public class Database {
 	
 	            //if filter not empty
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                criteria.createAlias("actors","a");
+	                criteria.createAlias("director","d");
 	                any.add(Expression.like("title", "%"+filter+"%"));
-	                any.add(Expression.like("releaseDate", "%"+filter+"%"));
+	                //any.add(Expression.like("releaseDate", "%"+filter+"%"));
 	                any.add(Expression.like("description", "%"+filter+"%"));
-	                any.add(Expression.like("actors", "%"+filter+"%"));
-	                any.add(Expression.like("runtime", "%"+filter+"%"));
-	                any.add(Expression.like("director", "%"+filter+"%"));
-	                any.add(Expression.like("genres", "%"+filter+"%"));
+	                //any.add(Expression.like("runtime", "%"+filter+"%"));
+
+	                any.add(Expression.like("a.lastName", "%"+filter+"%"));
+	                any.add(Expression.like("a.firstName", "%"+filter+"%"));
+	                any.add(Expression.like("d.lastName", "%"+filter+"%"));
+	                any.add(Expression.like("d.firstName", "%"+filter+"%"));
+	                //any.add(Expression.like("director", "%"+filter+"%"));
+	                //any.add(Expression.like("genres", "%"+filter+"%"));
 	                //any.add(Expression.like("images", "%"+filter+"%"));
 	                //maybe we are searching for the id?
 	                try {

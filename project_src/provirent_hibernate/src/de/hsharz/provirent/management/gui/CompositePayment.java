@@ -607,7 +607,17 @@ public class CompositePayment extends AbstractComposite {
                     o.setDuration1(Float.parseFloat(textduration1.getText()));
                     o.setDuration2(Float.parseFloat(textduration2.getText()));
                     o.setDuration3(Float.parseFloat(textduration3.getText()));
-                    o.setStartdate(Util.getDateByText(textstartdate.getText(), "dd.MM.YYYY"));
+                    o.setStartdate(Calendar.getInstance());
+                    try {
+                        o.getStartdate().setTime(DateFormat.getDateInstance(DateFormat.LONG).parse(textstartdate.getText()));
+                    } catch (ParseException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("Problem mit Date löschen wird verworfen ");
+                        }
+                        return;
+                    }
 
                     //object speichern
                     // Fehlerbehandlung
@@ -817,7 +827,7 @@ public class CompositePayment extends AbstractComposite {
 
                         //object speichern
                         // Fehlerbehandlung
-                        Database.saveObject(tmp);
+                        Database.updateObject(tmp);
                         //Übersichtstabelle aktualisieren
                         refreshPaymentTable(textPaymentSearch.getText());
 
@@ -935,7 +945,7 @@ public class CompositePayment extends AbstractComposite {
                 Payment.getName(), Double.toString(Payment.getDuration1()),
                 Double.toString(Payment.getDuration2()),
                 Double.toString(Payment.getDuration3()),
-                Util.getTextByDate(Payment.getStartdate(), "dd.MM.YYYY") });
+                DateFormat.getDateInstance(DateFormat.SHORT).format(Payment.getStartdate().getTime()) });
 
         tablePayment.deselectAll();
         refreshPaymentDetail("");
@@ -1023,7 +1033,8 @@ public class CompositePayment extends AbstractComposite {
                     Double.toString(o.getDuration1()),
                     Double.toString(o.getDuration2()),
                     Double.toString(o.getDuration3()),
-                    Util.getTextByDate(o.getStartdate(), "dd.MM.YYYY") });
+                    DateFormat.getDateInstance(DateFormat.SHORT).format(
+                            o.getStartdate().getTime()) });
 
         }
 
@@ -1255,8 +1266,8 @@ public class CompositePayment extends AbstractComposite {
             for (int i = 0; i < vec.size(); i++) {
                 Calendar date = (Calendar) vec.get(i);
 
-                if (Util.getTextByDate(date, "dd.MM.YYYY").equals(
-                        Util.getTextByDate(object.getStartdate(), "dd.MM.YYYY"))) {
+                if (DateFormat.getDateInstance(DateFormat.SHORT).format(date.getTime()).equals(
+                        DateFormat.getDateInstance(DateFormat.SHORT).format(object.getStartdate().getTime()))) {
                     buttonPaymentEdit.setEnabled(true);
 
                 }

@@ -38,6 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
+import java.text.DateFormat;
 
 import javax.mail.Address;
 import javax.mail.Message;

@@ -256,7 +256,7 @@ public class CompositeOrder extends AbstractComposite {
 	            String orderdate = "";
 	            if (o.getOrderTime() != null) {
 	                orderdate = DateFormat.getDateInstance(DateFormat.SHORT).format(
-	                    o.getOrderTime().getTime());
+	                    o.getOrderTime());
 	            }
 	           
 	            String senddate = "";

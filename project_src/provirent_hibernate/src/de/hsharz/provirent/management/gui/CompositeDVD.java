@@ -64,7 +64,9 @@ public class CompositeDVD extends AbstractComposite {
 
     private TableColumn tableDVDOverview_ColumnTitle;
 
-    private TableColumn tableDVDOverview_ColumnDate;
+    private TableColumn tableDVDOverview_ColumnStatus;
+    
+    private TableColumn tableDVDOverview_ColumnCondition;
     
     private Text textDVDSearch;
     
@@ -240,11 +242,18 @@ public class CompositeDVD extends AbstractComposite {
                     tableDVDOverview_ColumnTitle.setWidth(120);
                 }
                 {
-                    tableDVDOverview_ColumnDate = new TableColumn(
+                    tableDVDOverview_ColumnStatus = new TableColumn(
                             tableDVDOverview, SWT.CENTER);
-                    tableDVDOverview_ColumnDate.setText(l
-                            .getString("dvd.groupoverview.columndate"));
-                    tableDVDOverview_ColumnDate.setWidth(120);
+                    tableDVDOverview_ColumnStatus.setText(l
+                            .getString("dvd.groupoverview.columnstatus"));
+                    tableDVDOverview_ColumnStatus.setWidth(120);
+                }
+                {
+                    tableDVDOverview_ColumnCondition = new TableColumn(
+                            tableDVDOverview, SWT.CENTER);
+                    tableDVDOverview_ColumnCondition.setText(l
+                            .getString("dvd.groupoverview.columncondition"));
+                    tableDVDOverview_ColumnCondition.setWidth(120);
                 }
             }// table Movies Overview
 

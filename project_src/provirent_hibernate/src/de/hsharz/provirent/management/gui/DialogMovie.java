@@ -44,6 +44,8 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
 
     public final static int TYPE_DIRECTOR = 4;
 
+    public final static int TYPE_MAINIMAGE = 5;
+    
     private int type = 0;
 
     private Shell dialogShell;
@@ -173,7 +175,11 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
             groupDialogDescription.setText(l
                     .getString("movies.dialog.title.image"));
         }
-
+        else if (type == TYPE_MAINIMAGE) {
+            groupDialogDescription.setText(l
+                    .getString("movies.dialog.title.mainimage"));
+        }
+        
         GridData groupForm1LData = new GridData();
         groupForm1LData.widthHint = 300;
         groupForm1LData.heightHint = 200;
@@ -213,8 +219,12 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
             } else if (type == TYPE_IMAGE) {
                 labelDescriptionAdvice.setText(l
                         .getString("movies.dialog.labeltable.image"));
+            } else if  (type == TYPE_MAINIMAGE) {
+                labelDescriptionAdvice.setText(l
+                        .getString("movies.dialog.labeltable.mainimage"));
             }
-
+            
+            
             table1 = new Table(groupDialogDescription, SWT.SINGLE
                     | SWT.FULL_SELECTION);
             GridData table1LData = new GridData();
@@ -233,7 +243,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
                 item.setResizable(false);
             }
 
-            if (type == TYPE_IMAGE) {
+            if (type == TYPE_IMAGE || type == TYPE_MAINIMAGE) {
                 TableColumn item = new TableColumn(table1, SWT.CENTER);
                 item.setAlignment(SWT.LEFT);
                 item.setWidth(100);
@@ -256,7 +266,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
                     item
                             .setText(l
                                     .getString("movies.dialog.column.name.genre"));
-                } else if (type == TYPE_IMAGE) {
+                } else if (type == TYPE_IMAGE || type == TYPE_MAINIMAGE) {
                     item
                             .setText(l
                                     .getString("movies.dialog.column.name.image"));
@@ -277,7 +287,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
                 } else if (type == TYPE_GENRE) {
                     item.setText(l
                             .getString("movies.dialog.column.shortname.genre"));
-                } else if (type == TYPE_IMAGE) {
+                } else if (type == TYPE_IMAGE || type == TYPE_MAINIMAGE) {
                     item
                             .setText(l
                                     .getString("movies.dialog.column.description.image"));
@@ -287,8 +297,13 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
 
             buttonDescriptionAccept = new Button(groupDialogDescription,
                     SWT.PUSH | SWT.CENTER);
-            buttonDescriptionAccept.setText(l
-                    .getString("movies.dialog.buttonadd"));
+            if(type == TYPE_MAINIMAGE)  {            
+                buttonDescriptionAccept.setText(l
+                        .getString("movies.dialog.buttonadd.mainimage"));
+            } else  {
+                buttonDescriptionAccept.setText(l
+                        .getString("movies.dialog.buttonadd"));
+            }                
             GridData buttonDescriptionAcceptLData2 = new GridData();
             buttonDescriptionAcceptLData2.horizontalSpan = 2;
             buttonDescriptionAcceptLData2.horizontalAlignment = GridData.FILL;
@@ -349,8 +364,19 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
                                                     (Image) valuelist.get(j));
                                             break;
                                         }
+                                    } else if (type == TYPE_MAINIMAGE)  {
+                                        if ((table1.getItem(sel[i]).getText(0))
+                                                .equalsIgnoreCase(((Image) valuelist
+                                                        .get(j)).getImageId()
+                                                        + "")) {
+                                            logger
+                                                    .debug("Füge Bild zum Movie hinzu:"
+                                                            + (Image) valuelist
+                                                                    .get(j));
+                                            movie.setMainImage((Image) valuelist.get(j));
+                                            dialogShell.close();
+                                        }
                                     }
-
                                 }
 
                                 table1.remove(sel[i]);
@@ -427,7 +453,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
                 item.setText(new String[] { o.getGenreId() + "", o.getName(),
                         o.getShortname() });
             }
-        } else if (type == TYPE_IMAGE) {
+        } else if (type == TYPE_IMAGE || type == TYPE_MAINIMAGE) {
             valuelist = Database
                     .getImagesExcept(filter, this.movie.getImages());
             for (int i = 0; i < valuelist.size(); i++) {

@@ -47,6 +47,7 @@ import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
+import org.eclipse.swt.widgets.Combo;
 /**
  * This code was generated using CloudGarden's Jigloo SWT/Swing GUI Builder,
  * which is free for non-commercial use. If Jigloo is being used commercially
@@ -116,6 +117,8 @@ public class CompositeMovie extends
     private Text textMoviesDescription;
 
     private Text textMoviesDate;
+    
+    private Text textMoviesmainImage;
 
     private Label labelMoviesSearch;
 
@@ -136,6 +139,8 @@ public class CompositeMovie extends
     private Label labelMoviesGenres;
 
     private Label labelMoviesImages;
+        
+    private Label labelMoviesmainImage;
 
     private Button buttonMoviesNew;
 
@@ -166,6 +171,8 @@ public class CompositeMovie extends
     private Button buttonMoviesDeleteImages;
 
     private Button buttonMoviesChangeDate;
+    
+    private Button buttonMoviesChangemainImage;
 
     private SashForm sashForm1;
 
@@ -259,7 +266,7 @@ public class CompositeMovie extends
         }
 
         this.setLayout(new GridLayout());
-        this.setSize(830, 650);
+        this.setSize(824, 634);
         {
             groupMovie = new Group(this, SWT.NONE);
             GridLayout groupMovieLayout = new GridLayout();
@@ -500,11 +507,11 @@ public class CompositeMovie extends
             labelMoviesDate.setText(l.getString("movies.groupdetail.labeldate")
                     + ":");
             labelMoviesDate.setSize(125, 15);
-            GridData labelActorNameLData = new GridData();
-            labelActorNameLData.heightHint = 15;
-            labelActorNameLData.horizontalAlignment = GridData.FILL;
-            labelActorNameLData.verticalAlignment = GridData.BEGINNING;
-            labelMoviesDate.setLayoutData(labelActorNameLData);
+            GridData labelMoviesDateLData = new GridData();
+            labelMoviesDateLData.heightHint = 15;
+            labelMoviesDateLData.horizontalAlignment = GridData.FILL;
+            labelMoviesDateLData.verticalAlignment = GridData.BEGINNING;
+            labelMoviesDate.setLayoutData(labelMoviesDateLData);
         }
         {
             textMoviesDate = new Text(groupMoviesDetail, SWT.READ_ONLY
@@ -1051,7 +1058,51 @@ public class CompositeMovie extends
                 tableMoviesDetail_ColumnName.setWidth(200);
             }
         }// Edit Images
-
+        {
+            labelMoviesmainImage = new Label(groupMoviesDetail, SWT.NONE);
+            labelMoviesmainImage.setText(l.getString("movies.groupdetail.labelmainimage")
+                    + ":");
+            labelMoviesmainImage.setSize(125, 15);
+            GridData labelMoviesImageLData = new GridData();
+            labelMoviesImageLData.heightHint = 15;
+            labelMoviesImageLData.horizontalAlignment = GridData.FILL;
+            labelMoviesImageLData.verticalAlignment = GridData.BEGINNING;
+            labelMoviesmainImage.setLayoutData(labelMoviesImageLData);
+        }
+        {
+            textMoviesmainImage = new Text(groupMoviesDetail, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData2 = new GridData();
+            text1LData2.horizontalAlignment = GridData.FILL;
+            text1LData2.heightHint = 13;
+            text1LData2.horizontalSpan = 4;
+            text1LData2.grabExcessHorizontalSpace = true;
+            textMoviesmainImage.setLayoutData(text1LData2);
+            textMoviesmainImage.setText("");
+        }
+        {
+            buttonMoviesChangemainImage = new Button(groupMoviesDetail, SWT.NONE);
+            buttonMoviesChangemainImage.setText(l
+                    .getString("movies.button.changedate"));
+            buttonMoviesChangemainImage.setEnabled(false);
+            GridData text1LData2 = new GridData();
+            text1LData2.horizontalAlignment = GridData.FILL;
+            text1LData2.heightHint = 20;
+            text1LData2.horizontalSpan = 1;
+            buttonMoviesChangemainImage.setLayoutData(text1LData2);
+            buttonMoviesChangemainImage.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+                    //open responsible Dialog and insert text
+                    DialogMovie dialog = new DialogMovie(getShell(), 0, locale,
+                            localmovie, DialogMovie.TYPE_MAINIMAGE);
+                    dialog.open();
+                    if (localmovie.getMainImage() != null)
+                    textMoviesmainImage.setText(localmovie.getMainImage().getImageFileName());                  
+                }
+            });
+        }
+        
+            
         {
             compositeButtons = new Composite(groupMoviesDetail, SWT.EMBEDDED);
             GridLayout composite2Layout = new GridLayout();
@@ -1100,7 +1151,8 @@ public class CompositeMovie extends
                     buttonMoviesAddImages.setEnabled(true);
                     buttonMoviesDeleteImages.setEnabled(true);
                     buttonMoviesChangeDate.setEnabled(true);
-
+                    buttonMoviesChangemainImage.setEnabled(true);
+                    
                     tableMoviesOverview.setEnabled(false);
                     tableMoviesDirectorsDetail.removeAll();
                     tableMoviesActorsDetail.removeAll();
@@ -1145,6 +1197,7 @@ public class CompositeMovie extends
                     buttonMoviesAddImages.setEnabled(true);
                     buttonMoviesDeleteImages.setEnabled(true);
                     buttonMoviesChangeDate.setEnabled(true);
+                    buttonMoviesChangemainImage.setEnabled(true);
                     
                     tableMoviesOverview.setEnabled(false);
                     
@@ -1341,7 +1394,7 @@ public class CompositeMovie extends
                         // Fehlerbehandlung
 
                         if (mode_movie == ManagementGui.MODE_ADD)  {
-                        Object o = Database.saveObject(localmovie);
+
 
                         logger.debug("Objektid: "+localmovie.getMovieId()+" vor speichern");
                         Database.saveObject(localmovie);
@@ -1352,8 +1405,8 @@ public class CompositeMovie extends
                         insertIntoMoviesOverviewTable(localmovie);
                         textMoviesID.setText(localmovie.getMovieId() + "");
                         }
-                        if (mode_movie == ManagementGui.MODE_EDIT)  {
-                            Object o = Database.updateObject(localmovie);
+                        else if (mode_movie == ManagementGui.MODE_EDIT)  {
+                            Database.updateObject(localmovie);
                         } 
                         //Statusline Nachricht sezten
                         statusLine
@@ -1456,6 +1509,7 @@ public class CompositeMovie extends
         buttonMoviesAddImages.setEnabled(false);
         buttonMoviesDeleteImages.setEnabled(false);
         buttonMoviesChangeDate.setEnabled(false);
+        buttonMoviesChangemainImage.setEnabled(false);
         textMoviesTitle.setEditable(false);
         textMoviesDescription.setEditable(false);
         textMoviesSearch.setEditable(true);
@@ -1527,7 +1581,8 @@ public class CompositeMovie extends
                 .format(object.getReleaseDate().getTime()));
         textMoviesRuntime.setText(Integer.toString(object.getRuntime()));
         textMoviesDescription.setText(object.getDescription());
-
+        textMoviesmainImage.setText(object.getMainImage().getImageFileName());
+        
         TableItem item;
         // Fill Directorstable
         tableMoviesDirectorsDetail.removeAll();
