@@ -44,6 +44,8 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.expression.Disjunction;
 import net.sf.hibernate.expression.Expression;
+import net.sf.hibernate.expression.Order;
+import net.sf.hibernate.type.Type;
 
 import org.apache.log4j.Logger;
 
@@ -56,6 +58,7 @@ import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
+import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.Payment;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
@@ -1633,9 +1636,13 @@ public class Database {
 
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
 	                any.add(Expression.like("userName", "%"+filter+"%"));
-	                //any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
+	                
 	                any.add(Expression.like("p.lastName", "%"+filter+"%"));
 	                any.add(Expression.like("p.firstName", "%"+filter+"%"));
+
+	                // TODO Criteria for Birthday and Registration Date
+	                //any.add(Expression.like("p.dayOfBirth", "%"+filter+"%"));
+
 	                try{
 	                    Calendar cal = Calendar.getInstance();
 	                    cal.setTime(DateFormat.getDateInstance(DateFormat.SHORT).parse(filter));
@@ -1643,6 +1650,7 @@ public class Database {
 	                } catch (ParseException pex){
 	                    logger.debug("Fehler beim Parsen des Datums",pex);
 	                }
+	                //any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
 	                
 	                
 	                //maybe we are searching for the id?
@@ -1732,6 +1740,112 @@ public class Database {
 	    
 	
 	}
+	
+	/**
+	 * This method gets all Customers from the database
+	 * @param filter 
+	 * @return List of Customer objects, or an empty List
+	 */
+	public static List getOrder(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getOrder() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(MovieOrder.class).createAlias("customer", "c").createAlias("c.person", "p");
+	            //Criteria personCriteria = criteria.createCriteria("person");
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+
+	            if (filter != null && !filter.equalsIgnoreCase("")) {	                
+	                any.add(Expression.like("c.userName", "%"+filter+"%"));
+	                any.add(Expression.like("p.lastName", "%"+filter+"%"));
+	                any.add(Expression.like("p.firstName", "%"+filter+"%"));	                
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("movieOrderId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            
+	            //add all criteria
+	            criteria.addOrder(Order.asc("movieOrderId"));
+	            criteria.add(any);
+	            
+	            //get the results
+	            returnlist = criteria.list();
+
+	            logger.debug("Anzahl der Elemente in Rückgabeliste: " + returnlist.size());
+	            int i = 0;
+	            
+	    } catch (Exception e) {
+	        logger.error(
+	                "getOrder() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getOrder() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getOrder() - end");
+	    }
+	    return returnlist;	
+	}
+	
+	
+	public static MovieOrder getSingleOrder(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleOrder() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    MovieOrder returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (MovieOrder)s.get(MovieOrder.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleOrder() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleOrder() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleOrder() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
+
 
 
 	/**
