@@ -94,13 +94,13 @@ public class ManagementGui {
 
     public final static int MODE_EDIT = 2;
 
-    private static final int MAIN_WINDOW_WIDTH = 830;
+    private static final int MAIN_WINDOW_WIDTH = 850;
 
-    private static final int MAIN_WINDOW_HEIGHT = 520;
-    private static final int MIN_WINDOW_WIDTH = 830;
-    private static final int MIN_WINDOW_HEIGHT = 520;
-    private static final int MIN_WINDOW_X = 50;
-    private static final int MIN_WINDOW_Y = 50;
+    private static final int MAIN_WINDOW_HEIGHT = 700;
+    private static final int MIN_WINDOW_WIDTH = 850;
+    private static final int MIN_WINDOW_HEIGHT = 700;
+    private static final int MIN_WINDOW_X = 25;
+    private static final int MIN_WINDOW_Y = 25;
 
     private CTabFolder cTabFolderMain;
 
@@ -230,7 +230,7 @@ public class ManagementGui {
             public void controlResized(ControlEvent evt) {
                 //TODO add your code for shell.controlResized
                 //min Size of the Main Window
-                if (shell.getBounds().height < 520 || shell.getBounds().width < 830) {
+                if (shell.getBounds().height < MIN_WINDOW_HEIGHT || shell.getBounds().width < MIN_WINDOW_WIDTH) {
                     shell.setBounds(MIN_WINDOW_X,MIN_WINDOW_Y,MIN_WINDOW_WIDTH,MIN_WINDOW_HEIGHT);
                     statusLine.setStatus(StatusLineStyledText.STATUS_WARN,l.getString("status.resizewarn")); 
                 }                         

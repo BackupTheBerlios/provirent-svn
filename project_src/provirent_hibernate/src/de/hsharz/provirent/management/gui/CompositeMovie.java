@@ -40,6 +40,7 @@ import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
 
+import org.eclipse.swt.widgets.List;
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -116,6 +117,10 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     
     private Composite parent;
     private Composite compositeButtons;
+    private List listMoviesImages;
+    private List listMoviesGenres;
+    private List listMoviesActors;
+    private List listMoviesDirectors;
     private Text textMoviesDate;
 
     protected int mode_actor;
@@ -195,7 +200,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         }
 
         this.setLayout(new GridLayout());
-        this.setSize(816, 540);
+        this.setSize(900, 650);
         {
             groupMovie = new Group(this, SWT.NONE);
             GridLayout groupMovieLayout = new GridLayout();
@@ -586,8 +591,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    labelMoviesAdvice.setLayoutData(formData2);
     	}
         {
-            textMoviesDescription = new Text(groupMoviesDetail, SWT.MULTI 
-                    | SWT.READ_ONLY | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+            textMoviesDescription = new Text(groupMoviesDetail, SWT.MULTI | SWT.READ_ONLY | SWT.V_SCROLL | SWT.BORDER);
             GridData formData2 = new GridData();
     	    formData2.horizontalSpan = 5;
     	    formData2.verticalSpan = 5;
@@ -604,8 +608,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData text1LData2 = new GridData();
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
     	    text1LData2.grabExcessHorizontalSpace = true;
+    	    text1LData2.verticalSpan = 2;
     	    buttonMoviesEditDirectors.setLayoutData(text1LData2);        
             buttonMoviesEditDirectors.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
@@ -615,15 +619,24 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             });  
         }
         {
+            listMoviesDirectors = new List(groupMoviesDetail, SWT.BORDER);
+            GridData listMoviesDirectorsLData = new GridData();
+            listMoviesDirectorsLData.horizontalAlignment = GridData.FILL;
+            listMoviesDirectorsLData.horizontalSpan = 5;
+            listMoviesDirectorsLData.verticalSpan = 2;
+            listMoviesDirectors.setLayoutData(listMoviesDirectorsLData);
+        }
+        {
             buttonMoviesEditActors = new Button(groupMoviesDetail
                     , SWT.NONE);
             buttonMoviesEditActors.setText(l
                 .getString("movies.button.editactors"));
             buttonMoviesEditActors.setEnabled(false);
             GridData text1LData2 = new GridData();
+            text1LData2.verticalSpan = 2;
+            text1LData2.horizontalSpan = 1;
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
     	    text1LData2.grabExcessHorizontalSpace = true;
     	    buttonMoviesEditActors.setLayoutData(text1LData2);        
             buttonMoviesEditActors.addSelectionListener(new SelectionAdapter() {
@@ -634,6 +647,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             });  
         }
         {
+            listMoviesActors = new List(groupMoviesDetail, SWT.BORDER);
+            GridData listMoviesActorsLData = new GridData();
+            listMoviesActorsLData.horizontalAlignment = GridData.FILL;
+            listMoviesActorsLData.horizontalSpan = 5;
+            listMoviesActorsLData.verticalSpan = 2;
+            listMoviesActors.setLayoutData(listMoviesActorsLData);
+        }
+        {
             buttonMoviesEditGenres = new Button(groupMoviesDetail
                     , SWT.NONE);
             buttonMoviesEditGenres.setText(l
@@ -642,8 +663,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData text1LData2 = new GridData();
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
     	    text1LData2.grabExcessHorizontalSpace = true;
+    	    text1LData2.verticalSpan = 2;
     	    buttonMoviesEditGenres.setLayoutData(text1LData2);        
             buttonMoviesEditGenres.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
@@ -653,6 +674,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             });  
         }
         {
+            listMoviesGenres = new List(groupMoviesDetail, SWT.BORDER);
+            GridData listMoviesGenresLData = new GridData();
+            listMoviesGenresLData.horizontalSpan = 5;
+            listMoviesGenresLData.verticalSpan = 2;
+            listMoviesGenresLData.horizontalAlignment = GridData.FILL;
+            listMoviesGenres.setLayoutData(listMoviesGenresLData);
+        }
+        {
             buttonMoviesEditImages = new Button(groupMoviesDetail
                     , SWT.NONE);
             buttonMoviesEditImages.setText(l
@@ -660,7 +689,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             buttonMoviesEditImages.setEnabled(false);
             GridData text1LData2 = new GridData();
     	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
+    	    text1LData2.horizontalSpan = 1;
     	    text1LData2.horizontalAlignment = GridData.FILL;
     	    buttonMoviesEditImages.setLayoutData(text1LData2);        
             buttonMoviesEditImages.addSelectionListener(new SelectionAdapter() {
@@ -669,6 +698,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     
                 }
             });  
+        }
+        {
+            listMoviesImages = new List(groupMoviesDetail, SWT.BORDER);
+            GridData listMoviesImagesLData = new GridData();
+            listMoviesImagesLData.horizontalSpan = 5;
+            listMoviesImagesLData.horizontalAlignment = GridData.FILL;
+            listMoviesImages.setLayoutData(listMoviesImagesLData);
         }
         {
     	    compositeButtons = new Composite(groupMoviesDetail, SWT.EMBEDDED);
