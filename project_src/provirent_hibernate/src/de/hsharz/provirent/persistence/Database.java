@@ -52,6 +52,7 @@ import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
+import de.hsharz.provirent.objects.Payment;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
@@ -1419,6 +1420,112 @@ public class Database {
 	
 	    if (logger.isDebugEnabled()) {
 	        logger.debug("getSingleAudioFormat() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
+	
+	/**
+	 * This method gets all Payments from the database.
+	 * searches for name,duration1, duration2, duration3, startdate or id
+	 * @param filter 
+	 * @return List of Payment objects, or an empty List
+	 */
+	public static List getPayment(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getPayment() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Condition.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("name", "%"+filter+"%"));
+	                any.add(Expression.like("duration1", "%"+filter+"%"));
+	                any.add(Expression.like("duration2", "%"+filter+"%"));
+	                any.add(Expression.like("duration3", "%"+filter+"%"));
+	                any.add(Expression.like("startdate", "%"+filter+"%"));
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("paymentId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getPayment() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getPayment() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getPayment() - end");
+	    }
+	    return returnlist;
+	    
+	
+	}
+	
+	
+	public static Payment getSinglePayment(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSinglePayment() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Payment returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Payment)s.get(Payment.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSinglePayment() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSinglePayment() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSinglePayment() - end");
 	    }
 	    return returnobject;
 	    

@@ -32,8 +32,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import de.hsharz.provirent.objects.AudioFormat;
-import de.hsharz.provirent.objects.AudioFormat;
-import de.hsharz.provirent.objects.AudioFormat;
 import de.hsharz.provirent.objects.VideoFormat;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;

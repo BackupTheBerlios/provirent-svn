@@ -105,16 +105,16 @@ public class ManagementGui {
     private CTabFolder cTabFolderMain;
 
     private CTabItem tabItemFormat;
+    private CTabItem tabItemPayment;
     private CTabItem tabItemActor;
     private CTabItem tabItemDirector;
     private CTabItem tabItemLanguage;
     private CTabItem tabItemGenre;
     private CTabItem tabItemImage;
     private CTabItem tabItemMovie;
-    
-    
-    
-    
+    private CTabItem tabItemStatus;
+    private CTabItem tabStatusLanguage;
+        
     private CompositeFormate compositeFormate;
     private CompositeActors compositeActor;
     private CompositeDirectors compositeDirector;
@@ -122,52 +122,43 @@ public class ManagementGui {
     private CompositeLanguage compositeLanguage;
     private CompositeImage compositeImage;
     private CompositeMovie compositeMovie;
+    private CompositePayment compositePayment;
+    private CompositeStatus compositeStatus;   
+
+    private Menu rootMenu;
     
-
-    private MenuItem aboutMenuItem;
-
-    private MenuItem contentsMenuItem;
-
-    private Menu helpMenu;
-
-    private MenuItem helpMenuItem;
-
+    private Menu fileMenu;
+    private MenuItem fileMenuItem;
+    private MenuItem exitMenuItem;
+    private MenuItem closeFileMenuItem;
+    private MenuItem saveFileMenuItem;
+    private MenuItem newFileMenuItem;
+    private MenuItem openFileMenuItem;  
+    
+    private Menu viewMenu;
+    private MenuItem viewMenuItem;
     private MenuItem viewDirectorMenuItem;
+    private MenuItem viewVideoFormatMenuItem;
+    private MenuItem viewActorMenuItem;
+    private MenuItem viewGenreMenuItem;
+    private MenuItem viewLanguageMenuItem;
+    private MenuItem viewStatusMenuItem;
+    private MenuItem viewPaymentMenuItem;
+    private MenuItem viewConditionMenuItem;
+    private MenuItem viewMovieMenuItem;
+    private MenuItem viewDvdMenuItem;
+    private MenuItem viewBillMenuItem;
+    private MenuItem viewImageMenuItem;
     
-    private MenuItem viewVideoFormatMenuItem,viewActorMenuItem,viewGenreMenuItem;
-    private MenuItem viewLanguageMenuItem,viewStatusMenuItem;
-    private MenuItem viewConditionMenuItem,viewMovieMenuItem,viewDvdMenuItem, viewBillMenuItem, viewImageMenuItem;
-    
+    private Menu helpMenu;
+    private MenuItem aboutMenuItem;
+    private MenuItem contentsMenuItem;
+    private MenuItem helpMenuItem;
 
     private Shell shell;
 
     private Display display;
 
-    private Menu viewMenu;
-
-    private MenuItem viewMenuItem;
-
-    private MenuItem exitMenuItem;
-
-    private MenuItem closeFileMenuItem;
-
-    private MenuItem saveFileMenuItem;
-
-    private MenuItem newFileMenuItem;
-
-    private MenuItem openFileMenuItem;
-
-    private Menu fileMenu;
-
-    private MenuItem fileMenuItem;
-
-    private Menu rootMenu;
-
-    private TableColumn tableColumn6;
-
-    private TableColumn tableColumn5;
-
-    private TableColumn tableColumn4;
 
     private StatusLineStyledText statusLine;
 
@@ -177,20 +168,12 @@ public class ManagementGui {
 
     private Composite compositeRoot;
 
-    private Text textVideoFormatId;
-
     /**
      * Bundle for multilanguage
      */
     private ResourceBundle l;
     
     private Locale locale ;
-
-    protected CTabItem tabItemStatus;
-
-    private CompositeStatus compositeStatus;
-
-    private CTabItem tabStatusLanguage;
 
     /**
      * Auto-generated main method to display this
@@ -489,6 +472,21 @@ public class ManagementGui {
             }
         });         
        
+        viewPaymentMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewPaymentMenuItem.setText(l.getString("menu.view.payment"));
+        viewPaymentMenuItem.setSelection(false);
+        viewPaymentMenuItem.addSelectionListener(new SelectionAdapter(){
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemPayment == null || tabItemPayment.isDisposed()){
+				    initPaymentTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemPayment);
+				viewPaymentMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();
+            }
+        });
         
         viewStatusMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewStatusMenuItem.setText(l.getString("menu.view.status"));
@@ -717,6 +715,29 @@ public class ManagementGui {
             tabItemGenre.setControl(compositeGenre);
         }
         cTabFolderMain.setSelection(tabItemGenre);
+    }
+    
+    private void initPaymentTab() {
+        tabItemPayment = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemPayment.setText(l.getString("tab.payment.title"));
+        tabItemPayment.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                if(!viewPaymentMenuItem.isDisposed()){
+                    viewPaymentMenuItem.setSelection(false);
+                }
+            }
+            
+        });
+  
+        {
+            compositePayment = new CompositePayment(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemPayment.setControl(compositePayment);
+        }
+        cTabFolderMain.setSelection(tabItemPayment);
     }
 
     private void initLanguageTab() {

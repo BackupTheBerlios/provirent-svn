@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.Payment" table="PAYMENT">
+      <meta attribute="class-description">
+        Represents a Payment.
+        @author Stefan Forstner
+      </meta>
+      
+ 			<meta attribute="implement-equals">true</meta>
+			<meta attribute="use-in-equals">true</meta>
+ 			
+      <id name="paymentId" type="int" column="PAYMENTID" length="10">
+        <meta attribute="scope-set">public</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="sequence">
+			<param name="sequence">payment_id_sequence</param>
+		</generator>
+      </id>
+	  
+	  <property name="name" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+ 
+      <property name="duration1" type="double" not-null="true">
+
+      </property>
+				
+ 
+      <property name="duration2" type="double" not-null="true">
+
+      </property>
+             
+	  <property name="duration3" type="double" not-null="true">
+
+      </property>
+	  
+	  <property name="startdate" type="calendar">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+	  
+    </class>
+  </hibernate-mapping>

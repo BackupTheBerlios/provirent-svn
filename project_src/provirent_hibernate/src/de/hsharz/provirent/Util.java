@@ -34,7 +34,10 @@ package de.hsharz.provirent;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.util.Calendar;
 import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -45,6 +48,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
+
+import de.hsharz.provirent.persistence.DataBaseException;
 
 /**
  * @author Philipp Schneider
@@ -119,5 +124,29 @@ public class Util {
     public static void main(String[] args) {
         Util h = new Util();
 
+    }
+
+    /**
+     * @param text
+     * @return
+     */
+    public static Calendar getDateByText(String textdate) throws DataBaseException {
+        StringTokenizer tokenizer = new StringTokenizer(textdate, ".");
+        Vector vec = new Vector();
+        while (tokenizer.hasMoreTokens()) {
+           vec.add(tokenizer.nextToken());
+        }
+        
+        if (vec.size() != 3) {
+            return null;     
+        } else {
+            String days = (String) vec.get(0);
+            String months = (String) vec.get(1);
+            String years = (String) vec.get(2);
+            Calendar date = Calendar.getInstance();
+            date.set(Integer.parseInt(years), Integer.parseInt(months), 
+                     Integer.parseInt(days));
+            return date;
+        }
     }
 }
