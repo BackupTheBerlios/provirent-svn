@@ -147,7 +147,7 @@ public class CompositeImage extends AbstractComposite {
 
     private Label labelImagesFName;
 
-    private Label labelImagesLName;
+    private Label labelImagesDescription;
 
     protected int mode_image;
 
@@ -433,21 +433,22 @@ public class CompositeImage extends AbstractComposite {
             textImagesName.setLayoutData(text1LData2);
         }
         {
-            labelImagesLName = new Label(groupImagesDetail, SWT.NONE);
-            labelImagesLName.setText(l
+            labelImagesDescription = new Label(groupImagesDetail, SWT.NONE);
+            labelImagesDescription.setText(l
                     .getString("images.groupdetail.labeldescription")
                     + ":");
-            labelImagesLName.setSize(125, 15);
+            labelImagesDescription.setSize(125, 15);
             GridData labelImagesFileLData1 = new GridData();
             labelImagesFileLData1.widthHint = 125;
             labelImagesFileLData1.heightHint = 15;
             labelImagesFileLData1.horizontalSpan = 2;
             labelImagesFileLData1.verticalAlignment = GridData.BEGINNING;
-            labelImagesLName.setLayoutData(labelImagesFileLData1);
+            labelImagesDescription.setLayoutData(labelImagesFileLData1);
         }
         {
             textImagesDescription = new Text(groupImagesDetail, SWT.MULTI
                     | SWT.V_SCROLL | SWT.BORDER);
+            textImagesDescription.setEnabled(false);
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 36;
@@ -469,8 +470,6 @@ public class CompositeImage extends AbstractComposite {
         }
         {
             textFileUrl = new Text(groupImagesDetail, SWT.NONE);
-            textFileUrl.setText(l
-                    .getString("images.groupdetail.labelselecteddatabase"));
             textFileUrl.setEditable(false);
             GridData text1LData = new GridData();
             text1LData.widthHint = 105;
@@ -648,10 +647,14 @@ public class CompositeImage extends AbstractComposite {
                         textImagesID.setText("");
                         textImagesName.setText("");
                         textImagesDescription.setText("");
+                        
                         textImagesName.setEditable(true);
                         textImagesDescription.setEditable(true);
                         buttonSelectFile.setEnabled(true);
-
+                        
+                        ideaImage=scaledImage = null;
+                        canvasImg.redraw();
+                        
                         buttonImageCancel.setEnabled(true);
                         buttonImageSave.setEnabled(true);
                         buttonImageNew.setEnabled(false);
@@ -674,14 +677,14 @@ public class CompositeImage extends AbstractComposite {
                         mode_image = ManagementGui.MODE_EDIT;
 
                         textImagesID.setEditable(false);
-                        textImagesName.setText("");
                         textImagesName.setEditable(true);
-                        textImagesDescription.setText("");
+                        
                         textImagesDescription.setEditable(true);
                         textImagesName.setFocus();
 
                         buttonImageCancel.setEnabled(true);
                         buttonImageSave.setEnabled(true);
+                        
                         buttonImageNew.setEnabled(false);
                         buttonImageEdit.setEnabled(false);
                         buttonImageDelete.setEnabled(false);
@@ -1134,10 +1137,18 @@ public class CompositeImage extends AbstractComposite {
         textImagesID.setText(object.getImageId() + "");
         textImagesName.setText(object.getImageFileName());
         textImagesDescription.setText(object.getImageFileDescription());
-
+        
+        textFileUrl.setText(l
+                .getString("images.groupdetail.labelselecteddatabase"));
+        
         if (object.getImageFile() != null && object.getImageFile().length > 0) {
+            System.out.println("Versuche zu zeichnen");
             scaledImage = ideaImage = new Image(getDisplay(),
                     new ByteArrayInputStream(object.getImageFile()));
+            canvasImg.redraw();
+        }else{
+            statusLine.setStatus(StatusLineStyledText.STATUS_WARN,"Bilddaten können für Bild "+ object.getImageFileName() +"nicht geladen werden.");
+            scaledImage = ideaImage = null;
             canvasImg.redraw();
         }
 
@@ -1185,18 +1196,14 @@ public class CompositeImage extends AbstractComposite {
                     .get(i);
             item = new TableItem(tableImagesOverview, SWT.NONE);
             
-            /*
-            if (o.getImageFile() != null && o.getImageFile().length > 0) {
-            System.out.println("id"+o.getImageId()+" byte:"+o.getImageFile().toString());
-            ImageData imgdata = new ImageData(new ByteArrayInputStream((o.getImageFile())));
-            imgdata.scaledTo(10,10);
- 
-            Image img = new Image(getDisplay(),imgdata);
-            System.out.println("Größe: "+img.getBounds());
             
-                item.setImage(0, new Image(getDisplay(),imgdata));
+            if (o.getImageFile() != null && o.getImageFile().length > 0) {
+                System.out.println("id"+o.getImageId()+" byte:"+o.getImageFile().toString());
+                
+            
+                item.setImage(0, createThumbnailImage(o.getImageFile()));
             }            
-            */
+            
             item.setText(new String[] { o.getImageId() + "",
                     o.getImageFileName(), o.getImageFileDescription() });
 
@@ -1204,15 +1211,33 @@ public class CompositeImage extends AbstractComposite {
     }
     
     private Image createThumbnailImage(byte[] data){
-        ImageData imgdata = new ImageData(new ByteArrayInputStream(data));
-        int maxheight = 10;
-        int maxwidth = 10;
-        imgdata.scaledTo(maxwidth,maxheight);
-            /**
-             * @todo hier noch einen algorithmus zum verkleinern
-             */
+        
+        int maxheight = 75;
+        int maxwidth = 75;
 
-        return new Image(getDisplay(),imgdata);
+        final Image image = new Image(getDisplay(),new ByteArrayInputStream(data));
+        final int width = image.getBounds().width;
+        final int height = image.getBounds().height;
+        float scalefactor = 1;
+        
+        if (width > maxwidth) {
+            scalefactor = (float)maxwidth/width;
+        }
+        if (height > maxheight) {
+            if ( ((float)maxheight/height)< scalefactor ){
+                scalefactor = ((float)maxheight/height);
+            }
+            
+        }
+        
+        final Image scaledtemp = new Image(getDisplay(),
+                image.getImageData().scaledTo((int)(width*scalefactor),(int)(height*scalefactor)));
+        
+
+        System.out.println("Größe: "+scaledtemp.getBounds());
+        
+        
+        return scaledtemp;
         
     }
 }
