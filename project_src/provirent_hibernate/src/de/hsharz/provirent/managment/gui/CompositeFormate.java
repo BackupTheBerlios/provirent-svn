@@ -178,15 +178,7 @@ public class CompositeFormate extends AbstractComposite {
     public static void showGUI() {
         Display display = Display.getDefault();
         Shell shell = new Shell(display);
-        /*
-         * CompositeFormate inst = new CompositeFormate(shell, SWT.NULL); Point
-         * size = inst.getSize(); shell.setLayout(new FillLayout());
-         * shell.layout(); if(size.x == 0 && size.y == 0) { inst.pack();
-         * shell.pack(); } else { Rectangle shellBounds = shell.computeTrim(0,
-         * 0, size.x, size.y); int MENU_HEIGHT = 22; if (shell.getMenuBar() !=
-         * null) shellBounds.height -= MENU_HEIGHT;
-         * shell.setSize(shellBounds.width, shellBounds.height); }
-         */
+
         shell.open();
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch())
@@ -779,11 +771,11 @@ public class CompositeFormate extends AbstractComposite {
             composite2.setLayout(composite2Layout);
             composite2LData.verticalAlignment = GridData.END;
             composite2LData.horizontalAlignment = GridData.CENTER;
-            composite2LData.widthHint = 322;
+            composite2LData.widthHint = 391;
             composite2LData.horizontalSpan = 6;
             composite2LData.grabExcessHorizontalSpace = true;
             composite2LData.grabExcessVerticalSpace = true;
-            composite2LData.heightHint = 33;
+            composite2LData.heightHint = 35;
             composite2.setLayoutData(composite2LData);
 
             //init all the Buttons
@@ -986,7 +978,7 @@ public class CompositeFormate extends AbstractComposite {
         }
 
         this.setLayout(new GridLayout());
-        this.setSize(681, 433);
+        this.setSize(816, 540);
         {
             sashForm1 = new SashForm(this, SWT.VERTICAL | SWT.V_SCROLL);
             GridData sashForm1LData1 = new GridData();
