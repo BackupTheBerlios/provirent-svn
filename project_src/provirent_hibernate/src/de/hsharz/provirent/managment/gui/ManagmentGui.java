@@ -93,7 +93,7 @@ import de.hsharz.provirent.persistence.Database;
  import de.hsharz.provirent.managment.gui.CompositeFormate;
 /**
  * @author Philipp Schneider
- *
+ *  
  */
 public class ManagmentGui {
     /**
@@ -104,6 +104,7 @@ public class ManagmentGui {
     public final static int MODE_VIEW = 0;
 
     public final static int MODE_ADD = 1;
+    private CTabItem cTabItem1;
 
     public final static int MODE_EDIT = 2;
 
@@ -179,7 +180,7 @@ public class ManagmentGui {
      * Bundle for multilanguage
      */
     private ResourceBundle l;
-
+    
     private Locale locale ;
 
     /**
@@ -214,10 +215,10 @@ public class ManagmentGui {
             logger.debug("ManagmentGui() Locale: " + Locale.getDefault());
         }
 
-
+        
         locale = Locale.getDefault();
-
-
+        
+        
         l = PropertyResourceBundle.getBundle(
                 "de.hsharz.provirent.managment.gui.language.main", locale);
 
@@ -244,7 +245,7 @@ public class ManagmentGui {
 
         //init the db, so it saves time later, does that in a new Thread
         initDB();
-
+        
         //init the rest
         initGUI();
         
@@ -447,7 +448,7 @@ public class ManagmentGui {
         //init the MainComposite
         initMainComposite();
     }
-
+    
 
 
     private void initMainComposite(){
@@ -467,14 +468,11 @@ public class ManagmentGui {
         composite3LData.grabExcessHorizontalSpace = true;
         composite3LData.grabExcessVerticalSpace = true;
         compositeMain.setLayoutData(composite3LData);
-
+    
         //init the MainTabFolder
     }
-
+    
     private void initMainTabFolder() {
-<<<<<<< .mine
-
-=======
         cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
         //cTabFolderMain.setSelection(null);
         GridData cTabFolder1LData = new GridData();
@@ -483,10 +481,13 @@ public class ManagmentGui {
         cTabFolder1LData.grabExcessVerticalSpace = true;
         cTabFolder1LData.verticalAlignment = GridData.FILL;
         cTabFolderMain.setLayoutData(cTabFolder1LData);
-        
->>>>>>> .r83
-    }
+        {
+            cTabItem1 = new CTabItem(cTabFolderMain, SWT.NONE);
+            cTabItem1.setText("cTabItem1");
+        }
 
+    }
+    
     private void initGUI() {
         try {
 
@@ -512,191 +513,7 @@ public class ManagmentGui {
                 initStatusComposite();
                 initMainTabFolder();
 
-<<<<<<< .mine
-                {
-                    {
-                        cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
-                        //cTabFolderMain.setSelection(null);
-                        GridData cTabFolder1LData = new GridData();
-                        cTabFolder1LData.grabExcessHorizontalSpace = true;
-                        cTabFolder1LData.horizontalAlignment = GridData.FILL;
-                        cTabFolder1LData.grabExcessVerticalSpace = true;
-                        cTabFolder1LData.verticalAlignment = GridData.FILL;
-                        cTabFolderMain.setLayoutData(cTabFolder1LData);
-                        {
-                            tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
-                            tabItemFormat.setText("Formate");
-                            {
-                                compositeFormate = new CompositeFormate(
-                                    cTabFolderMain,
-                                    SWT.NONE, statusLine, locale);
 
-                                tabItemFormat.setControl(compositeFormate);
-                            }
-                        }
-                        {
-                            cTabItem2 = new CTabItem(cTabFolderMain, SWT.NONE);
-                            cTabItem2.setText("cTabItem2");
-                            {
-                                sashFormDirector = new SashForm(cTabFolderMain,
-                                        SWT.NONE);
-                                cTabItem2.setControl(sashFormDirector);
-                                FormLayout sashFormDirectorLayout = new FormLayout();
-                                sashFormDirector
-                                        .setLayout(sashFormDirectorLayout);
-                                {
-                                    group1Director = new Group(
-                                            sashFormDirector, SWT.NONE);
-                                    GridLayout gridLayout = new GridLayout();
-                                    gridLayout.numColumns = 6;
-                                    group1Director
-                                            .setText("Directors Übersicht");
-                                    FormData formData = new FormData();
-                                    group1Director.setLayout(gridLayout);
-                                    formData.right = new FormAttachment(100,
-                                            100, -5);
-                                    formData.top = new FormAttachment(0, 100, 5);
-                                    formData.bottom = new FormAttachment(100,
-                                            100, -5);
-                                    group1Director.setLayoutData(formData);
-                                    {
-                                        tableDirector = new Table(
-                                                group1Director, SWT.SINGLE
-                                                        | SWT.FULL_SELECTION
-                                                        | SWT.V_SCROLL
-                                                        | SWT.BORDER);
-                                        tableDirector.setHeaderVisible(true);
-                                        tableDirector.setLinesVisible(true);
-                                        GridData griddata = new GridData();
-                                        tableDirector
-                                                .addSelectionListener(new SelectionAdapter() {
-                                                    public void widgetSelected(
-                                                            SelectionEvent evt) {
-=======
->>>>>>> .r83
-
-<<<<<<< .mine
-                                                        int index = tableDirector
-                                                                .getSelectionIndex();
-                                                        System.out
-                                                                .println("Table select. id: "
-                                                                        + index
-                                                                        + " TableItem:"
-                                                                        + tableDirector
-                                                                                .getItem(index)
-                                                                        + " id: "
-                                                                        + tableDirector
-                                                                                .getItem(
-                                                                                        index)
-                                                                                .getText(
-                                                                                        0));
-                                                    }
-                                                });
-                                        griddata.verticalAlignment = GridData.FILL;
-                                        griddata.horizontalAlignment = GridData.FILL;
-                                        griddata.horizontalSpan = 6;
-                                        griddata.grabExcessHorizontalSpace = true;
-                                        griddata.grabExcessVerticalSpace = true;
-                                        tableDirector.setLayoutData(griddata);
-                                        {
-                                            tableColumnDirectorId = new TableColumn(
-                                                    tableDirector, SWT.CENTER);
-                                            tableColumnDirectorId.setText("id");
-                                            tableColumnDirectorId.setWidth(100);
-                                        }
-                                        {
-                                            tableColumnDirectorLastname = new TableColumn(
-                                                    tableDirector, SWT.CENTER);
-                                            tableColumnDirectorLastname
-                                                    .setText("Name");
-                                            tableColumnDirectorLastname
-                                                    .setWidth(100);
-
-                                        }
-                                        {
-                                            tableColumnDirectorFirstname = new TableColumn(
-                                                    tableDirector, SWT.CENTER);
-                                            tableColumnDirectorFirstname
-                                                    .setText("Short");
-                                            tableColumnDirectorFirstname
-                                                    .setWidth(100);
-
-                                        }
-                                    }
-                                    {
-                                        filterLabelVideoFormat = new Label(
-                                                group1Director, SWT.NONE);
-                                        filterLabelVideoFormat
-                                                .setText("Suche nach:");
-                                        GridData data1 = new GridData();
-                                        data1.horizontalSpan = 2;
-                                        filterLabelVideoFormat
-                                                .setLayoutData(data1);
-                                    }
-                                    {
-                                        filterTextVideoFormat = new Text(
-                                                group1Director, SWT.BORDER);
-                                        GridData data2 = new GridData();
-
-                                        data2.horizontalAlignment = GridData.FILL;
-                                        data2.horizontalSpan = 4;
-                                        data2.grabExcessHorizontalSpace = true;
-                                        filterTextVideoFormat
-                                                .setLayoutData(data2);
-                                    }
-                                }
-                                {
-                                    group2Director = new Group(
-                                            sashFormDirector, SWT.NONE);
-                                    GridLayout gridLayout = new GridLayout();
-                                    gridLayout.numColumns = 2;
-                                    group2Director.setText("Filmliste");
-                                    FormData formData = new FormData();
-                                    group2Director.setLayout(gridLayout);
-                                    formData.left = new FormAttachment(0, 100,
-                                            5);
-                                    formData.top = new FormAttachment(0, 100, 5);
-                                    formData.bottom = new FormAttachment(100,
-                                            100, -5);
-                                    group2Director.setLayoutData(formData);
-                                    {
-                                        list3 = new List(group2Director,
-                                                SWT.SINGLE | SWT.H_SCROLL
-                                                        | SWT.V_SCROLL
-                                                        | SWT.BORDER);
-                                        GridData list3LData = new GridData();
-                                        list3
-                                                .addSelectionListener(new SelectionAdapter() {
-                                                    public void widgetSelected(
-                                                            SelectionEvent evt) {
-                                                        System.out
-                                                                .println("list1.widgetSelected, event="
-                                                                        + evt);
-
-                                                        //TODO add your code for
-                                                        // list1.widgetSelected
-                                                    }
-                                                });
-                                        list3LData.verticalAlignment = GridData.FILL;
-                                        list3LData.horizontalAlignment = GridData.FILL;
-                                        list3LData.grabExcessHorizontalSpace = true;
-                                        list3LData.grabExcessVerticalSpace = true;
-                                        list3.setLayoutData(list3LData);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                {
-                    //init the Composite for statusline
-
-                    //compositeFormate.setStatusLine(statusLine);
-
-                }
-            }
-=======
->>>>>>> .r83
             shell.layout();
         } catch (Exception e) {
             e.printStackTrace();
@@ -745,7 +562,7 @@ public class ManagmentGui {
 
     /**
      * Sets a message for the Statusline
-     *
+     * 
      * @param mode
      * @param message
      */
@@ -753,7 +570,7 @@ public class ManagmentGui {
         /**
          * mode values 0 normal message 1 information message 2 warn message 3
          * error message
-         *
+         *  
          */
         if (mode == 0) {
             statusLine.setBackground(ColorDef.STATUS_B_STANDARD);
@@ -773,7 +590,7 @@ public class ManagmentGui {
 
 		new Thread() {
 			public void run() {
-
+				
 				try {Thread.sleep (1000 *5);} catch (Throwable th) {}
 					if (display.isDisposed()) return;
 					display.asyncExec(new Runnable() {
@@ -782,7 +599,7 @@ public class ManagmentGui {
 				            statusLine.setForeground(ColorDef.STATUS_F_STANDARD);
 						}
 					});
-
+				
 			}
 		}.start();
 
@@ -794,7 +611,7 @@ public class ManagmentGui {
      * Hintergrund
      */
     private void initDB(){
-
+        
 		new Thread() {
 			public void run() {
 			    Database.initDB();
@@ -802,7 +619,7 @@ public class ManagmentGui {
 		}.start();
 
     }
-
-
-
+        
+    
+    
 }
