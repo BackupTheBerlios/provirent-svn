@@ -213,8 +213,15 @@ public class CompositeFormate extends AbstractComposite {
 
         //die Gui wird aufgerufen
         initGUI();
+        
+        //die VideoFormattabelle wird gefüllt
+        refreshVideoFormatTable("");
+        
     }
 
+    /**
+     * Zeigt die linke Gruppe des VideoFormates an
+     */
     private void initVideoFormatGroupOverview() {
         if (logger.isDebugEnabled()) {
             logger.debug("initVideoFormatGroupOverview() - start");
@@ -222,7 +229,7 @@ public class CompositeFormate extends AbstractComposite {
 
         groupVideoFormatOverview = new Group(sashFormVideoFormat, SWT.NONE);
         GridLayout group5Layout = new GridLayout();
-        group5Layout.numColumns = 6;
+        group5Layout.numColumns = 8;
         groupVideoFormatOverview.setText(l
                 .getString("videoformat.groupoverview.label"));
         FormData group5LData = new FormData();
@@ -231,8 +238,9 @@ public class CompositeFormate extends AbstractComposite {
         group5LData.top = new FormAttachment(0, 100, 0);
         groupVideoFormatOverview.setLayoutData(group5LData);
 
-        //Tabelle init
+        //Tabelle anzeigen
         initTableVideoFormat();
+        //Suche darunter anzeigen
         initVideoFormatSearch();
 
         if (logger.isDebugEnabled()) {
@@ -240,19 +248,24 @@ public class CompositeFormate extends AbstractComposite {
         }
     }
 
+    /**
+     * Suchfelder für die Suche
+     */
     private void initVideoFormatSearch() {
         if (logger.isDebugEnabled()) {
             logger.debug("initVideoFormatSearch() - start");
         }
 
+        //label für die Suche
         labelVideoFormatSearch = new Label(groupVideoFormatOverview, SWT.NONE);
         labelVideoFormatSearch.setText(l
                 .getString("videoformat.groupoverview.searchlabel")
                 + ":");
         GridData label2LData = new GridData();
-        label2LData.horizontalSpan = 2;
+        label2LData.horizontalSpan = 3;
         labelVideoFormatSearch.setLayoutData(label2LData);
 
+        //das Suchfeld
         textVideoFormatSearch = new Text(groupVideoFormatOverview, SWT.BORDER);
         GridData text2LData = new GridData();
         textVideoFormatSearch.addFocusListener(new FocusAdapter() {
@@ -286,15 +299,20 @@ public class CompositeFormate extends AbstractComposite {
         });
 
         text2LData.horizontalAlignment = GridData.FILL;
-        text2LData.horizontalSpan = 4;
+        text2LData.horizontalSpan = 5;
         text2LData.grabExcessHorizontalSpace = true;
         textVideoFormatSearch.setLayoutData(text2LData);
+
+
 
         if (logger.isDebugEnabled()) {
             logger.debug("initVideoFormatSearch() - end");
         }
     }
 
+    /**
+     * Tabelle für die Übersicht aller vorhandenen Formate
+     */
     private void initTableVideoFormat() {
         if (logger.isDebugEnabled()) {
             logger.debug("initTableVideoFormat() - start");
@@ -345,11 +363,12 @@ public class CompositeFormate extends AbstractComposite {
         });
         table2LData.verticalAlignment = GridData.FILL;
         table2LData.horizontalAlignment = GridData.FILL;
-        table2LData.horizontalSpan = 6;
+        table2LData.horizontalSpan = 8;
         table2LData.grabExcessHorizontalSpace = true;
         table2LData.grabExcessVerticalSpace = true;
         tableVideoFormat.setLayoutData(table2LData);
 
+        //einzelne Spalten hinzufügen
         tableColumn = new TableColumn(tableVideoFormat, SWT.CENTER);
         tableColumn.setText(l.getString("videoformat.groupoverview.columnid"));
         tableColumn.setWidth(50);
@@ -367,6 +386,9 @@ public class CompositeFormate extends AbstractComposite {
         }
     }
 
+    /**
+     * Buttons für die VideoFormate
+     */
     private void initVideoFormatDetailButtons() {
 
         buttonVideoFormatNew = new Button(composite2, SWT.PUSH | SWT.CENTER);
@@ -498,6 +520,7 @@ public class CompositeFormate extends AbstractComposite {
             }
         );
 
+        //leerer nicht sichtbarer Button
         buttonVideoFormatFill = new Button(composite2, SWT.PUSH | SWT.CENTER);
         GridData buttonVideoFormatFillLData = new GridData();
         buttonVideoFormatFill.setVisible(false);
@@ -651,15 +674,17 @@ public class CompositeFormate extends AbstractComposite {
         textVideoFormatShortname.setEditable(false);
         textVideoFormatSearch.setEditable(true);
 
-        //                                          VideoTabelle
-        // aktivieren
+        // VideoTabelle aktivieren
         tableVideoFormat.setEnabled(true);
 
-        //VideoSearch
-        // aktivieren
+        //VideoSearch aktivieren
         textVideoFormatSearch.setEnabled(true);
     }
 
+    /**
+     * rechte Seite des VideoFormates
+     * Detailansicht
+     */
     private void initVideoFormatGroupDetail() {
 
         groupVideoFormatDetail = new Group(sashFormVideoFormat, SWT.NONE);
@@ -744,6 +769,7 @@ public class CompositeFormate extends AbstractComposite {
         }
         {
 
+            //die Buttons bekommen ein eigenes Composite
             composite2 = new Composite(groupVideoFormatDetail, SWT.EMBEDDED);
             GridLayout composite2Layout = new GridLayout();
             composite2Layout.numColumns = 6;
@@ -765,6 +791,9 @@ public class CompositeFormate extends AbstractComposite {
 
     }
 
+    /**
+     * Gruppe für das VideoFormat (oben)
+     */
     private void initVideoFormatGroup() {
         {
             //init a group for the videoformat
@@ -802,6 +831,7 @@ public class CompositeFormate extends AbstractComposite {
 
                 //init die Gruppe für VideoFormate Überblick
                 initVideoFormatGroupOverview();
+                //init die Detailansicht
                 initVideoFormatGroupDetail();
 
             }
