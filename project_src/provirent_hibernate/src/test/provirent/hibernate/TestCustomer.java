@@ -125,15 +125,6 @@ public class TestCustomer extends TestCase {
                 c.setHiddenAnswer(" ");
 
                 
-                Date birth = new Date();
-                birth.setMonth(4);
-                birth.setYear(1981);
-                birth.setDate(14);
-                
-                Calendar birthday = Calendar.getInstance();
-                birthday.setTime(birth);
-                
-                c.setDayOfBirth(birthday);
                 
                 
                 Person person = new Person();
@@ -146,6 +137,13 @@ public class TestCustomer extends TestCase {
                 person.setCountry("Deutschland");
                 person.setSalutation("Herr");
                 person.setEmailAddress("egal@phil-schneider.de");
+
+                Calendar birthday = Calendar.getInstance();
+                birthday.set(Calendar.DAY_OF_MONTH,14);
+                birthday.set(Calendar.MONTH,3); //April
+                birthday.set(Calendar.YEAR,1981 );
+             
+                person.setDayOfBirth(birthday);
                 
                 c.setPerson(person);
                 
@@ -261,15 +259,6 @@ public class TestCustomer extends TestCase {
                 c.setHiddenQuestion(" ");
                 c.setHiddenAnswer(" ");
 
-                Date birth = new Date();
-                birth.setMonth(4);
-                birth.setYear(1981);
-                birth.setDate(14);
-                Calendar birthday = Calendar.getInstance();
-                birthday.setTime(birth);
-                
-                c.setDayOfBirth(birthday);
-                
                 Person person = new Person();
                 person.setFirstName("Philipp");
                 person.setLastName("Schneider");
@@ -280,6 +269,15 @@ public class TestCustomer extends TestCase {
                 person.setCountry("Deutschland");
                 person.setSalutation("Herr");
                 person.setEmailAddress("kunde2-provirent@phil-schneider.de");
+
+                Calendar birthday = Calendar.getInstance();
+                birthday.set(Calendar.DAY_OF_MONTH,10);
+                birthday.set(Calendar.MONTH,8); 
+                birthday.set(Calendar.YEAR,1988 );
+             
+                person.setDayOfBirth(birthday);
+                
+                
                 c.setPerson(person);
                 customer.add(c);
 
@@ -290,15 +288,6 @@ public class TestCustomer extends TestCase {
                 c.setHiddenQuestion(" ");
                 c.setHiddenAnswer(" ");
 
-                birth = new Date();
-                birth.setMonth(5);
-                birth.setYear(1988);
-                birth.setDate(18);
-                birthday = Calendar.getInstance();
-                birthday.setTime(birth);
-                
-                c.setDayOfBirth(birthday);
-                
                 person = new Person();
                 person.setFirstName("Max");
                 person.setLastName("Meier");
@@ -309,6 +298,12 @@ public class TestCustomer extends TestCase {
                 person.setCountry("Deutschland");
                 person.setSalutation("Herr");
                 person.setEmailAddress("kunde2-provirent@phil-schneider.de");
+
+                birthday = Calendar.getInstance();
+                birthday.set(Calendar.DAY_OF_MONTH,2);
+                birthday.set(Calendar.MONTH,2); 
+                birthday.set(Calendar.YEAR,1954 );
+                
                 c.setPerson(person);
                 customer.add(c);
                 
@@ -320,15 +315,6 @@ public class TestCustomer extends TestCase {
                 c.setHiddenQuestion(" ");
                 c.setHiddenAnswer(" ");
 
-                birth = new Date();
-                birth.setMonth(8);
-                birth.setYear(1956);
-                birth.setDate(02);
-                birthday = Calendar.getInstance();
-                birthday.setTime(birth);
-                
-                c.setDayOfBirth(birthday);
-                
                 person = new Person();
                 person.setFirstName("Thomas");
                 person.setLastName("Pech");
@@ -339,6 +325,12 @@ public class TestCustomer extends TestCase {
                 person.setCountry("Deutschland");
                 person.setSalutation("Herr");
                 person.setEmailAddress("kunde3-provirent@phil-schneider.de");
+
+                birthday = Calendar.getInstance();
+                birthday.set(Calendar.DAY_OF_MONTH,10);
+                birthday.set(Calendar.MONTH,8); 
+                birthday.set(Calendar.YEAR,1988 );
+                
                 c.setPerson(person);
                 customer.add(c);
               
@@ -367,14 +359,15 @@ public class TestCustomer extends TestCase {
                         }
                         return;
                     }
+                    Customer myc = (Customer)customer.get(i);
                     //are both equal?
                     assertEquals(
                             "Select: Customer aus DB nicht gleich meiner. DB: "
-                                    + dbc + " My:" + c, c, dbc); 
+                                    + dbc + " My:" + myc, myc, dbc); 
 
                 }
                 
-
+                tx.commit();
                 
             } catch (Exception e) {
                 if (tx != null) {

@@ -1,5 +1,5 @@
 /*
- * Created on 11.10.2004
+ * Created on 12.10.2004
  *
  * Copyright (c) 2004/2005, Remo Griesch/Stefan Forstner/Philipp Schneider
  * All rights reserved.
@@ -32,21 +32,45 @@
  */
 package test.provirent.hibernate;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author Philipp Schneider
  *
  */
-public class AllTestsComplexObjects {
+public class RandomRange {
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite("Test for test.provirent.hibernate");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(TestCustomer.class);
-        suite.addTestSuite(TestMovie.class);
-        //$JUnit-END$
-        return suite;
-    }
+	private Random rnd;
+	private int rangeStart;
+	private int rangeEnd;
+	
+	
+	public RandomRange(int rS, int rE) {
+		rangeStart = rS;
+		rangeEnd = rE;
+		rnd = new Random();
+	}
+
+
+	public int nextInt() {
+		return Math.abs( ((rangeStart - 1) + rnd.nextInt()) % (rangeEnd + 1) );
+	}
+	
+	public List getNumbers(int anzahl) {
+	    //create a HashMap, a HashMap can onl contain once the same key
+	    HashMap map = new HashMap(anzahl);
+	    
+	    while ( anzahl != map.size()) {
+	        map.put(new Integer(nextInt()),"");
+        }
+	    //return only the keys (Integer) as List
+	    return new ArrayList(map.keySet());
+	    
+	}
+    
 }
