@@ -404,7 +404,7 @@ public class CompositeFormate extends AbstractComposite {
                 textVideoFormatSearch.setEditable(false);
                 tableVideoFormat.setEnabled(false);
 
-                mode_VideoFormat = ManagmentGui.MODE_ADD;
+                mode_VideoFormat = ManagementGui.MODE_ADD;
 
             }
         });
@@ -415,7 +415,7 @@ public class CompositeFormate extends AbstractComposite {
         buttonVideoFormatEdit.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
 
-                mode_VideoFormat = ManagmentGui.MODE_EDIT;
+                mode_VideoFormat = ManagementGui.MODE_EDIT;
 
 
                 textVideoFormatID.setEditable(false);
@@ -543,7 +543,7 @@ public class CompositeFormate extends AbstractComposite {
                 
                 //testen welcher mode
                 
-                if (mode_VideoFormat == ManagmentGui.MODE_ADD) {
+                if (mode_VideoFormat == ManagementGui.MODE_ADD) {
                     
                     /**
                      * @todo eine Exception bekommen wieder leider NOCH nicht mit
@@ -592,7 +592,7 @@ public class CompositeFormate extends AbstractComposite {
                     //alle Buttons auf aktiv setzen
                     setVideoGroupButtonSaveCancel();
                     
-                } else if (mode_VideoFormat == ManagmentGui.MODE_EDIT) {
+                } else if (mode_VideoFormat == ManagementGui.MODE_EDIT) {
                     
                     VideoFormat tmp = new VideoFormat(textVideoFormatName.getText(),
                                     textVideoFormatShortname.getText());
@@ -1067,7 +1067,7 @@ public class CompositeFormate extends AbstractComposite {
         buttonVideoFormatDelete.setEnabled(true);
 
         //Mode auf view setzen
-        mode_VideoFormat = ManagmentGui.MODE_VIEW;
+        mode_VideoFormat = ManagementGui.MODE_VIEW;
 
     }
 
