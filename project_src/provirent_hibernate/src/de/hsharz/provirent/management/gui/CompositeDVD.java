@@ -1,14 +1,11 @@
 package de.hsharz.provirent.management.gui;
 
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
@@ -37,19 +34,15 @@ import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
-import de.hsharz.provirent.objects.Actor;
-import de.hsharz.provirent.objects.Director;
-import de.hsharz.provirent.objects.Dvd;
-import de.hsharz.provirent.objects.Genre;
-import de.hsharz.provirent.objects.Image;
-import de.hsharz.provirent.objects.Language;
-import de.hsharz.provirent.objects.Subtitle;
-import de.hsharz.provirent.objects.VideoFormat;
 import de.hsharz.provirent.objects.AudioFormat;
+import de.hsharz.provirent.objects.Condition;
+import de.hsharz.provirent.objects.Dvd;
+import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.PaymentCategory;
-import de.hsharz.provirent.objects.Condition;
 import de.hsharz.provirent.objects.Status;
+import de.hsharz.provirent.objects.Subtitle;
+import de.hsharz.provirent.objects.VideoFormat;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
@@ -426,7 +419,6 @@ public class CompositeDVD extends AbstractComposite {
      * 
      */
     private void initDVDDetail() {
-        // TODO Auto-generated method stub
         //      Group DVD Detail
 		{
 			groupDVDDetail = new Group(sashForm1, SWT.H_SCROLL);
@@ -485,7 +477,8 @@ public class CompositeDVD extends AbstractComposite {
 		}
         {
             labelDVDMovie = new Label(groupDVDDetail, SWT.NONE);
-            labelDVDMovie.setText("labelDVDMovie");
+            labelDVDMovie.setText(l.getString("dvd.groupdetail.labelmovie")
+					+ ":");
             GridData labelDVDMovieLData = new GridData();
             labelDVDMovieLData.horizontalAlignment = GridData.FILL;
             labelDVDMovie.setLayoutData(labelDVDMovieLData);
@@ -505,7 +498,8 @@ public class CompositeDVD extends AbstractComposite {
         }
         {
             labelDVDPayment = new Label(groupDVDDetail, SWT.NONE);
-            labelDVDPayment.setText("labelDVDPayment");
+            labelDVDPayment.setText(l.getString("dvd.groupdetail.labelpayment")
+					+ ":");
             GridData labelDVDPaymentLData = new GridData();
             labelDVDPaymentLData.horizontalAlignment = GridData.FILL;
             labelDVDPayment.setLayoutData(labelDVDPaymentLData);
@@ -525,7 +519,8 @@ public class CompositeDVD extends AbstractComposite {
         }
         {
             labelDVDStatus = new Label(groupDVDDetail, SWT.NONE);
-            labelDVDStatus.setText("labelDVDStatus");
+            labelDVDStatus.setText(l.getString("dvd.groupdetail.labelstatus")
+					+ ":");
             GridData labelDVDStatusLData = new GridData();
             labelDVDStatusLData.horizontalAlignment = GridData.FILL;
             labelDVDStatus.setLayoutData(labelDVDStatusLData);
@@ -546,7 +541,8 @@ public class CompositeDVD extends AbstractComposite {
         }
         {
             labelDVDCondition = new Label(groupDVDDetail, SWT.NONE);
-            labelDVDCondition.setText("labelDVDCondition");
+            labelDVDCondition.setText(l.getString("dvd.groupdetail.labelcondition")
+					+ ":");
             GridData labelDVDConditionLData = new GridData();
             labelDVDConditionLData.horizontalAlignment = GridData.FILL;
             labelDVDCondition.setLayoutData(labelDVDConditionLData);
@@ -603,30 +599,27 @@ public class CompositeDVD extends AbstractComposite {
 					.addSelectionListener(new SelectionAdapter() {
 						public void widgetSelected(SelectionEvent evt) {
 							//open responsible Dialog and insert objects into
-							/* table
-							DialogMovie dialog = new DialogMovie(getShell(), 0,
-									locale, localmovie,
-									DialogMovie.TYPE_DIRECTOR);
+							//table
+							DialogDVD dialog = new DialogDVD(getShell(), 0,
+									locale, localdvd,
+									DialogDVD.TYPE_LANGUAGE);
 							dialog.open();
 
-							tableMoviesDirectorsDetail.removeAll();
+							tableDVDLanguagesDetail.removeAll();
 							TableItem item;
-							for (int i = 0; i < localmovie.getDirector().size(); i++) {
+							for (int i = 0; i < localdvd.getLanguages().size(); i++) {
 								item = new TableItem(
-										tableMoviesDirectorsDetail, SWT.NONE);
+										tableDVDLanguagesDetail, SWT.NONE);
 								item.setText(new String[] {
-										((Director) localmovie.getDirector()
-												.get(i)).getDirectorId()
+										((Language) localdvd.getLanguages()
+												.get(i)).getLanguageId()
 												+ "",
-										((Director) localmovie.getDirector()
-												.get(i)).getLastName()
-												+ " , "
-												+ ((Director) localmovie
-														.getDirector().get(i))
-														.getFirstName() });
+										((Language) localdvd.getLanguages()
+												.get(i)).getName()
+								});
 							}
-							*/
-						    // TODO
+							
+						    
 						}
 					});
 		}
@@ -666,7 +659,7 @@ public class CompositeDVD extends AbstractComposite {
 								tableDVDLanguagesDetail.remove(index);
 							}
 							
-						    //TODO
+						    
 						}
 					});
 		}
@@ -733,26 +726,24 @@ public class CompositeDVD extends AbstractComposite {
 			buttonDVDAddSubtitles.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent evt) {
 					//open responsible Dialog and insert objects into table
-					/*
-				    DialogMovie dialog = new DialogMovie(getShell(), 0, locale,
-							localmovie, DialogMovie.TYPE_ACTOR);
+					//
+				    DialogDVD dialog = new DialogDVD(getShell(), 0, locale,
+							localdvd, DialogDVD.TYPE_SUBTITLE);
 					dialog.open();
 
-					tableMoviesActorsDetail.removeAll();
+					tableDVDSubtitlesDetail.removeAll();
 					TableItem item;
-					for (int i = 0; i < localmovie.getActors().size(); i++) {
-						item = new TableItem(tableMoviesActorsDetail, SWT.NONE);
+					for (int i = 0; i < localdvd.getSubtitles().size(); i++) {
+						item = new TableItem(tableDVDSubtitlesDetail, SWT.NONE);
 						item.setText(new String[] {
-								((Actor) localmovie.getActors().get(i))
-										.getActorId()
+								((Subtitle) localdvd.getSubtitles().get(i))
+										.getSubtitleId()
 										+ "",
-								((Actor) localmovie.getActors().get(i))
-										.getLastName()
-										+ ", "
-										+ ((Actor) localmovie.getActors()
-												.get(i)).getFirstName() });
+								((Subtitle) localdvd.getSubtitles().get(i))
+										.getName() 
+						});
 					}
-				*/
+				
 				}
 			});
 		}
@@ -855,24 +846,23 @@ public class CompositeDVD extends AbstractComposite {
 			buttonDVDAddVideoformat.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent evt) {
 					//open responsible Dialog and insert objects into table
-					/*
-				    DialogMovie dialog = new DialogMovie(getShell(), 0, locale,
-							localmovie, DialogMovie.TYPE_GENRE);
+					//
+				    DialogDVD dialog = new DialogDVD(getShell(), 0, locale,
+							localdvd, DialogDVD.TYPE_VIDEOFORMAT);
 					dialog.open();
 
-					tableMoviesGenresDetail.removeAll();
+					tableDVDVideoformatDetail.removeAll();
 					TableItem item;
-					for (int i = 0; i < localmovie.getGenres().size(); i++) {
-						item = new TableItem(tableMoviesGenresDetail, SWT.NONE);
+					for (int i = 0; i < localdvd.getVideoFormats().size(); i++) {
+						item = new TableItem(tableDVDVideoformatDetail, SWT.NONE);
 						item.setText(new String[] {
-								((Genre) localmovie.getGenres().get(i))
-										.getGenreId()
+								((VideoFormat) localdvd.getVideoFormats().get(i))
+										.getVideoFormatId()
 										+ "",
-								((Genre) localmovie.getGenres().get(i))
-										.getName()
-										+ "" });
+								((VideoFormat) localdvd.getVideoFormats().get(i))
+										.getName() });
 					}
-				*/
+				
 				}
 			});
 		}
@@ -975,26 +965,25 @@ public class CompositeDVD extends AbstractComposite {
 			buttonDVDAddAudioformat.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent evt) {
 					//open responsible Dialog and insert objects into table
-					/*
-				    DialogMovie dialog = new DialogMovie(getShell(), 0, locale,
-							localmovie, DialogMovie.TYPE_IMAGE);
+					//
+				    DialogDVD dialog = new DialogDVD(getShell(), 0, locale,
+							localdvd, DialogDVD.TYPE_AUDIOFORMAT);
 					dialog.open();
 
-					tableMoviesImagesDetail.removeAll();
+					tableDVDAudioformatDetail.removeAll();
 					TableItem item;
-					for (int i = 0; i < localmovie.getImages().size(); i++) {
-						item = new TableItem(tableMoviesImagesDetail, SWT.NONE);
+					for (int i = 0; i < localdvd.getAudioFormats().size(); i++) {
+						item = new TableItem(tableDVDAudioformatDetail, SWT.NONE);
 						item.setText(new String[] {
-								((Image) localmovie.getImages().get(i))
-										.getImageId()
+								((AudioFormat) localdvd.getAudioFormats().get(i))
+										.getAudioFormatId()
 										+ "",
-								((Image) localmovie.getImages().get(i))
-										.getImageFileName()
+								((AudioFormat) localdvd.getAudioFormats().get(i))
+										.getName()
 										+ "" });
 					}
-					*/
-				    //TODO
-				}
+					
+				 }
 			});
 		}
 		{
@@ -1093,6 +1082,10 @@ public class CompositeDVD extends AbstractComposite {
 					comboDVDPayment.setEnabled(true);
 					comboDVDStatus.setEnabled(true);
 					comboDVDCondition.setEnabled(true);
+					comboDVDMovie.setText("");
+					comboDVDPayment.setText("");
+					comboDVDCondition.setText("");
+					comboDVDStatus.setText("");
 					
 					buttonDVDCancel.setEnabled(true);
 					buttonDVDSave.setEnabled(true);
@@ -1272,7 +1265,7 @@ public class CompositeDVD extends AbstractComposite {
 										+ evt);
 					}
 
-					/*List errors = validateInput();
+					List errors = validateInput();
 
 					if (errors.size() > 0) {
 						StringBuffer buf = new StringBuffer();
@@ -1291,32 +1284,41 @@ public class CompositeDVD extends AbstractComposite {
 						return;
 
 					}
-					*/
-					//testen welcher mode
+					
+					
 					localdvd.setBarcode(textDVDBarcode.getText());
 					
-					/*
-					try {
-						localmovie.setRuntime(Integer
-								.parseInt(textMoviesRuntime.getText()));
-					} catch (Exception ex) {
-						logger.error("widgetSelected(SelectionEvent)", ex);
-						showMsg(
-								l
-										.getString("movies.groupdetail.savebutton.warn.noname.msg"),
-								l
-										.getString("movies.groupdetail.savebutton.warn.noname.title"),
-								SWT.ICON_WARNING | SWT.YES);
-						return;
+					
+					// sehr schlechte Lösung
+					//TODO bessere Lösung finden
+					List list = Database.getMovie("");
+					for(int i=0;i<list.size();i++)  {
+					    if(comboDVDMovie.getText().compareTo(((Movie)list.get(i)).getTitle()) == 0)  {
+					      localdvd.setMovie((Movie)list.get(i)); 
+					      break;
+					    }
 					}
-					*/
-					/**
-					 * @todo eine Exception bekommen wieder leider NOCH nicht
-					 *       mit d.h. es muss noch ein rückgabewert kommen oder
-					 *       eine Exception übermitteln werden (aus der DB
-					 *       Klasse)
-					 */
-					//neues Objekt erzeugen
+					list = Database.getPaymentCategory();
+					for(int i=0;i<list.size();i++)  {
+					    if(comboDVDPayment.getText().compareTo(((PaymentCategory)list.get(i)).getName()) == 0)  {
+					      localdvd.setPaymentCategory((PaymentCategory)list.get(i)); 
+					      break;
+					    }
+					}
+					list = Database.getCondition("");
+					for(int i=0;i<list.size();i++)  {
+					    if(comboDVDCondition.getText().compareTo(((Condition)list.get(i)).getConditionName()) == 0)  {
+					      localdvd.setCondition((Condition)list.get(i)); 
+					      break;
+					    }
+					}
+					list = Database.getStatus("");
+					for(int i=0;i<list.size();i++)  {
+					    if(comboDVDStatus.getText().compareTo(((Status)list.get(i)).getStatusName()) == 0)  {
+					      localdvd.setStatus((Status)list.get(i)); 
+					      break;
+					    }
+					}
 					try {
 						//object speichern
 						// Fehlerbehandlung
@@ -1330,7 +1332,7 @@ public class CompositeDVD extends AbstractComposite {
 									+ " nach speichern");
 
 							// in Übersichtstabelle einfügen
-							insertIntoMoviesOverviewTable(localdvd);
+							insertIntoDVDOverviewTable(localdvd);
 							textDVDID.setText(localdvd.getDvdId() + "");
 						} else if (mode_dvd == ManagementGui.MODE_EDIT) {
 							Database.updateObject(localdvd);
@@ -1339,8 +1341,7 @@ public class CompositeDVD extends AbstractComposite {
 						statusLine
 								.setStatus(
 										1,
-										l
-												.getString("dvd.groupdetail.savebutton.newok"));
+										l.getString("dvd.groupdetail.savebutton.newok"));
 					} catch (DataBaseException e) {
 						logger.debug("DataBaseException: " + e);
 						if (e.getMessage().equalsIgnoreCase("1")) {
@@ -1349,11 +1350,9 @@ public class CompositeDVD extends AbstractComposite {
 							statusLine
 									.setStatus(
 											3,
-											l
-													.getString("dvd.groupdetail.savebutton.errorsave"));
+											l.getString("dvd.groupdetail.savebutton.errorsave"));
 							showMsg(
-									l
-											.getString("dvd.groupdetail.savebutton.errorsave"),
+									l.getString("dvd.groupdetail.savebutton.errorsave"),
 									"Fehler", SWT.ICON_ERROR | SWT.OK);
 
 						} else if (e.getMessage().equalsIgnoreCase("2")) {
@@ -1361,11 +1360,9 @@ public class CompositeDVD extends AbstractComposite {
 							statusLine
 									.setStatus(
 											3,
-											l
-													.getString("dvd.groupdetail.savebutton.errordb"));
+											l.getString("dvd.groupdetail.savebutton.errordb"));
 							showMsg(
-									l
-											.getString("dvd.groupdetail.savebutton.errordb"),
+									l.getString("dvd.groupdetail.savebutton.errordb"),
 									"Fehler", SWT.ICON_ERROR | SWT.OK);
 
 						} else {
@@ -1379,7 +1376,7 @@ public class CompositeDVD extends AbstractComposite {
 
 					//activate buttons
 					setDVDGroupButtonSaveCancel();
-
+					refreshDVDOverviewTable(textDVDSearch.getText());
 				}
 
 			});
@@ -1440,8 +1437,14 @@ public class CompositeDVD extends AbstractComposite {
     /**
      * @param localdvd2
      */
-    private void insertIntoMoviesOverviewTable(Dvd localdvd2) {
-        // TODO Auto-generated method stub
+    private void insertIntoDVDOverviewTable(Dvd localdvd2) {
+//      TODO Auto-generated method stub
+		TableItem item = new TableItem(tableDVDOverview, SWT.NONE);
+		item.setText(new String[] {
+				localdvd2.getDvdId() + " ",
+				localdvd2.getMovie().getTitle() + " ",
+				localdvd2.getPaymentCategory().getName() + " ",
+				localdvd2.getStatus().getStatusName()});
         
     }
 
@@ -1561,4 +1564,57 @@ public class CompositeDVD extends AbstractComposite {
 		mode_dvd = ManagementGui.MODE_VIEW;
     }
 
+	private List validateInput() {
+		List errors = new ArrayList();
+
+		if (textDVDBarcode.getText().trim().equalsIgnoreCase("")) {
+			errors.add(l
+					.getString("dvd.groupdetail.savebutton.warn.nobarcode"));
+		}
+
+		if (comboDVDMovie.getText().compareToIgnoreCase("") == 0) {
+			errors
+					.add(l.getString("dvd.groupdetail.savebutton.warn.nomovie"));
+		}
+
+		if (comboDVDPayment.getText().compareToIgnoreCase("") == 0) {
+			errors
+					.add(l
+							.getString("dvd.groupdetail.savebutton.warn.nopayment"));
+		}
+
+		if (comboDVDCondition.getText().compareToIgnoreCase("") == 0) {
+			errors
+					.add(l
+							.getString("dvd.groupdetail.savebutton.warn.nocondition"));
+		}
+
+		if (comboDVDStatus.getText().compareToIgnoreCase("") == 0) {
+			errors.add(l
+					.getString("dvd.groupdetail.savebutton.warn.nostatus"));
+		}
+
+		if (localdvd.getLanguages().size() == 0) {
+			errors.add(l
+					.getString("dvd.groupdetail.savebutton.warn.nolanguage"));
+		}
+
+		if (localdvd.getSubtitles().size() == 0) {
+			errors.add(l
+					.getString("dvd.groupdetail.savebutton.warn.nosubtitle"));
+		}
+
+		if (localdvd.getVideoFormats().size() == 0) {
+			errors.add(l
+					.getString("dvd.groupdetail.savebutton.warn.novideoformat"));
+		}
+		
+		if (localdvd.getAudioFormats().size() == 0) {
+			errors.add(l
+					.getString("dvd.groupdetail.savebutton.warn.noaudioformat"));
+		}
+		return errors;
+	}
+    
 }
+

@@ -427,6 +427,79 @@ public class Database {
 
 	}
 
+	public static List getVideoformatExcept(final String filter, List videoformat) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getVideoformatExcept() - start. String filter= " + filter);
+		}
+
+		//check if elements in list are Genre Objects
+		if (videoformat.size() > 0) {
+			if (!(videoformat.get(0) instanceof VideoFormat)) {
+				logger.error("Elemente in Liste sind keine Videoformate");
+				return new ArrayList();
+			}
+		}
+		//init the returnlist
+		List returnlist = new ArrayList();
+
+		Session s = null;
+
+		try {
+			//get new Session and begin Transaction
+			s = HibernateUtil.currentSession();
+
+			//init the criteria
+			Criteria criteria = s.createCriteria(VideoFormat.class);
+			//any of the criteria 
+			Disjunction any = Expression.disjunction();
+
+			//if filter not empty
+			if (filter != null && !filter.equalsIgnoreCase("")) {
+				any.add(Expression.like("name", "%" + filter + "%"));
+				any.add(Expression.like("shortname", "%" + filter + "%"));
+
+				//maybe we are searching for the id?
+				try {
+					any.add(Expression.eq("videoFormatId", new Integer(Integer
+							.parseInt(filter))));
+				} catch (Exception e) {
+				}
+
+			}
+			logger.debug("Anzahl der Videoformate:" + videoformat.size());
+			for (int i = 0; i < videoformat.size(); i++) {
+			    VideoFormat tmp = (VideoFormat) videoformat.get(i);
+				criteria.add(Expression.not(Expression.eq("videoFormatId", tmp
+						.getVideoFormatId())));
+			}
+
+			//add all criteria
+			criteria.add(any);
+			//get the results
+			returnlist = criteria.list();
+
+		} catch (Exception e) {
+			logger.error(
+					"getVideoformatExcept() - Error while trying to do Transaction",
+					e);
+			returnlist = new ArrayList();
+		} finally {
+			try {
+				// No matter what, close the session
+				HibernateUtil.closeSession();
+			} catch (HibernateException e1) {
+				logger.error("getVideoformatExcept() - Could not Close the Session",
+						e1);
+			}
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getVideoformatExcept() - end");
+		}
+		return returnlist;
+
+	}
+	
 	public static VideoFormat getSingleVideoFormat(final int id) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("getSingleVideoFormat() - start. int filter= " + id);
@@ -531,6 +604,79 @@ public class Database {
 
 	}
 
+	public static List getAudioformatExcept(final String filter, List audioformat) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getAudioformatExcept() - start. String filter= " + filter);
+		}
+
+		//check if elements in list are Genre Objects
+		if (audioformat.size() > 0) {
+			if (!(audioformat.get(0) instanceof AudioFormat)) {
+				logger.error("Elemente in Liste sind keine Audioformate");
+				return new ArrayList();
+			}
+		}
+		//init the returnlist
+		List returnlist = new ArrayList();
+
+		Session s = null;
+
+		try {
+			//get new Session and begin Transaction
+			s = HibernateUtil.currentSession();
+
+			//init the criteria
+			Criteria criteria = s.createCriteria(AudioFormat.class);
+			//any of the criteria 
+			Disjunction any = Expression.disjunction();
+
+			//if filter not empty
+			if (filter != null && !filter.equalsIgnoreCase("")) {
+				any.add(Expression.like("name", "%" + filter + "%"));
+				any.add(Expression.like("shortname", "%" + filter + "%"));
+
+				//maybe we are searching for the id?
+				try {
+					any.add(Expression.eq("audioFormatId", new Integer(Integer
+							.parseInt(filter))));
+				} catch (Exception e) {
+				}
+
+			}
+			logger.debug("Anzahl der Audioformate:" + audioformat.size());
+			for (int i = 0; i < audioformat.size(); i++) {
+			    AudioFormat tmp = (AudioFormat) audioformat.get(i);
+				criteria.add(Expression.not(Expression.eq("audioFormatId", tmp
+						.getAudioFormatId())));
+			}
+
+			//add all criteria
+			criteria.add(any);
+			//get the results
+			returnlist = criteria.list();
+
+		} catch (Exception e) {
+			logger.error(
+					"getAudioformatExcept() - Error while trying to do Transaction",
+					e);
+			returnlist = new ArrayList();
+		} finally {
+			try {
+				// No matter what, close the session
+				HibernateUtil.closeSession();
+			} catch (HibernateException e1) {
+				logger.error("getAudioformatExcept() - Could not Close the Session",
+						e1);
+			}
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getAudioformatExcept() - end");
+		}
+		return returnlist;
+
+	}
+	
 	/**
 	 * This method gets all Genres from the database.
 	 * searches for firstname or lastname or id
@@ -713,6 +859,79 @@ public class Database {
 
 	}
 
+	public static List getLanguageExcept(final String filter, List language) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getAudioformatExcept() - start. String filter= " + filter);
+		}
+
+		//check if elements in list are Genre Objects
+		if (language.size() > 0) {
+			if (!(language.get(0) instanceof Language)) {
+				logger.error("Elemente in Liste sind keine Sprachen");
+				return new ArrayList();
+			}
+		}
+		//init the returnlist
+		List returnlist = new ArrayList();
+
+		Session s = null;
+
+		try {
+			//get new Session and begin Transaction
+			s = HibernateUtil.currentSession();
+
+			//init the criteria
+			Criteria criteria = s.createCriteria(Language.class);
+			//any of the criteria 
+			Disjunction any = Expression.disjunction();
+
+			//if filter not empty
+			if (filter != null && !filter.equalsIgnoreCase("")) {
+				any.add(Expression.like("name", "%" + filter + "%"));
+				any.add(Expression.like("shortname", "%" + filter + "%"));
+
+				//maybe we are searching for the id?
+				try {
+					any.add(Expression.eq("languageId", new Integer(Integer
+							.parseInt(filter))));
+				} catch (Exception e) {
+				}
+
+			}
+			logger.debug("Anzahl der Sprachen:" + language.size());
+			for (int i = 0; i < language.size(); i++) {
+			    Language tmp = (Language) language.get(i);
+				criteria.add(Expression.not(Expression.eq("languageId", tmp
+						.getLanguageId())));
+			}
+
+			//add all criteria
+			criteria.add(any);
+			//get the results
+			returnlist = criteria.list();
+
+		} catch (Exception e) {
+			logger.error(
+					"getLanguageExcept() - Error while trying to do Transaction",
+					e);
+			returnlist = new ArrayList();
+		} finally {
+			try {
+				// No matter what, close the session
+				HibernateUtil.closeSession();
+			} catch (HibernateException e1) {
+				logger.error("getLanguageExcept() - Could not Close the Session",
+						e1);
+			}
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getLanguageExcept() - end");
+		}
+		return returnlist;
+
+	}
+	
 	public static Language getSingleLanguage(final int id) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("getSingleLanguage() - start. int filter= " + id);
@@ -935,6 +1154,79 @@ public class Database {
 
 	}
 
+	public static List getSubtitleExcept(final String filter, List subtitle) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getSubtitleExcept() - start. String filter= " + filter);
+		}
+
+		//check if elements in list are Genre Objects
+		if (subtitle.size() > 0) {
+			if (!(subtitle.get(0) instanceof Subtitle)) {
+				logger.error("Elemente in Liste sind keine Untertitel");
+				return new ArrayList();
+			}
+		}
+		//init the returnlist
+		List returnlist = new ArrayList();
+
+		Session s = null;
+
+		try {
+			//get new Session and begin Transaction
+			s = HibernateUtil.currentSession();
+
+			//init the criteria
+			Criteria criteria = s.createCriteria(Subtitle.class);
+			//any of the criteria 
+			Disjunction any = Expression.disjunction();
+
+			//if filter not empty
+			if (filter != null && !filter.equalsIgnoreCase("")) {
+				any.add(Expression.like("name", "%" + filter + "%"));
+				any.add(Expression.like("shortname", "%" + filter + "%"));
+
+				//maybe we are searching for the id?
+				try {
+					any.add(Expression.eq("subtitleId", new Integer(Integer
+							.parseInt(filter))));
+				} catch (Exception e) {
+				}
+
+			}
+			logger.debug("Anzahl der Untertitel:" + subtitle.size());
+			for (int i = 0; i < subtitle.size(); i++) {
+			    Subtitle tmp = (Subtitle) subtitle.get(i);
+				criteria.add(Expression.not(Expression.eq("subtitleId", tmp
+						.getSubtitleId())));
+			}
+
+			//add all criteria
+			criteria.add(any);
+			//get the results
+			returnlist = criteria.list();
+
+		} catch (Exception e) {
+			logger.error(
+					"getSubtitleExcept() - Error while trying to do Transaction",
+					e);
+			returnlist = new ArrayList();
+		} finally {
+			try {
+				// No matter what, close the session
+				HibernateUtil.closeSession();
+			} catch (HibernateException e1) {
+				logger.error("getSubtitleExcept() - Could not Close the Session",
+						e1);
+			}
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getSubtitleExcept() - end");
+		}
+		return returnlist;
+
+	}
+	
 	public static Subtitle getSingleSubtitle(final int id) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("getSingleSubtitle() - start. int filter= " + id);
@@ -1939,7 +2231,6 @@ public class Database {
 		return returnobject;
 
 	}
-
 	
 	/**
 	 * This method gets all PaymentCategory from the database.
