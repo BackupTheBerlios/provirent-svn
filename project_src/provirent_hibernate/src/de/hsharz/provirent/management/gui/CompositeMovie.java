@@ -780,13 +780,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            //get id from object 
         	            //search for id in list and delete object
         	            //remove table entry
-        	            int index=tableMoviesGenresDetail.getSelectionIndex();
-        	            if(index>=0)  {
-        	                String strid=tableMoviesGenresDetail.getItem(index).getText(0);
+        	            int index= tableMoviesGenresDetail.getSelectionIndex();
+        	            if(index >= 0)  {
+        	                String strid = tableMoviesGenresDetail.getItem(index).getText(0);
         	                int id = Integer.parseInt(strid);
-        	                for (int i=0;i<movie.getGenres().size();i++)  {
-        	                    Genre o =(Genre)movie.getGenres().get(i);    
-        	                    if (o.getGenreId().intValue()==id) {
+        	                for (int i=0; i < movie.getGenres().size(); i++)  {
+        	                    Genre o = (Genre)movie.getGenres().get(i);    
+        	                    if (o.getGenreId().intValue() == id) {
         	                        movie.getGenres().remove(o);
         	                        break;
         	                    }
@@ -798,7 +798,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	}
         	{
                 tableMoviesGenresDetail = new Table(groupMoviesDetail,SWT.SINGLE
-                        | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER);
+                        | SWT.FULL_SELECTION | SWT.BORDER);
                 //tableMoviesGenresDetail.setHeaderVisible(true);
                 //tableMoviesGenresDetail.setLinesVisible(true);
                 GridData tableMoviesGenresDetailLData = new GridData();
@@ -861,7 +861,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_IMAGE);
         	            dialog.open();
 
-        	            tableMoviesActorsDetail.removeAll();
+        	            tableMoviesImagesDetail.removeAll();
         	            TableItem item;
         	            for(int i =0; i< movie.getImages().size(); i++){
         	                item = new TableItem(tableMoviesImagesDetail, SWT.NONE);
@@ -1023,9 +1023,9 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 tableMoviesOverview.setEnabled(false);
                 textMoviesSearch.setEnabled(false);
                 
-                java.util.List Movielist = Database.getMovie(textMoviesID.getText());
+                //java.util.List Movielist = Database.getMovie(textMoviesID.getText());
                 //only one element because of ID
-                movie = (Movie)Movielist.get(0);
+                //movie = (Movie)Movielist.get(0);
             }
         });
 
@@ -1265,7 +1265,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     /**
      * @param text
      */
-    protected void refreshMoviesDetail(String id) {
+    private void refreshMoviesDetail(String id) {
         // TODO Auto-generated method stub
         Movie object;
         try {
@@ -1314,18 +1314,19 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         //Fill Genretable
         tableMoviesGenresDetail.removeAll();
         logger.debug("Anzahl der Genres: "+object.getGenres().size());
-        TableItem testitem = new TableItem(tableMoviesGenresDetail , SWT.NONE);
-        testitem.setText(new String[] {"0","Hallo"});
-        
         for (int i=0; i<object.getGenres().size();i++ )  {
             Genre o=(Genre)object.getGenres().get(i);
-            item = new TableItem(tableMoviesGenresDetail , SWT.NONE);
-            item.setText(new String[] {o.getGenreId() 
-                    + " ",o.getName()});
+            logger.debug(i+" "+o);
+             item = new TableItem(tableMoviesGenresDetail, SWT.NONE);
+             item.setText(new String[] { o.getGenreId() + ""
+                     , o.getName() + ""});
+             
+            //item.setText(new String[] {o.getGenreId() 
+            //        + " ",o.getName()});
         }
         
         //Fill Imagetable
-        tableMoviesGenresDetail.removeAll();
+        tableMoviesImagesDetail.removeAll();
         logger.debug("Anzahl der Bilder: "+object.getImages().size());
         for (int i=0;i<object.getImages().size();i++)  {
             Image o=(Image)object.getImages().get(i);
