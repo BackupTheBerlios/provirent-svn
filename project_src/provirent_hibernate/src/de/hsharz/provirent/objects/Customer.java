@@ -63,7 +63,7 @@ public class Customer implements Serializable {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
-    } 
+    }
 
     public Calendar getDayOfRegistration() {
         return this.dayOfRegistration;

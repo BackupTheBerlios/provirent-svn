@@ -15,7 +15,7 @@ import java.util.Calendar;import java.util.Date;import org.eclipse.swt.SWT;i
 
     public void open() {
         shell.pack();
-        shell.open();
+        shell.open();        shell.setText("Calender Titel");
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) display.sleep();
         }

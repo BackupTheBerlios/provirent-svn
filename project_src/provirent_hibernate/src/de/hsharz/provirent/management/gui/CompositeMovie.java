@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -33,11 +33,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-
-import com.cloudgarden.resource.SWTResourceManager;
 import org.vafada.swtcalendar.SWTCalendarEvent;
 import org.vafada.swtcalendar.SWTCalendarListener;
-import de.hsharz.provirent.Util;
+
+import com.cloudgarden.resource.SWTResourceManager;
+
 import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
@@ -188,7 +188,7 @@ public class CompositeMovie extends
 
     private Locale locale;
 
-    private Movie movie;
+    private Movie localmovie;
 
     /*
      * Ändert die Sprache aller Elemente
@@ -319,46 +319,17 @@ public class CompositeMovie extends
                 tableMoviesOverviewLData.grabExcessHorizontalSpace = true;
                 tableMoviesOverviewLData.grabExcessVerticalSpace = true;
                 tableMoviesOverview.setLayoutData(tableMoviesOverviewLData);
-                tableMoviesOverview.addFocusListener(new FocusAdapter() {
-                    public void focusLost(FocusEvent evt) {
-                        System.out
-                                .println("tableMoviesOverview.focusLost, event="
-                                        + evt);
-                    }
-
-                    public void focusGained(FocusEvent evt) {
-                        System.out
-                                .println("tableMoviesOverview.focusGained, event="
-                                        + evt);
-                    }
-                });
-                tableMoviesOverview.addSelectionListener(new SelectionAdapter() {
+                tableMoviesOverview
+                        .addSelectionListener(new SelectionAdapter() {
                             public void widgetSelected(SelectionEvent evt) {
-                                if (logger.isDebugEnabled()) {
-                                    logger.debug("widgetSelected(SelectionEvent evt = "
-                                                    + evt + ") - start");
-                                }
-
                                 int index = tableMoviesOverview
                                         .getSelectionIndex();
-
-                                System.out.println("Table select. id: "
-                                        + index
-                                        + " TableItem:"
-                                        + tableMoviesOverview.getItem(index)
-                                        + " id: "
-                                        + tableMoviesOverview.getItem(index)
-                                                .getText(0));
 
                                 //es wurde ein Element aus Tabelle ausgewaehlt
                                 // jetzt muss die
                                 //Detailansicht aktualisiert werden
                                 refreshMoviesDetail(tableMoviesOverview
                                         .getItem(index).getText(0));
-
-                                if (logger.isDebugEnabled()) {
-                                    logger.debug("widgetSelected(SelectionEvent) - end");
-                                }
                             }
                         });
                 {
@@ -578,6 +549,7 @@ public class CompositeMovie extends
                                     DateFormat.LONG).parse(
                                     textMoviesDate.getText()));
                         } catch (ParseException pe) {
+                            cal.setDate(new Date());
                         }
                     }
                     cal.open();
@@ -644,22 +616,22 @@ public class CompositeMovie extends
                             //open responsible Dialog and insert objects into
                             // table
                             DialogMovie dialog = new DialogMovie(getShell(), 0,
-                                    locale, movie, DialogMovie.TYPE_DIRECTOR);
+                                    locale, localmovie, DialogMovie.TYPE_DIRECTOR);
                             dialog.open();
 
                             tableMoviesDirectorsDetail.removeAll();
                             TableItem item;
-                            for (int i = 0; i < movie.getDirector().size(); i++) {
+                            for (int i = 0; i < localmovie.getDirector().size(); i++) {
                                 item = new TableItem(
                                         tableMoviesDirectorsDetail, SWT.NONE);
                                 item.setText(new String[] {
-                                        ((Director) movie.getDirector().get(i))
+                                        ((Director) localmovie.getDirector().get(i))
                                                 .getDirectorId()
                                                 + "",
-                                        ((Director) movie.getDirector().get(i))
+                                        ((Director) localmovie.getDirector().get(i))
                                                 .getLastName()
                                                 + " , "
-                                                + ((Director) movie
+                                                + ((Director) localmovie
                                                         .getDirector().get(i))
                                                         .getFirstName() });
                             }
@@ -691,11 +663,11 @@ public class CompositeMovie extends
                                 String strid = tableMoviesDirectorsDetail
                                         .getItem(index).getText(0);
                                 int id = Integer.parseInt(strid);
-                                for (int i = 0; i < movie.getDirector().size(); i++) {
-                                    Director o = (Director) movie.getDirector()
+                                for (int i = 0; i < localmovie.getDirector().size(); i++) {
+                                    Director o = (Director) localmovie.getDirector()
                                             .get(i);
                                     if (o.getDirectorId().intValue() == id) {
-                                        movie.getDirector().remove(o);
+                                        localmovie.getDirector().remove(o);
                                         break;
                                     }
                                 }
@@ -768,20 +740,20 @@ public class CompositeMovie extends
                 public void widgetSelected(SelectionEvent evt) {
                     //open responsible Dialog and insert objects into table
                     DialogMovie dialog = new DialogMovie(getShell(), 0, locale,
-                            movie, DialogMovie.TYPE_ACTOR);
+                            localmovie, DialogMovie.TYPE_ACTOR);
                     dialog.open();
 
                     tableMoviesActorsDetail.removeAll();
                     TableItem item;
-                    for (int i = 0; i < movie.getActors().size(); i++) {
+                    for (int i = 0; i < localmovie.getActors().size(); i++) {
                         item = new TableItem(tableMoviesActorsDetail, SWT.NONE);
                         item.setText(new String[] {
-                                ((Actor) movie.getActors().get(i)).getActorId()
+                                ((Actor) localmovie.getActors().get(i)).getActorId()
                                         + "",
-                                ((Actor) movie.getActors().get(i))
+                                ((Actor) localmovie.getActors().get(i))
                                         .getLastName()
                                         + ", "
-                                        + ((Actor) movie.getActors().get(i))
+                                        + ((Actor) localmovie.getActors().get(i))
                                                 .getFirstName() });
                     }
                 }
@@ -811,10 +783,10 @@ public class CompositeMovie extends
                                 String strid = tableMoviesActorsDetail.getItem(
                                         index).getText(0);
                                 int id = Integer.parseInt(strid);
-                                for (int i = 0; i < movie.getActors().size(); i++) {
-                                    Actor o = (Actor) movie.getActors().get(i);
+                                for (int i = 0; i < localmovie.getActors().size(); i++) {
+                                    Actor o = (Actor) localmovie.getActors().get(i);
                                     if (o.getActorId().intValue() == id) {
-                                        movie.getActors().remove(o);
+                                        localmovie.getActors().remove(o);
                                         break;
                                     }
                                 }
@@ -885,17 +857,17 @@ public class CompositeMovie extends
                 public void widgetSelected(SelectionEvent evt) {
                     //open responsible Dialog and insert objects into table
                     DialogMovie dialog = new DialogMovie(getShell(), 0, locale,
-                            movie, DialogMovie.TYPE_GENRE);
+                            localmovie, DialogMovie.TYPE_GENRE);
                     dialog.open();
 
                     tableMoviesGenresDetail.removeAll();
                     TableItem item;
-                    for (int i = 0; i < movie.getGenres().size(); i++) {
+                    for (int i = 0; i < localmovie.getGenres().size(); i++) {
                         item = new TableItem(tableMoviesGenresDetail, SWT.NONE);
                         item.setText(new String[] {
-                                ((Genre) movie.getGenres().get(i)).getGenreId()
+                                ((Genre) localmovie.getGenres().get(i)).getGenreId()
                                         + "",
-                                ((Genre) movie.getGenres().get(i)).getName()
+                                ((Genre) localmovie.getGenres().get(i)).getName()
                                         + "" });
                     }
                 }
@@ -925,10 +897,10 @@ public class CompositeMovie extends
                                 String strid = tableMoviesGenresDetail.getItem(
                                         index).getText(0);
                                 int id = Integer.parseInt(strid);
-                                for (int i = 0; i < movie.getGenres().size(); i++) {
-                                    Genre o = (Genre) movie.getGenres().get(i);
+                                for (int i = 0; i < localmovie.getGenres().size(); i++) {
+                                    Genre o = (Genre) localmovie.getGenres().get(i);
                                     if (o.getGenreId().intValue() == id) {
-                                        movie.getGenres().remove(o);
+                                        localmovie.getGenres().remove(o);
                                         break;
                                     }
                                 }
@@ -999,17 +971,17 @@ public class CompositeMovie extends
                 public void widgetSelected(SelectionEvent evt) {
                     //open responsible Dialog and insert objects into table
                     DialogMovie dialog = new DialogMovie(getShell(), 0, locale,
-                            movie, DialogMovie.TYPE_IMAGE);
+                            localmovie, DialogMovie.TYPE_IMAGE);
                     dialog.open();
 
                     tableMoviesImagesDetail.removeAll();
                     TableItem item;
-                    for (int i = 0; i < movie.getImages().size(); i++) {
+                    for (int i = 0; i < localmovie.getImages().size(); i++) {
                         item = new TableItem(tableMoviesImagesDetail, SWT.NONE);
                         item.setText(new String[] {
-                                ((Image) movie.getImages().get(i)).getImageId()
+                                ((Image) localmovie.getImages().get(i)).getImageId()
                                         + "",
-                                ((Image) movie.getImages().get(i))
+                                ((Image) localmovie.getImages().get(i))
                                         .getImageFileName()
                                         + "" });
                     }
@@ -1040,10 +1012,10 @@ public class CompositeMovie extends
                                 String strid = tableMoviesImagesDetail.getItem(
                                         index).getText(0);
                                 int id = Integer.parseInt(strid);
-                                for (int i = 0; i < movie.getImages().size(); i++) {
-                                    Image o = (Image) movie.getImages().get(i);
+                                for (int i = 0; i < localmovie.getImages().size(); i++) {
+                                    Image o = (Image) localmovie.getImages().get(i);
                                     if (o.getImageId().intValue() == id) {
-                                        movie.getImages().remove(o);
+                                        localmovie.getImages().remove(o);
                                         break;
                                     }
                                 }
@@ -1134,11 +1106,11 @@ public class CompositeMovie extends
                     tableMoviesImagesDetail.removeAll();
                     tableMoviesGenresDetail.removeAll();
 
-                    movie = new Movie();
-                    movie.setActors(new ArrayList());
-                    movie.setDirector(new ArrayList());
-                    movie.setGenres(new ArrayList());
-                    movie.setImages(new ArrayList());
+                    localmovie = new Movie();
+                    localmovie.setActors(new ArrayList());
+                    localmovie.setDirector(new ArrayList());
+                    localmovie.setGenres(new ArrayList());
+                    localmovie.setImages(new ArrayList());
                 }
             });
 
@@ -1183,20 +1155,26 @@ public class CompositeMovie extends
             buttonMoviesDelete.setEnabled(false);
             buttonMoviesDelete.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
-                    System.out
-                            .println("buttonMoviesDelete.widgetSelected, event="
-                                    + evt);
+                    if (logger.isDebugEnabled()) {
+                        logger
+                                .debug("widgetSelected(SelectionEvent) - buttonMoviesDelete.widgetSelected, event="
+                                        + evt);
+                    }
 
                     String msg = MessageFormat
-                            .format(l.getString("movies.groupdetail.deletebutton.question.text"),
+                            .format(
+                                    l
+                                            .getString("movies.groupdetail.deletebutton.question.text"),
                                     new Object[] { textMoviesTitle.getText()
                                             + " "
-                                            + l.getString("movies.groupdetail.deletebutton.question.gap")
+                                            + l
+                                                    .getString("movies.groupdetail.deletebutton.question.gap")
                                             + " " + textMoviesDate.getText() });
 
                     int question = showMsg(
                             msg,
-                            l.getString("movies.groupdetail.deletebutton.question.header"),
+                            l
+                                    .getString("movies.groupdetail.deletebutton.question.header"),
                             SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 
                     if (question != SWT.YES) {
@@ -1206,7 +1184,7 @@ public class CompositeMovie extends
                     try {
                         //object speichern
                         // Fehlerbehandlung
-                        Database.deleteObject(movie);
+                        Database.deleteObject(localmovie);
 
                         //ÜbersichtsTabelle aktualisieren
                         refreshMoviesOverviewTable(textMoviesSearch.getText());
@@ -1228,27 +1206,42 @@ public class CompositeMovie extends
 
                         //Statusline Nachricht sezten
                         statusLine
-                                .setStatus(1,l.getString("movies.groupdetail.deletebutton.newok"));
+                                .setStatus(
+                                        1,
+                                        l
+                                                .getString("movies.groupdetail.deletebutton.newok"));
 
                     } catch (DataBaseException e) {
                         if (e.getMessage().equalsIgnoreCase("1")) {
                             //Fehler beim Speichern des Objectes
 
-                            statusLine.setStatus(3,l.getString("movies.groupdetail.deletebutton.errorsave"));
-                            showMsg(l.getString("movies.groupdetail.deletebutton.errorsave"),
+                            statusLine
+                                    .setStatus(
+                                            3,
+                                            l
+                                                    .getString("movies.groupdetail.deletebutton.errorsave"));
+                            showMsg(
+                                    l
+                                            .getString("movies.groupdetail.deletebutton.errorsave"),
                                     l.getString("error"), SWT.ICON_ERROR
                                             | SWT.OK);
 
                         } else if (e.getMessage().equalsIgnoreCase("2")) {
                             //fehler beim db aufbau
-                            statusLine.setStatus(3,l.getString("movies.groupdetail.deletebutton.errordb"));
-                            showMsg(l.getString("movies.groupdetail.deletebutton.errordb"),
+                            statusLine
+                                    .setStatus(
+                                            3,
+                                            l
+                                                    .getString("movies.groupdetail.deletebutton.errordb"));
+                            showMsg(
+                                    l
+                                            .getString("movies.groupdetail.deletebutton.errordb"),
                                     l.getString("error"), SWT.ICON_ERROR
                                             | SWT.OK);
 
                         } else {
                             //@todo
-                            e.printStackTrace();
+                            logger.error("widgetSelected(SelectionEvent)", e);
                         }
 
                     }
@@ -1273,51 +1266,59 @@ public class CompositeMovie extends
             buttonMoviesSave.setEnabled(false);
             buttonMoviesSave.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
-                    System.out
-                            .println("buttonMoviesSave.widgetSelected, event="
-                                    + evt);
+                    if (logger.isDebugEnabled()) {
+                        logger
+                                .debug("widgetSelected(SelectionEvent) - buttonMoviesSave.widgetSelected, event="
+                                        + evt);
+                    }
 
                     if (textMoviesTitle.getText().trim().equalsIgnoreCase("")
                             || textMoviesDescription.getText().trim()
                                     .equalsIgnoreCase("")
                             || textMoviesDate.getText().trim()
                                     .equalsIgnoreCase("")
-                            || movie.getDirector().size() == 0
-                            || movie.getActors().size() == 0
-                            || movie.getGenres().size() == 0
-                            || movie.getImages().size() == 0) {
+                            || localmovie.getDirector().size() == 0
+                            || localmovie.getActors().size() == 0
+                            || localmovie.getGenres().size() == 0
+                            || localmovie.getImages().size() == 0) {
 
-                        showMsg(l.getString("movies.groupdetail.savebutton.warn.noname.msg"),
-                                l.getString("movies.groupdetail.savebutton.warn.noname.title"),
+                        showMsg(
+                                l
+                                        .getString("movies.groupdetail.savebutton.warn.noname.msg"),
+                                l
+                                        .getString("movies.groupdetail.savebutton.warn.noname.title"),
                                 SWT.ICON_WARNING | SWT.YES);
 
                         return;
                     }
 
                     //testen welcher mode
-                    movie.setTitle(textMoviesTitle.getText());
-                    movie.setDescription(textMoviesDescription.getText());
+                    localmovie.setTitle(textMoviesTitle.getText());
+                    localmovie.setDescription(textMoviesDescription.getText());
                     try {
-                        movie.setReleaseDate(Calendar.getInstance());
-                        movie.getReleaseDate().setTime(
+                        localmovie.setReleaseDate(Calendar.getInstance());
+                        localmovie.getReleaseDate().setTime(
                                 DateFormat.getDateInstance(DateFormat.LONG)
-                                .parse(textMoviesDate.getText()));
-                            logger.debug("Datum: " + movie.getReleaseDate());
+                                        .parse(textMoviesDate.getText()));
+                        logger.debug("Datum: " + localmovie.getReleaseDate());
                     } catch (ParseException e1) {
                         // TODO Auto-generated catch block
-                        //Hier muss noch was gemacht werden, das Datum konnte nicht geparst werden
-                        e1.printStackTrace();
+                        //Hier muss noch was gemacht werden, das Datum konnte
+                        // nicht geparst werden
+                        logger.error("widgetSelected(SelectionEvent)", e1);
                         return;
                     }
 
-                    try{
-                    movie.setRuntime(Integer.parseInt(textMoviesRuntime
-                            .getText()));
-                    }
-                    catch(Exception ex){
-                        ex.printStackTrace();
-                        showMsg(l.getString("movies.groupdetail.savebutton.warn.noname.msg"),
-                                l.getString("movies.groupdetail.savebutton.warn.noname.title"),
+                    try {
+                        localmovie.setRuntime(Integer.parseInt(textMoviesRuntime
+                                .getText()));
+                    } catch (Exception ex) {
+                        logger.error("widgetSelected(SelectionEvent)", ex);
+                        showMsg(
+                                l
+                                        .getString("movies.groupdetail.savebutton.warn.noname.msg"),
+                                l
+                                        .getString("movies.groupdetail.savebutton.warn.noname.title"),
                                 SWT.ICON_WARNING | SWT.YES);
                         return;
                     }
@@ -1328,11 +1329,10 @@ public class CompositeMovie extends
                      *       Klasse)
                      */
                     //neues Objekt erzeugen
-
                     try {
                         //object speichern
                         // Fehlerbehandlung
-                        Object o = Database.saveObject(movie);
+                        Object o = Database.saveObject(localmovie);
 
                         // in Übersichtstabelle einfügen
                         insertIntoMoviesOverviewTable((Movie) o);
@@ -1342,7 +1342,8 @@ public class CompositeMovie extends
                         statusLine
                                 .setStatus(
                                         1,
-                                        l.getString("movies.groupdetail.savebutton.newok"));
+                                        l
+                                                .getString("movies.groupdetail.savebutton.newok"));
                     } catch (DataBaseException e) {
                         if (e.getMessage().equalsIgnoreCase("1")) {
                             //Fehler beim Speichern des Objectes
@@ -1350,9 +1351,11 @@ public class CompositeMovie extends
                             statusLine
                                     .setStatus(
                                             3,
-                                            l.getString("movies.groupdetail.savebutton.errorsave"));
+                                            l
+                                                    .getString("movies.groupdetail.savebutton.errorsave"));
                             showMsg(
-                                    l.getString("movies.groupdetail.savebutton.errorsave"),
+                                    l
+                                            .getString("movies.groupdetail.savebutton.errorsave"),
                                     "Fehler", SWT.ICON_ERROR | SWT.OK);
 
                         } else if (e.getMessage().equalsIgnoreCase("2")) {
@@ -1360,14 +1363,16 @@ public class CompositeMovie extends
                             statusLine
                                     .setStatus(
                                             3,
-                                            l.getString("movies.groupdetail.savebutton.errordb"));
+                                            l
+                                                    .getString("movies.groupdetail.savebutton.errordb"));
                             showMsg(
-                                    l.getString("movies.groupdetail.savebutton.errordb"),
+                                    l
+                                            .getString("movies.groupdetail.savebutton.errordb"),
                                     "Fehler", SWT.ICON_ERROR | SWT.OK);
 
                         } else {
                             //@todo
-                            e.printStackTrace();
+                            logger.error("widgetSelected(SelectionEvent)", e);
                         }
 
                     }
@@ -1387,9 +1392,11 @@ public class CompositeMovie extends
             buttonMoviesCancel.setEnabled(false);
             buttonMoviesCancel.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
-                    System.out
-                            .println("buttonMoviesCancel.widgetSelected, event="
-                                    + evt);
+                    if (logger.isDebugEnabled()) {
+                        logger
+                                .debug("widgetSelected(SelectionEvent) - buttonMoviesCancel.widgetSelected, event="
+                                        + evt);
+                    }
                     setMoviesGroupButtonSaveCancel();
                 }
             });
@@ -1402,9 +1409,12 @@ public class CompositeMovie extends
      */
     private void insertIntoMoviesOverviewTable(Movie movie2) {
         // TODO Auto-generated method stub
-        TableItem item = new TableItem(tableMoviesOverview,SWT.NONE);
-        item.setText(new String [] {movie2.getMovieId()+ " ",movie2.getTitle()
-                + " ",Util.getTextByDate(movie2.getReleaseDate())});
+        TableItem item = new TableItem(tableMoviesOverview, SWT.NONE);
+        item.setText(new String[] {
+                movie2.getMovieId() + " ",
+                movie2.getTitle() + " ",
+                DateFormat.getDateInstance(DateFormat.SHORT).format(
+                        movie2.getReleaseDate()) });
     }
 
     /**
@@ -1438,13 +1448,17 @@ public class CompositeMovie extends
     private void refreshMoviesOverviewTable(String filter) {
         // TODO Auto-generated method stub
         if (tableMoviesOverview == null) {
-            System.out
-                    .println("Konnte MoviesOverviewtable nicht refreshen, da diese null ist!");
+            if (logger.isDebugEnabled()) {
+                logger
+                        .debug("refreshMoviesOverviewTable(String) - Konnte MoviesOverviewtable nicht refreshen, da diese null ist!");
+            }
             return;
         }
-        System.out
-                .println("Versuche nun MoviesOverviewtable zu refreshen. Filter: "
-                        + filter);
+        if (logger.isDebugEnabled()) {
+            logger
+                    .debug("refreshMoviesOverviewTable(String) - Versuche nun MoviesOverviewtable zu refreshen. Filter: "
+                            + filter);
+        }
         tableMoviesOverview.removeAll();
         TableItem item;
         java.util.List Movielist = Database.getMovie(filter);
@@ -1453,8 +1467,11 @@ public class CompositeMovie extends
 
             Movie o = (Movie) Movielist.get(i);
             item = new TableItem(tableMoviesOverview, SWT.NONE);
-            item.setText(new String[] { o.getMovieId() + "", o.getTitle(),
-                    Util.getTextByDate(o.getReleaseDate(), "dd.MM.YYYY") });
+            item.setText(new String[] {
+                    o.getMovieId() + "",
+                    o.getTitle(),
+                    DateFormat.getDateInstance(DateFormat.SHORT).format(
+                            o.getReleaseDate().getTime()) });
 
         }
     }
@@ -1483,10 +1500,11 @@ public class CompositeMovie extends
             //id ist keine Zahl
             return;
         }
-        movie = object;
+        localmovie = object;
         textMoviesID.setText(object.getMovieId() + "");
         textMoviesTitle.setText(object.getTitle());
-        textMoviesDate.setText(Util.getTextByDate(object.getReleaseDate(), "dd.MM.YYYY"));
+        textMoviesDate.setText(DateFormat.getDateInstance(DateFormat.LONG)
+                .format(object.getReleaseDate().getTime()));
         textMoviesRuntime.setText(Integer.toString(object.getRuntime()));
         textMoviesDescription.setText(object.getDescription());
 
@@ -1516,7 +1534,8 @@ public class CompositeMovie extends
             Genre o = (Genre) object.getGenres().get(i);
             logger.debug(i + " " + o);
             item = new TableItem(tableMoviesGenresDetail, SWT.NONE);
-            item.setText(new String[] { o.getGenreId() + "",
+            item
+                    .setText(new String[] { o.getGenreId() + "",
                             o.getName() + "" });
 
             //item.setText(new String[] {o.getGenreId() 
