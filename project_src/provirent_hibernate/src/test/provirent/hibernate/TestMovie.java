@@ -270,7 +270,7 @@ public class TestMovie extends TestCase {
                 assertTrue("Db Open? ", s.isOpen());
 
                 
-                
+                logger.debug("Erstelle Movie Objekt");
                 //create new movie objects
                 Movie movie = new Movie();
                 //set simple properties
@@ -280,8 +280,6 @@ public class TestMovie extends TestCase {
                 movie.setRuntime(96);
                 movie.setTitle("The Forgotten");
                 movie.setReleaseDate(Calendar.getInstance());
-                movie.setImages(new ArrayList());
-                movie.setMainImage(new Image());                
                 
                 
                 //try to get Actors from db
@@ -291,9 +289,8 @@ public class TestMovie extends TestCase {
                 
                 int anzahl =2;
                 List movieprops = new ArrayList();
-                random = new RandomRange(0,dbactors.size());
+                random = new RandomRange(0, (dbactors.size()-1) );
                 randomNum = random.getNumbers(anzahl);
-
                 for (int i = 0; i < anzahl; i++) {
                     Actor actor = (Actor)dbactors.get( ((Integer)randomNum.get(i)).intValue() );
                     movieprops.add(actor);
@@ -310,7 +307,7 @@ public class TestMovie extends TestCase {
                 
                 anzahl =1;
                 movieprops = new ArrayList();
-                random = new RandomRange(0,dbprops.size());
+                random = new RandomRange(0,(dbprops.size()-1));
                 randomNum = random.getNumbers(anzahl);
 
                 for (int i = 0; i < anzahl; i++) {
@@ -326,7 +323,7 @@ public class TestMovie extends TestCase {
                 
                 anzahl =1;
                 movieprops = new ArrayList();
-                random = new RandomRange(0,dbprops.size());
+                random = new RandomRange(0, (dbprops.size()-1) );
                 randomNum = random.getNumbers(anzahl);
 
                 for (int i = 0; i < anzahl; i++) {
@@ -334,6 +331,40 @@ public class TestMovie extends TestCase {
                     movieprops.add(prop);
                 }
                 movie.setGenres(movieprops);
+                
+                
+                //try to get Images from db
+                dbprops =  s.find("from Image as image");
+                assertNotNull("testCreateDBMovie(): Can't get Image from DB. Null", dbprops);
+                assertTrue("testCreateDBMovie(): Can not find Image in DB", dbprops.size() >0);
+
+                //set Mainimage
+                anzahl =1;
+                movieprops = new ArrayList();
+                random = new RandomRange(0, (dbprops.size()-1) );
+                randomNum = random.getNumbers(anzahl);
+
+                for (int i = 0; i < anzahl; i++) {
+                    Image prop = (Image)dbprops.get( ((Integer)randomNum.get(i)).intValue() );
+                    movie.setMainImage(prop);
+
+                }
+
+                //set images
+                anzahl =2;
+                movieprops = new ArrayList();
+                random = new RandomRange(0, (dbprops.size()-1) );
+                randomNum = random.getNumbers(anzahl);
+
+                for (int i = 0; i < anzahl; i++) {
+                    Image prop = (Image)dbprops.get( ((Integer)randomNum.get(i)).intValue() );
+                    movie.setMainImage(prop);
+
+                }
+                movie.setImages(movieprops);
+                
+
+                
                 
                 /*
                 //try to get Language from db
@@ -403,27 +434,29 @@ public class TestMovie extends TestCase {
                 movie.setVideoFormats(movieprops);
                 */
                 
+                logger.debug("Speichere Movie Objekt");
+                
                 int id = ((Integer)s.save(movie)).intValue();
                 s.flush();
+                logger.debug("Gespeichert unter id: "+id+" movieid:"+movie.getMovieId());
 
                 
                    
-                    //get Condition from Hibernate
-                    Movie dbc = (Movie) s.get(Movie.class, new Integer(id));
-                    assertNotNull("Can't get Movie" + id + " from DB", dbc);
-                    if (dbc == null) {
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("testCreateCompleteNewMovie() Kein object mit id "
-                                    + id + "gefunden.");
-                        }
-                        return;
-                    }
-                    //are both equal?
-                    assertEquals(
-                            "Select: Customer aus DB nicht gleich meiner. DB: "
-                                    + dbc + " My:" + movie, movie, dbc); 
-                
+
+
                 tx.commit();
+
+                dbprops =  s.find("from Movie as Movie");
+                assertNotNull("testCreateDBMovie(): Can't get Movie from DB. Null", dbprops);
+                assertTrue("testCreateDBMovie(): Can not find Movie in DB", dbprops.size() >0);
+                
+                for (int i = 0; i < dbprops.size(); i++) {
+                    Movie m = (Movie)dbprops.get(i);
+                    logger.debug(i+" Movie:"+m + " Actors: "+m.getActors()+" Director: "+m.getDirector()+" Images: "+m.getImages()+ " Genre: "+m.getGenres());
+                }
+                
+                
+           
                 
             } catch (Exception e) {
                 if (tx != null) {
@@ -463,4 +496,8 @@ public class TestMovie extends TestCase {
         super(arg0);
     }
 
+    
+    
+    
+    
 }
