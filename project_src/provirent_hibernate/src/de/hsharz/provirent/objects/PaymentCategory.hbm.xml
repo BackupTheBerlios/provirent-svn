@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.PaymentCategory" table="PaymentCategory">
+      <meta attribute="class-description">
+        Represents a PaymentCategory
+        @author Philipp Schneider
+      </meta>
+      
+ 			<meta attribute="implement-equals">true</meta>
+			<meta attribute="use-in-equals">true</meta>
+ 			
+      <id name="paymentCategoryId" type="int" column="PaymentCategoryID" length="10">
+        <meta attribute="scope-set">public</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="sequence">
+			<param name="sequence">PaymentCategory_id_sequence</param>
+		</generator>
+      </id>
+	  
+	  <property name="name" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+ 
+	  
+    </class>
+  </hibernate-mapping>

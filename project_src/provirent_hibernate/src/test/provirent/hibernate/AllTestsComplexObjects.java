@@ -46,6 +46,7 @@ public class AllTestsComplexObjects {
         //$JUnit-BEGIN$
         suite.addTestSuite(TestCustomer.class);
         suite.addTestSuite(TestMovie.class);
+        suite.addTestSuite(TestDvd.class);
         //$JUnit-END$
         return suite;
     }

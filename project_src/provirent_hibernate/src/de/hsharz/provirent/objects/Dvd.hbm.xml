@@ -21,6 +21,14 @@
       </id>
  
  
+ 		 <many-to-one
+				name="payment"
+				column="payment"
+				class="de.hsharz.provirent.objects.Payment"
+		>
+						<meta attribute="use-in-tostring">true</meta>
+				</many-to-one> 
+ 
 		 <many-to-one
 				name="movie"
 				column="movie"

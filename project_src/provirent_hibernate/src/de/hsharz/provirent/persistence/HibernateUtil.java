@@ -56,6 +56,7 @@ import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.OrderItem;
 import de.hsharz.provirent.objects.Payment;
+import de.hsharz.provirent.objects.PaymentCategory;
 import de.hsharz.provirent.objects.Person;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
@@ -87,7 +88,7 @@ public class HibernateUtil {
             .addClass(Subtitle.class).addClass(VideoFormat.class)
             .addClass(Customer.class).addClass(Image.class)
             .addClass(MovieOrder.class).addClass(OrderItem.class)
-            .addClass(Person.class).addClass(Payment.class);
+            .addClass(Person.class).addClass(Payment.class).addClass(PaymentCategory.class);
 
 
             sessionFactory = cfg.buildSessionFactory();

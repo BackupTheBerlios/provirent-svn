@@ -33,7 +33,6 @@
 package test.provirent.hibernate;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,18 +42,17 @@ import net.sf.hibernate.Transaction;
 
 import org.apache.log4j.Logger;
 
-import de.hsharz.provirent.objects.Payment;
 import de.hsharz.provirent.objects.PaymentCategory;
 
 /**
  * @author Stefan Forstner
  *
  */
-public class TestPayment extends TestCase {
+public class TestPaymentCategory extends TestCase {
     /**
      * Logger for this class
      */
-    private static final Logger logger = Logger.getLogger(TestPayment.class);
+    private static final Logger logger = Logger.getLogger(TestPaymentCategory.class);
 
     /*
      * @see TestCase#setUp()
@@ -85,12 +83,11 @@ public class TestPayment extends TestCase {
             logger.debug("tearDown() - end");
         }
     }
-    
- 
+  
 
-    public void testSavePayment() throws Exception {
+    public void testSavePaymentCategory() throws Exception {
         if (logger.isDebugEnabled()) {
-            logger.debug("testSavePayment() - start");
+            logger.debug("testSavePaymentCategory() - start");
         }
 
         //get new Session and begin Transaction
@@ -105,72 +102,19 @@ public class TestPayment extends TestCase {
                 assertTrue("Db Open? ", s.isOpen());
 
                 //create new objects
-                List payments = new ArrayList();
-                Calendar date1 = Calendar.getInstance();
-                date1.set(2004,11,12);
-                Calendar date2 = Calendar.getInstance();
-                date2.set(2004,11,30);
-                Calendar date3 = Calendar.getInstance();
-                date3.set(2005,1,16);
-                Calendar date4 = Calendar.getInstance();
-                date4.set(2005,11,8);
-                Calendar date5 = Calendar.getInstance();
-                date5.set(2004,10,12);
-                Calendar date6 = Calendar.getInstance();
-                date6.set(2004,10,28);
-                Calendar date7 = Calendar.getInstance();
-                date7.set(2004,10,29);
-                Calendar date8 = Calendar.getInstance();
-                date8.set(2004,10,20);
-                
-                payments.add( new Payment(2.00d, 4.00d, 8.00d,date1,null));
-                payments.add( new Payment(3.00d, 6.00d, 12.00d,date2,null));
-                payments.add( new Payment(4.00d, 8.00d, 14.00d,date3,null));
-                payments.add( new Payment(5.00d, 10.00d, 20.00d,date4,null));
-                payments.add( new Payment(2.00d, 4.00d, 8.00d,date5,null));
-                payments.add( new Payment(3.00d, 6.00d, 12.00d,date6,null));
-                payments.add( new Payment(4.00d, 8.00d, 14.00d,date7,null));
-                payments.add( new Payment(5.00d, 10.00d, 20.00d,date8,null));
-                
-                
-                
-                //get and set the paymentcategory
-                //add Payment
-                List categorys = s.find("from PaymentCategory as paymentcategory");
-                assertNotNull(
-                        "testCreateDvd(): Can't get PaymentCategory from DB. Null",
-                        categorys);
-                assertTrue(
-                        "testCreateDvd(): Can not find PaymentCategory in DB",
-                        categorys.size() > 0);
+                List paymentsCategorys = new ArrayList();
 
-                RandomRange randomRange;
                 
-                
-                
-  
-
-                 for (int i = 0; i < payments.size(); i++) {
-                    
-                     randomRange = new RandomRange(0, (categorys.size() - 1));
-                     
-                      randomRange.getNumbers(1); 
-                
-                     PaymentCategory prop = (PaymentCategory) categorys
-                            .get(((Integer) randomRange.getNumbers(1).get(0)).intValue());
-                   
-                    ((Payment)payments.get(i)).setPaymentCategory(prop);
-                    
-                    
-                 
-                
-                 }
-
-               
+                paymentsCategorys.add(new PaymentCategory("A"));
+                paymentsCategorys.add(new PaymentCategory("B"));
+                paymentsCategorys.add(new PaymentCategory("C"));
+                paymentsCategorys.add(new PaymentCategory("D"));
+                paymentsCategorys.add(new PaymentCategory("E"));
+    
 
                 //save objects
-                for (Iterator iter = payments.iterator(); iter.hasNext();) {
-                    Payment pay = (Payment) iter.next();
+                for (Iterator iter = paymentsCategorys.iterator(); iter.hasNext();) {
+                    PaymentCategory pay = (PaymentCategory) iter.next();
                     
                     s.save(pay);
 
@@ -183,7 +127,7 @@ public class TestPayment extends TestCase {
                 if (tx != null) {
                     logger
                             .error(
-                                    "testSavePayment() - Something went wrong here; discard all partial changes",
+                                    "testSavePaymentCategory() - Something went wrong here; discard all partial changes",
                                     e);
 
                     // Something went wrong; discard all partial changes
@@ -194,7 +138,7 @@ public class TestPayment extends TestCase {
 
         } catch (Exception e) {
             logger.error(
-                    "testSavePayment() - Error while trying to beginTransaction",
+                    "testSavePaymentCategory() - Error while trying to beginTransaction",
                     e);
             throw e;
         } finally {
@@ -205,7 +149,7 @@ public class TestPayment extends TestCase {
         HibernateUtil.closeSession();
 
         if (logger.isDebugEnabled()) {
-            logger.debug("testSavePayment() - end");
+            logger.debug("testSavePaymentCategory() - end");
         }
     }
 
@@ -213,7 +157,7 @@ public class TestPayment extends TestCase {
      * Constructor for TestGenre.
      * @param arg0
      */
-    public TestPayment(String arg0) {
+    public TestPaymentCategory(String arg0) {
         super(arg0);
     }
 

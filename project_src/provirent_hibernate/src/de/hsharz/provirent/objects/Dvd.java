@@ -21,6 +21,9 @@ public class Dvd implements Serializable {
     private String barcode;
 
     /** nullable persistent field */
+    private de.hsharz.provirent.objects.Payment payment;
+
+    /** nullable persistent field */
     private de.hsharz.provirent.objects.Movie movie;
 
     /** nullable persistent field */
@@ -42,8 +45,9 @@ public class Dvd implements Serializable {
     private List videoFormats;
 
     /** full constructor */
-    public Dvd(String barcode, de.hsharz.provirent.objects.Movie movie, de.hsharz.provirent.objects.Condition condition, de.hsharz.provirent.objects.Status status, List languages, List subtitles, List audioFormats, List videoFormats) {
+    public Dvd(String barcode, de.hsharz.provirent.objects.Payment payment, de.hsharz.provirent.objects.Movie movie, de.hsharz.provirent.objects.Condition condition, de.hsharz.provirent.objects.Status status, List languages, List subtitles, List audioFormats, List videoFormats) {
         this.barcode = barcode;
+        this.payment = payment;
         this.movie = movie;
         this.condition = condition;
         this.status = status;
@@ -79,6 +83,14 @@ public class Dvd implements Serializable {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public de.hsharz.provirent.objects.Payment getPayment() {
+        return this.payment;
+    }
+
+    public void setPayment(de.hsharz.provirent.objects.Payment payment) {
+        this.payment = payment;
     }
 
     public de.hsharz.provirent.objects.Movie getMovie() {
@@ -141,6 +153,7 @@ public class Dvd implements Serializable {
         return new ToStringBuilder(this)
             .append("dvdId", getDvdId())
             .append("barcode", getBarcode())
+            .append("payment", getPayment())
             .append("movie", getMovie())
             .append("languages", getLanguages())
             .append("subtitles", getSubtitles())
@@ -156,6 +169,7 @@ public class Dvd implements Serializable {
         return new EqualsBuilder()
             .append(this.getDvdId(), castOther.getDvdId())
             .append(this.getBarcode(), castOther.getBarcode())
+            .append(this.getPayment(), castOther.getPayment())
             .append(this.getMovie(), castOther.getMovie())
             .append(this.getCondition(), castOther.getCondition())
             .append(this.getStatus(), castOther.getStatus())
@@ -170,6 +184,7 @@ public class Dvd implements Serializable {
         return new HashCodeBuilder()
             .append(getDvdId())
             .append(getBarcode())
+            .append(getPayment())
             .append(getMovie())
             .append(getCondition())
             .append(getStatus())

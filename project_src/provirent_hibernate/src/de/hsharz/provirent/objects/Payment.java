@@ -18,9 +18,6 @@ public class Payment implements Serializable {
     private Integer paymentId;
 
     /** persistent field */
-    private String name;
-
-    /** persistent field */
     private double duration1;
 
     /** persistent field */
@@ -32,13 +29,16 @@ public class Payment implements Serializable {
     /** persistent field */
     private Calendar startdate;
 
+    /** persistent field */
+    private de.hsharz.provirent.objects.PaymentCategory PaymentCategory;
+
     /** full constructor */
-    public Payment(String name, double duration1, double duration2, double duration3, Calendar startdate) {
-        this.name = name;
+    public Payment(double duration1, double duration2, double duration3, Calendar startdate, de.hsharz.provirent.objects.PaymentCategory PaymentCategory) {
         this.duration1 = duration1;
         this.duration2 = duration2;
         this.duration3 = duration3;
         this.startdate = startdate;
+        this.PaymentCategory = PaymentCategory;
     }
 
     /** default constructor */
@@ -51,14 +51,6 @@ public class Payment implements Serializable {
 
     public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getDuration1() {
@@ -93,11 +85,19 @@ public class Payment implements Serializable {
         this.startdate = startdate;
     }
 
+    public de.hsharz.provirent.objects.PaymentCategory getPaymentCategory() {
+        return this.PaymentCategory;
+    }
+
+    public void setPaymentCategory(de.hsharz.provirent.objects.PaymentCategory PaymentCategory) {
+        this.PaymentCategory = PaymentCategory;
+    }
+
     public String toString() {
         return new ToStringBuilder(this)
             .append("paymentId", getPaymentId())
-            .append("name", getName())
             .append("startdate", getStartdate())
+            .append("PaymentCategory", getPaymentCategory())
             .toString();
     }
 
@@ -107,22 +107,22 @@ public class Payment implements Serializable {
         Payment castOther = (Payment) other;
         return new EqualsBuilder()
             .append(this.getPaymentId(), castOther.getPaymentId())
-            .append(this.getName(), castOther.getName())
             .append(this.getDuration1(), castOther.getDuration1())
             .append(this.getDuration2(), castOther.getDuration2())
             .append(this.getDuration3(), castOther.getDuration3())
             .append(this.getStartdate(), castOther.getStartdate())
+            .append(this.getPaymentCategory(), castOther.getPaymentCategory())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getPaymentId())
-            .append(getName())
             .append(getDuration1())
             .append(getDuration2())
             .append(getDuration3())
             .append(getStartdate())
+            .append(getPaymentCategory())
             .toHashCode();
     }
 

@@ -63,7 +63,7 @@ public class CompositePayment extends AbstractComposite {
 		SWTResourceManager.registerResourceUser(this);
 	}
 
-	/**
+	/** 
 	 * Logger for this class
 	 */
 	private static final Logger logger = Logger
@@ -941,17 +941,17 @@ public class CompositePayment extends AbstractComposite {
 	 * @param Payment
 	 * @throws DataBaseException
 	 */
-	protected void insertIntoPaymentTable(Payment Payment)
+	protected void insertIntoPaymentTable(Payment payment)
 			throws DataBaseException {
 		TableItem item = new TableItem(tablePayment, SWT.NONE);
 		item.setText(new String[] {
-				Payment.getPaymentId() + "",
-				Payment.getName(),
-				Double.toString(Payment.getDuration1()),
-				Double.toString(Payment.getDuration2()),
-				Double.toString(Payment.getDuration3()),
+		        payment.getPaymentId() + "",
+		        payment.getPaymentCategory().getName(),
+				Double.toString(payment.getDuration1()),
+				Double.toString(payment.getDuration2()),
+				Double.toString(payment.getDuration3()),
 				DateFormat.getDateInstance(DateFormat.SHORT).format(
-						Payment.getStartdate().getTime()) });
+				        payment.getStartdate().getTime()) });
 
 		tablePayment.deselectAll();
 		refreshPaymentDetail("");
@@ -983,7 +983,7 @@ public class CompositePayment extends AbstractComposite {
 		list = new Hashtable();
 		for (int i = 0; i < Paymentlist.size(); i++) {
 			Payment paym = (Payment) Paymentlist.get(i);
-			String name = paym.getName();
+			String name = paym.getPaymentCategory().getName();
 
 			if (list.containsKey(name)) {
 				Vector vec = (Vector) list.get(name);
@@ -992,7 +992,7 @@ public class CompositePayment extends AbstractComposite {
 				Vector vec = new Vector();
 				vec.add(paym.getStartdate());
 
-				list.put(paym.getName(), vec);
+				list.put(paym.getPaymentCategory().getName(), vec);
 			}
 		}
 		Enumeration keys = list.keys();
@@ -1037,7 +1037,7 @@ public class CompositePayment extends AbstractComposite {
 			item = new TableItem(tablePayment, SWT.NONE);
 			item.setText(new String[] {
 					o.getPaymentId() + "",
-					o.getName(),
+					o.getPaymentCategory().getName(),
 					Double.toString(o.getDuration1()),
 					Double.toString(o.getDuration2()),
 					Double.toString(o.getDuration3()),
@@ -1259,7 +1259,7 @@ public class CompositePayment extends AbstractComposite {
 			}
 
 			textPaymentID.setText(object.getPaymentId() + "");
-			textPaymentName.setText(object.getName());
+			textPaymentName.setText(object.getPaymentCategory().getName());
 			textduration1.setText(Double.toString(object.getDuration1()));
 			textduration2.setText(Double.toString(object.getDuration2()));
 			textduration3.setText(Double.toString(object.getDuration3()));
@@ -1269,7 +1269,7 @@ public class CompositePayment extends AbstractComposite {
 
 			buttonPaymentEdit.setEnabled(false);
 			buttonPaymentDelete.setEnabled(true);
-			Vector vec = (Vector) list.get(object.getName());
+			Vector vec = (Vector) list.get(object.getPaymentCategory().getName());
 
 			for (int i = 0; i < vec.size(); i++) {
 				Calendar date = (Calendar) vec.get(i);

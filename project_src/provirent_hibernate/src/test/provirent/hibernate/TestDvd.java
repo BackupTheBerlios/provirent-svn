@@ -14,6 +14,7 @@ import de.hsharz.provirent.objects.AudioFormat;
 import de.hsharz.provirent.objects.Dvd;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
+import de.hsharz.provirent.objects.Payment;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
 
@@ -237,6 +238,31 @@ public class TestDvd extends TestCase {
                     }
                     dvd.setVideoFormats(dvdprops);
 
+                    
+                    //add Payment
+                    dbprops = s.find("from Payment as payment");
+                    assertNotNull(
+                            "testCreateDvd(): Can't get Payment from DB. Null",
+                            dbprops);
+                    assertTrue(
+                            "testCreateDvd(): Can not find Payment in DB",
+                            dbprops.size() > 0);
+
+                    anzahl = 1;
+                    dvdprops = new ArrayList();
+                    randomRange = new RandomRange(0, (dbprops.size() - 1));
+                    random = randomRange.getNumbers(anzahl);
+
+                    for (int k = 0; k < anzahl; k++) {
+                        Payment prop = (Payment) dbprops
+                                .get(((Integer) random.get(k)).intValue());
+                        dvd.setPayment(prop);
+                        break;
+                    }
+                    
+
+                    
+                    
                     //save the dvd
                     logger.debug(i+" "+j+" DVD:"+dvd);
                     s.save(dvd);

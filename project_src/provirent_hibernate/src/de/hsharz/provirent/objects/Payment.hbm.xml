@@ -21,9 +21,11 @@
 		</generator>
       </id>
 	  
-	  <property name="name" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
+	  <many-to-one name="PaymentCategory" class="de.hsharz.provirent.objects.PaymentCategory" not-null="true">
+		<meta attribute="use-in-tostring">true</meta>
+	  </many-to-one>
+      	
+
  
       <property name="duration1" type="double" not-null="true">
 
