@@ -332,12 +332,10 @@ public class CompositeMovie extends
                                         + evt);
                     }
                 });
-                tableMoviesOverview
-                        .addSelectionListener(new SelectionAdapter() {
+                tableMoviesOverview.addSelectionListener(new SelectionAdapter() {
                             public void widgetSelected(SelectionEvent evt) {
                                 if (logger.isDebugEnabled()) {
-                                    logger
-                                            .debug("widgetSelected(SelectionEvent evt = "
+                                    logger.debug("widgetSelected(SelectionEvent evt = "
                                                     + evt + ") - start");
                                 }
 
@@ -359,8 +357,7 @@ public class CompositeMovie extends
                                         .getItem(index).getText(0));
 
                                 if (logger.isDebugEnabled()) {
-                                    logger
-                                            .debug("widgetSelected(SelectionEvent) - end");
+                                    logger.debug("widgetSelected(SelectionEvent) - end");
                                 }
                             }
                         });
@@ -1177,11 +1174,6 @@ public class CompositeMovie extends
 
                     tableMoviesOverview.setEnabled(false);
                     textMoviesSearch.setEnabled(false);
-
-                    //java.util.List Movielist =
-                    // Database.getMovie(textMoviesID.getText());
-                    //only one element because of ID
-                    //movie = (Movie)Movielist.get(0);
                 }
             });
 
@@ -1196,19 +1188,15 @@ public class CompositeMovie extends
                                     + evt);
 
                     String msg = MessageFormat
-                            .format(
-                                    l
-                                            .getString("movies.groupdetail.deletebutton.question.text"),
+                            .format(l.getString("movies.groupdetail.deletebutton.question.text"),
                                     new Object[] { textMoviesTitle.getText()
                                             + " "
-                                            + l
-                                                    .getString("movies.groupdetail.deletebutton.question.gap")
+                                            + l.getString("movies.groupdetail.deletebutton.question.gap")
                                             + " " + textMoviesDate.getText() });
 
                     int question = showMsg(
                             msg,
-                            l
-                                    .getString("movies.groupdetail.deletebutton.question.header"),
+                            l.getString("movies.groupdetail.deletebutton.question.header"),
                             SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 
                     if (question != SWT.YES) {
@@ -1240,36 +1228,21 @@ public class CompositeMovie extends
 
                         //Statusline Nachricht sezten
                         statusLine
-                                .setStatus(
-                                        1,
-                                        l
-                                                .getString("movies.groupdetail.deletebutton.newok"));
+                                .setStatus(1,l.getString("movies.groupdetail.deletebutton.newok"));
 
                     } catch (DataBaseException e) {
                         if (e.getMessage().equalsIgnoreCase("1")) {
                             //Fehler beim Speichern des Objectes
 
-                            statusLine
-                                    .setStatus(
-                                            3,
-                                            l
-                                                    .getString("movies.groupdetail.deletebutton.errorsave"));
-                            showMsg(
-                                    l
-                                            .getString("movies.groupdetail.deletebutton.errorsave"),
+                            statusLine.setStatus(3,l.getString("movies.groupdetail.deletebutton.errorsave"));
+                            showMsg(l.getString("movies.groupdetail.deletebutton.errorsave"),
                                     l.getString("error"), SWT.ICON_ERROR
                                             | SWT.OK);
 
                         } else if (e.getMessage().equalsIgnoreCase("2")) {
                             //fehler beim db aufbau
-                            statusLine
-                                    .setStatus(
-                                            3,
-                                            l
-                                                    .getString("movies.groupdetail.deletebutton.errordb"));
-                            showMsg(
-                                    l
-                                            .getString("movies.groupdetail.deletebutton.errordb"),
+                            statusLine.setStatus(3,l.getString("movies.groupdetail.deletebutton.errordb"));
+                            showMsg(l.getString("movies.groupdetail.deletebutton.errordb"),
                                     l.getString("error"), SWT.ICON_ERROR
                                             | SWT.OK);
 
@@ -1314,35 +1287,39 @@ public class CompositeMovie extends
                             || movie.getGenres().size() == 0
                             || movie.getImages().size() == 0) {
 
-                        showMsg(
-                                l
-                                        .getString("movies.groupdetail.savebutton.warn.noname.msg"),
-                                l
-                                        .getString("movies.groupdetail.savebutton.warn.noname.title"),
+                        showMsg(l.getString("movies.groupdetail.savebutton.warn.noname.msg"),
+                                l.getString("movies.groupdetail.savebutton.warn.noname.title"),
                                 SWT.ICON_WARNING | SWT.YES);
 
                         return;
                     }
 
                     //testen welcher mode
-                    if (mode_movie == ManagementGui.MODE_ADD) {
-                        movie.setTitle(textMoviesTitle.getText());
-                        movie.setDescription(textMoviesDescription.getText());
-                        try {
-
-                            movie.setReleaseDate(Calendar.getInstance());
-                            movie.getReleaseDate().setTime(
-                                    DateFormat.getDateInstance(DateFormat.LONG)
-                                            .parse(textMoviesDate.getText()));
+                    movie.setTitle(textMoviesTitle.getText());
+                    movie.setDescription(textMoviesDescription.getText());
+                    try {
+                        movie.setReleaseDate(Calendar.getInstance());
+                        movie.getReleaseDate().setTime(
+                                DateFormat.getDateInstance(DateFormat.LONG)
+                                .parse(textMoviesDate.getText()));
                             logger.debug("Datum: " + movie.getReleaseDate());
-                        } catch (ParseException e1) {
-                            // TODO Auto-generated catch block
-                            //Hier muss noch was gemacht werden, das Datum konnte nicht geparst werden
-                            e1.printStackTrace();
-                            return;
-                        }
-                        movie.setRuntime(Integer.parseInt(textMoviesRuntime
-                                .getText()));
+                    } catch (ParseException e1) {
+                        // TODO Auto-generated catch block
+                        //Hier muss noch was gemacht werden, das Datum konnte nicht geparst werden
+                        e1.printStackTrace();
+                        return;
+                    }
+
+                    try{
+                    movie.setRuntime(Integer.parseInt(textMoviesRuntime
+                            .getText()));
+                    }
+                    catch(Exception ex){
+                        ex.printStackTrace();
+                        showMsg(l.getString("movies.groupdetail.savebutton.warn.noname.msg"),
+                                l.getString("movies.groupdetail.savebutton.warn.noname.title"),
+                                SWT.ICON_WARNING | SWT.YES);
+                        return;
                     }
                     /**
                      * @todo eine Exception bekommen wieder leider NOCH nicht
@@ -1365,9 +1342,7 @@ public class CompositeMovie extends
                         statusLine
                                 .setStatus(
                                         1,
-                                        l
-                                                .getString("movies.groupdetail.savebutton.newok"));
-
+                                        l.getString("movies.groupdetail.savebutton.newok"));
                     } catch (DataBaseException e) {
                         if (e.getMessage().equalsIgnoreCase("1")) {
                             //Fehler beim Speichern des Objectes
@@ -1375,11 +1350,9 @@ public class CompositeMovie extends
                             statusLine
                                     .setStatus(
                                             3,
-                                            l
-                                                    .getString("movies.groupdetail.savebutton.errorsave"));
+                                            l.getString("movies.groupdetail.savebutton.errorsave"));
                             showMsg(
-                                    l
-                                            .getString("movies.groupdetail.savebutton.errorsave"),
+                                    l.getString("movies.groupdetail.savebutton.errorsave"),
                                     "Fehler", SWT.ICON_ERROR | SWT.OK);
 
                         } else if (e.getMessage().equalsIgnoreCase("2")) {
@@ -1387,11 +1360,9 @@ public class CompositeMovie extends
                             statusLine
                                     .setStatus(
                                             3,
-                                            l
-                                                    .getString("movies.groupdetail.savebutton.errordb"));
+                                            l.getString("movies.groupdetail.savebutton.errordb"));
                             showMsg(
-                                    l
-                                            .getString("movies.groupdetail.savebutton.errordb"),
+                                    l.getString("movies.groupdetail.savebutton.errordb"),
                                     "Fehler", SWT.ICON_ERROR | SWT.OK);
 
                         } else {
@@ -1431,7 +1402,9 @@ public class CompositeMovie extends
      */
     private void insertIntoMoviesOverviewTable(Movie movie2) {
         // TODO Auto-generated method stub
-
+        TableItem item = new TableItem(tableMoviesOverview,SWT.NONE);
+        item.setText(new String [] {movie2.getMovieId()+ " ",movie2.getTitle()
+                + " ",Util.getTextByDate(movie2.getReleaseDate())});
     }
 
     /**
@@ -1442,6 +1415,7 @@ public class CompositeMovie extends
         textMoviesTitle.setEditable(false);
         textMoviesDescription.setEditable(false);
         textMoviesSearch.setEditable(true);
+        textMoviesRuntime.setEditable(false);
         buttonMoviesCancel.setEnabled(false);
         buttonMoviesSave.setEnabled(false);
         buttonMoviesNew.setEnabled(true);
@@ -1455,7 +1429,7 @@ public class CompositeMovie extends
         buttonMoviesDeleteGenres.setEnabled(false);
         buttonMoviesAddImages.setEnabled(false);
         buttonMoviesDeleteImages.setEnabled(false);
-        buttonMoviesChangeDate.setEnabled(true);
+        buttonMoviesChangeDate.setEnabled(false);
     }
 
     /**
@@ -1513,7 +1487,7 @@ public class CompositeMovie extends
         textMoviesID.setText(object.getMovieId() + "");
         textMoviesTitle.setText(object.getTitle());
         textMoviesDate.setText(Util.getTextByDate(object.getReleaseDate(), "dd.MM.YYYY"));
-
+        textMoviesRuntime.setText(Integer.toString(object.getRuntime()));
         textMoviesDescription.setText(object.getDescription());
 
         TableItem item;
@@ -1542,8 +1516,7 @@ public class CompositeMovie extends
             Genre o = (Genre) object.getGenres().get(i);
             logger.debug(i + " " + o);
             item = new TableItem(tableMoviesGenresDetail, SWT.NONE);
-            item
-                    .setText(new String[] { o.getGenreId() + "",
+            item.setText(new String[] { o.getGenreId() + "",
                             o.getName() + "" });
 
             //item.setText(new String[] {o.getGenreId() 
@@ -1553,7 +1526,6 @@ public class CompositeMovie extends
         //Fill Imagetable
         tableMoviesImagesDetail.removeAll();
         logger.debug("Anzahl der Bilder: " + object.getImages().size());
-        System.out.println(object.getImages().size());
         for (int i = 0; i < object.getImages().size(); i++) {
             Image o = (Image) object.getImages().get(i);
             item = new TableItem(tableMoviesImagesDetail, SWT.NONE);
@@ -1569,22 +1541,4 @@ public class CompositeMovie extends
         mode_movie = ManagementGui.MODE_VIEW;
 
     }
-
-    private void openDialogDescription() {
-        // TODO Auto-generated method stub
-        Shell dialogShell = new Shell();
-        //Dialog dialogDescription=new Dialog(dialogShell);
-        //dialogDescription.open();
-        Movie film = new Movie();
-        film.setActors(new ArrayList());
-        film.setImages(new ArrayList());
-        film.setGenres(new ArrayList());
-        film.setDirector(new ArrayList());
-
-        DialogMovie test = new DialogMovie(dialogShell, 1, l.getLocale(), film,
-                DialogMovie.TYPE_ACTOR);
-        test.open();
-
-    }
-
 }

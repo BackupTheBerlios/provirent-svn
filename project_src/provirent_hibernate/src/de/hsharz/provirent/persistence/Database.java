@@ -354,10 +354,8 @@ public class Database {
                     HibernateUtil.closeSession();
                 } catch (HibernateException e1) {
                     
-                    logger
-                            .error(
-                                    "deleteObject(Object) - Could not Close the Session",
-                                    e1);
+                    logger.error("deleteObject(Object) - Could not Close the Session",
+                                  e1);
                     
                 }
             }
