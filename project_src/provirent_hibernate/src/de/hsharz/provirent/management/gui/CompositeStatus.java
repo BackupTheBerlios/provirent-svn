@@ -639,7 +639,7 @@ public class CompositeStatus extends AbstractComposite{
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.saveObject(tmp);
+                    Database.updateObject(tmp);
                     //Übersichtstabelle aktualisieren
                     refreshConditionTable(textConditionSearch.getText());
                     
@@ -1342,7 +1342,7 @@ public class CompositeStatus extends AbstractComposite{
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.saveObject(tmp);
+                    Database.updateObject(tmp);
                     //Übersichtstabelle aktualisieren
                     refreshStatusTable(textStatusSearch.getText());
                     

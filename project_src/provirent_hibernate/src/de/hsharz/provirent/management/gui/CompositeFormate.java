@@ -627,7 +627,7 @@ public class CompositeFormate extends AbstractComposite {
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.saveObject(tmp);
+                    Database.updateObject(tmp);
                     //Übersichtstabelle aktualisieren
                     refreshVideoFormatTable(textVideoFormatSearch.getText());
                     
@@ -1232,7 +1232,7 @@ public class CompositeFormate extends AbstractComposite {
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.saveObject(tmp);
+                    Database.updateObject(tmp);
                     //Übersichtstabelle aktualisieren
                     refreshAudioFormatTable(textAudioFormatSearch.getText());
                     

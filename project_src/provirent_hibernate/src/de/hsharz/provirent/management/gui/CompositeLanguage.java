@@ -639,7 +639,7 @@ public class CompositeLanguage extends AbstractComposite{
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.saveObject(tmp);
+                    Database.updateObject(tmp);
                     //Übersichtstabelle aktualisieren
                     refreshSubtitleTable(textSubtitleSearch.getText());
                     
@@ -1342,7 +1342,7 @@ public class CompositeLanguage extends AbstractComposite{
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.saveObject(tmp);
+                    Database.updateObject(tmp);
                     //Übersichtstabelle aktualisieren
                     refreshLanguageTable(textLanguageSearch.getText());
                     

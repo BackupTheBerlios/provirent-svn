@@ -670,7 +670,7 @@ public class CompositeDirectors extends AbstractComposite{
                     try {
                         //object speichern
                         // Fehlerbehandlung
-                        Database.saveObject(tmp);
+                        Database.updateObject(tmp);
                         //Übersichtstabelle aktualisieren
                         refreshDirectorsOverviewTable(textDirectorsSearch.getText());
                         

@@ -210,28 +210,28 @@ public class TestMovie extends TestCase {
                         .add(new String[] {
                                 "The Forgotten",
                                 "96",
-                                "A grieving mother, Telly Parada, is struggling to cope with the loss of her 9-year-old son. She is stunned...",
+                                "A grieving mother, Telly Parada, is struggling \n to cope with the loss of her 9-year-old son. \n She is stunned...",
                                 "Forgotten_main.jpg", "Forgotten_1.jpg",
                                 "Forgotten_2.jpg" });
                 data
                         .add(new String[] {
                                 "Ocean's Twelve",
                                 "128",
-                                "With Tess (Roberts) and Rusty (Pitt) at his side, Daniel Ocean (Clooney) must find one more conspirator before he can pull off heists in three different European cities -- Paris, Rome, and Amsterdam.",
+                                "With Tess (Roberts) and Rusty (Pitt) at his side,\n Daniel Ocean (Clooney) must find one more conspirator \n before he can pull off heists in three \n different European cities -- Paris, Rome, and Amsterdam.",
                                 "Twelve_main.jpg", "Twelve_1.jpg",
                                 "Twelve_2.jpg", "Twelve_3.jpg" });
                 data
                         .add(new String[] {
                                 "Blade: Trinity",
                                 "156",
-                                "Framed by the Vampire Nation for a series of brutal murders, the Daywalker (Snipes) finds allies in a group of vampire hunters, the Nightstalkers, and together they wage a battle that leads all the way to Dracula himself.",
+                                "Framed by the Vampire Nation for a series \n of brutal murders, the Daywalker (Snipes) \n finds allies in a group of vampire hunters, \n the Nightstalkers, and together they wage a battle \n that leads all the way to Dracula himself.",
                                 "Blade_main.jpg", "Blade_1.jpg", "Blade_2.jpg",
                                 "Blade_3.jpg" });
                 data
                         .add(new String[] {
                                 "National Treasure",
                                 "126",
-                                "Benjamin Franklin Gates (Cage) descends from a family of treasure-seekers who've all hunted for the same thing: a war chest hidden by the Founding Fathers prior to the Revolutionary War. Ben's close to discovering its whereabouts, as is his competition, though the FBI is also hip to the hunt.",
+                                "Benjamin Franklin Gates (Cage) descends \n from a family of treasure-seekers who've \n all hunted for the same thing: a war chest \n hidden by the Founding Fathers prior to the \n Revolutionary War. Ben's close to discovering \n its whereabouts, as is his competition, \n though the FBI is also hip to the hunt.",
                                 "Treasure_main.jpg", "Treasure_1.jpg",
                                 "Treasure_2.jpg", "Treasure_3.jpg",
                                 "Treasure_4.jpg" });
@@ -239,28 +239,28 @@ public class TestMovie extends TestCase {
                         .add(new String[] {
                                 "Christmas with the Kranks",
                                 "92",
-                                "Upon receiving a last-minute call from their daughter, Luther and Nora Krank (Allen and Curtis) ditch their vacation plans and scramble to get their home in shape to celebrate Christmas.",
+                                "Upon receiving a last-minute call from their \n daughter, Luther and Nora Krank \n (Allen and Curtis) ditch their vacation plans and scramble \n to get their home in shape to \n celebrate Christmas.",
                                 "Kranks_main.jpg", "Kranks_1.jpg",
                                 "Kranks_2.jpg" });
                 data
                         .add(new String[] {
                                 "The Polar Express",
                                 "215",
-                                "A boy's belief in Santa Claus is restored on Christmas Eve when a steam train pulls up in front of his house and whisks him away to the North Pole.",
+                                "A boy's belief in Santa Claus is restored \n on Christmas Eve when a steam train \n pulls up in front of his house and whisks \n him away to the North Pole.",
                                 "Polar_main.jpg", "Polar_1.jpg", "Polar_2.jpg",
                                 "Polar_3.jpg" });
                 data
                         .add(new String[] {
                                 "The Incredibles",
                                 "186",
-                                "Years after their last assignment, a husband and wife superhero team, who currently maintain a ho-hum suburban existence, respond a cryptic communiqué from a remote island base.",
+                                "Years after their last assignment, \n a husband and wife superhero team, \n who currently maintain a ho-hum suburban existence, \n respond a cryptic communiqué from a \n remote island base.",
                                 "Incredibles_main.jpg", "Incredibles_1.jpg",
                                 "Incredibles_2.jpg" });
                 data
                         .add(new String[] {
                                 "Closer",
                                 "145",
-                                "Two couples are drawn together by undeniable attraction and a series of chance encounters.",
+                                "Two couples are drawn together by undeniable \n attraction and a series of chance \n encounters.",
                                 "closer_main.jpg", "closer_1.jpg",
                                 "closer_2.jpg", "closer_3.jpg" });
 

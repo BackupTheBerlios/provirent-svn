@@ -917,7 +917,7 @@ public class CompositeImage extends AbstractComposite {
 							try {
 								//object speichern
 								// Fehlerbehandlung
-								Database.saveObject(localImage);
+								Database.updateObject(localImage);
 								//Übersichtstabelle aktualisieren
 								refreshImageOverviewTable(textImagesSearch
 										.getText());
@@ -964,10 +964,10 @@ public class CompositeImage extends AbstractComposite {
 
 						}
 						tableImagesOverview.setEnabled(true);
-						textImagesSearch.setEnabled(true);
+						textImagesSearch.setEditable(true);
 
-						textImagesDescription.setEnabled(false);
-						textImagesName.setEnabled(false);
+						textImagesDescription.setEditable(false);
+						textImagesName.setEditable(false);
 
 						buttonImageCancel.setEnabled(false);
 						buttonImageDelete.setEnabled(false);
@@ -989,10 +989,10 @@ public class CompositeImage extends AbstractComposite {
 					public void widgetSelected(SelectionEvent evt) {
 
 						tableImagesOverview.setEnabled(true);
-						textImagesSearch.setEnabled(true);
+						textImagesSearch.setEditable(true);
 
-						textImagesDescription.setEnabled(false);
-						textImagesName.setEnabled(false);
+						textImagesDescription.setEditable(false);
+						textImagesName.setEditable(false);
 
 						buttonImageCancel.setEnabled(false);
 						buttonImageDelete.setEnabled(false);

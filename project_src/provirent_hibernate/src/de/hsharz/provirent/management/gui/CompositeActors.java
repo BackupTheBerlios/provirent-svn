@@ -671,7 +671,7 @@ public class CompositeActors extends AbstractComposite{
                     try {
                         //object speichern
                         // Fehlerbehandlung
-                        Database.saveObject(tmp);
+                        Database.updateObject(tmp);
                         //Übersichtstabelle aktualisieren
                         refreshActorsOverviewTable(textActorsSearch.getText());
                         

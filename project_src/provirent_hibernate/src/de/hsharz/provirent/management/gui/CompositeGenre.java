@@ -591,7 +591,7 @@ public class CompositeGenre extends AbstractComposite{
                 try {
                     //object speichern
                     // Fehlerbehandlung
-                    Database.saveObject(tmp);
+                    Database.updateObject(tmp);
                     //Übersichtstabelle aktualisieren
                     refreshGenreTable(textGenreSearch.getText());
                     
