@@ -334,8 +334,9 @@ public class ManagementGui {
             cTabFolder1LData.grabExcessVerticalSpace = true;
             cTabFolder1LData.verticalAlignment = GridData.FILL;
             cTabFolderMain.setLayoutData(cTabFolder1LData);
-
+            
             initFormatTab();
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -400,8 +401,7 @@ public class ManagementGui {
         viewVideoFormatMenuItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemFormat == null || tabItemFormat.isDisposed()){
-				    initFormatTab();
-				    cTabFolderMain.setSelection(tabItemFormat);
+				    initFormatTab();				    
 				 return;   
 				}
 				
@@ -418,7 +418,6 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemDirector == null || tabItemDirector.isDisposed()){
 				    initDirectorTab();
-				    cTabFolderMain.setSelection(tabItemDirector);
 				    return;   
 				}
 				
@@ -435,7 +434,6 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemActor == null || tabItemActor.isDisposed()){
 				    initActorTab();
-				    cTabFolderMain.setSelection(tabItemActor);
 				    return;   
 				}
 				
@@ -453,7 +451,6 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemGenre == null || tabItemGenre.isDisposed()){
 				    initGenreTab();
-				    cTabFolderMain.setSelection(tabItemGenre);
 				    return;   
 				}
 				
@@ -471,7 +468,6 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemLanguage == null || tabItemLanguage.isDisposed()){
 				    initLanguageTab();
-				    cTabFolderMain.setSelection(tabItemLanguage);
 				    return;   
 				}
 				
@@ -489,7 +485,6 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemStatus == null || tabItemStatus.isDisposed()){
 				    initStatusTab();
-				    cTabFolderMain.setSelection(tabItemStatus);
 				    return;   
 				}
 				
@@ -535,7 +530,7 @@ public class ManagementGui {
             
             tabItemStatus.setControl(compositeStatus);
         }
-        
+        cTabFolderMain.setSelection(tabItemStatus);
     }
 
 
@@ -565,7 +560,7 @@ public class ManagementGui {
     
     
     private void initFormatTab() {
-        tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);        
         tabItemFormat.setText(l.getString("tab.format.title"));
         tabItemFormat.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
@@ -583,6 +578,7 @@ public class ManagementGui {
             
             tabItemFormat.setControl(compositeFormate);
         }
+        cTabFolderMain.setSelection(tabItemFormat);
         
     }
     
@@ -607,7 +603,7 @@ public class ManagementGui {
             
             tabItemDirector.setControl(compositeDirector);
         }
-        
+        cTabFolderMain.setSelection(tabItemDirector);
     }    
     
     private void initActorTab() {
@@ -629,7 +625,7 @@ public class ManagementGui {
             
             tabItemActor.setControl(compositeActor);
         }
-        
+        cTabFolderMain.setSelection(tabItemActor);
     }
 
     private void initGenreTab() {
@@ -652,7 +648,7 @@ public class ManagementGui {
             
             tabItemGenre.setControl(compositeGenre);
         }
-        
+        cTabFolderMain.setSelection(tabItemGenre);
     }
 
     private void initLanguageTab() {
@@ -661,9 +657,9 @@ public class ManagementGui {
         tabItemLanguage.addDisposeListener(new DisposeListener() {
 
             public void widgetDisposed(DisposeEvent evt) {
-if(!viewLanguageMenuItem.isDisposed()){
-                viewLanguageMenuItem.setSelection(false);
-}
+                if(!viewLanguageMenuItem.isDisposed()){
+                    viewLanguageMenuItem.setSelection(false);
+                }
             }
             
         });
@@ -674,6 +670,7 @@ if(!viewLanguageMenuItem.isDisposed()){
             
             tabItemLanguage.setControl(compositeLanguage);
         }
+        cTabFolderMain.setSelection(tabItemLanguage);
     }    
     
     private void initStatusLine() {
