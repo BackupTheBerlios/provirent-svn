@@ -239,7 +239,8 @@ public class TestDvd extends TestCase {
                     s.save(dvd);
                 }
             }
-tx.commit();
+            tx.commit();
+            
         } catch (HibernateException hex) {
             fail("Fehler beim Session oder Transaction aufbau");
             logger.error("Fehler beim Session oder Transaction aufbau", hex);

@@ -38,7 +38,7 @@ import junit.framework.TestCase;
  * @author Philipp Schneider
  *
  */
-public class TestOrder extends TestCase {
+public class TestMovieOrder extends TestCase {
 
     /*
      * @see TestCase#setUp()
@@ -58,7 +58,7 @@ public class TestOrder extends TestCase {
      * Constructor for TestOrder.
      * @param arg0
      */
-    public TestOrder(String arg0) {
+    public TestMovieOrder(String arg0) {
         super(arg0);
     }
 
