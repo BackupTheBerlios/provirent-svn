@@ -29,7 +29,7 @@
       	<meta attribute="use-in-tostring">true</meta>
       </property>
                          
-      <property name="password" type="string" not-null="true">
+      <property name="userPassword" type="string" not-null="true">
       	<meta attribute="use-in-tostring">true</meta>
       </property>
                          

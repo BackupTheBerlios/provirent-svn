@@ -34,7 +34,8 @@
   	
   	<many-to-one name="status" class="de.hsharz.provirent.objects.Status" column="STATUS"/>
   
-      <property name="barcode" type="string" unique="true">
+  <!--unique="true" entfernt, da interbase probleme damit hat-->
+      <property name="barcode" type="string" >
       	<meta attribute="use-in-tostring">true</meta>
       </property>
 

@@ -21,7 +21,7 @@ public class Customer implements Serializable {
     private String userName;
 
     /** persistent field */
-    private String password;
+    private String userPassword;
 
     /** persistent field */
     private String hiddenQuestion;
@@ -36,9 +36,9 @@ public class Customer implements Serializable {
     private de.hsharz.provirent.objects.Person person;
 
     /** full constructor */
-    public Customer(String userName, String password, String hiddenQuestion, String hiddenAnswer, Date dayOfRegistration, de.hsharz.provirent.objects.Person person) {
+    public Customer(String userName, String userPassword, String hiddenQuestion, String hiddenAnswer, Date dayOfRegistration, de.hsharz.provirent.objects.Person person) {
         this.userName = userName;
-        this.password = password;
+        this.userPassword = userPassword;
         this.hiddenQuestion = hiddenQuestion;
         this.hiddenAnswer = hiddenAnswer;
         this.dayOfRegistration = dayOfRegistration;
@@ -50,9 +50,9 @@ public class Customer implements Serializable {
     }
 
     /** minimal constructor */
-    public Customer(String userName, String password, String hiddenQuestion, String hiddenAnswer) {
+    public Customer(String userName, String userPassword, String hiddenQuestion, String hiddenAnswer) {
         this.userName = userName;
-        this.password = password;
+        this.userPassword = userPassword;
         this.hiddenQuestion = hiddenQuestion;
         this.hiddenAnswer = hiddenAnswer;
     }
@@ -73,12 +73,12 @@ public class Customer implements Serializable {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getUserPassword() {
+        return this.userPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
     public String getHiddenQuestion() {
@@ -117,7 +117,7 @@ public class Customer implements Serializable {
         return new ToStringBuilder(this)
             .append("customerId", getCustomerId())
             .append("userName", getUserName())
-            .append("password", getPassword())
+            .append("userPassword", getUserPassword())
             .append("hiddenQuestion", getHiddenQuestion())
             .append("hiddenAnswer", getHiddenAnswer())
             .append("dayOfRegistration", getDayOfRegistration())
@@ -131,7 +131,7 @@ public class Customer implements Serializable {
         return new EqualsBuilder()
             .append(this.getCustomerId(), castOther.getCustomerId())
             .append(this.getUserName(), castOther.getUserName())
-            .append(this.getPassword(), castOther.getPassword())
+            .append(this.getUserPassword(), castOther.getUserPassword())
             .append(this.getHiddenQuestion(), castOther.getHiddenQuestion())
             .append(this.getHiddenAnswer(), castOther.getHiddenAnswer())
             .append(this.getDayOfRegistration(), castOther.getDayOfRegistration())
@@ -143,7 +143,7 @@ public class Customer implements Serializable {
         return new HashCodeBuilder()
             .append(getCustomerId())
             .append(getUserName())
-            .append(getPassword())
+            .append(getUserPassword())
             .append(getHiddenQuestion())
             .append(getHiddenAnswer())
             .append(getDayOfRegistration())
