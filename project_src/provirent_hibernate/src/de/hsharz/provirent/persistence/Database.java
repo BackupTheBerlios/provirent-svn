@@ -1448,21 +1448,7 @@ public class Database {
 	            Criteria criteria = s.createCriteria(Payment.class);
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
-<<<<<<< .mine
-=======
-	          
-	            /*
-	            any.add(Expression.sql("Select * from PAYMENT where name like '" + 
-	                    		name + 
-	                    		"' and startdate = (select startdate from PAYMENT where name like '" + 
-	                    		name +
-	                    						   "')"));
->>>>>>> .r175
-	            
-	            */
-	            
-	
-	            //if filter not empty
+
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
 	                any.add(Expression.like("name", "%"+filter+"%"));
 	                any.add(Expression.like("duration1", "%"+filter+"%"));
