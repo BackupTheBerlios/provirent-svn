@@ -191,17 +191,9 @@ public class ManagmentGui {
      */
     public static void main(String[] args) {
         ManagmentGui inst = new ManagmentGui();
-        inst.showGUI();
         inst.run();
     }
 
-    /**
-     * Auto-generated method to display this org.eclipse.swt.widgets.Composite
-     * inside a new Shell.
-     */
-    public void showGUI() {
-
-    }
 
     public void run() {
         shell.open();
@@ -224,7 +216,7 @@ public class ManagmentGui {
         l = PropertyResourceBundle.getBundle(
                 "de.hsharz.provirent.managment.gui.language.main", locale);
 
-        //hier muss noch was gemacht werden
+        //@todo hier muss noch was gemacht werden
         if (l == null) {
             System.exit(-1586);
         }
@@ -234,16 +226,19 @@ public class ManagmentGui {
         shell = new Shell(display);
         shell.setText(l.getString("mainwindow.title"));
 
+        //set the Site
+        shell.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
+
         {
             //Register as a resource user - SWTResourceManager will
             //handle the obtaining and disposing of resources
             SWTResourceManager.registerResourceUser(shell);
         }
-
-        //shell.setLayout(new FormLayout());
-        shell.setLayout(new FillLayout());
-
-        shell.layout();
+        //set the layout for the shell
+        FillLayout thisLayout = new FillLayout(SWT.HORIZONTAL);
+        shell.setLayout(thisLayout);
+        
+       
 
         //init the db, so it saves time later
         //does that in a new Thread
@@ -251,11 +246,40 @@ public class ManagmentGui {
         
         //init the rest
         initGUI();
+        
+        shell.layout();
 
     }
 
+    private void initGUI() {
+        try {
+
+            //set't the menu
+            rootMenu = new Menu(shell, SWT.BAR);
+            shell.setMenuBar(rootMenu);
+
+            //init the other menu's
+            initFileMenu();
+            initViewMenu();
+            initHelpMenu();
+
+            //the root composite
+            //this init's the maincomposite
+            initRootComposite();
+            initStatusComposite();
+
+            initMainTabFolder();
+
+            initFormatTab();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }    
+    
+    
     /**
-     *  init the File menu
+     * init the File menu
      */
     private void initFileMenu() {
         if (rootMenu == null) {
@@ -385,19 +409,6 @@ public class ManagmentGui {
 
     }
 
-    
-    private void initFormatTab() {
-        tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
-        tabItemFormat.setText(l.getString("tab.format.title"));
-        {
-            compositeFormate = new CompositeFormate(
-                cTabFolderMain,
-                SWT.NONE, statusLine, locale);
-            
-            tabItemFormat.setControl(compositeFormate);
-        }
-    }
-    
     private void initRootComposite() {
 
         //set up the root composite incl. layout
@@ -419,8 +430,7 @@ public class ManagmentGui {
         //init the MainComposite
         initMainComposite();
     }
-    
-
+  
 
     private void initMainComposite(){
         compositeMain = new Composite(compositeRoot, SWT.EMBEDDED);
@@ -440,75 +450,38 @@ public class ManagmentGui {
         composite3LData.grabExcessVerticalSpace = true;
         compositeMain.setLayoutData(composite3LData);
     
-        //init the MainTabFolder
+
     }
     
     private void initMainTabFolder() {
-        
+        cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
+        //cTabFolderMain.setSelection(null);
+        GridData cTabFolder1LData = new GridData();
+        cTabFolder1LData.grabExcessHorizontalSpace = true;
+        cTabFolder1LData.horizontalAlignment = GridData.FILL;
+        cTabFolder1LData.grabExcessVerticalSpace = true;
+        cTabFolder1LData.verticalAlignment = GridData.FILL;
+        cTabFolderMain.setLayoutData(cTabFolder1LData);
     }
     
-    private void initGUI() {
-        try {
-
-            //set't the menu
-            rootMenu = new Menu(shell, SWT.BAR);
-            shell.setMenuBar(rootMenu);
-
-            //init the other menu's
-            initFileMenu();
-            initViewMenu();
-            initHelpMenu();
-
-            //set the layout for the shell
-            FillLayout thisLayout = new FillLayout(SWT.HORIZONTAL);
-            shell.setLayout(thisLayout);
-
-            //set the Site
-            shell.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-            {
-                //the root composite
-                //this init's the maincomposite
-                initRootComposite();
-                initStatusComposite();
-
-                {
-                    {
-                        cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
-                        //cTabFolderMain.setSelection(null);
-                        GridData cTabFolder1LData = new GridData();
-                        cTabFolder1LData.grabExcessHorizontalSpace = true;
-                        cTabFolder1LData.horizontalAlignment = GridData.FILL;
-                        cTabFolder1LData.grabExcessVerticalSpace = true;
-                        cTabFolder1LData.verticalAlignment = GridData.FILL;
-                        cTabFolderMain.setLayoutData(cTabFolder1LData);
-                        {
-                            initFormatTab();
-                            /*
-                            tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
-                            tabItemFormat.setText("Formate");
-                            {
-                                compositeFormate = new CompositeFormate(
-                                    cTabFolderMain,
-                                    SWT.NONE, statusLine, locale);
-                                
-                                tabItemFormat.setControl(compositeFormate);
-                            }
-                            */
-                        }
-                    }
-                }
-                {
-                    //init the Composite for statusline
-                    
-                    //compositeFormate.setStatusLine(statusLine);
-
-                }
-            }
-            shell.layout();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void initFormatTab() {
+        tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemFormat.setText(l.getString("tab.format.title"));
+        {
+            compositeFormate = new CompositeFormate(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemFormat.setControl(compositeFormate);
         }
     }
+    
+    
+
+ 
+
+    
+
 
 
 
