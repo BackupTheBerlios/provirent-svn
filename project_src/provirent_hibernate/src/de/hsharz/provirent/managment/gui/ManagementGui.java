@@ -42,57 +42,40 @@ import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
 import de.hsharz.provirent.managment.exceptions.GuiInitException;
-import de.hsharz.provirent.objects.VideoFormat;
 import de.hsharz.provirent.persistence.Database;
 
 /**
- * This code was generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * *************************************
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED
- * for this machine, so Jigloo or this code cannot be used legally
- * for any corporate or commercial purpose.
- * *************************************
- */
- import de.hsharz.provirent.managment.gui.CompositeFormate;
- import org.eclipse.swt.events.DisposeListener;
- import org.eclipse.swt.events.DisposeEvent;
+* This code was generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* *************************************
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED
+* for this machine, so Jigloo or this code cannot be used legally
+* for any corporate or commercial purpose.
+* *************************************
+*/
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.DisposeEvent;
 /**
  * @author Philipp Schneider
  *  
@@ -401,7 +384,7 @@ public class ManagementGui {
 				
 				cTabFolderMain.setSelection(tabItemFormat);
 				viewVideoFormatMenuItem.setSelection(true);
-            
+				cTabFolderMain.showSelection();
             }
         });
 
@@ -417,7 +400,7 @@ public class ManagementGui {
 				
 				cTabFolderMain.setSelection(tabItemDirector);
 				viewDirectorMenuItem.setSelection(true);
-            
+				cTabFolderMain.showSelection();
             }
         });        
 
@@ -433,6 +416,7 @@ public class ManagementGui {
 				
 				cTabFolderMain.setSelection(tabItemActor);
 				viewActorMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();
             
             }
         });         
@@ -448,6 +432,7 @@ public class ManagementGui {
 				}
 				
 				cTabFolderMain.setSelection(tabItemGenre);
+				cTabFolderMain.showSelection();
 				viewGenreMenuItem.setSelection(true);
             
             }
@@ -465,7 +450,7 @@ public class ManagementGui {
 				
 				cTabFolderMain.setSelection(tabItemLanguage);
 				viewGenreMenuItem.setSelection(true);
-            
+				cTabFolderMain.showSelection();
             }
         });         
 
@@ -523,7 +508,14 @@ public class ManagementGui {
     private void initFormatTab() {
         tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemFormat.setText(l.getString("tab.format.title"));
-        
+        tabItemFormat.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+                System.out
+                    .println("tabItemFormat.widgetDisposed, event=" + evt);
+                viewVideoFormatMenuItem.setSelection(false);
+            }
+        });
+
         {
             compositeFormate = new CompositeFormate(
                 cTabFolderMain,
@@ -538,7 +530,15 @@ public class ManagementGui {
     private void initDirectorTab() {
         tabItemDirector = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemDirector.setText(l.getString("tab.director.title"));
-      
+        tabItemDirector.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                System.out
+                    .println("tabItemDirector.widgetDisposed, event=" + evt);
+                viewDirectorMenuItem.setSelection(false);
+            }
+            
+        });
         {
             compositeDirector = new CompositeDirectors(
                 cTabFolderMain,
@@ -552,7 +552,15 @@ public class ManagementGui {
     private void initActorTab() {
         tabItemActor = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemActor.setText(l.getString("tab.actor.title"));
-  
+        tabItemActor.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                System.out
+                    .println("tabItemActor.widgetDisposed, event=" + evt);
+                viewActorMenuItem.setSelection(false);
+            }
+            
+        });
         {
             compositeActor = new CompositeActors(
                 cTabFolderMain,
@@ -566,7 +574,15 @@ public class ManagementGui {
     private void initGenreTab() {
         tabItemGenre = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemGenre.setText(l.getString("tab.genre.title"));
-        
+        tabItemGenre.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                System.out
+                    .println("tabItemGenre.widgetDisposed, event=" + evt);
+                viewGenreMenuItem.setSelection(false);
+            }
+            
+        });
   
         {
             compositeGenre = new CompositeGenre(
@@ -581,7 +597,15 @@ public class ManagementGui {
     private void initLanguageTab() {
         tabItemLanguage = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemLanguage.setText(l.getString("tab.language.title"));
-     
+        tabItemLanguage.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                System.out
+                    .println("tabItemLanguage.widgetDisposed, event=" + evt);
+                viewLanguageMenuItem.setSelection(false);
+            }
+            
+        });
         {
             compositeLanguage = new CompositeLanguage(
                 cTabFolderMain,
