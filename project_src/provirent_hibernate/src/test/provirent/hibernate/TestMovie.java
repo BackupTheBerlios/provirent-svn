@@ -34,7 +34,6 @@ package test.provirent.hibernate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -44,14 +43,9 @@ import net.sf.hibernate.Transaction;
 import org.apache.log4j.Logger;
 
 import de.hsharz.provirent.objects.Actor;
-import de.hsharz.provirent.objects.AudioFormat;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
-import de.hsharz.provirent.objects.Image;
-import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
-import de.hsharz.provirent.objects.Subtitle;
-import de.hsharz.provirent.objects.VideoFormat;
 
 /**
  * @author Philipp Schneider

@@ -9,15 +9,13 @@ import junit.framework.TestCase;
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import net.sf.hibernate.expression.Disjunction;
-import net.sf.hibernate.expression.Expression;
 
 import org.apache.log4j.Logger;
 
 import de.hsharz.provirent.objects.Customer;
 import de.hsharz.provirent.objects.Person;
-import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.persistence.HibernateUtil;
+
 /*
  * Created on 09.10.2004
  *
@@ -56,389 +54,381 @@ import de.hsharz.provirent.persistence.HibernateUtil;
  *
  */
 public class TestCustomer extends TestCase {
-    /**
-     * Logger for this class
-     */
-    private static final Logger logger = Logger.getLogger(TestCustomer.class);
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(TestCustomer.class);
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        if (logger.isDebugEnabled()) {
-            logger.debug("setUp() - start");
-        }
+	/*
+	 * @see TestCase#setUp()
+	 */
+	protected void setUp() throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("setUp() - start");
+		}
 
-        super.setUp();
+		super.setUp();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("setUp() - end");
-        }
-    }
+		if (logger.isDebugEnabled()) {
+			logger.debug("setUp() - end");
+		}
+	}
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        if (logger.isDebugEnabled()) {
-            logger.debug("tearDown() - start");
-        }
+	/*
+	 * @see TestCase#tearDown()
+	 */
+	protected void tearDown() throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("tearDown() - start");
+		}
 
-        super.tearDown();
+		super.tearDown();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("tearDown() - end");
-        }
-    }
+		if (logger.isDebugEnabled()) {
+			logger.debug("tearDown() - end");
+		}
+	}
 
-    /**
-     * Constructor for TestCustomer.
-     * @param arg0
-     */
-    public TestCustomer(String arg0) {
-        super(arg0);
-    }
-    
+	/**
+	 * Constructor for TestCustomer.
+	 * @param arg0
+	 */
+	public TestCustomer(String arg0) {
+		super(arg0);
+	}
 
-    
+	/*
+	 public void testCustomer() throws Exception{
+	 if (logger.isDebugEnabled()) {
+	 logger.debug("testCustomer() - start");
+	 }
 
-    
-    /*
-    public void testCustomer() throws Exception{
-        if (logger.isDebugEnabled()) {
-            logger.debug("testCustomer() - start");
-        }
+	 //get new Session and begin Transaction
+	 Session s = HibernateUtil.currentSession();
+	 Transaction tx = null;
+	 try {
+	 tx = s.beginTransaction();
 
-        //get new Session and begin Transaction
-        Session s = HibernateUtil.currentSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
+	 try {
+	 //is DB open and connected
+	 assertTrue("Connected to Db? ", s.isConnected());
+	 assertTrue("Db Open? ", s.isOpen());
 
-            try {
-                //is DB open and connected
-                assertTrue("Connected to Db? ", s.isConnected());
-                assertTrue("Db Open? ", s.isOpen());
+	 List customer = new ArrayList();
+	 
+	 //create new objects
 
-                List customer = new ArrayList();
-                
-                //create new objects
+	 Customer c = new Customer();
+	 c.setUserName("kunde1");
+	 c.setUserPassword("kunde1");
+	 c.setHiddenQuestion(" ");
+	 c.setHiddenAnswer(" ");
 
-                Customer c = new Customer();
-                c.setUserName("kunde1");
-                c.setUserPassword("kunde1");
-                c.setHiddenQuestion(" ");
-                c.setHiddenAnswer(" ");
+	 
+	 
+	 
+	 Person person = new Person();
+	 person.setFirstName("Philipp");
+	 person.setLastName("Schneider");
+	 person.setStreet("Kastanienring");
+	 person.setStreetNumber("16");
+	 person.setCity("Leipzig");
+	 person.setZipCode("04316");
+	 person.setCountry("Deutschland");
+	 person.setSalutation("Herr");
+	 person.setEmailAddress("egal@phil-schneider.de");
 
-                
-                
-                
-                Person person = new Person();
-                person.setFirstName("Philipp");
-                person.setLastName("Schneider");
-                person.setStreet("Kastanienring");
-                person.setStreetNumber("16");
-                person.setCity("Leipzig");
-                person.setZipCode("04316");
-                person.setCountry("Deutschland");
-                person.setSalutation("Herr");
-                person.setEmailAddress("egal@phil-schneider.de");
+	 Calendar birthday = Calendar.getInstance();
+	 birthday.set(Calendar.DAY_OF_MONTH,14);
+	 birthday.set(Calendar.MONTH,3); //April
+	 birthday.set(Calendar.YEAR,1981 );
+	 
+	 person.setDayOfBirth(birthday);
+	 
+	 c.setPerson(person);
+	 
+	 customer.add(c);
 
-                Calendar birthday = Calendar.getInstance();
-                birthday.set(Calendar.DAY_OF_MONTH,14);
-                birthday.set(Calendar.MONTH,3); //April
-                birthday.set(Calendar.YEAR,1981 );
-             
-                person.setDayOfBirth(birthday);
-                
-                c.setPerson(person);
-                
-                customer.add(c);
+	 List ids = new ArrayList();
 
-                List ids = new ArrayList();
+	 //save objects
+	 for (Iterator iter = customer.iterator(); iter.hasNext();) {
+	 Customer custe = (Customer) iter.next();
+	 ids.add((Integer) s.save(custe));
 
-                //save objects
-                for (Iterator iter = customer.iterator(); iter.hasNext();) {
-                    Customer custe = (Customer) iter.next();
-                    ids.add((Integer) s.save(custe));
+	 }
+	 s.flush();
 
-                }
-                s.flush();
+	 
+	 int id = c.getCustomerId().intValue();
+	 int personid = c.getPerson().getPersonId().intValue();
+	 
+	 //get Condition from Hibernate
+	 Customer dbc = (Customer) s.get(Customer.class, new Integer(id));
+	 assertNotNull("Can't get Customer" + id + " from DB", dbc);
+	 if (dbc == null) {
+	 if (logger.isDebugEnabled()) {
+	 logger.debug("testCustomer() Kein object mit id "
+	 + id + "gefunden.");
+	 }
+	 return;
+	 }
+	 //are both equal?
+	 assertEquals(
+	 "Select: Customer aus DB nicht gleich meiner. DB: "
+	 + dbc + " My:" + c, c, dbc); 
 
-                
-                int id = c.getCustomerId().intValue();
-                int personid = c.getPerson().getPersonId().intValue();
-                
-                //get Condition from Hibernate
-                Customer dbc = (Customer) s.get(Customer.class, new Integer(id));
-                assertNotNull("Can't get Customer" + id + " from DB", dbc);
-                if (dbc == null) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("testCustomer() Kein object mit id "
-                                + id + "gefunden.");
-                    }
-                    return;
-                }
-                //are both equal?
-                assertEquals(
-                        "Select: Customer aus DB nicht gleich meiner. DB: "
-                                + dbc + " My:" + c, c, dbc); 
+	 logger.debug("Customer: "+dbc+ "Person: "+dbc.getPerson());
 
-                logger.debug("Customer: "+dbc+ "Person: "+dbc.getPerson());
+	 //delete the object
+	 s.delete(c);
+	 s.flush();
+	 
+	 dbc = c = null;
 
-                //delete the object
-                s.delete(c);
-                s.flush();
-                
-                dbc = c = null;
+	 Object obj = s.get(Customer.class, new Integer(id));
 
-                Object obj = s.get(Customer.class, new Integer(id));
-
-                //should be null, because data deleted
-                assertNull("Deleted: Customer ID:" + id + ", but still in DB", obj);
+	 //should be null, because data deleted
+	 assertNull("Deleted: Customer ID:" + id + ", but still in DB", obj);
 
 
-                obj = s.get(Person.class, new Integer(personid));
+	 obj = s.get(Person.class, new Integer(personid));
 
-                //should be null, because data deleted
-                assertNull("Deleted Customer, but Person is still there: Customer ID:" 
-                        + id + " Personid: "+ personid + ", but still in DB", obj);
-                
-                
-                
-                tx.commit();
+	 //should be null, because data deleted
+	 assertNull("Deleted Customer, but Person is still there: Customer ID:" 
+	 + id + " Personid: "+ personid + ", but still in DB", obj);
+	 
+	 
+	 
+	 tx.commit();
 
-                System.out.println("Customer der gespeichert wurde: " + customer.toString());
-                
-            } catch (Exception e) {
-                if (tx != null) {
-                    logger
-                            .error(
-                                    "testCustomer() - Something went wrong here; discard all partial changes",
-                                    e);
+	 System.out.println("Customer der gespeichert wurde: " + customer.toString());
+	 
+	 } catch (Exception e) {
+	 if (tx != null) {
+	 logger
+	 .error(
+	 "testCustomer() - Something went wrong here; discard all partial changes",
+	 e);
 
-                    // Something went wrong; discard all partial changes
-                    tx.rollback();
-                }
-            }
+	 // Something went wrong; discard all partial changes
+	 tx.rollback();
+	 }
+	 }
 
-        } catch (Exception e) {
-            logger.error(
-                    "testCustomer() - Error while trying to beginTransaction",
-                    e);
-            throw e;
-        } finally {
-            // No matter what, close the session
-            HibernateUtil.closeSession();
-        }
-        
-        
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("testCustomer() - end");
-        }
-    }*/
+	 } catch (Exception e) {
+	 logger.error(
+	 "testCustomer() - Error while trying to beginTransaction",
+	 e);
+	 throw e;
+	 } finally {
+	 // No matter what, close the session
+	 HibernateUtil.closeSession();
+	 }
+	 
+	 
+	 
+	 if (logger.isDebugEnabled()) {
+	 logger.debug("testCustomer() - end");
+	 }
+	 }*/
 
-    public void testCreateCustomer() throws Exception{
-        if (logger.isDebugEnabled()) {
-            logger.debug("testCreateCustomer() - start");
-        }
+	public void testCreateCustomer() throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("testCreateCustomer() - start");
+		}
 
-        //get new Session and begin Transaction
-        Session s = HibernateUtil.currentSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
+		//get new Session and begin Transaction
+		Session s = HibernateUtil.currentSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
 
-            try {
-                //is DB open and connected
-                assertTrue("Connected to Db? ", s.isConnected());
-                assertTrue("Db Open? ", s.isOpen());
+			try {
+				//is DB open and connected
+				assertTrue("Connected to Db? ", s.isConnected());
+				assertTrue("Db Open? ", s.isOpen());
 
-                List customer = new ArrayList();
-                
-                //create new objects
+				List customer = new ArrayList();
 
-                Customer c = new Customer();
-                c.setUserName("kunde1");
-                c.setUserPassword("kunde1");
-                c.setHiddenQuestion(" ");
-                c.setHiddenAnswer(" ");
+				//create new objects
 
-                Person person = new Person();
-                person.setFirstName("Philipp");
-                person.setLastName("Schneider");
-                person.setStreet("Kastanienring");
-                person.setStreetNumber("16");
-                person.setCity("Leipzig");
-                person.setZipCode("04316");
-                person.setCountry("Deutschland");
-                person.setSalutation("Herr");
-                person.setEmailAddress("kunde2-provirent@phil-schneider.de");
+				Customer c = new Customer();
+				c.setUserName("kunde1");
+				c.setUserPassword("kunde1");
+				c.setHiddenQuestion(" ");
+				c.setHiddenAnswer(" ");
 
-                Calendar birthday = Calendar.getInstance();
-                birthday.set(Calendar.DAY_OF_MONTH,10);
-                birthday.set(Calendar.MONTH,8); 
-                birthday.set(Calendar.YEAR,1988 );
-             
-                person.setDayOfBirth(birthday);
-                
-                
-                c.setPerson(person);
-                customer.add(c);
+				Person person = new Person();
+				person.setFirstName("Philipp");
+				person.setLastName("Schneider");
+				person.setStreet("Kastanienring");
+				person.setStreetNumber("16");
+				person.setCity("Leipzig");
+				person.setZipCode("04316");
+				person.setCountry("Deutschland");
+				person.setSalutation("Herr");
+				person.setEmailAddress("kunde2-provirent@phil-schneider.de");
 
-                //second Customer
-                c = new Customer();
-                c.setUserName("kunde2");
-                c.setUserPassword("kunde2");
-                c.setHiddenQuestion(" ");
-                c.setHiddenAnswer(" ");
+				Calendar birthday = Calendar.getInstance();
+				birthday.set(Calendar.DAY_OF_MONTH, 10);
+				birthday.set(Calendar.MONTH, 8);
+				birthday.set(Calendar.YEAR, 1988);
 
-                person = new Person();
-                person.setFirstName("Max");
-                person.setLastName("Meier");
-                person.setStreet("Kohlgartenstr.");
-                person.setStreetNumber("67");
-                person.setCity("Wernigerode");
-                person.setZipCode("38855");
-                person.setCountry("Deutschland");
-                person.setSalutation("Herr");
-                person.setEmailAddress("kunde2-provirent@phil-schneider.de");
+				person.setDayOfBirth(birthday);
 
-                birthday = Calendar.getInstance();
-                birthday.set(Calendar.DAY_OF_MONTH,2);
-                birthday.set(Calendar.MONTH,2); 
-                birthday.set(Calendar.YEAR,1954 );
-                
-                c.setPerson(person);
-                customer.add(c);
-                
-       
-                //third Customer
-                c = new Customer();
-                c.setUserName("kunde3");
-                c.setUserPassword("kunde3");
-                c.setHiddenQuestion(" ");
-                c.setHiddenAnswer(" ");
+				c.setPerson(person);
+				customer.add(c);
 
-                person = new Person();
-                person.setFirstName("Thomas");
-                person.setLastName("Pech");
-                person.setStreet("Riebeck.");
-                person.setStreetNumber("7a");
-                person.setCity("Leipzig");
-                person.setZipCode("04317");
-                person.setCountry("Deutschland");
-                person.setSalutation("Herr");
-                person.setEmailAddress("kunde3-provirent@phil-schneider.de");
+				//second Customer
+				c = new Customer();
+				c.setUserName("kunde2");
+				c.setUserPassword("kunde2");
+				c.setHiddenQuestion(" ");
+				c.setHiddenAnswer(" ");
 
-                birthday = Calendar.getInstance();
-                birthday.set(Calendar.DAY_OF_MONTH,10);
-                birthday.set(Calendar.MONTH,8); 
-                birthday.set(Calendar.YEAR,1988 );
-                
-                c.setPerson(person);
-                customer.add(c);
-              
-                
-                List ids = new ArrayList();
+				person = new Person();
+				person.setFirstName("Max");
+				person.setLastName("Meier");
+				person.setStreet("Kohlgartenstr.");
+				person.setStreetNumber("67");
+				person.setCity("Wernigerode");
+				person.setZipCode("38855");
+				person.setCountry("Deutschland");
+				person.setSalutation("Herr");
+				person.setEmailAddress("kunde2-provirent@phil-schneider.de");
 
-                //save objects
-                for (Iterator iter = customer.iterator(); iter.hasNext();) {
-                    Customer custe = (Customer) iter.next();
-                    ids.add((Integer) s.save(custe));
+				birthday = Calendar.getInstance();
+				birthday.set(Calendar.DAY_OF_MONTH, 2);
+				birthday.set(Calendar.MONTH, 2);
+				birthday.set(Calendar.YEAR, 1954);
 
-                }
-                s.flush();
+				c.setPerson(person);
+				customer.add(c);
 
-                for (int i =0;i < ids.size(); i++) {
-                    
-                    int id = ((Integer)ids.get(i)).intValue();
-                    
-                    //get Condition from Hibernate
-                    Customer dbc = (Customer) s.get(Customer.class, new Integer(id));
-                    assertNotNull("Can't get Customer" + id + " from DB", dbc);
-                    if (dbc == null) {
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("testCreateCustomer() Kein object mit id "
-                                    + id + "gefunden.");
-                        }
-                        return;
-                    }
-                    logger.debug("Customer: "+dbc+" Person:"+dbc.getPerson());
-                    
-                    Customer myc = (Customer)customer.get(i);
-                    //are both equal?
-                    assertEquals(
-                            "Select: Customer aus DB nicht gleich meiner. DB: "
-                                    + dbc + " My:" + myc, myc, dbc); 
+				//third Customer
+				c = new Customer();
+				c.setUserName("kunde3");
+				c.setUserPassword("kunde3");
+				c.setHiddenQuestion(" ");
+				c.setHiddenAnswer(" ");
 
-                }
-                
-                tx.commit();
-                
-            } catch (Exception e) {
-                if (tx != null) {
-                    logger
-                            .error(
-                                    "testCreateCustomer() - Something went wrong here; discard all partial changes",
-                                    e);
+				person = new Person();
+				person.setFirstName("Thomas");
+				person.setLastName("Pech");
+				person.setStreet("Riebeck.");
+				person.setStreetNumber("7a");
+				person.setCity("Leipzig");
+				person.setZipCode("04317");
+				person.setCountry("Deutschland");
+				person.setSalutation("Herr");
+				person.setEmailAddress("kunde3-provirent@phil-schneider.de");
 
-                    // Something went wrong; discard all partial changes
-                    tx.rollback();
-                }
-            }
+				birthday = Calendar.getInstance();
+				birthday.set(Calendar.DAY_OF_MONTH, 10);
+				birthday.set(Calendar.MONTH, 8);
+				birthday.set(Calendar.YEAR, 1988);
 
-        } catch (Exception e) {
-            logger.error(
-                    "testCreateCustomer() - Error while trying to beginTransaction",
-                    e);
-            throw e;
-        } finally {
-            // No matter what, close the session
-            HibernateUtil.closeSession();
-        }
-        
-        
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("testCreateCustomer() - end");
-        }
-    }
-    
-  
-    
-    public void testSelectCustomer() throws Exception {
-        if (logger.isDebugEnabled()) {
-            logger.debug("testSelectCustomer() - start");
-        }
+				c.setPerson(person);
+				customer.add(c);
 
-	    Session s = HibernateUtil.currentSession();
-	
-	    
-        Criteria criteria = s.createCriteria(Customer.class);
-        List returnlist = criteria.list();
-	    
-        
-        for (int i = 0; i < returnlist.size(); i++) {
-            Customer customer = (Customer)returnlist.get(i);
-            assertNotNull("Customer "+i+" Objekt ist null",customer);
-            assertNotNull("Customer "+i+" Person ist null",customer.getPerson());
-            logger.debug("Customer "+i+": "+customer+" Person: "+customer.getPerson());
-            s.delete(customer);
-        }
-	    s.flush();
-	    returnlist = criteria.list();
-	    logger.debug("Anzahl Customer nach Löschen: "+returnlist.size());
-	    
-	    criteria = s.createCriteria(Person.class);
-	    returnlist = criteria.list();
-	    logger.debug("Anzahl Personen nach Löschen: "+returnlist.size());
-	    
-	
-        if (logger.isDebugEnabled()) {
-            logger.debug("testSelectCustomer() - end");
-        }
-    }
-    
+				List ids = new ArrayList();
+
+				//save objects
+				for (Iterator iter = customer.iterator(); iter.hasNext();) {
+					Customer custe = (Customer) iter.next();
+					ids.add((Integer) s.save(custe));
+
+				}
+				s.flush();
+
+				for (int i = 0; i < ids.size(); i++) {
+
+					int id = ((Integer) ids.get(i)).intValue();
+
+					//get Condition from Hibernate
+					Customer dbc = (Customer) s.get(Customer.class,
+							new Integer(id));
+					assertNotNull("Can't get Customer" + id + " from DB", dbc);
+					if (dbc == null) {
+						if (logger.isDebugEnabled()) {
+							logger
+									.debug("testCreateCustomer() Kein object mit id "
+											+ id + "gefunden.");
+						}
+						return;
+					}
+					logger.debug("Customer: " + dbc + " Person:"
+							+ dbc.getPerson());
+
+					Customer myc = (Customer) customer.get(i);
+					//are both equal?
+					assertEquals(
+							"Select: Customer aus DB nicht gleich meiner. DB: "
+									+ dbc + " My:" + myc, myc, dbc);
+
+				}
+
+				tx.commit();
+
+			} catch (Exception e) {
+				if (tx != null) {
+					logger
+							.error(
+									"testCreateCustomer() - Something went wrong here; discard all partial changes",
+									e);
+
+					// Something went wrong; discard all partial changes
+					tx.rollback();
+				}
+			}
+
+		} catch (Exception e) {
+			logger
+					.error(
+							"testCreateCustomer() - Error while trying to beginTransaction",
+							e);
+			throw e;
+		} finally {
+			// No matter what, close the session
+			HibernateUtil.closeSession();
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("testCreateCustomer() - end");
+		}
+	}
+
+	public void testSelectCustomer() throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("testSelectCustomer() - start");
+		}
+
+		Session s = HibernateUtil.currentSession();
+
+		Criteria criteria = s.createCriteria(Customer.class);
+		List returnlist = criteria.list();
+
+		for (int i = 0; i < returnlist.size(); i++) {
+			Customer customer = (Customer) returnlist.get(i);
+			assertNotNull("Customer " + i + " Objekt ist null", customer);
+			assertNotNull("Customer " + i + " Person ist null", customer
+					.getPerson());
+			logger.debug("Customer " + i + ": " + customer + " Person: "
+					+ customer.getPerson());
+			s.delete(customer);
+		}
+		s.flush();
+		returnlist = criteria.list();
+		logger.debug("Anzahl Customer nach Löschen: " + returnlist.size());
+
+		criteria = s.createCriteria(Person.class);
+		returnlist = criteria.list();
+		logger.debug("Anzahl Personen nach Löschen: " + returnlist.size());
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("testSelectCustomer() - end");
+		}
+	}
+
 }

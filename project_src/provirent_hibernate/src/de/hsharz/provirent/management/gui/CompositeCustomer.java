@@ -40,7 +40,6 @@ import org.vafada.swtcalendar.SWTCalendarListener;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
-import de.hsharz.provirent.Util;
 import de.hsharz.provirent.objects.Customer;
 import de.hsharz.provirent.objects.Person;
 import de.hsharz.provirent.persistence.DataBaseException;

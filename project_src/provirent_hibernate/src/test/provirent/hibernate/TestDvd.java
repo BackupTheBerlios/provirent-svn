@@ -1,5 +1,7 @@
 package test.provirent.hibernate;
+
 import junit.framework.TestCase;
+
 /*
  * Created on 09.10.2004
  *
@@ -39,26 +41,26 @@ import junit.framework.TestCase;
  */
 public class TestDvd extends TestCase {
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
+	/*
+	 * @see TestCase#setUp()
+	 */
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
+	/*
+	 * @see TestCase#tearDown()
+	 */
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
 
-    /**
-     * Constructor for TestDvd.
-     * @param arg0
-     */
-    public TestDvd(String arg0) {
-        super(arg0);
-    }
+	/**
+	 * Constructor for TestDvd.
+	 * @param arg0
+	 */
+	public TestDvd(String arg0) {
+		super(arg0);
+	}
 
 }

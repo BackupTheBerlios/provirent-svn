@@ -37,7 +37,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
-import net.sf.hibernate.AssertionFailure;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 
@@ -50,208 +49,208 @@ import de.hsharz.provirent.objects.AudioFormat;
  *
  */
 public class TestAudioFormat extends TestCase {
-    /**
-     * Logger for this class
-     */
-    private static final Logger logger = Logger.getLogger(TestAudioFormat.class);
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(TestAudioFormat.class);
 
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception {
-        if (logger.isDebugEnabled()) {
-            logger.debug("setUp() - start");
-        }
+	/*
+	 * @see TestCase#setUp()
+	 */
+	protected void setUp() throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("setUp() - start");
+		}
 
-        super.setUp();
+		super.setUp();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("setUp() - end");
-        }
-    }
+		if (logger.isDebugEnabled()) {
+			logger.debug("setUp() - end");
+		}
+	}
 
-    /*
-     * @see TestCase#tearDown()
-     */
-    protected void tearDown() throws Exception {
-        if (logger.isDebugEnabled()) {
-            logger.debug("tearDown() - start");
-        }
+	/*
+	 * @see TestCase#tearDown()
+	 */
+	protected void tearDown() throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("tearDown() - start");
+		}
 
-        super.tearDown();
+		super.tearDown();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("tearDown() - end");
-        }
-    }
+		if (logger.isDebugEnabled()) {
+			logger.debug("tearDown() - end");
+		}
+	}
 
-    /*public void testAudioFormat() throws Exception {
-        if (logger.isDebugEnabled()) {
-            logger.debug("testCreating() - start");
-        }
+	/*public void testAudioFormat() throws Exception {
+	 if (logger.isDebugEnabled()) {
+	 logger.debug("testCreating() - start");
+	 }
 
-        //get new Session and begin Transaction
-        Session s = HibernateUtil.currentSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
+	 //get new Session and begin Transaction
+	 Session s = HibernateUtil.currentSession();
+	 Transaction tx = null;
+	 try {
+	 tx = s.beginTransaction();
 
-            try {
-                //is DB open and connected
-                assertTrue("Connected to Db? ", s.isConnected());
-                assertTrue("Db Open? ", s.isOpen());
+	 try {
+	 //is DB open and connected
+	 assertTrue("Connected to Db? ", s.isConnected());
+	 assertTrue("Db Open? ", s.isOpen());
 
-                //cretae new objects
-                List AudioFormats = new ArrayList();
+	 //cretae new objects
+	 List AudioFormats = new ArrayList();
 
-                AudioFormat myd1 = new AudioFormat("DTS Surround Sound","");
-                AudioFormat myd2 = new AudioFormat("Surround Sound","");
-                AudioFormat myd3 = new AudioFormat("Dolby","");
-                AudioFormat myd4 = new AudioFormat("Stereo","");
+	 AudioFormat myd1 = new AudioFormat("DTS Surround Sound","");
+	 AudioFormat myd2 = new AudioFormat("Surround Sound","");
+	 AudioFormat myd3 = new AudioFormat("Dolby","");
+	 AudioFormat myd4 = new AudioFormat("Stereo","");
 
-                AudioFormats.add(myd1);
-                AudioFormats.add(myd2);
-                AudioFormats.add(myd3);
-                AudioFormats.add(myd4);
+	 AudioFormats.add(myd1);
+	 AudioFormats.add(myd2);
+	 AudioFormats.add(myd3);
+	 AudioFormats.add(myd4);
 
-                List ids = new ArrayList();
+	 List ids = new ArrayList();
 
-                //save objects
-                for (Iterator iter = AudioFormats.iterator(); iter.hasNext();) {
-                    AudioFormat dir = (AudioFormat) iter.next();
-                    ids.add((Integer) s.save(dir));
+	 //save objects
+	 for (Iterator iter = AudioFormats.iterator(); iter.hasNext();) {
+	 AudioFormat dir = (AudioFormat) iter.next();
+	 ids.add((Integer) s.save(dir));
 
-                }
-                s.flush();
+	 }
+	 s.flush();
 
-                tx.commit();
+	 tx.commit();
 
-                for (int i = 0; i < ids.size(); i++) {
-                    int id = ((Integer) ids.get(i)).intValue();
-                    AudioFormat myd = (AudioFormat) AudioFormats.get(i);
+	 for (int i = 0; i < ids.size(); i++) {
+	 int id = ((Integer) ids.get(i)).intValue();
+	 AudioFormat myd = (AudioFormat) AudioFormats.get(i);
 
-                    //get AudioFormat from Hibernate
-                    AudioFormat dbd = (AudioFormat) s.get(AudioFormat.class, new Integer(id));
-                    assertNotNull("Can't get AudioFormat" + id + " from DB", dbd);
-                    if (dbd == null) {
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("testCreating()Kein object mit id "
-                                    + id + "gefunden.");
-                        }
-                        return;
-                    }
-                    //are both equal?
-                    assertEquals(
-                            "Select: AudioFormat aus DB nicht gleich meiner. DB: "
-                                    + dbd + " My:" + myd, myd, dbd);
+	 //get AudioFormat from Hibernate
+	 AudioFormat dbd = (AudioFormat) s.get(AudioFormat.class, new Integer(id));
+	 assertNotNull("Can't get AudioFormat" + id + " from DB", dbd);
+	 if (dbd == null) {
+	 if (logger.isDebugEnabled()) {
+	 logger.debug("testCreating()Kein object mit id "
+	 + id + "gefunden.");
+	 }
+	 return;
+	 }
+	 //are both equal?
+	 assertEquals(
+	 "Select: AudioFormat aus DB nicht gleich meiner. DB: "
+	 + dbd + " My:" + myd, myd, dbd);
 
-                    //Update
+	 //Update
 
-                    //delete the object
-                    s.delete(myd);
-                    s.flush();
+	 //delete the object
+	 s.delete(myd);
+	 s.flush();
 
-                    dbd = myd = null;
+	 dbd = myd = null;
 
-                    Object obj = s.get(AudioFormat.class, new Integer(id));
+	 Object obj = s.get(AudioFormat.class, new Integer(id));
 
-                    //should be null, because data deleted
-                    assertNull("Deleted: AudioFormat" + id + ", but still in DB", obj);
+	 //should be null, because data deleted
+	 assertNull("Deleted: AudioFormat" + id + ", but still in DB", obj);
 
-                    if (logger.isDebugEnabled()) {
-                        logger
-                                .debug("testCreating() - AudioFormat aus DB gleich meiner? DB: "
-                                        + dbd + " My:" + myd);
-                    }
+	 if (logger.isDebugEnabled()) {
+	 logger
+	 .debug("testCreating() - AudioFormat aus DB gleich meiner? DB: "
+	 + dbd + " My:" + myd);
+	 }
 
-                }
+	 }
 
-                tx.commit();
+	 tx.commit();
 
-            } catch (Exception e) {
-                if (tx != null) {
-                    logger
-                            .error(
-                                    "testCreating() - Something went wrong here; discard all partial changes",
-                                    e);
+	 } catch (Exception e) {
+	 if (tx != null) {
+	 logger
+	 .error(
+	 "testCreating() - Something went wrong here; discard all partial changes",
+	 e);
 
-                    // Something went wrong; discard all partial changes
-                    tx.rollback();
-                }
-            }
+	 // Something went wrong; discard all partial changes
+	 tx.rollback();
+	 }
+	 }
 
-        } catch (Exception e) {
-            logger.error(
-                    "testCreating() - Error while trying to beginTransaction",
-                    e);
-            throw e;
-        } finally {
-            // No matter what, close the session
-            HibernateUtil.closeSession();
-        }
+	 } catch (Exception e) {
+	 logger.error(
+	 "testCreating() - Error while trying to beginTransaction",
+	 e);
+	 throw e;
+	 } finally {
+	 // No matter what, close the session
+	 HibernateUtil.closeSession();
+	 }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("testCreating() - end");
-        }
-    }*/
+	 if (logger.isDebugEnabled()) {
+	 logger.debug("testCreating() - end");
+	 }
+	 }*/
 
-    public void testSaveAudioFormat() throws Exception {
-        if (logger.isDebugEnabled()) {
-            logger.debug("testSaveAudioFormat() - start");
-        }
+	public void testSaveAudioFormat() throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug("testSaveAudioFormat() - start");
+		}
 
-        //get new Session and begin Transaction
-        Session s = HibernateUtil.currentSession();
-        Transaction tx = null;
-            tx = s.beginTransaction();
+		//get new Session and begin Transaction
+		Session s = HibernateUtil.currentSession();
+		Transaction tx = null;
+		tx = s.beginTransaction();
 
-            try {
-                //is DB open and connected
-                assertTrue("Connected to Db? ", s.isConnected());
-                assertTrue("Db Open? ", s.isOpen());
+		try {
+			//is DB open and connected
+			assertTrue("Connected to Db? ", s.isConnected());
+			assertTrue("Db Open? ", s.isOpen());
 
-                //cretae new objects
-                List AudioFormats = new ArrayList();
+			//cretae new objects
+			List AudioFormats = new ArrayList();
 
-                AudioFormat myd1 = new AudioFormat("DTS Surround Sound","");
-                AudioFormat myd2 = new AudioFormat("Surround Sound","");
-                AudioFormat myd3 = new AudioFormat("Dolby","");
-                AudioFormat myd4 = new AudioFormat("Stereo","");
+			AudioFormat myd1 = new AudioFormat("DTS Surround Sound", "");
+			AudioFormat myd2 = new AudioFormat("Surround Sound", "");
+			AudioFormat myd3 = new AudioFormat("Dolby", "");
+			AudioFormat myd4 = new AudioFormat("Stereo", "");
 
-                AudioFormats.add(myd1);
-                AudioFormats.add(myd2);
-                AudioFormats.add(myd3);
-                AudioFormats.add(myd4);
+			AudioFormats.add(myd1);
+			AudioFormats.add(myd2);
+			AudioFormats.add(myd3);
+			AudioFormats.add(myd4);
 
-                List ids = new ArrayList();
+			List ids = new ArrayList();
 
-                //save objects
-                for (Iterator iter = AudioFormats.iterator(); iter.hasNext();) {
-                    AudioFormat dir = (AudioFormat) iter.next();
-                    ids.add((Integer) s.save(dir));
+			//save objects
+			for (Iterator iter = AudioFormats.iterator(); iter.hasNext();) {
+				AudioFormat dir = (AudioFormat) iter.next();
+				ids.add((Integer) s.save(dir));
 
-                }
-                s.flush();
+			}
+			s.flush();
 
-                tx.commit();
+			tx.commit();
 
+		} finally {
+			// No matter what, close the session
+			HibernateUtil.closeSession();
+		}
 
-        } finally {
-            // No matter what, close the session
-            HibernateUtil.closeSession();
-        }
+		if (logger.isDebugEnabled()) {
+			logger.debug("testSaveAudioFormat() - end");
+		}
+	}
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("testSaveAudioFormat() - end");
-        }
-    }
-
-    /**
-     * Constructor for TestAudioFormat.
-     * @param arg0
-     */
-    public TestAudioFormat(String arg0) {
-        super(arg0);
-    }
+	/**
+	 * Constructor for TestAudioFormat.
+	 * @param arg0
+	 */
+	public TestAudioFormat(String arg0) {
+		super(arg0);
+	}
 
 }
