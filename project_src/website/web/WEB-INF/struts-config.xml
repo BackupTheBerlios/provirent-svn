@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+  <form-beans>
+    <form-bean name="loginActionForm" type="de.provirent.web.Form.LoginForm" />
+    <form-bean name="searchForm" type="de.provirent.web.Form.SearchForm" />
+  </form-beans>
+  <global-forwards>
+    <forward name="pref" path="/Pref.do" />
+    <forward name="basket" path="/Basket.do" />
+    <forward name="logout" path="/Logout.do" />
+    <forward name="search/new" path="/Search/New.do" />
+    <forward name="search/top10month" path="/Search/Top10Month.do" />
+    <forward name="search/top100year" path="/Search/Top100Year.do" />
+    <forward name="search/preview" path="/Logout.do" />
+  </global-forwards>
+  <action-mappings>
+    <action input="/index.jsp" name="loginActionForm" path="/LogonSubmit" scope="request" type="de.provirent.web.Action.LoginAction">
+      <forward name="success" path="/index.jsp" />
+    </action>
+    <action path="/Logout" type="de.provirent.web.Action.LogoutAction">
+      <forward name="success" path="/index.jsp" />
+    </action>
+    <action input="/index.jsp" name="searchForm" path="/SearchSubmit" scope="request" type="de.provirent.web.Action.SearchAction" validate="true" />
+    <action input="/top10month.jsp" path="/Search/Top10Month" scope="request" type="de.provirent.web.Action.Top10MonthAction" />
+    <action input="/details.jsp" path="/detailAction" type="de.provirent.web.Action.DetailAction" />
+  </action-mappings>
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+  </plug-in>
+</struts-config>
