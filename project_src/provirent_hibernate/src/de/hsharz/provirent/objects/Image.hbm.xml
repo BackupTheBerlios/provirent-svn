@@ -24,6 +24,10 @@
       <property name="imageFile" type="binary">
       	<column name="imageFile" sql-type="BLOB" />
       </property>
+
+      <property name="imageFileThumb" type="binary">
+      	<column name="imageFileThumb" sql-type="BLOB" />
+      </property>
 				
       <property name="imageFileSize" type="int">
       	<meta attribute="use-in-tostring">true</meta>

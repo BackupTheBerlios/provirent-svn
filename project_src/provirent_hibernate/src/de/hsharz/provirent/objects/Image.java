@@ -20,6 +20,9 @@ public class Image implements Serializable {
     private byte[] imageFile;
 
     /** nullable persistent field */
+    private byte[] imageFileThumb;
+
+    /** nullable persistent field */
     private int imageFileSize;
 
     /** nullable persistent field */
@@ -29,8 +32,9 @@ public class Image implements Serializable {
     private String imageFileDescription;
 
     /** full constructor */
-    public Image(byte[] imageFile, int imageFileSize, String imageFileName, String imageFileDescription) {
+    public Image(byte[] imageFile, byte[] imageFileThumb, int imageFileSize, String imageFileName, String imageFileDescription) {
         this.imageFile = imageFile;
+        this.imageFileThumb = imageFileThumb;
         this.imageFileSize = imageFileSize;
         this.imageFileName = imageFileName;
         this.imageFileDescription = imageFileDescription;
@@ -54,6 +58,14 @@ public class Image implements Serializable {
 
     public void setImageFile(byte[] imageFile) {
         this.imageFile = imageFile;
+    }
+
+    public byte[] getImageFileThumb() {
+        return this.imageFileThumb;
+    }
+
+    public void setImageFileThumb(byte[] imageFileThumb) {
+        this.imageFileThumb = imageFileThumb;
     }
 
     public int getImageFileSize() {
@@ -96,6 +108,7 @@ public class Image implements Serializable {
         return new EqualsBuilder()
             .append(this.getImageId(), castOther.getImageId())
             .append(this.getImageFile(), castOther.getImageFile())
+            .append(this.getImageFileThumb(), castOther.getImageFileThumb())
             .append(this.getImageFileSize(), castOther.getImageFileSize())
             .append(this.getImageFileName(), castOther.getImageFileName())
             .append(this.getImageFileDescription(), castOther.getImageFileDescription())
@@ -106,6 +119,7 @@ public class Image implements Serializable {
         return new HashCodeBuilder()
             .append(getImageId())
             .append(getImageFile())
+            .append(getImageFileThumb())
             .append(getImageFileSize())
             .append(getImageFileName())
             .append(getImageFileDescription())
