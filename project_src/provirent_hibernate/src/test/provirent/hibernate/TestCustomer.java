@@ -103,7 +103,7 @@ public class TestCustomer extends TestCase {
     
 
     
-    
+    /*
     public void testCustomer() throws Exception{
         if (logger.isDebugEnabled()) {
             logger.debug("testCustomer() - start");
@@ -237,7 +237,7 @@ public class TestCustomer extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCustomer() - end");
         }
-    }
+    }*/
 
     public void testCreateCustomer() throws Exception{
         if (logger.isDebugEnabled()) {

@@ -4,12 +4,10 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
@@ -42,6 +40,7 @@ import com.cloudgarden.resource.SWTResourceManager;
 
 import de.hsharz.provirent.Util;
 import de.hsharz.provirent.objects.Customer;
+import de.hsharz.provirent.objects.Person;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
@@ -100,7 +99,6 @@ public class CompositeCustomer extends AbstractComposite{
     private Label labelstartdate;
     
     private Text textCustomerID;
-    private Text textCustomerName;
     private Text textduration1;
     private Text textduration2;
     private Text textduration3;
@@ -236,6 +234,9 @@ public class CompositeCustomer extends AbstractComposite{
 
 
     private Text textAnswer;
+
+
+    private Button changeBirthdayDateButton;
  
     /*
      * Ändert die Sprache aller Elemente
@@ -381,7 +382,7 @@ public class CompositeCustomer extends AbstractComposite{
         groupCustomerDetail = new Group(sashFormCustomer, SWT.NONE);
         GridLayout groupCustomerDetailLayout = new GridLayout();
         groupCustomerDetailLayout.marginHeight = 25;
-        groupCustomerDetailLayout.numColumns = 6;
+        groupCustomerDetailLayout.numColumns = 4;
         groupCustomerDetailLayout.verticalSpacing = 15;
         groupCustomerDetail.setText(l
                 .getString("Customer.groupdetail.label"));
@@ -396,11 +397,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelCustomerId.setText(l
                     .getString("Customer.groupdetail.idlabel")
                     + ":");
-            labelCustomerId.setSize(125, 15);
+            labelCustomerId.setSize(90, 15);
             GridData formData2 = new GridData();
-            formData2.widthHint = 125;
+            formData2.widthHint = 90;
             formData2.heightHint = 15;
-            formData2.horizontalSpan = 2;
             labelCustomerId.setLayoutData(formData2);
         }        
         {
@@ -409,7 +409,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData1 = new GridData();
             text1LData1.horizontalAlignment = GridData.FILL;
             text1LData1.heightHint = 13;
-            text1LData1.horizontalSpan = 4;
+            text1LData1.horizontalSpan = 3;
             text1LData1.grabExcessHorizontalSpace = true;
             textCustomerID.setLayoutData(text1LData1);
         }
@@ -418,11 +418,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelUserName.setText(l
                     .getString("Customer.groupdetail.usernamelabel")
                     + ":");
-            labelUserName.setSize(125, 15);
+            labelUserName.setSize(90, 15);
             GridData formData2 = new GridData();
-            formData2.widthHint = 125;
+            formData2.widthHint = 90;
             formData2.heightHint = 15;
-            formData2.horizontalSpan = 2;
             labelUserName.setLayoutData(formData2);
         }
         {
@@ -431,7 +430,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData1 = new GridData();
             text1LData1.horizontalAlignment = GridData.FILL;
             text1LData1.heightHint = 13;
-            text1LData1.horizontalSpan = 4;
+            text1LData1.horizontalSpan = 3;
             text1LData1.grabExcessHorizontalSpace = true;
             textUserName.setLayoutData(text1LData1);
         }
@@ -440,11 +439,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelLastName.setText(l
                     .getString("Customer.groupdetail.lastnamelabel")
                     + ":");
-            labelLastName.setSize(125, 15);
+            labelLastName.setSize(90, 15);
             GridData labelLastNameLData = new GridData();
-            labelLastNameLData.widthHint = 125;
+            labelLastNameLData.widthHint = 90;
             labelLastNameLData.heightHint = 15;
-            labelLastNameLData.horizontalSpan = 2;
             labelLastName.setLayoutData(labelLastNameLData);
         }
         {
@@ -453,7 +451,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData2 = new GridData();
             text1LData2.horizontalAlignment = GridData.FILL;
             text1LData2.heightHint = 13;
-            text1LData2.horizontalSpan = 4;
+            text1LData2.horizontalSpan = 3;
             text1LData2.grabExcessHorizontalSpace = true;
             textLastName.setLayoutData(text1LData2);
         }
@@ -463,11 +461,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelFirstName.setText(l
                     .getString("Customer.groupdetail.firstnamelabel")
                     + ":");
-            labelFirstName.setSize(125, 15);
+            labelFirstName.setSize(90, 15);
             GridData label2LData1 = new GridData();
-            label2LData1.widthHint = 125;
+            label2LData1.widthHint = 90;
             label2LData1.heightHint = 15;
-            label2LData1.horizontalSpan = 2;
             labelFirstName.setLayoutData(label2LData1);
         }
         {
@@ -476,8 +473,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalSpan = 1;
             textFirstName.setLayoutData(text1LData3);
         }
         {
@@ -486,21 +482,19 @@ public class CompositeCustomer extends AbstractComposite{
             labelMiddleName.setText(l
                     .getString("Customer.groupdetail.middlenamelabel")
                     + ":");
-            labelMiddleName.setSize(125, 15);
-            GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
-            label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
-            labelMiddleName.setLayoutData(label1LData1);
+            labelMiddleName.setSize(70, 15);
+            GridData label2LData1 = new GridData();
+            label2LData1.widthHint = 70;
+            label2LData1.heightHint = 15;
+            labelMiddleName.setLayoutData(label2LData1);
         }
         {
             textMiddleName = new Text(groupCustomerDetail,
                     SWT.READ_ONLY | SWT.BORDER);
             GridData text1LData3 = new GridData();
-            text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalAlignment = GridData.FILL;
+            text1LData3.horizontalSpan = 1;
             textMiddleName.setLayoutData(text1LData3);
         }
         {
@@ -509,11 +503,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelSalutation.setText(l
                     .getString("Customer.groupdetail.salutationlabel")
                     + ":");
-            labelSalutation.setSize(125, 15);
+            labelSalutation.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelSalutation.setLayoutData(label1LData1);
         }
         {
@@ -522,8 +515,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalSpan = 1;
             textSalutation.setLayoutData(text1LData3);
         }
         {
@@ -532,11 +524,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelTitle.setText(l
                     .getString("Customer.groupdetail.titlelabel")
                     + ":");
-            labelTitle.setSize(125, 15);
+            labelTitle.setSize(70, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 70;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelTitle.setLayoutData(label1LData1);
         }
         {
@@ -545,9 +536,75 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalSpan = 1;
             textTitle.setLayoutData(text1LData3);
+        }
+        {
+            labelBirthday = new Label(groupCustomerDetail,
+                    SWT.NONE);
+            labelBirthday.setText(l
+                    .getString("Customer.groupdetail.birthdaylabel")
+                    + ":");
+            labelBirthday.setSize(90, 15);
+            GridData label1LData1 = new GridData();
+            label1LData1.widthHint = 90;
+            label1LData1.heightHint = 15;
+            labelBirthday.setLayoutData(label1LData1);
+        }
+        {
+            textBirthday = new Text(groupCustomerDetail,
+                    SWT.READ_ONLY | SWT.BORDER);
+            GridData text1LData3 = new GridData();
+            text1LData3.horizontalAlignment = GridData.FILL;
+            text1LData3.heightHint = 13;
+            text1LData3.horizontalSpan = 2;
+            textBirthday.setLayoutData(text1LData3);
+            textBirthday.setEnabled(false);
+        }
+        {
+            changeBirthdayDateButton = new Button(groupCustomerDetail, SWT.PUSH
+                | SWT.CENTER);
+            changeBirthdayDateButton.setText(l.getString("Customer.groupdetail.birthdaybuttonchange"));
+            GridData text1LData3 = new GridData();
+            changeBirthdayDateButton.setEnabled(false);
+            changeBirthdayDateButton.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+
+                    final SWTCalendarDialog cal = new SWTCalendarDialog(getDisplay(),l.getString("Customer.groupdetail.birthdaybuttonfinish"));
+
+                    cal.addDateChangedListener(new SWTCalendarListener() {
+
+                        public void dateChanged(SWTCalendarEvent calendarEvent) {
+
+                            textRegistrationDate.setText( DateFormat.getDateInstance(DateFormat.LONG).format(calendarEvent.getCalendar().getTime()));
+
+                        }
+
+                    });
+
+
+
+                    if (textRegistrationDate.getText() != null && textRegistrationDate.getText().length() > 0) {
+
+                        try {
+                               cal.setDate(DateFormat.getDateInstance(DateFormat.LONG).parse(textRegistrationDate.getText()));
+
+                        } catch (ParseException pe) {
+
+
+
+                        }
+
+                    }
+
+                    cal.open();                    
+                    
+                    
+                }
+            });
+            text1LData3.horizontalAlignment = GridData.FILL;          
+            text1LData3.horizontalSpan = 1;
+            changeBirthdayDateButton.setLayoutData(text1LData3);
         }
         {
             labelStreet = new Label(groupCustomerDetail,
@@ -555,11 +612,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelStreet.setText(l
                     .getString("Customer.groupdetail.streetlabel")
                     + ":");
-            labelStreet.setSize(125, 15);
+            labelStreet.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelStreet.setLayoutData(label1LData1);
         }
         {
@@ -568,55 +624,17 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalSpan = 2;
             textStreet.setLayoutData(text1LData3);
-        }
-        {
-            labelNumber = new Label(groupCustomerDetail,
-                    SWT.NONE);
-            labelNumber.setText(l
-                    .getString("Customer.groupdetail.numberlabel")
-                    + ":");
-            labelNumber.setSize(125, 15);
-            GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
-            label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
-            labelNumber.setLayoutData(label1LData1);
         }
         {
             textNumber = new Text(groupCustomerDetail,
                     SWT.READ_ONLY | SWT.BORDER);
             GridData text1LData3 = new GridData();
-            text1LData3.horizontalAlignment = GridData.FILL;
+            text1LData3.horizontalAlignment = GridData.END;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.widthHint = 20;
             textNumber.setLayoutData(text1LData3);
-        }
-        {
-            labelCity = new Label(groupCustomerDetail,
-                    SWT.NONE);
-            labelCity.setText(l
-                    .getString("Customer.groupdetail.citylabel")
-                    + ":");
-            labelCity.setSize(125, 15);
-            GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
-            label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
-            labelCity.setLayoutData(label1LData1);
-        }
-        {
-            textCity = new Text(groupCustomerDetail,
-                    SWT.READ_ONLY | SWT.BORDER);
-            GridData text1LData3 = new GridData();
-            text1LData3.horizontalAlignment = GridData.FILL;
-            text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
-            textCity.setLayoutData(text1LData3);
         }
         {
             labelZipCode = new Label(groupCustomerDetail,
@@ -624,11 +642,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelZipCode.setText(l
                     .getString("Customer.groupdetail.zipcodelabel")
                     + ":");
-            labelZipCode.setSize(125, 15);
+            labelZipCode.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelZipCode.setLayoutData(label1LData1);
         }
         {
@@ -637,21 +654,41 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalSpan = 1;
             textZipCode.setLayoutData(text1LData3);
         }
+        {
+            labelCity = new Label(groupCustomerDetail,
+                    SWT.NONE);
+            labelCity.setText(l
+                    .getString("Customer.groupdetail.citylabel")
+                    + ":");
+            labelCity.setSize(70, 15);
+            GridData label1LData1 = new GridData();
+            label1LData1.widthHint = 70;
+            label1LData1.heightHint = 15;
+            labelCity.setLayoutData(label1LData1);
+        }
+        {
+            textCity = new Text(groupCustomerDetail,
+                    SWT.READ_ONLY | SWT.BORDER);
+            GridData text1LData3 = new GridData();
+            text1LData3.horizontalAlignment = GridData.FILL;
+            text1LData3.heightHint = 13;
+            text1LData3.horizontalSpan = 1;
+            textCity.setLayoutData(text1LData3);
+        }
+        
         {
             labelCountry = new Label(groupCustomerDetail,
                     SWT.NONE);
             labelCountry.setText(l
                     .getString("Customer.groupdetail.countrylabel")
                     + ":");
-            labelCountry.setSize(125, 15);
+            labelCountry.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelCountry.setLayoutData(label1LData1);
         }
         {
@@ -660,8 +697,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalSpan = 3;
             textCountry.setLayoutData(text1LData3);
         }
         {
@@ -670,11 +706,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelPassword.setText(l
                     .getString("Customer.groupdetail.passwordlabel")
                     + ":");
-            labelPassword.setSize(125, 15);
+            labelPassword.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelPassword.setLayoutData(label1LData1);
         }
         {
@@ -684,7 +719,6 @@ public class CompositeCustomer extends AbstractComposite{
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
             text1LData3.horizontalSpan = 3;
-            text1LData3.grabExcessHorizontalSpace = true;
             textPassword.setLayoutData(text1LData3);
         }
         {
@@ -693,11 +727,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelEmail.setText(l
                     .getString("Customer.groupdetail.emaillabel")
                     + ":");
-            labelEmail.setSize(125, 15);
+            labelEmail.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelEmail.setLayoutData(label1LData1);
         }
         {
@@ -707,7 +740,6 @@ public class CompositeCustomer extends AbstractComposite{
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
             text1LData3.horizontalSpan = 3;
-            text1LData3.grabExcessHorizontalSpace = true;
             textEmail.setLayoutData(text1LData3);
         }
         {
@@ -716,11 +748,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelQuestion.setText(l
                     .getString("Customer.groupdetail.questionlabel")
                     + ":");
-            labelQuestion.setSize(125, 15);
+            labelQuestion.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelQuestion.setLayoutData(label1LData1);
         }
         {
@@ -730,7 +761,6 @@ public class CompositeCustomer extends AbstractComposite{
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
             text1LData3.horizontalSpan = 3;
-            text1LData3.grabExcessHorizontalSpace = true;
             textQuestion.setLayoutData(text1LData3);
         }
         {
@@ -739,11 +769,10 @@ public class CompositeCustomer extends AbstractComposite{
             labelAnswer.setText(l
                     .getString("Customer.groupdetail.answerlabel")
                     + ":");
-            labelAnswer.setSize(125, 15);
+            labelAnswer.setSize(90, 15);
             GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
+            label1LData1.widthHint = 90;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
             labelAnswer.setLayoutData(label1LData1);
         }
         {
@@ -753,33 +782,8 @@ public class CompositeCustomer extends AbstractComposite{
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
             text1LData3.horizontalSpan = 3;
-            text1LData3.grabExcessHorizontalSpace = true;
             textAnswer.setLayoutData(text1LData3);
-        }
-        {
-            labelBirthday = new Label(groupCustomerDetail,
-                    SWT.NONE);
-            labelBirthday.setText(l
-                    .getString("Customer.groupdetail.birthdaylabel")
-                    + ":");
-            labelBirthday.setSize(125, 15);
-            GridData label1LData1 = new GridData();
-            label1LData1.widthHint = 125;
-            label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
-            labelBirthday.setLayoutData(label1LData1);
-        }
-        {
-            textBirthday = new Text(groupCustomerDetail,
-                    SWT.READ_ONLY | SWT.BORDER);
-            GridData text1LData3 = new GridData();
-            text1LData3.horizontalAlignment = GridData.FILL;
-            text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 3;
-            text1LData3.grabExcessHorizontalSpace = true;
-            textBirthday.setLayoutData(text1LData3);
-            textBirthday.setEnabled(false);
-        }
+        }       
         {
             labelRegistrationDate = new Label(groupCustomerDetail,
                     SWT.NONE);
@@ -790,7 +794,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData label1LData1 = new GridData();
             label1LData1.widthHint = 125;
             label1LData1.heightHint = 15;
-            label1LData1.horizontalSpan = 2;
+            label1LData1.horizontalSpan = 1;
             labelRegistrationDate.setLayoutData(label1LData1);
         }
         {
@@ -799,8 +803,7 @@ public class CompositeCustomer extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 3;
-            text1LData3.grabExcessHorizontalSpace = true;
+            text1LData3.horizontalSpan = 2;
             textRegistrationDate.setLayoutData(text1LData3);
             textRegistrationDate.setEnabled(false);
         }
@@ -848,10 +851,9 @@ public class CompositeCustomer extends AbstractComposite{
             text1LData3.horizontalAlignment = GridData.FILL;
             
             text1LData3.horizontalSpan = 1;
-            text1LData3.grabExcessHorizontalSpace = true;
             changeRegistrationDateButton.setLayoutData(text1LData3);
         }
-        /*{
+        {
 
             //die Buttons bekommen ein eigenes Composite
             compositeButtons = new Composite(groupCustomerDetail, SWT.EMBEDDED);
@@ -871,7 +873,7 @@ public class CompositeCustomer extends AbstractComposite{
             //init all the Buttons
             initCustomerDetailButtons();
 
-        }*/
+        }
 
         
     }
@@ -879,7 +881,7 @@ public class CompositeCustomer extends AbstractComposite{
     /**
      * 
      */
-    /*private void initCustomerDetailButtons() {
+    private void initCustomerDetailButtons() {
         buttonCustomerNew = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
         buttonCustomerNew.setText(l.getString("button.new"));
         buttonCustomerNew.addSelectionListener(new SelectionAdapter() {
@@ -888,18 +890,43 @@ public class CompositeCustomer extends AbstractComposite{
             public void widgetSelected(SelectionEvent evt) {
 
                 textCustomerID.setText("");
-                textCustomerName.setText("");
-                textduration1.setText("");
-                textduration2.setText("");
-                textduration3.setText("");
-                textstartdate.setText("");
+                textUserName.setText("");
+                textLastName.setText("");
+                textFirstName.setText("");
+                textMiddleName.setText("");
+                textSalutation.setText("");
+                textTitle.setText("");
+                textBirthday.setText("");
+                textStreet.setText("");
+                textNumber.setText("");
+                textZipCode.setText("");
+                textCity.setText("");
+                textCountry.setText("");
+                textEmail.setText("");
+                textPassword.setText("");
+                textQuestion.setText("");
+                textAnswer.setText("");
+                textRegistrationDate.setText("");
+                
+                
 
-                textCustomerName.setEditable(true);
-                textduration1.setEditable(true);
-                textduration2.setEditable(true);
-                textduration3.setEditable(true);
-                //textstartdate.setEditable(true);
-                changeStartDateButton.setEnabled(true);
+                textUserName.setEditable(true);
+                textLastName.setEditable(true);
+                textFirstName.setEditable(true);
+                textMiddleName.setEditable(true);
+                textSalutation.setEditable(true);
+                textTitle.setEditable(true);
+                changeBirthdayDateButton.setEnabled(true);
+                textStreet.setEditable(true);
+                textNumber.setEditable(true);
+                textZipCode.setEditable(true);
+                textCity.setEditable(true);
+                textCountry.setEditable(true);
+                textEmail.setEditable(true);
+                textPassword.setEditable(true);
+                textQuestion.setEditable(true);
+                textAnswer.setEditable(true);
+                changeRegistrationDateButton.setEnabled(true);
                 
                 
                 buttonCustomerCancel.setEnabled(true);
@@ -925,25 +952,24 @@ public class CompositeCustomer extends AbstractComposite{
 
                 mode_Customer = ManagementGui.MODE_EDIT;
 
-                textCustomerID.setEditable(false);
-                textCustomerName.setEditable(true);
-                textduration1.setEditable(true);
-                textduration2.setEditable(true);                
-                textduration3.setEditable(true);
-                //textstartdate.setEditable(true);
-                changeStartDateButton.setEnabled(true);
-                
-                textduration1.setFocus();
-                
-                buttonCustomerCancel.setEnabled(true);
-                buttonCustomerSave.setEnabled(true);
-                buttonCustomerNew.setEnabled(false);
-                buttonCustomerEdit.setEnabled(false);
-                buttonCustomerDelete.setEnabled(false);
-
-
-                tableCustomer.setEnabled(false);
-                textCustomerSearch.setEnabled(false);
+                textUserName.setEditable(true);
+                textUserName.setFocus();
+                textLastName.setEditable(true);
+                textFirstName.setEditable(true);
+                textMiddleName.setEditable(true);
+                textSalutation.setEditable(true);
+                textTitle.setEditable(true);
+                changeBirthdayDateButton.setEnabled(true);
+                textStreet.setEditable(true);
+                textNumber.setEditable(true);
+                textZipCode.setEditable(true);
+                textCity.setEditable(true);
+                textCountry.setEditable(true);
+                textEmail.setEditable(true);
+                textPassword.setEditable(true);
+                textQuestion.setEditable(true);
+                textAnswer.setEditable(true);
+                changeRegistrationDateButton.setEnabled(true);
                 
 
             }
@@ -961,11 +987,7 @@ public class CompositeCustomer extends AbstractComposite{
                 
                String msg = MessageFormat.format(
                        l.getString("Customer.groupdetail.deletebutton.question.text"),
-                               new Object[]{textCustomerName.getText() + " " + 
-                               				textduration1.getText() + " " + 
-                               				textduration2.getText() + " " + 
-                               				textduration3.getText() + " " +
-                               				textstartdate.getText()});
+                               new Object[]{textUserName.getText()});
                 
                int question = showMsg(msg,
                        l.getString("Customer.groupdetail.deletebutton.question.header"), 
@@ -976,14 +998,28 @@ public class CompositeCustomer extends AbstractComposite{
                }
                 try {
 	                Customer o = new Customer();
+	                Person p = new Person();
 	                o.setCustomerId(new Integer(Integer.parseInt(textCustomerID.getText())));
-	                o.setUserName(textCustomerName.getText());
-	                o.setDuration1(Float.parseFloat(textduration1.getText()));
-	                o.setDuration2(Float.parseFloat(textduration2.getText()));
-	                o.setDuration3(Float.parseFloat(textduration3.getText()));                
-	                o.setStartdate(Util.getDateByText(textstartdate.getText()));
-
-                    //object speichern
+	                o.setUserName(textUserName.getText());
+	                o.setDayOfRegistration(Util.getDateByText(textRegistrationDate.getText()).getTime());
+	                o.setUserPassword(textPassword.getText());
+	                o.setHiddenQuestion(textQuestion.getText());
+	                o.setHiddenAnswer(textAnswer.getText());
+	                p.setLastName(textLastName.getText());
+	                p.setFirstName(textFirstName.getText());
+	                p.setMiddleName(textMiddleName.getText());
+	                p.setSalutation(textSalutation.getText());
+	                p.setTitle(textTitle.getText());
+	                p.setStreet(textStreet.getText());
+	                p.setStreetNumber(textNumber.getText());
+	                p.setZipCode(textZipCode.getText());
+	                p.setCity(textCity.getText());
+	                p.setCountry(textCountry.getText());
+	                p.setEmailAddress(textEmail.getText());
+	                p.setDayOfBirth(Util.getDateByText(textBirthday.getText()));
+	                o.setPerson(p);
+	                
+                    //object löschen
                     // Fehlerbehandlung
                     Database.deleteObject(o);
 
@@ -992,14 +1028,26 @@ public class CompositeCustomer extends AbstractComposite{
                     
                     //Detailansicht leeren
                     textCustomerID.setText("");
-                    textCustomerName.setText("");
-                    textduration1.setText("");
-                    textduration2.setText("");
-                    textduration3.setText("");
-                    textstartdate.setText("");
+                    textUserName.setText("");
+                    textLastName.setText("");
+                    textFirstName.setText("");
+                    textMiddleName.setText("");
+                    textSalutation.setText("");
+                    textTitle.setText("");
+                    textBirthday.setText("");
+                    textStreet.setText("");
+                    textNumber.setText("");
+                    textZipCode.setText("");
+                    textCity.setText("");
+                    textCountry.setText("");
+                    textEmail.setText("");
+                    textPassword.setText("");
+                    textQuestion.setText("");
+                    textAnswer.setText("");
+                    textRegistrationDate.setText("");
                     buttonCustomerEdit.setEnabled(false);
                     buttonCustomerDelete.setEnabled(false);
-                    //in Tabelle nächsten auswählen
+                    
                     try {
                         tableCustomer.deselectAll();
                     } catch (Exception ex) {}
@@ -1050,11 +1098,17 @@ public class CompositeCustomer extends AbstractComposite{
             public void widgetSelected(SelectionEvent evt) {
     
                 //testen ob duration leer ist
-                if (   textCustomerName.getText().trim().equalsIgnoreCase("") ||
-                       textduration1.getText().trim().equalsIgnoreCase("") || 
-                       textduration2.getText().trim().equalsIgnoreCase("") || 
-                       textduration3.getText().trim().equalsIgnoreCase("") ||
-                       textstartdate.getText().trim().equalsIgnoreCase("")) {
+                if (   textUserName.getText().trim().equalsIgnoreCase("") ||
+                       textLastName.getText().trim().equalsIgnoreCase("") || 
+                       textFirstName.getText().trim().equalsIgnoreCase("") || 
+                       textStreet.getText().trim().equalsIgnoreCase("") ||
+                       textNumber.getText().trim().equalsIgnoreCase("") || 
+                       textZipCode.getText().trim().equalsIgnoreCase("") ||
+                       textCity.getText().trim().equalsIgnoreCase("") ||
+                       textCountry.getText().trim().equalsIgnoreCase("") || 
+                       textEmail.getText().trim().equalsIgnoreCase("") ||
+                       textQuestion.getText().trim().equalsIgnoreCase("") ||
+                       textAnswer.getText().trim().equalsIgnoreCase("")) {
                     
                     showMsg(l.getString("Customer.groupdetail.savebutton.warn.noname.msg"),
                             l.getString("Customer.groupdetail.savebutton.warn.noname.title"),
@@ -1074,25 +1128,38 @@ public class CompositeCustomer extends AbstractComposite{
                      * @todo eine Exception bekommen wieder leider NOCH nicht mit
                      * d.h. es muss noch ein rückgabewert kommen oder eine Exception 
                      * übermitteln werden (aus der DB Klasse)
-                     /
+                     */
 	                    
                     try {	
                         
-                        Calendar tmp_cal = Calendar.getInstance();
-                        tmp_cal.setTime(DateFormat.getDateInstance(DateFormat.LONG).parse(textstartdate.getText()));
                     	//neues Objekt erzeugen
-	                    Customer tmp = new Customer(textCustomerName.getText(), 
-                            			Float.parseFloat(textduration1.getText()),
-                            			Float.parseFloat(textduration2.getText()), 
-                            			Float.parseFloat(textduration3.getText()),
-                            			tmp_cal);
+                        Customer o = new Customer();
+    	                Person p = new Person();
+    	                o.setUserName(textUserName.getText());
+    	                o.setDayOfRegistration(Util.getDateByText(textRegistrationDate.getText()).getTime());
+    	                o.setUserPassword(textPassword.getText());
+    	                o.setHiddenQuestion(textQuestion.getText());
+    	                o.setHiddenAnswer(textAnswer.getText());
+    	                p.setLastName(textLastName.getText());
+    	                p.setFirstName(textFirstName.getText());
+    	                p.setMiddleName(textMiddleName.getText());
+    	                p.setSalutation(textSalutation.getText());
+    	                p.setTitle(textTitle.getText());
+    	                p.setStreet(textStreet.getText());
+    	                p.setStreetNumber(textNumber.getText());
+    	                p.setZipCode(textZipCode.getText());
+    	                p.setCity(textCity.getText());
+    	                p.setCountry(textCountry.getText());
+    	                p.setEmailAddress(textEmail.getText());
+    	                p.setDayOfBirth(Util.getDateByText(textBirthday.getText()));
+    	                o.setPerson(p);
                                         
                         //object speichern
                         // Fehlerbehandlung
-                        Object o = Database.saveObject(tmp);
+                        Object newCust = Database.saveObject(o);
                         
                         // in Übersichtstabelle einfügen
-                        insertIntoCustomerTable((Customer)o);                        
+                        insertIntoCustomerTable((Customer)newCust);                        
                                                 
                         //Statusline Nachricht sezten
                         statusLine.setStatus(1,l.getString("Customer.groupdetail.savebutton.newok"));
@@ -1114,10 +1181,6 @@ public class CompositeCustomer extends AbstractComposite{
                             e.printStackTrace();
                         }
                         
-                    } catch (ParseException pex){
-                        statusLine.setStatus(3,l.getString("Customer.groupdetail.savebutton.errorsave"));
-                        showMsg(l.getString("Customer.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                        
                     }
                     
                     
@@ -1129,19 +1192,32 @@ public class CompositeCustomer extends AbstractComposite{
                 } else if (mode_Customer == ManagementGui.MODE_EDIT) {
                     try {
                         
-                        Calendar tmp_cal = Calendar.getInstance();
-                        tmp_cal.setTime(DateFormat.getDateInstance(DateFormat.LONG).parse(textstartdate.getText()));
-                        
-	                    Customer tmp = new Customer(textCustomerName.getText(), 
-	                            Float.parseFloat(textduration1.getText()),
-	                            Float.parseFloat(textduration2.getText()), 
-	                            Float.parseFloat(textduration3.getText()),
-	                            tmp_cal);
-	                    tmp.setCustomerId(new Integer(Integer.parseInt(textCustomerID.getText())));
+                        Customer o = new Customer();
+    	                Person p = new Person();
+    	                o.setCustomerId(new Integer(Integer.parseInt(textCustomerID.getText())));
+    	                o.setUserName(textUserName.getText());
+    	                o.setDayOfRegistration(Util.getDateByText(textRegistrationDate.getText()).getTime());
+    	                o.setUserPassword(textPassword.getText());
+    	                o.setHiddenQuestion(textQuestion.getText());
+    	                o.setHiddenAnswer(textAnswer.getText());
+    	                p.setLastName(textLastName.getText());
+    	                p.setFirstName(textFirstName.getText());
+    	                p.setMiddleName(textMiddleName.getText());
+    	                p.setSalutation(textSalutation.getText());
+    	                p.setTitle(textTitle.getText());
+    	                p.setStreet(textStreet.getText());
+    	                p.setStreetNumber(textNumber.getText());
+    	                p.setZipCode(textZipCode.getText());
+    	                p.setCity(textCity.getText());
+    	                p.setCountry(textCountry.getText());
+    	                p.setEmailAddress(textEmail.getText());
+    	                p.setDayOfBirth(Util.getDateByText(textBirthday.getText()));
+    	                o.setPerson(p);
+	                    o.setCustomerId(new Integer(Integer.parseInt(textCustomerID.getText())));
 	                
 	                    //object speichern
 	                    // Fehlerbehandlung
-	                    Database.saveObject(tmp);
+	                    Database.saveObject(o);
 	                    //Übersichtstabelle aktualisieren
 	                    refreshCustomerTable(textCustomerSearch.getText());
 	                    
@@ -1166,10 +1242,6 @@ public class CompositeCustomer extends AbstractComposite{
 	                        e.printStackTrace();
 	                    }
                     
-                    } catch (ParseException pex){
-                        statusLine.setStatus(3,l.getString("Customer.groupdetail.savebutton.errorsave"));
-                        showMsg(l.getString("Customer.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                        
                     }
                     
                     //alle Buttons auf aktiv setzen
@@ -1182,7 +1254,7 @@ public class CompositeCustomer extends AbstractComposite{
                 
                 /**
                  * @todo Exception werfen, da nur die zwei Modes sein dürfen
-                 /
+                 */
                 
             }
         });
@@ -1199,18 +1271,18 @@ public class CompositeCustomer extends AbstractComposite{
             }
         });
        
-    }*/
+    }
 
     /**
      * 
      */
-    /*protected void setCustomerGroupButtonSaveCancel() {
+    protected void setCustomerGroupButtonSaveCancel() {
         buttonCustomerSave.setEnabled(false);
         buttonCustomerCancel.setEnabled(false);
         buttonCustomerEdit.setEnabled(true);
         buttonCustomerNew.setEnabled(true);
         buttonCustomerDelete.setEnabled(true);
-        textCustomerName.setEditable(false);
+        textUserName.setEditable(false);
         textduration1.setEditable(false);
         textduration2.setEditable(false);
         textduration3.setEditable(false);
@@ -1224,7 +1296,7 @@ public class CompositeCustomer extends AbstractComposite{
         //CustomerSearch aktivieren
         textCustomerSearch.setEnabled(true);
         
-    }*/
+    }
 
     /**
      * @param Customer
@@ -1278,11 +1350,17 @@ public class CompositeCustomer extends AbstractComposite{
             item = new TableItem(tableCustomer, SWT.NONE);
             Calendar regdate = Calendar.getInstance();
             regdate.setTime(o.getDayOfRegistration());
+            String date = null;
+            if (o.getPerson().getDayOfBirth() == null) {
+                date = "";
+            } else {
+                date = Util.getTextByDate(o.getPerson().getDayOfBirth());
+            }
             item.setText(new String[] { o.getCustomerId() + "", 
                     					o.getUserName(), 
                     					o.getPerson().getLastName(),
                     					o.getPerson().getFirstName(),
-                    					Util.getTextByDate(o.getPerson().getDayOfBirth()),
+                    					date,
                     					Util.getTextByDate(regdate),              					
                     					});
 
@@ -1503,27 +1581,48 @@ public class CompositeCustomer extends AbstractComposite{
 	            //id ist keine Zahl
 	            return;
 	        }
-	
-	        textCustomerID.setText(object.getCustomerId() + "");
-	        textUserName.setText(object.getUserName());
-	        textLastName.setText(object.getPerson().getLastName());
-	        textFirstName.setText(object.getPerson().getFirstName());
-	        textMiddleName.setText(object.getPerson().getMiddleName());
-	        textSalutation.setText(object.getPerson().getSalutation());
-	        textTitle.setText(object.getPerson().getTitle());
-	        textStreet.setText(object.getPerson().getStreet());
-	        textNumber.setText(object.getPerson().getStreetNumber());
-	        textCity.setText(object.getPerson().getCity());
-	        textZipCode.setText(object.getPerson().getZipCode());
-	        textCountry.setText(object.getPerson().getCountry());
-	        textPassword.setText(object.getUserPassword());
-	        textEmail.setText(object.getPerson().getEmailAddress());
-	        textQuestion.setText(object.getHiddenQuestion());
-	        textAnswer.setText(object.getHiddenAnswer());
+	        String temp = null;
+	        textCustomerID.setText(object.getCustomerId().toString());
+	        temp = object.getUserName();
+	        textUserName.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getLastName();
+	        textLastName.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getFirstName();
+	        textFirstName.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getMiddleName();
+	        textMiddleName.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getSalutation();
+	        textSalutation.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getTitle();
+	        textTitle.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getStreet();
+	        textStreet.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getStreetNumber();
+	        textNumber.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getCity();
+	        textCity.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getZipCode();
+	        textZipCode.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getCountry();
+	        textCountry.setText(temp == null ? "" : temp);
+	        temp = object.getUserPassword();
+	        textPassword.setText(temp == null ? "" : temp);
+	        temp = object.getPerson().getEmailAddress();
+	        textEmail.setText(temp == null ? "" : temp);
+	        temp = object.getHiddenQuestion();
+	        textQuestion.setText(temp == null ? "" : temp);
+	        temp = object.getHiddenAnswer();
+	        textAnswer.setText(temp == null ? "" : temp);
 	        Calendar regdate = Calendar.getInstance();
 	        regdate.setTime(object.getDayOfRegistration());
 	        try {
-                textBirthday.setText(Util.getTextByDate(object.getPerson().getDayOfBirth()));
+	            String date = null;
+	            if (object.getPerson().getDayOfBirth() == null) {
+	                date = "";
+	            } else {
+	                date = Util.getTextByDate(object.getPerson().getDayOfBirth());
+	            }
+                textBirthday.setText(date);
             } catch (DataBaseException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -1549,7 +1648,7 @@ public class CompositeCustomer extends AbstractComposite{
 	        }*/
         } else {
             textCustomerID.setText("");
-            textCustomerName.setText("");
+            textUserName.setText("");
             textduration1.setText("");
             textduration2.setText("");
             textduration3.setText("");

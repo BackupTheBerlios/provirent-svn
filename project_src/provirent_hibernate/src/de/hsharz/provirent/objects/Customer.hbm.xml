@@ -16,7 +16,9 @@
       <id name="customerId" type="int" column="CUSTOMERID">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
-        <generator class="native"/>
+        <generator class="sequence">
+			<param name="sequence">customer_id_sequence</param>
+		</generator>
       </id>
  
  			<timestamp	name="dayOfRegistration">

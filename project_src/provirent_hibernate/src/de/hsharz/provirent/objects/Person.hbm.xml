@@ -16,7 +16,9 @@
       <id name="personId" type="int" column="PERSONID">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
-        <generator class="native"/>
+        <generator class="sequence">
+			<param name="sequence">person_id_sequence</param>
+		</generator>
       </id>
 	  
 
