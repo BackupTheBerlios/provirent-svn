@@ -19,39 +19,6 @@ public class Customer implements Serializable {
     private Integer customerId;
 
     /** persistent field */
-    private String firstName;
-
-    /** persistent field */
-    private String lastName;
-
-    /** nullable persistent field */
-    private String middleName;
-
-    /** nullable persistent field */
-    private String salutation;
-
-    /** nullable persistent field */
-    private String title;
-
-    /** persistent field */
-    private String street;
-
-    /** persistent field */
-    private String streetNumber;
-
-    /** persistent field */
-    private String city;
-
-    /** persistent field */
-    private String zipCode;
-
-    /** persistent field */
-    private String country;
-
-    /** persistent field */
-    private String emailAddress;
-
-    /** persistent field */
     private String userName;
 
     /** persistent field */
@@ -69,25 +36,18 @@ public class Customer implements Serializable {
     /** nullable persistent field */
     private Date dayOfRegistration;
 
+    /** nullable persistent field */
+    private de.hsharz.provirent.objects.Person person;
+
     /** full constructor */
-    public Customer(String firstName, String lastName, String middleName, String salutation, String title, String street, String streetNumber, String city, String zipCode, String country, String emailAddress, String userName, String password, String hiddenQuestion, String hiddenAnswer, Calendar dayOfBirth, Date dayOfRegistration) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.salutation = salutation;
-        this.title = title;
-        this.street = street;
-        this.streetNumber = streetNumber;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.country = country;
-        this.emailAddress = emailAddress;
+    public Customer(String userName, String password, String hiddenQuestion, String hiddenAnswer, Calendar dayOfBirth, Date dayOfRegistration, de.hsharz.provirent.objects.Person person) {
         this.userName = userName;
         this.password = password;
         this.hiddenQuestion = hiddenQuestion;
         this.hiddenAnswer = hiddenAnswer;
         this.dayOfBirth = dayOfBirth;
         this.dayOfRegistration = dayOfRegistration;
+        this.person = person;
     }
 
     /** default constructor */
@@ -95,15 +55,7 @@ public class Customer implements Serializable {
     }
 
     /** minimal constructor */
-    public Customer(String firstName, String lastName, String street, String streetNumber, String city, String zipCode, String country, String emailAddress, String userName, String password, String hiddenQuestion, String hiddenAnswer) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.street = street;
-        this.streetNumber = streetNumber;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.country = country;
-        this.emailAddress = emailAddress;
+    public Customer(String userName, String password, String hiddenQuestion, String hiddenAnswer) {
         this.userName = userName;
         this.password = password;
         this.hiddenQuestion = hiddenQuestion;
@@ -116,94 +68,6 @@ public class Customer implements Serializable {
 
     protected void setCustomerId(Integer customerId) {
         this.customerId = customerId;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getMiddleName() {
-        return this.middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getSalutation() {
-        return this.salutation;
-    }
-
-    public void setSalutation(String salutation) {
-        this.salutation = salutation;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getStreet() {
-        return this.street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getStreetNumber() {
-        return this.streetNumber;
-    }
-
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
-    public String getCity() {
-        return this.city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZipCode() {
-        return this.zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getCountry() {
-        return this.country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getEmailAddress() {
-        return this.emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
     }
 
     public String getUserName() {
@@ -254,20 +118,17 @@ public class Customer implements Serializable {
         this.dayOfRegistration = dayOfRegistration;
     }
 
+    public de.hsharz.provirent.objects.Person getPerson() {
+        return this.person;
+    }
+
+    public void setPerson(de.hsharz.provirent.objects.Person person) {
+        this.person = person;
+    }
+
     public String toString() {
         return new ToStringBuilder(this)
             .append("customerId", getCustomerId())
-            .append("firstName", getFirstName())
-            .append("lastName", getLastName())
-            .append("middleName", getMiddleName())
-            .append("salutation", getSalutation())
-            .append("title", getTitle())
-            .append("street", getStreet())
-            .append("streetNumber", getStreetNumber())
-            .append("city", getCity())
-            .append("zipCode", getZipCode())
-            .append("country", getCountry())
-            .append("emailAddress", getEmailAddress())
             .append("userName", getUserName())
             .append("password", getPassword())
             .append("hiddenQuestion", getHiddenQuestion())

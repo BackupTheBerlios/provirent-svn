@@ -20,7 +20,7 @@
  
  			<timestamp	name="dayOfRegistration" />
  
- 
+ 			<one-to-one name="person" class="de.hsharz.provirent.objects.Person" cascade="all"/>
       
       <property name="userName" type="string" not-null="true">
       	<meta attribute="use-in-tostring">true</meta>
