@@ -32,6 +32,9 @@
  */
 package test.provirent.hibernate;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -100,35 +103,36 @@ public class TestImage extends TestCase {
                 assertTrue("Connected to Db? ", s.isConnected());
                 assertTrue("Db Open? ", s.isOpen());
 
+
+
+
                 //cretae new objects
                 List Images = new ArrayList();
 
                 Image myd1 = new Image();
-                myd1.setImageFile(new byte[]{1,2,3,4});
+                myd1.setImageFile(new byte[] { 1, 2, 3, 4 });
                 myd1.setImageFileDescription("Bild 1");
                 myd1.setImageFileName("image1.jpg");
                 myd1.setImageFileSize(123);
-                
+
                 Image myd2 = new Image();
-                myd2.setImageFile(new byte[]{5,6,7,8});
+                myd2.setImageFile(new byte[] { 5, 6, 7, 8 });
                 myd2.setImageFileDescription("Bild 2");
                 myd2.setImageFileName("image2.jpg");
                 myd2.setImageFileSize(123);
 
                 Image myd3 = new Image();
-                myd3.setImageFile(new byte[]{9,10,11,12});
+                myd3.setImageFile(new byte[] { 9, 10, 11, 12 });
                 myd3.setImageFileDescription("Bild 3");
                 myd3.setImageFileName("image3.jpg");
                 myd3.setImageFileSize(123);
 
                 Image myd4 = new Image();
-                myd4.setImageFile(new byte[]{13,14,15,16});
+                myd4.setImageFile(new byte[] { 13, 14, 15, 16 });
                 myd4.setImageFileDescription("Bild 4");
                 myd4.setImageFileName("image4.jpg");
                 myd4.setImageFileSize(123);
 
-                
-                
                 Images.add(myd1);
                 Images.add(myd2);
                 Images.add(myd3);
@@ -234,38 +238,57 @@ public class TestImage extends TestCase {
 
                 //cretae new objects
                 List Images = new ArrayList();
+                File file = new File(this.getClass()
+                        .getResource("logo.gif").getFile());
+                
+                InputStream is = new  FileInputStream(file);
 
+                long length = file.length();
+                
+                byte[] bytes = new byte[(int)length];
+
+                // Read in the bytes
+                int offset = 0;
+                int numRead = 0;
+                while (offset < bytes.length
+                        && (numRead = is.read(bytes, offset, bytes.length
+                                - offset)) >= 0) {
+                    offset += numRead;
+                }
+
+                is.close();                
+                
+                System.out.println("bytes länge "+bytes.length );
+                
                 Image myd1 = new Image();
-                myd1.setImageFile(new byte[]{1,2,3,4});
+                myd1.setImageFile(bytes);
                 myd1.setImageFileDescription("Bild 1");
                 myd1.setImageFileName("image1.jpg");
                 myd1.setImageFileSize(123);
-                
+
                 Image myd2 = new Image();
-                myd2.setImageFile(new byte[]{5,6,7,8});
+                myd2.setImageFile(bytes);
                 myd2.setImageFileDescription("Bild 2");
                 myd2.setImageFileName("image2.jpg");
                 myd2.setImageFileSize(123);
 
                 Image myd3 = new Image();
-                myd3.setImageFile(new byte[]{9,10,11,12});
+                myd3.setImageFile(bytes);
                 myd3.setImageFileDescription("Bild 3");
                 myd3.setImageFileName("image3.jpg");
                 myd3.setImageFileSize(123);
 
                 Image myd4 = new Image();
-                myd4.setImageFile(new byte[]{13,14,15,16});
+                myd4.setImageFile(bytes);
                 myd4.setImageFileDescription("Bild 4");
                 myd4.setImageFileName("image4.jpg");
                 myd4.setImageFileSize(123);
 
-                
-                
                 Images.add(myd1);
                 Images.add(myd2);
                 Images.add(myd3);
                 Images.add(myd4);
-                
+
                 List ids = new ArrayList();
 
                 //save objects
