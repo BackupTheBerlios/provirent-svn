@@ -115,6 +115,7 @@ public class ManagementGui {
     private CTabItem tabItemGenre;
     private CTabItem tabItemImage;
     private CTabItem tabItemMovie;
+    private CTabItem tabItemDvd;
     private CTabItem tabItemStatus;
     private CTabItem tabStatusLanguage;
         
@@ -126,6 +127,7 @@ public class ManagementGui {
     private CompositeLanguage compositeLanguage;
     private CompositeImage compositeImage;
     private CompositeMovie compositeMovie;
+    private CompositeDVD compositeDvd;
     private CompositePayment compositePayment;
     private CompositeStatus compositeStatus;
     private CompositeCustomer compositeCustomer;
@@ -575,7 +577,7 @@ public class ManagementGui {
 				}
 				
 				cTabFolderMain.setSelection(tabItemMovie);
-				viewActorMenuItem.setSelection(true);
+				viewMovieMenuItem.setSelection(true);
 				cTabFolderMain.showSelection();				
             
             }
@@ -584,7 +586,20 @@ public class ManagementGui {
         viewDvdMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewDvdMenuItem.setText(l.getString("menu.view.dvd"));
         viewDvdMenuItem.setSelection(false);
-
+        viewDvdMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemDvd == null || tabItemDvd.isDisposed()){
+				    initDvdTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemDvd);
+				viewDvdMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();				
+            
+            }
+        });         
+        
         viewBillMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewBillMenuItem.setText(l.getString("menu.view.bill"));
         viewBillMenuItem.setSelection(false);
@@ -890,6 +905,29 @@ public class ManagementGui {
         statusLine.setLayoutData(styledText1LData);
     }
 
+    private void initDvdTab() {
+        tabItemDvd = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemDvd.setText(l.getString("tab.dvd.title"));
+        tabItemDvd.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                if(!viewMovieMenuItem.isDisposed()){
+                viewDvdMenuItem.setSelection(false);
+                }
+            }
+            
+        });
+  
+        {
+            compositeDvd = new CompositeDVD(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemDvd.setControl(compositeDvd);
+        }
+        cTabFolderMain.setSelection(tabItemDvd);
+    }
+    
     /**
      * Sets a message for the Statusline
      * 

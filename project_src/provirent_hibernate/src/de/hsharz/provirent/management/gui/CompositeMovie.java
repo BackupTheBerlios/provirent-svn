@@ -71,7 +71,7 @@ public class CompositeMovie extends
      * Logger for this class
      */
     private static final Logger logger = Logger
-            .getLogger(CompositeActors.class);
+            .getLogger(CompositeMovie.class);
 
     private final static int MODE_VIEW = 0;
 
@@ -385,8 +385,7 @@ public class CompositeMovie extends
                         }
                     }
                 });
-                textMoviesSearch.addListener(SWT.DefaultSelection,
-                        new Listener() {
+                textMoviesSearch.addListener(SWT.DefaultSelection,new Listener() {
                             public void handleEvent(Event e) {
                                 if (logger.isDebugEnabled()) {
                                     logger.debug("handleEvent(Event e = " + e
@@ -1130,7 +1129,8 @@ public class CompositeMovie extends
                     textMoviesRuntime.setEditable(true);
                     textMoviesTitle.setFocus();
                     textMoviesDescription.setEditable(true);
-
+                    textMoviesSearch.setEditable(false);
+                    
                     buttonMoviesCancel.setEnabled(true);
                     buttonMoviesSave.setEnabled(true);
                     buttonMoviesNew.setEnabled(false);
@@ -1145,9 +1145,9 @@ public class CompositeMovie extends
                     buttonMoviesAddImages.setEnabled(true);
                     buttonMoviesDeleteImages.setEnabled(true);
                     buttonMoviesChangeDate.setEnabled(true);
-
+                    
                     tableMoviesOverview.setEnabled(false);
-                    textMoviesSearch.setEnabled(false);
+                    
                 }
             });
 
@@ -1194,6 +1194,7 @@ public class CompositeMovie extends
                         //Detailansicht leeren
                         textMoviesID.setText("");
                         textMoviesTitle.setText("");
+                        textMoviesRuntime.setText("");
                         textMoviesDate.setText("");
                         textMoviesDescription.setText("");
                         tableMoviesDirectorsDetail.removeAll();
@@ -1338,14 +1339,22 @@ public class CompositeMovie extends
                     try {
                         //object speichern
                         // Fehlerbehandlung
+
+                        if (mode_movie == ManagementGui.MODE_ADD)  {
+                        Object o = Database.saveObject(localmovie);
+
                         logger.debug("Objektid: "+localmovie.getMovieId()+" vor speichern");
                         Database.saveObject(localmovie);
                         logger.debug("Objektid: "+localmovie.getMovieId()+" nach speichern");
 
+                        
                         // in Übersichtstabelle einfügen
                         insertIntoMoviesOverviewTable(localmovie);
                         textMoviesID.setText(localmovie.getMovieId() + "");
-
+                        }
+                        if (mode_movie == ManagementGui.MODE_EDIT)  {
+                            Object o = Database.updateObject(localmovie);
+                        } 
                         //Statusline Nachricht sezten
                         statusLine
                                 .setStatus(
@@ -1433,10 +1442,6 @@ public class CompositeMovie extends
      */
     private void setMoviesGroupButtonSaveCancel() {
         tableMoviesOverview.setEnabled(true);
-        textMoviesTitle.setEditable(false);
-        textMoviesDescription.setEditable(false);
-        textMoviesSearch.setEditable(true);
-        textMoviesRuntime.setEditable(false);
         buttonMoviesCancel.setEnabled(false);
         buttonMoviesSave.setEnabled(false);
         buttonMoviesNew.setEnabled(true);
@@ -1451,6 +1456,10 @@ public class CompositeMovie extends
         buttonMoviesAddImages.setEnabled(false);
         buttonMoviesDeleteImages.setEnabled(false);
         buttonMoviesChangeDate.setEnabled(false);
+        textMoviesTitle.setEditable(false);
+        textMoviesDescription.setEditable(false);
+        textMoviesSearch.setEditable(true);
+        textMoviesRuntime.setEditable(false);
     }
 
     /**
@@ -1525,7 +1534,7 @@ public class CompositeMovie extends
         for (int i = 0; i < object.getDirector().size(); i++) {
             Director o = (Director) object.getDirector().get(i);
             item = new TableItem(tableMoviesDirectorsDetail, SWT.NONE);
-            item.setText(new String[] { o.getDirectorId() + " ",
+            item.setText(new String[] { o.getDirectorId() + "",
                     o.getLastName() + " , " + o.getFirstName() });
         }
 
@@ -1534,7 +1543,7 @@ public class CompositeMovie extends
         for (int i = 0; i < object.getActors().size(); i++) {
             Actor o = (Actor) object.getActors().get(i);
             item = new TableItem(tableMoviesActorsDetail, SWT.NONE);
-            item.setText(new String[] { o.getActorId() + " ",
+            item.setText(new String[] { o.getActorId() + "",
                     o.getLastName() + " , " + o.getFirstName() });
         }
 
@@ -1559,7 +1568,7 @@ public class CompositeMovie extends
         for (int i = 0; i < object.getImages().size(); i++) {
             Image o = (Image) object.getImages().get(i);
             item = new TableItem(tableMoviesImagesDetail, SWT.NONE);
-            item.setText(new String[] { o.getImageId() + " ",
+            item.setText(new String[] { o.getImageId() + "",
                     o.getImageFileName() + "" });
         }
 

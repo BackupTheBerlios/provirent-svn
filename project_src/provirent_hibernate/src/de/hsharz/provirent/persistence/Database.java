@@ -1879,7 +1879,9 @@ public class Database {
 	                any.add(Expression.like("releaseDate", "%"+filter+"%"));
 	                any.add(Expression.like("description", "%"+filter+"%"));
 	                any.add(Expression.like("actors", "%"+filter+"%"));
-	                any.add(Expression.like("directors", "%"+filter+"%"));
+	                any.add(Expression.like("runtime", "%"+filter+"%"));
+	                any.add(Expression.like("director", "%"+filter+"%"));
+	                any.add(Expression.like("genres", "%"+filter+"%"));
 	                //any.add(Expression.like("images", "%"+filter+"%"));
 	                //maybe we are searching for the id?
 	                try {

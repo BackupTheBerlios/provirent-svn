@@ -634,7 +634,7 @@ public class CompositeActors extends AbstractComposite{
                             
                             // in Übersichtstabelle einfügen
                             insertIntoActorsOverviewTable((Actor)o);
-                            textActorsID.setText( ((Actor)o).getActorId()+"" );
+                            textActorsID.setText( ((Actor)o).getActorId()+"");
                             
                             
                             //Statusline Nachricht sezten

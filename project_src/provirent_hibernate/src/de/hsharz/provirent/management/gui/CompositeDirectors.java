@@ -60,7 +60,7 @@ public class CompositeDirectors extends AbstractComposite{
      * Logger for this class
      */
     private static final Logger logger = Logger
-            .getLogger(CompositeActors.class);
+            .getLogger(CompositeDirectors.class);
     
     
     private final static int MODE_VIEW = 0;
