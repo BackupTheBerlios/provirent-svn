@@ -242,6 +242,7 @@ public class Database {
 		try {
 			//get new Session and begin Transaction
 			s = HibernateUtil.currentSession();
+			tx = s.beginTransaction();
 			try {
 				logger.debug("Object " + o.getClass().getName() + " String:"
 						+ o);
@@ -251,6 +252,7 @@ public class Database {
 						+ "des Objectes:" + o + " Exception: " + e);
 				exception = 1;
 			}
+			tx.commit();
 			s.flush();
 
 		} catch (HibernateException e) {

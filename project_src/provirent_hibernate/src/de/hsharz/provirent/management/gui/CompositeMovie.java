@@ -1111,9 +1111,13 @@ public class CompositeMovie extends
 									locale, localmovie,
 									DialogMovie.TYPE_MAINIMAGE);
 							dialog.open();
-							if (localmovie.getMainImage() != null)
+							if (localmovie.getMainImage() != null) {
 								textMoviesmainImage.setText(localmovie
 										.getMainImage().getImageFileName());
+								logger.debug("neues Mainimage: "+localmovie.getMainImage().getImageFileName());
+							}
+							
+							
 						}
 					});
 		}
@@ -1371,7 +1375,6 @@ public class CompositeMovie extends
 						localmovie.getReleaseDate().setTime(
 								DateFormat.getDateInstance(DateFormat.LONG)
 										.parse(textMoviesDate.getText()));
-						logger.debug("Datum: " + localmovie.getReleaseDate());
 					} catch (ParseException e1) {
 						//Hier muss noch was gemacht werden, das Datum konnte
 						// nicht geparst werden
@@ -1415,7 +1418,9 @@ public class CompositeMovie extends
 							insertIntoMoviesOverviewTable(localmovie);
 							textMoviesID.setText(localmovie.getMovieId() + "");
 						} else if (mode_movie == ManagementGui.MODE_EDIT) {
+							logger.debug("MainImage vor: "+localmovie.getMainImage().getImageFileName());
 							Database.updateObject(localmovie);
+							logger.debug("MainImage nach: "+localmovie.getMainImage().getImageFileName());
 						}
 						//Statusline Nachricht sezten
 						statusLine

@@ -316,8 +316,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
 
                             int[] sel = table1.getSelectionIndices();
                             for (int i = 0; i < sel.length; i++) {
-                                System.out.println("Auswahl:" + i + " "
-                                        + table1.getItem(sel[i]));
+
 
                                 for (int j = 0; j < valuelist.size(); j++) {
                                     if (type == TYPE_ACTOR) {
@@ -356,10 +355,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
                                                 .equalsIgnoreCase(((Image) valuelist
                                                         .get(j)).getImageId()
                                                         + "")) {
-                                            logger
-                                                    .debug("Füge Bild zum Movie hinzu:"
-                                                            + (Image) valuelist
-                                                                    .get(j));
+
                                             movie.getImages().add(
                                                     (Image) valuelist.get(j));
                                             break;
@@ -369,10 +365,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
                                                 .equalsIgnoreCase(((Image) valuelist
                                                         .get(j)).getImageId()
                                                         + "")) {
-                                            logger
-                                                    .debug("Füge Bild zum Movie hinzu:"
-                                                            + (Image) valuelist
-                                                                    .get(j));
+    
                                             movie.setMainImage((Image) valuelist.get(j));
                                             dialogShell.close();
                                         }
