@@ -1,0 +1,17 @@
+Probleme:
+
+- Wenn Reiter Formate ausgewählt wird ist die Tabelle für den Überblick leer
+- Wenn Überblick den Focus verliert wird erst Datenbank geladen und daten angezeigt
+- Suche funktioniert, wenn aber suchfeld leer ist bleibt alter Suchwert aktiv(wenn     man nicht enter drückt) und es wird nicht mehr die komplette Datenbank   angezeigt
+  Suche sollte eventuell auch für id funktionieren,wenn man für   bestimmte id das   entsprechende Format sucht
+- Eine Abkürzung sollte nicht zweimal an verschiedene Formate vergeben werden
+  können
+- doppelte Formate
+- wenn doppelte Formate erlaubt sind dann sollte abkürzung für alle übernommen werden
+- wie werden details gefüllt und wie fügt man audioformate ein
+
+
+Lösung:
+- Sobald Reiter fokus erhält sollte Daten geladen bzw. angezeigt werden
+- doppelte Formate ?
+- bei leeren Suchfeld  sollte auch keine Suche aktiv sein ( Anwender weiß nicht das er erst suchfeld leeren und enter drücken muß)
