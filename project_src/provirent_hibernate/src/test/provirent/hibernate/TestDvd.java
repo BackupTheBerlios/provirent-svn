@@ -84,6 +84,9 @@ public class TestDvd extends TestCase {
     }
 
     public void testCreateDvd() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreateDvd() - start");
+        }
 
         Session s = null;
         Transaction tx = null;
@@ -250,10 +253,15 @@ public class TestDvd extends TestCase {
                 // No matter what, close the session
                 HibernateUtil.closeSession();
             } catch (HibernateException e) {
+                logger.error("testCreateDvd()", e);
+
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
 
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreateDvd() - end");
+        }
     }
 }

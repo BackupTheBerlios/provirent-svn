@@ -32,7 +32,21 @@
  */
 package test.provirent.hibernate;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import junit.framework.TestCase;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+import de.hsharz.provirent.objects.Condition;
+import de.hsharz.provirent.objects.Customer;
+import de.hsharz.provirent.objects.Dvd;
+import de.hsharz.provirent.objects.Movie;
+import de.hsharz.provirent.objects.MovieOrder;
+import de.hsharz.provirent.objects.OrderItem;
+import de.hsharz.provirent.objects.Payment;
 
 /**
  * @author Philipp Schneider
@@ -62,4 +76,61 @@ public class TestMovieOrder extends TestCase {
         super(arg0);
     }
 
+    public void createMovieOrder() {
+
+        Session s = null;
+        Transaction tx = null;
+
+        try {
+            s = HibernateUtil.currentSession();
+            tx = s.beginTransaction();
+
+            List customers = new ArrayList();
+            //for each movie 
+            for (int i = 0; i < 3; i++) {
+
+                Customer customer = (Customer) customers.get(i);
+
+
+                MovieOrder movieOrder = new MovieOrder();
+                movieOrder.setCustomer(customer);
+
+                List orderItems = new ArrayList();
+
+                for (int j = 0; j < 3; j++) {
+
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setCustomer(customer);
+                    orderItem.setDuration(2);
+
+                    orderItem.setDvd(new Dvd());
+                    
+                    orderItem.setOrderTime(Calendar.getInstance());
+                    orderItem.setPayment(new Payment());
+
+                    //this data is to be set when the dvd is beeing
+                    //send to the customer
+                    orderItem.setConditionSend(new Condition());
+                    orderItem.setSenderTime(Calendar.getInstance());
+
+                    //this data is set when the dvd is beeig received
+                    //from the customer
+                    orderItem.setReceivingTime(null);
+                    orderItem.setConditionReceiving(null);
+
+                    //add to the List
+                    orderItems.add(orderItem);
+                }
+
+                movieOrder.setMovieOrderItems(orderItems);
+
+                //save the movieOrder
+                s.save(movieOrder);
+            }
+        } catch (HibernateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 }

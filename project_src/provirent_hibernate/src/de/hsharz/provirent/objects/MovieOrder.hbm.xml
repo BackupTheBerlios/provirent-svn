@@ -28,8 +28,8 @@
 		 </many-to-one>
 
  			<list	name="movieOrderItems"
- 						table="MOVIEORDERORDERITEMS"
- 						>
+ 					table="MOVIEORDERORDERITEMS"
+ 					cascade="all"	>
 				<meta attribute="use-in-tostring">true</meta>
 				<key column="MOVIEORDERID"/>
 				<index column="POS"/>
