@@ -64,10 +64,8 @@ import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
-import de.hsharz.provirent.objects.Customer;
 import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.OrderItem;
-import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
 /**
