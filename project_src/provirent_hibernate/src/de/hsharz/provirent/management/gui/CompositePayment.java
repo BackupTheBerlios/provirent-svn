@@ -4,9 +4,12 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
@@ -116,7 +119,7 @@ public class CompositePayment extends AbstractComposite{
     private Table tablePayment;
     private TableColumn tableColumn;
 
-    
+    Hashtable list = null;
 
     private final static int MODE_EDIT = 2;
     
@@ -609,9 +612,11 @@ public class CompositePayment extends AbstractComposite{
                     textduration2.setText("");
                     textduration3.setText("");
                     textstartdate.setText("");
+                    buttonPaymentEdit.setEnabled(false);
+                    buttonPaymentDelete.setEnabled(false);
                     //in Tabelle nächsten auswählen
                     try {
-                        tablePayment.select(0);
+                        tablePayment.deselectAll();
                     } catch (Exception ex) {}
                     
                     //Statusline Nachricht sezten
@@ -673,6 +678,9 @@ public class CompositePayment extends AbstractComposite{
                     	return;
                 }
                 
+                buttonPaymentEdit.setEnabled(false);
+                buttonPaymentDelete.setEnabled(false);
+                
                 //testen welcher mode
                 
                 if (mode_Payment == ManagementGui.MODE_ADD) {
@@ -693,17 +701,14 @@ public class CompositePayment extends AbstractComposite{
                             			Float.parseFloat(textduration2.getText()), 
                             			Float.parseFloat(textduration3.getText()),
                             			tmp_cal);
-                    
-                    
+                                        
                         //object speichern
                         // Fehlerbehandlung
                         Object o = Database.saveObject(tmp);
                         
                         // in Übersichtstabelle einfügen
-                        insertIntoPaymentTable((Payment)o);
-                        textPaymentID.setText( ((Payment)o).getPaymentId()+"" );
-                        
-                        
+                        insertIntoPaymentTable((Payment)o);                        
+                                                
                         //Statusline Nachricht sezten
                         statusLine.setStatus(1,l.getString("Payment.groupdetail.savebutton.newok"));
 
@@ -731,8 +736,10 @@ public class CompositePayment extends AbstractComposite{
                     }
                     
                     
-                    //alle Buttons auf aktiv setzen
+//                  alle Buttons auf aktiv setzen
                     setPaymentGroupButtonSaveCancel();
+                    buttonPaymentDelete.setEnabled(false);
+                    buttonPaymentEdit.setEnabled(false);
                     
                 } else if (mode_Payment == ManagementGui.MODE_EDIT) {
                     try {
@@ -780,10 +787,10 @@ public class CompositePayment extends AbstractComposite{
                         
                     }
                     
- 
                     //alle Buttons auf aktiv setzen
                     setPaymentGroupButtonSaveCancel();
-                    
+                    buttonPaymentDelete.setEnabled(false);
+                    buttonPaymentEdit.setEnabled(false);
                 }
                 
                 
@@ -836,16 +843,26 @@ public class CompositePayment extends AbstractComposite{
 
     /**
      * @param Payment
+     * @throws DataBaseException
      */
-    protected void insertIntoPaymentTable(Payment Payment) {
+    protected void insertIntoPaymentTable(Payment Payment) throws DataBaseException {
         TableItem item = new TableItem(tablePayment, SWT.NONE);
         item.setText(new String[] { Payment.getPaymentId() + "", 
                 					Payment.getName(), 
                 					Double.toString(Payment.getDuration1()),
                 					Double.toString(Payment.getDuration2()), 
                 					Double.toString(Payment.getDuration3()),
-                					DateFormat.getDateInstance(DateFormat.MEDIUM).format(Payment.getStartdate().getTime()) });
+                					Util.getTextByDate(Payment.getStartdate()) });
         
+        tablePayment.deselectAll();
+        refreshPaymentDetail("");
+        
+        try {
+            refreshPaymentTable(textPaymentSearch.getText());
+        } catch (DataBaseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -863,6 +880,56 @@ public class CompositePayment extends AbstractComposite{
         tablePayment.removeAll();
         TableItem item;
         java.util.List Paymentlist = Database.getPayment(filter);
+        list = new Hashtable();
+        for (int i = 0; i < Paymentlist.size(); i++) {
+            Payment paym = (Payment) Paymentlist.get(i);
+            String name = paym.getName();
+            
+            if (list.containsKey(name)) {
+                Vector vec = (Vector) list.get(name);
+                vec.add(paym.getStartdate());
+            } else {
+                Vector vec = new Vector();
+                vec.add(paym.getStartdate());
+                
+                list.put(paym.getName(), vec);
+            }
+        }
+        Enumeration keys = list.keys();
+        while (keys.hasMoreElements()) {
+            String key = (String) keys.nextElement();
+            Vector vec = (Vector) list.get(key);
+            Vector aktDates = new Vector();
+            Calendar temp = null;
+            for (int i = 0; i < vec.size(); i++) {
+                Calendar today = Calendar.getInstance();
+                if (temp == null) {
+                    temp = (Calendar) vec.get(i);
+                    if (temp.after(today)) {
+                        aktDates.add(temp);
+                        temp = null;
+                        continue;
+                    } else{
+	                    aktDates.add(0, temp);
+	                    continue;
+                    }
+                }  
+                Calendar date = (Calendar) vec.get(i);
+                
+                if (!date.after(today)) {
+                    if (date.after(temp)) {
+                        temp = date;
+                        aktDates.set(0, date);
+                    }
+                    
+                } else {
+                    aktDates.add(date);
+                }
+                                    
+            }
+            list.remove(key);
+            list.put(key, aktDates);
+        }
 
         for (int i = 0; i < Paymentlist.size(); i++) {
 
@@ -1074,37 +1141,60 @@ public class CompositePayment extends AbstractComposite{
      * @param text
      */
     protected void refreshPaymentDetail(final String id) {
-        Payment object;
-        try {
-            //since we only can get a String value from the table, we
-            //need to convert this
-            object = Database.getSinglePayment(Integer.parseInt(id));
-
-            if (object == null) {
-
-                /*
-                 * 
-                 * @TODO Statusbar aktualiseren
-                 */
-                return;
-            }
-        } catch (Exception e) {
-            //id ist keine Zahl
-            return;
+        if (!id.equals("") && id != null) {
+	        Payment object;
+	        try {
+	            //since we only can get a String value from the table, we
+	            //need to convert this
+	            object = Database.getSinglePayment(Integer.parseInt(id));
+	
+	            if (object == null) {
+	
+	                /*
+	                 * 
+	                 * @TODO Statusbar aktualiseren
+	                 */
+	                return;
+	            }
+	        } catch (Exception e) {
+	            //id ist keine Zahl
+	            return;
+	        }
+	
+	        textPaymentID.setText(object.getPaymentId() + "");
+	        textPaymentName.setText(object.getName());
+	        textduration1.setText(Double.toString(object.getDuration1()));
+	        textduration2.setText(Double.toString(object.getDuration2()));
+	        textduration3.setText(Double.toString(object.getDuration3()));
+	        textstartdate.setText(DateFormat.getDateInstance(DateFormat.LONG).format(object.getStartdate().getTime()));
+	        //Buttons zum löschen und editieren aktivieren
+	        
+	        buttonPaymentEdit.setEnabled(false);
+	        buttonPaymentDelete.setEnabled(true);
+	        Vector vec = (Vector) list.get(object.getName());
+	        
+	        for (int i = 0; i < vec.size(); i++) {
+	            Calendar date = (Calendar) vec.get(i);
+	            try {
+	                if (Util.getTextByDate(date).equals(Util.getTextByDate(object.getStartdate()))) {
+	                    buttonPaymentEdit.setEnabled(true);
+	                    
+	                }
+	            } catch (DataBaseException e1) {
+	                // TODO Auto-generated catch block
+	                e1.printStackTrace();
+	            }
+	        }
+        } else {
+            textPaymentID.setText("");
+            textPaymentName.setText("");
+            textduration1.setText("");
+            textduration2.setText("");
+            textduration3.setText("");
+            textstartdate.setText("");
+            buttonPaymentEdit.setEnabled(false);
+            buttonPaymentDelete.setEnabled(false);
         }
-
-        textPaymentID.setText(object.getPaymentId() + "");
-        textPaymentName.setText(object.getName());
-        textduration1.setText(Double.toString(object.getDuration1()));
-        textduration2.setText(Double.toString(object.getDuration2()));
-        textduration3.setText(Double.toString(object.getDuration3()));
-        
-
-        textstartdate.setText(DateFormat.getDateInstance(DateFormat.LONG).format(object.getStartdate().getTime()));
-
-        //Buttons zum löschen und editieren aktivieren
-        buttonPaymentEdit.setEnabled(true);
-        buttonPaymentDelete.setEnabled(true);
 
         //Mode auf view setzen
         mode_Payment = ManagementGui.MODE_VIEW;

@@ -37,19 +37,23 @@ public class OrderItem implements Serializable {
     private de.hsharz.provirent.objects.Dvd dvd;
 
     /** nullable persistent field */
+    private de.hsharz.provirent.objects.Payment payment;
+
+    /** nullable persistent field */
     private de.hsharz.provirent.objects.Condition conditionSend;
 
     /** nullable persistent field */
     private de.hsharz.provirent.objects.Condition conditionReceiving;
 
     /** full constructor */
-    public OrderItem(Calendar senderTime, Calendar receivingTime, int duration, Date orderTime, de.hsharz.provirent.objects.Customer customer, de.hsharz.provirent.objects.Dvd dvd, de.hsharz.provirent.objects.Condition conditionSend, de.hsharz.provirent.objects.Condition conditionReceiving) {
+    public OrderItem(Calendar senderTime, Calendar receivingTime, int duration, Date orderTime, de.hsharz.provirent.objects.Customer customer, de.hsharz.provirent.objects.Dvd dvd, de.hsharz.provirent.objects.Payment payment, de.hsharz.provirent.objects.Condition conditionSend, de.hsharz.provirent.objects.Condition conditionReceiving) {
         this.senderTime = senderTime;
         this.receivingTime = receivingTime;
         this.duration = duration;
         this.orderTime = orderTime;
         this.customer = customer;
         this.dvd = dvd;
+        this.payment = payment;
         this.conditionSend = conditionSend;
         this.conditionReceiving = conditionReceiving;
     }
@@ -119,6 +123,14 @@ public class OrderItem implements Serializable {
         this.dvd = dvd;
     }
 
+    public de.hsharz.provirent.objects.Payment getPayment() {
+        return this.payment;
+    }
+
+    public void setPayment(de.hsharz.provirent.objects.Payment payment) {
+        this.payment = payment;
+    }
+
     public de.hsharz.provirent.objects.Condition getConditionSend() {
         return this.conditionSend;
     }
@@ -144,6 +156,7 @@ public class OrderItem implements Serializable {
             .append("orderTime", getOrderTime())
             .append("customer", getCustomer())
             .append("dvd", getDvd())
+            .append("payment", getPayment())
             .append("conditionSend", getConditionSend())
             .append("conditionReceiving", getConditionReceiving())
             .toString();
@@ -161,6 +174,7 @@ public class OrderItem implements Serializable {
             .append(this.getOrderTime(), castOther.getOrderTime())
             .append(this.getCustomer(), castOther.getCustomer())
             .append(this.getDvd(), castOther.getDvd())
+            .append(this.getPayment(), castOther.getPayment())
             .append(this.getConditionSend(), castOther.getConditionSend())
             .append(this.getConditionReceiving(), castOther.getConditionReceiving())
             .isEquals();
@@ -175,6 +189,7 @@ public class OrderItem implements Serializable {
             .append(getOrderTime())
             .append(getCustomer())
             .append(getDvd())
+            .append(getPayment())
             .append(getConditionSend())
             .append(getConditionReceiving())
             .toHashCode();

@@ -244,16 +244,31 @@ public class TestPayment extends TestCase {
                 date3.set(2005,1,16);
                 Calendar date4 = Calendar.getInstance();
                 date4.set(2005,11,8);
+                Calendar date5 = Calendar.getInstance();
+                date5.set(2004,10,12);
+                Calendar date6 = Calendar.getInstance();
+                date6.set(2004,10,28);
+                Calendar date7 = Calendar.getInstance();
+                date7.set(2004,10,29);
+                Calendar date8 = Calendar.getInstance();
+                date8.set(2004,10,20);
                 Payment myp1 = new Payment("A", 2.00d, 4.00d, 8.00d,date1);
                 Payment myp2 = new Payment("B", 3.00d, 6.00d, 12.00d,date2);
                 Payment myp3 = new Payment("C", 4.00d, 8.00d, 14.00d,date3);
                 Payment myp4 = new Payment("D", 5.00d, 10.00d, 20.00d,date4);
-
+                Payment myp5 = new Payment("A", 2.00d, 4.00d, 8.00d,date5);
+                Payment myp6= new Payment("A", 3.00d, 6.00d, 12.00d,date6);
+                Payment myp7 = new Payment("A", 4.00d, 8.00d, 14.00d,date7);
+                Payment myp8 = new Payment("B", 5.00d, 10.00d, 20.00d,date8);
                 
                 Payments.add(myp1);
                 Payments.add(myp2);
                 Payments.add(myp3);
                 Payments.add(myp4);
+                Payments.add(myp5);
+                Payments.add(myp6);
+                Payments.add(myp7);
+                Payments.add(myp8);
 
                 List ids = new ArrayList();
 

@@ -49,6 +49,10 @@
 		 >
 			 	<meta attribute="use-in-tostring">true</meta>
 		 </many-to-one>
+		 
+		 <many-to-one name="payment" class="de.hsharz.provirent.objects.Payment">
+				<meta attribute="use-in-tostring">true</meta>
+		 </many-to-one>
 
 				
  
@@ -70,7 +74,7 @@
 				class="de.hsharz.provirent.objects.Condition"
 		 >
 			 	<meta attribute="use-in-tostring">true</meta>
-		 </many-to-one> 
+		 </many-to-one>
  
     </class>
   </hibernate-mapping>

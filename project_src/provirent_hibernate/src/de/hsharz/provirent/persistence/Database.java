@@ -33,15 +33,12 @@
 package de.hsharz.provirent.persistence;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Hashtable;
 import java.util.List;
 
 import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import net.sf.hibernate.expression.Conjunction;
 import net.sf.hibernate.expression.Disjunction;
 import net.sf.hibernate.expression.Expression;
 
@@ -1451,6 +1448,8 @@ public class Database {
 	            Criteria criteria = s.createCriteria(Payment.class);
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
+<<<<<<< .mine
+=======
 	          
 	            /*
 	            any.add(Expression.sql("Select * from PAYMENT where name like '" + 
@@ -1458,8 +1457,10 @@ public class Database {
 	                    		"' and startdate = (select startdate from PAYMENT where name like '" + 
 	                    		name +
 	                    						   "')"));
+>>>>>>> .r175
 	            
 	            */
+	            
 	
 	            //if filter not empty
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
@@ -1480,13 +1481,9 @@ public class Database {
 	            criteria.add(any);
 	            //get the results
 	            returnlist = criteria.list();
-	            Hashtable list = new Hashtable();
-	            for (int i = 0; i < returnlist.size(); i++) {
-	                Payment paym = (Payment) returnlist.get(i);
-	                list.put(paym.getName(), paym.getStartdate());
-	            }
 	            
 	            
+	            int i = 0;
 	
 	
 	
