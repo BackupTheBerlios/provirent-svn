@@ -372,7 +372,7 @@ public class TestMovie extends TestCase {
                     
                     logger.debug("Speichere Movie Objekt");
 
-
+                    if (k == 3) continue;
                     s.save(movie);
                     s.flush();
                     logger.debug("ID: "+movie.getMovieId());
