@@ -272,14 +272,26 @@ public class TestMovie extends TestCase {
                 
                 logger.debug("Erstelle Movie Objekt");
                 
+                List data = new ArrayList();
+                data.add(new String[]{"The Forgotten","96","A grieving mother, Telly Parada, is struggling to cope with the loss of her 9-year-old son. She is stunned...","Forgotten_main.jpg","Forgotten_1.gif","Forgotten_2.gif" });
+                data.add(new String[]{"Ocean's Twelve","128","With Tess (Roberts) and Rusty (Pitt) at his side, Daniel Ocean (Clooney) must find one more conspirator before he can pull off heists in three different European cities -- Paris, Rome, and Amsterdam.","Twelve_main.gif","Twelve_1.gif","Twelve_2.gif","Twelve_3.gif"});
+                data.add(new String[]{"Blade: Trinity","156","Framed by the Vampire Nation for a series of brutal murders, the Daywalker (Snipes) finds allies in a group of vampire hunters, the Nightstalkers, and together they wage a battle that leads all the way to Dracula himself.","Blade_main.gif","Blade_1.gif","Blade_2.gif","Blade_3.gif"});
+                data.add(new String[]{"National Treasure","126","Benjamin Franklin Gates (Cage) descends from a family of treasure-seekers who've all hunted for the same thing: a war chest hidden by the Founding Fathers prior to the Revolutionary War. Ben's close to discovering its whereabouts, as is his competition, though the FBI is also hip to the hunt.","Treasure_main.gif","Treasure_1.gif","Treasure_2.gif","Treasure_3.gif","Treasure_4.gif"});
+                data.add(new String[]{"Christmas with the Kranks","92","Upon receiving a last-minute call from their daughter, Luther and Nora Krank (Allen and Curtis) ditch their vacation plans and scramble to get their home in shape to celebrate Christmas.","Kranks_main.gif","Kranks_1.gif","Kranks_2.gif"});
+                data.add(new String[]{"The Polar Express","215","A boy's belief in Santa Claus is restored on Christmas Eve when a steam train pulls up in front of his house and whisks him away to the North Pole.","Polar_main.gif","Polar_1.gif","Polar_2.gif","Polar_3.gif"});
+                data.add(new String[]{"The Incredibles","186","Years after their last assignment, a husband and wife superhero team, who currently maintain a ho-hum suburban existence, respond a cryptic communiqué from a remote island base.","Incredibles_main.gif","Incredibles_1.gif","Incredibles_2.gif"});
+                data.add(new String[]{"Closer","145","Two couples are drawn together by undeniable attraction and a series of chance encounters.","closer_main.gif","closer_1.gif","closer_2.gif","closer_3.gif"});
+                
+                for(int k =0; k< data.size(); k++){
+                    
+                    String[] sdata = (String[])data.get(k);
                 //create new movie objects
                 Movie movie = new Movie();
                 //set simple properties
-                movie.setDescription("A grieving mother, Telly Parada, " +
-                        "is struggling to cope with the loss of her "
-                        +"9-year-old son. She is stunned...");
-                movie.setRuntime(96);
-                movie.setTitle("The Forgotten");
+                movie.setTitle(sdata[0]);
+                movie.setDescription(sdata[2]);
+                movie.setRuntime(Integer.parseInt(sdata[1]));
+                
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR,0);
                 cal.set(Calendar.MINUTE,0);
@@ -341,6 +353,10 @@ public class TestMovie extends TestCase {
                 movie.setGenres(movieprops);
                 
                 
+                
+                //set MainImage
+                
+                
                 //try to get Images from db
                 dbprops =  s.find("from Image as image");
                 assertNotNull("testCreateDBMovie(): Can't get Image from DB. Null", dbprops);
@@ -392,6 +408,8 @@ public class TestMovie extends TestCase {
                 dbprops =  s.find("from Movie as Movie");
                 assertNotNull("testCreateDBMovie(): Can't get Movie from DB. Null", dbprops);
                 assertTrue("testCreateDBMovie(): Can not find Movie in DB", dbprops.size() >0);
+                
+                }
                 
                 for (int i = 0; i < dbprops.size(); i++) {
                     Movie m = (Movie)dbprops.get(i);

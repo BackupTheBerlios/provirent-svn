@@ -216,15 +216,24 @@ public class TestDirector extends TestCase {
                 //cretae new objects
                 List directors = new ArrayList();
 
-                Director myd1 = new Director("Bibo", "Bergeron");
-                Director myd2 = new Director("Vicky", "Jenson");
-                Director myd3 = new Director("Jay", "Russell");
-                Director myd4 = new Director("Joseph", "Ruben");
 
-                directors.add(myd1);
-                directors.add(myd2);
-                directors.add(myd3);
-                directors.add(myd4);
+                directors.add(new Director("Bibo", "Bergeron"));
+                directors.add(new Director("Vicky", "Jenson"));
+                directors.add(new Director("Jay", "Russell"));
+                directors.add(new Director("Joseph", "Ruben"));
+                directors.add(new Director("Taylor","Hackford"));
+                directors.add(new Director("Beeban","Kidron"));
+                directors.add(new Director("Marc","Forster"));
+                directors.add(new Director("Oliver","Stone"));
+                directors.add(new Director("Stephen","Hillenburg"));
+                directors.add(new Director("Mike","Nichols"));
+                directors.add(new Director("Brad","Bird"));
+                directors.add(new Director("Robert","Zemeckis"));
+                directors.add(new Director("Joe","Roth"));
+                directors.add(new Director("Jon","Turteltaub"));
+                directors.add(new Director("Steven","Soderbergh"));
+                directors.add(new Director("Brad","Silberling"));
+                directors.add(new Director("Martin","Scorsese"));
 
                 List ids = new ArrayList();
 

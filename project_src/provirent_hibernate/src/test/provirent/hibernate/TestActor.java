@@ -221,7 +221,7 @@ public class TestActor extends TestCase {
                 assertTrue("Db Open? ", s.isOpen());
 
                 //cretae new objects
-                List Actors = new ArrayList();
+                List actors = new ArrayList();
 
                 Actor myd1 = new Actor("Johnny", "Depp");
                 Actor myd2 = new Actor("Geoffrey", "Rush");
@@ -231,18 +231,44 @@ public class TestActor extends TestCase {
                 Actor myd6 = new Actor("Matthew", "Pleszewicz ");
                 Actor myd7 = new Actor("Christopher", "Kovaleski ");
 
-                Actors.add(myd1);
-                Actors.add(myd2);
-                Actors.add(myd3);
-                Actors.add(myd4);
-                Actors.add(myd5);
-                Actors.add(myd6);
-                Actors.add(myd7);
+                actors.add(myd1);
+                actors.add(myd2);
+                actors.add(myd3);
+                actors.add(myd4);
+                actors.add(myd5);
+                actors.add(myd6);
+                actors.add(myd7);
+                actors.add(new Actor("Ben","Stiller"));
+                actors.add(new Actor("Vince","Vaughn"));
+                actors.add(new Actor("Christine","Taylor"));
+                actors.add(new Actor("Matt","Damon"));
+                actors.add(new Actor("Joan","Allen"));
+                actors.add(new Actor("Franka","Potente"));
+                actors.add(new Actor("Julia", "Stiles"));
+                actors.add(new Actor("George Clooney",""));
+                actors.add(new Actor("Brad Pitt",""));
+                actors.add(new Actor("Julia Roberts",""));
+                actors.add(new Actor("Wesley Snipes",""));
+                actors.add(new Actor("Nicolas Cage",""));
+                actors.add(new Actor("Diane Kruger",""));
+                actors.add(new Actor("Sean Bean",""));
+                actors.add(new Actor("Tom","Hanks"));
+                actors.add(new Actor("Colin","Farrell"));
+                actors.add(new Actor("Anthony","Hopkins"));
+                actors.add(new Actor("Angelina","Jolie"));
+                actors.add(new Actor("Johnny","Depp"));
+                actors.add(new Actor("Kate","Winslet"));
+                actors.add(new Actor("Renée","Zellweger"));
+                actors.add(new Actor("Jamie","Foxx"));
+                actors.add(new Actor("Regina","King"));
+                actors.add(new Actor("Kerry","Washington"));
+                
+                
 
                 List ids = new ArrayList();
 
                 //save objects
-                for (Iterator iter = Actors.iterator(); iter.hasNext();) {
+                for (Iterator iter = actors.iterator(); iter.hasNext();) {
                     Actor dir = (Actor) iter.next();
                     ids.add((Integer) s.save(dir));
 
