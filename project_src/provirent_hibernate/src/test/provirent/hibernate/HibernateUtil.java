@@ -32,10 +32,13 @@
  */
 package test.provirent.hibernate;
 
+
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.cfg.Configuration;
+
+import net.sf.hibernate.expression.Expression;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -132,6 +135,44 @@ public class HibernateUtil {
     }
 
     
+	public static Image getImagename(final String filter, Session s){
+        if (logger.isDebugEnabled()) {
+            logger
+                    .debug("getImagename(String filter = " + filter
+                            + ") - start");
+        }
+	    
+	    //init the returnlist
+	    Image returnimg = null;
+
+	    
+	    try {
+
+	            
+
+	        returnimg = (Image) s.createCriteria(Image.class).add(
+                    Expression.eq("imageFileName", filter)).list().get(0);
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("getImagename(String) - end");
+            }
+	
+
+	
+	
+	    } catch (Exception e) {
+            logger.error("getImagename(String)", e);
+
+	        logger.error(
+	                "getImagename() - Error while trying to do Transaction",
+	                e);
+	        returnimg = null;
+	    }
+	    return returnimg;
+	    	
+	}
+	
+	
     
     
 }

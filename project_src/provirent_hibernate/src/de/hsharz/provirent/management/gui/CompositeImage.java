@@ -1285,20 +1285,36 @@ public class CompositeImage extends AbstractComposite {
 
         final int width = imgdata.width;
         final int height = imgdata.height;
-        float scalefactor = 1;
-
-        if (width > maxwidth) {
-            scalefactor = (float) maxwidth / width;
-        }
-        if (height > maxheight) {
-            if (((float) maxheight / height) < scalefactor) {
-                scalefactor = ((float) maxheight / height);
+        
+        int new_width = imgdata.width;
+        int new_height = imgdata.height;
+        
+        
+        float ratio = (float)( (float)width / (float)height);
+        
+        if (width > height){
+            //breiter als höher
+            logger.debug("breiter Ratio: "+ratio);
+            if(width > maxwidth) {
+               new_width = maxwidth;
+               new_height =(int)( maxwidth /( ratio ));
             }
-
+        } else {
+            //höher als breiter
+            logger.debug("höher Ratio: "+ratio);
+            if (height > maxheight){
+                new_height = maxheight;
+                new_width = (int)( (double)new_height * ratio);
+                    
+            }
         }
+        
+
+        
+        logger.debug("w:"+new_width+" h:"+new_height+" r:"+ratio);
 
         return new Image(getDisplay(), imgdata.scaledTo(
-                (int) (width * scalefactor), (int) (height * scalefactor)));
+                (int) (new_width), (int) (new_height)));
 
     }
 }
