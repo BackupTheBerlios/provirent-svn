@@ -119,19 +119,6 @@ public class ManagmentGui {
 
     private CTabItem tabItemFormat;
 
-    private List list3;
-
-    private Group group2Director;
-
-    private Text filterTextVideoFormat;
-
-    private Label filterLabelVideoFormat;
-
-    private TableColumn tableColumnDirectorFirstname;
-
-    private TableColumn tableColumnDirectorLastname;
-
-    private TableColumn tableColumnDirectorId;
     private CompositeFormate compositeFormate;
 
     private MenuItem aboutMenuItem;
@@ -144,19 +131,13 @@ public class ManagmentGui {
 
     private MenuItem viewDirectorMenuItem;
 
-    private Table tableDirector;
-
-    private Group group1Director;
-
-    private SashForm sashFormDirector;
-
-    private CTabItem cTabItem2;
-
     private Shell shell;
 
     private Display display;
 
-    private MenuItem viewVideoFormatMenuItem;
+    private MenuItem viewFormatMenuItem,viewActorMenuItem,viewGenreMenuItem;
+    private MenuItem viewSubtitleMenuItem,viewLanguageMenuItem,viewStatusMenuItem;
+    private MenuItem viewConditionMenuItem,viewMovieMenuItem,viewDvdMenuItem, viewBillMenuItem;
 
     private Menu viewMenu;
 
@@ -238,7 +219,7 @@ public class ManagmentGui {
         
         
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language", locale);
+                "de.hsharz.provirent.managment.gui.language.main", locale);
 
         //hier muss noch was gemacht werden
         if (l == null) {
@@ -261,8 +242,7 @@ public class ManagmentGui {
 
         shell.layout();
 
-        //init the db, so it saves time later
-        //does that in a new Thread
+        //init the db, so it saves time later, does that in a new Thread
         initDB();
         
         //init the rest
@@ -282,24 +262,24 @@ public class ManagmentGui {
              */
         }
         fileMenuItem = new MenuItem(rootMenu, SWT.CASCADE);
-        fileMenuItem.setText("Datei");
+        fileMenuItem.setText(l.getString("menue.file"));
         fileMenu = new Menu(fileMenuItem);
         fileMenuItem.setMenu(fileMenu);
 
         openFileMenuItem = new MenuItem(fileMenu, SWT.CASCADE);
-        openFileMenuItem.setText("÷ffnen");
+        openFileMenuItem.setText(l.getString("menue.file.open"));
 
         newFileMenuItem = new MenuItem(fileMenu, SWT.CASCADE);
-        newFileMenuItem.setText("Neu");
+        newFileMenuItem.setText(l.getString("menue.file.new"));
 
         saveFileMenuItem = new MenuItem(fileMenu, SWT.CASCADE);
-        saveFileMenuItem.setText("Speichern");
+        saveFileMenuItem.setText(l.getString("menue.file.save"));
 
         closeFileMenuItem = new MenuItem(fileMenu, SWT.CASCADE);
-        closeFileMenuItem.setText("Schlieﬂen");
+        closeFileMenuItem.setText(l.getString("menue.file.close"));
 
         exitMenuItem = new MenuItem(fileMenu, SWT.CASCADE);
-        exitMenuItem.setText("Beenden");
+        exitMenuItem.setText(l.getString("menue.file.exit"));
 
     }
 
@@ -316,31 +296,112 @@ public class ManagmentGui {
         }
 
         viewMenuItem = new MenuItem(rootMenu, SWT.CASCADE);
-        viewMenuItem.setText("Ansicht");
+        viewMenuItem.setText(l.getString("menue.view"));
 
         viewMenu = new Menu(viewMenuItem);
         viewMenuItem.setMenu(viewMenu);
 
-        viewVideoFormatMenuItem = new MenuItem(viewMenu, SWT.CHECK);
-        viewVideoFormatMenuItem.setText("VideoFormat");
-        viewVideoFormatMenuItem.setSelection(false);
-        viewVideoFormatMenuItem.addSelectionListener(new SelectionAdapter() {
+        viewFormatMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewFormatMenuItem.setText(l.getString("menue.view.format"));
+        viewFormatMenuItem.setSelection(false);
+        viewFormatMenuItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 System.out
-                        .println("viewVideoFormatMenuItem.widgetSelected, event="
+                        .println("viewFormatMenuItem.widgetSelected, event="
                                 + evt);
-                setStatus(3, "Fehler aufgetreten");
-                //TODO add your code for
+                
+                if(tabItemFormat != null && !tabItemFormat.isDisposed()) {
+                    //cTabFolderMain.forceFocus();
+                    //cTabFolderMain.setSelection(tabItemFormat);
+                    tabItemFormat.dispose();
+                    return;
+                }
+                
+                if(tabItemFormat == null){
+                    initFormatTab();
+                    cTabFolderMain.setSelection(tabItemFormat);
+                    return;
+                }
+                
+                if(tabItemFormat.isDisposed()){
+                    initFormatTab();
+                    cTabFolderMain.setSelection(tabItemFormat);
+                }
+                //setStatus(3, "Fehler aufgetreten");
+
                 // viewVideoFormatMenuItem.widgetSelected
             }
         });
 
         viewDirectorMenuItem = new MenuItem(viewMenu, SWT.CHECK);
-        viewDirectorMenuItem.setText("Director");
+        viewDirectorMenuItem.setText(l.getString("menue.view.director"));
         viewDirectorMenuItem.setSelection(false);
 
+        viewActorMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewActorMenuItem.setText(l.getString("menue.view.actor"));
+        viewActorMenuItem.setSelection(false);
+        
+        viewGenreMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewGenreMenuItem.setText(l.getString("menue.view.genre"));
+        viewActorMenuItem.setSelection(false);
+
+        viewSubtitleMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewSubtitleMenuItem.setText(l.getString("menue.view.subtitle"));
+        viewSubtitleMenuItem.setSelection(false);
+        
+        viewLanguageMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewLanguageMenuItem.setText(l.getString("menue.view.language"));
+        viewLanguageMenuItem.setSelection(false);
+
+        viewStatusMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewStatusMenuItem.setText(l.getString("menue.view.status"));
+        viewStatusMenuItem.setSelection(false);
+
+        viewConditionMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewConditionMenuItem.setText(l.getString("menue.view.condition"));
+        viewConditionMenuItem.setSelection(false);
+
+        viewMovieMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewMovieMenuItem.setText(l.getString("menue.view.movie"));
+        viewMovieMenuItem.setSelection(false);
+
+        viewDvdMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewDvdMenuItem.setText(l.getString("menue.view.dvd"));
+        viewDvdMenuItem.setSelection(false);
+
+        viewBillMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewBillMenuItem.setText(l.getString("menue.view.bill"));
+        viewBillMenuItem.setSelection(false);
+
+        
     }
 
+    
+    private void initFormatTab() {
+        tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemFormat.setText(l.getString("tab.format.title"));
+        {
+            compositeFormate = new CompositeFormate(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemFormat.setControl(compositeFormate);
+        }
+    }
+    
+    private void initDirectorTab() {
+        tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemFormat.setText(l.getString("tab.director.title"));
+        {
+            compositeFormate = new CompositeFormate(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemFormat.setControl(compositeFormate);
+        }
+    }    
+    
+    
     /**
      * init the help menu
      */
@@ -408,6 +469,14 @@ public class ManagmentGui {
     }
     
     private void initMainTabFolder() {
+        cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
+        //cTabFolderMain.setSelection(null);
+        GridData cTabFolder1LData = new GridData();
+        cTabFolder1LData.grabExcessHorizontalSpace = true;
+        cTabFolder1LData.horizontalAlignment = GridData.FILL;
+        cTabFolder1LData.grabExcessVerticalSpace = true;
+        cTabFolder1LData.verticalAlignment = GridData.FILL;
+        cTabFolderMain.setLayoutData(cTabFolder1LData);
         
     }
     
@@ -429,191 +498,14 @@ public class ManagmentGui {
 
             //set the Site
             shell.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-            {
+
                 //the root composite
                 //this init's the maincomposite
                 initRootComposite();
                 initStatusComposite();
+                initMainTabFolder();
 
-                {
-                    {
-                        cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
-                        //cTabFolderMain.setSelection(null);
-                        GridData cTabFolder1LData = new GridData();
-                        cTabFolder1LData.grabExcessHorizontalSpace = true;
-                        cTabFolder1LData.horizontalAlignment = GridData.FILL;
-                        cTabFolder1LData.grabExcessVerticalSpace = true;
-                        cTabFolder1LData.verticalAlignment = GridData.FILL;
-                        cTabFolderMain.setLayoutData(cTabFolder1LData);
-                        {
-                            tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
-                            tabItemFormat.setText("Formate");
-                            {
-                                compositeFormate = new CompositeFormate(
-                                    cTabFolderMain,
-                                    SWT.NONE, statusLine, locale);
-                                
-                                tabItemFormat.setControl(compositeFormate);
-                            }
-                        }
-                        {
-                            cTabItem2 = new CTabItem(cTabFolderMain, SWT.NONE);
-                            cTabItem2.setText("cTabItem2");
-                            {
-                                sashFormDirector = new SashForm(cTabFolderMain,
-                                        SWT.NONE);
-                                cTabItem2.setControl(sashFormDirector);
-                                FormLayout sashFormDirectorLayout = new FormLayout();
-                                sashFormDirector
-                                        .setLayout(sashFormDirectorLayout);
-                                {
-                                    group1Director = new Group(
-                                            sashFormDirector, SWT.NONE);
-                                    GridLayout gridLayout = new GridLayout();
-                                    gridLayout.numColumns = 6;
-                                    group1Director
-                                            .setText("Directors ‹bersicht");
-                                    FormData formData = new FormData();
-                                    group1Director.setLayout(gridLayout);
-                                    formData.right = new FormAttachment(100,
-                                            100, -5);
-                                    formData.top = new FormAttachment(0, 100, 5);
-                                    formData.bottom = new FormAttachment(100,
-                                            100, -5);
-                                    group1Director.setLayoutData(formData);
-                                    {
-                                        tableDirector = new Table(
-                                                group1Director, SWT.SINGLE
-                                                        | SWT.FULL_SELECTION
-                                                        | SWT.V_SCROLL
-                                                        | SWT.BORDER);
-                                        tableDirector.setHeaderVisible(true);
-                                        tableDirector.setLinesVisible(true);
-                                        GridData griddata = new GridData();
-                                        tableDirector
-                                                .addSelectionListener(new SelectionAdapter() {
-                                                    public void widgetSelected(
-                                                            SelectionEvent evt) {
 
-                                                        int index = tableDirector
-                                                                .getSelectionIndex();
-                                                        System.out
-                                                                .println("Table select. id: "
-                                                                        + index
-                                                                        + " TableItem:"
-                                                                        + tableDirector
-                                                                                .getItem(index)
-                                                                        + " id: "
-                                                                        + tableDirector
-                                                                                .getItem(
-                                                                                        index)
-                                                                                .getText(
-                                                                                        0));
-                                                    }
-                                                });
-                                        griddata.verticalAlignment = GridData.FILL;
-                                        griddata.horizontalAlignment = GridData.FILL;
-                                        griddata.horizontalSpan = 6;
-                                        griddata.grabExcessHorizontalSpace = true;
-                                        griddata.grabExcessVerticalSpace = true;
-                                        tableDirector.setLayoutData(griddata);
-                                        {
-                                            tableColumnDirectorId = new TableColumn(
-                                                    tableDirector, SWT.CENTER);
-                                            tableColumnDirectorId.setText("id");
-                                            tableColumnDirectorId.setWidth(100);
-                                        }
-                                        {
-                                            tableColumnDirectorLastname = new TableColumn(
-                                                    tableDirector, SWT.CENTER);
-                                            tableColumnDirectorLastname
-                                                    .setText("Name");
-                                            tableColumnDirectorLastname
-                                                    .setWidth(100);
-
-                                        }
-                                        {
-                                            tableColumnDirectorFirstname = new TableColumn(
-                                                    tableDirector, SWT.CENTER);
-                                            tableColumnDirectorFirstname
-                                                    .setText("Short");
-                                            tableColumnDirectorFirstname
-                                                    .setWidth(100);
-
-                                        }
-                                    }
-                                    {
-                                        filterLabelVideoFormat = new Label(
-                                                group1Director, SWT.NONE);
-                                        filterLabelVideoFormat
-                                                .setText("Suche nach:");
-                                        GridData data1 = new GridData();
-                                        data1.horizontalSpan = 2;
-                                        filterLabelVideoFormat
-                                                .setLayoutData(data1);
-                                    }
-                                    {
-                                        filterTextVideoFormat = new Text(
-                                                group1Director, SWT.BORDER);
-                                        GridData data2 = new GridData();
-
-                                        data2.horizontalAlignment = GridData.FILL;
-                                        data2.horizontalSpan = 4;
-                                        data2.grabExcessHorizontalSpace = true;
-                                        filterTextVideoFormat
-                                                .setLayoutData(data2);
-                                    }
-                                }
-                                {
-                                    group2Director = new Group(
-                                            sashFormDirector, SWT.NONE);
-                                    GridLayout gridLayout = new GridLayout();
-                                    gridLayout.numColumns = 2;
-                                    group2Director.setText("Filmliste");
-                                    FormData formData = new FormData();
-                                    group2Director.setLayout(gridLayout);
-                                    formData.left = new FormAttachment(0, 100,
-                                            5);
-                                    formData.top = new FormAttachment(0, 100, 5);
-                                    formData.bottom = new FormAttachment(100,
-                                            100, -5);
-                                    group2Director.setLayoutData(formData);
-                                    {
-                                        list3 = new List(group2Director,
-                                                SWT.SINGLE | SWT.H_SCROLL
-                                                        | SWT.V_SCROLL
-                                                        | SWT.BORDER);
-                                        GridData list3LData = new GridData();
-                                        list3
-                                                .addSelectionListener(new SelectionAdapter() {
-                                                    public void widgetSelected(
-                                                            SelectionEvent evt) {
-                                                        System.out
-                                                                .println("list1.widgetSelected, event="
-                                                                        + evt);
-
-                                                        //TODO add your code for
-                                                        // list1.widgetSelected
-                                                    }
-                                                });
-                                        list3LData.verticalAlignment = GridData.FILL;
-                                        list3LData.horizontalAlignment = GridData.FILL;
-                                        list3LData.grabExcessHorizontalSpace = true;
-                                        list3LData.grabExcessVerticalSpace = true;
-                                        list3.setLayoutData(list3LData);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                {
-                    //init the Composite for statusline
-                    
-                    //compositeFormate.setStatusLine(statusLine);
-
-                }
-            }
             shell.layout();
         } catch (Exception e) {
             e.printStackTrace();
@@ -638,6 +530,7 @@ public class ManagmentGui {
         composite2LData.grabExcessHorizontalSpace = true;
         compositeStatusLine.setLayoutData(composite2LData);
 
+        //Statusline
         initStatusLine();
 
     }
@@ -704,6 +597,11 @@ public class ManagmentGui {
 
     }
 
+    /**
+     * Ruft die DB zum erstmal auf
+     * da dies viel Zeit dauert(beim ersten mal) geschieht dies im
+     * Hintergrund
+     */
     private void initDB(){
         
 		new Thread() {
