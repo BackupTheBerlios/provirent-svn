@@ -446,7 +446,7 @@ public class CompositeOrder extends AbstractComposite {
     private void initOrderGroupDetail() {
         groupOrderDetail = new Group(sashFormOrder, SWT.NONE);
         GridLayout groupOrderDetailLayout = new GridLayout();
-        groupOrderDetailLayout.marginHeight = 25;
+        groupOrderDetailLayout.marginHeight = 10;
         groupOrderDetailLayout.numColumns = 4;
         groupOrderDetailLayout.verticalSpacing = 15;
         groupOrderDetail.setText(l.getString("Order.groupdetail.label"));
@@ -477,7 +477,7 @@ public class CompositeOrder extends AbstractComposite {
     private void initOrderItemDetails() {
         groupOrderItemDetails = new Group(sashFormOrderDetail, SWT.NONE);
         GridLayout groupOrderDetailLayout = new GridLayout();
-        groupOrderDetailLayout.marginHeight = 25;
+        groupOrderDetailLayout.marginHeight = 10;
         groupOrderDetailLayout.numColumns = 4;
         groupOrderDetailLayout.verticalSpacing = 15;
         groupOrderItemDetails.setText(l.getString("Order.groupdetail.orderitems.label"));
@@ -736,7 +736,8 @@ public class CompositeOrder extends AbstractComposite {
                    
 					//object speichern
 					// Fehlerbehandlung
-					aktMovieOrder.getMovieOrderItems().remove(aktOrderItem);   
+					aktMovieOrder.getMovieOrderItems().remove(aktOrderItem);
+					Database.deleteObject(aktOrderItem);
 					Database.updateObject(aktMovieOrder);
 					
 					//ÜbersichtsTabelle aktualisieren
