@@ -5,8 +5,6 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import javax.swing.text.TabExpander;
-
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -14,6 +12,7 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -54,6 +53,7 @@ public class CompositeFormate extends AbstractComposite {
      */
     private static final Logger logger = Logger
             .getLogger(CompositeFormate.class);
+    
 
     private SashForm sashForm1;
 
@@ -681,6 +681,8 @@ public class CompositeFormate extends AbstractComposite {
         textVideoFormatSearch.setEnabled(true);
     }
 
+
+    
     /**
      * rechte Seite des VideoFormates
      * Detailansicht
@@ -791,6 +793,7 @@ public class CompositeFormate extends AbstractComposite {
 
     }
 
+    
     /**
      * Gruppe für das VideoFormat (oben)
      */
@@ -839,8 +842,11 @@ public class CompositeFormate extends AbstractComposite {
 
     }
 
+   
+    
     private void initAudioFormatGroup() {
         groupAudioFormat = new Group(sashForm1, SWT.NONE);
+        
         GridLayout group1Layout = new GridLayout();
         group1Layout.makeColumnsEqualWidth = true;
         groupAudioFormat.setText("AudioFormat");
