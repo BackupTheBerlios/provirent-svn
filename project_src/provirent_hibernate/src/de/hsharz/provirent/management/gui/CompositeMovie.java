@@ -1309,7 +1309,6 @@ public class CompositeMovie extends
                                         .parse(textMoviesDate.getText()));
                         logger.debug("Datum: " + localmovie.getReleaseDate());
                     } catch (ParseException e1) {
-                        // TODO Auto-generated catch block
                         //Hier muss noch was gemacht werden, das Datum konnte
                         // nicht geparst werden
                         logger.error("widgetSelected(SelectionEvent)", e1);
@@ -1339,11 +1338,13 @@ public class CompositeMovie extends
                     try {
                         //object speichern
                         // Fehlerbehandlung
-                        Object o = Database.saveObject(localmovie);
+                        logger.debug("Objektid: "+localmovie.getMovieId()+" vor speichern");
+                        Database.saveObject(localmovie);
+                        logger.debug("Objektid: "+localmovie.getMovieId()+" nach speichern");
 
                         // in Übersichtstabelle einfügen
-                        insertIntoMoviesOverviewTable((Movie) o);
-                        textMoviesID.setText(((Movie) o).getMovieId() + "");
+                        insertIntoMoviesOverviewTable(localmovie);
+                        textMoviesID.setText(localmovie.getMovieId() + "");
 
                         //Statusline Nachricht sezten
                         statusLine
@@ -1352,6 +1353,7 @@ public class CompositeMovie extends
                                         l
                                                 .getString("movies.groupdetail.savebutton.newok"));
                     } catch (DataBaseException e) {
+                        logger.debug("DataBaseException: "+e);
                         if (e.getMessage().equalsIgnoreCase("1")) {
                             //Fehler beim Speichern des Objectes
 
@@ -1382,12 +1384,14 @@ public class CompositeMovie extends
                             logger.error("widgetSelected(SelectionEvent)", e);
                         }
 
+                    } catch (Exception ex) {
+                        logger.debug("Unbekannte Exception: ",ex);
                     }
 
                     //activate buttons
                     setMoviesGroupButtonSaveCancel();
 
-                    //Execption because only 2 modes posiibel
+                    
 
                 }
 

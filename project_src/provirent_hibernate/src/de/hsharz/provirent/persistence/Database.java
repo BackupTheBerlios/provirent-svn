@@ -32,7 +32,10 @@
  */
 package de.hsharz.provirent.persistence;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import net.sf.hibernate.Criteria;
@@ -41,7 +44,6 @@ import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.expression.Disjunction;
 import net.sf.hibernate.expression.Expression;
-import net.sf.hibernate.type.Type;
 
 import org.apache.log4j.Logger;
 
@@ -55,7 +57,6 @@ import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.Payment;
-import de.hsharz.provirent.objects.Person;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
@@ -182,15 +183,19 @@ public class Database {
             try {
                 //get new Session and begin Transaction
                 s = HibernateUtil.currentSession();
+                tx = s.beginTransaction();
                 try{
-                    s.saveOrUpdate(o);
+
+                    //s.saveOrUpdate(o);
+                    s.save(o);
                 } catch (HibernateException e) {
                     logger.error("saveObject(). Fehler beim Speichern/Updaten "
                             +"des Objectes:"+o+" Exception: "+e);
                     exception = 1;
                 }
+                tx.commit();
                 s.flush();
-               
+
                 
             } catch (HibernateException e) {
                 //exception = 2;
@@ -1631,8 +1636,13 @@ public class Database {
 	                //any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
 	                any.add(Expression.like("p.lastName", "%"+filter+"%"));
 	                any.add(Expression.like("p.firstName", "%"+filter+"%"));
-	                //any.add(Expression.like("p.dayOfBirth", "%"+filter+"%"));
-	                
+	                try{
+	                    Calendar cal = Calendar.getInstance();
+	                    cal.setTime(DateFormat.getDateInstance(DateFormat.SHORT).parse(filter));
+	                any.add(Expression.like("p.dayOfBirth", cal));
+	                } catch (ParseException pex){
+	                    logger.debug("Fehler beim Parsen des Datums",pex);
+	                }
 	                
 	                
 	                //maybe we are searching for the id?

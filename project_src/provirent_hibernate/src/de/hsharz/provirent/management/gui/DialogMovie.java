@@ -380,6 +380,9 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
             }
         });
 
+        //Liste füllen
+        refreshList("");
+        
         dialogShell.layout();
         dialogShell.pack();
         dialogShell.open();
