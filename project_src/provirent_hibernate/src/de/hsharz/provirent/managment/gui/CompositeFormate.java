@@ -1,11 +1,13 @@
 package de.hsharz.provirent.managment.gui;
 
-import org.apache.log4j.Logger;
-
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.swing.text.TabExpander;
+
+import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.FocusAdapter;
@@ -25,7 +27,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -151,6 +152,10 @@ public class CompositeFormate extends AbstractComposite {
 
     }
 
+    /* 
+     * Init die Sprache (properties Datei)
+     * @see de.hsharz.provirent.managment.gui.AbstractComposite#initLanguage(java.util.Locale)
+     */
     public void initLanguage(Locale locale) {
 
         l = PropertyResourceBundle.getBundle(
@@ -189,13 +194,24 @@ public class CompositeFormate extends AbstractComposite {
         }
     }
 
+    /**
+     * Konstruktor
+     * @param p
+     * @param style
+     * @param status Statusline der übergeordneten Instance
+     * @param l Locale die verwendet werden soll
+     */
     public CompositeFormate(Composite p, int style,
             StatusLineStyledText status, Locale l) {
         super(p, style, status, l);
         parent = p;
+        //Statusline wird gestzt
         statusLine = status;
+        
+        //sprache wird init
         initLanguage(l);
 
+        //die Gui wird aufgerufen
         initGUI();
     }
 
@@ -289,23 +305,38 @@ public class CompositeFormate extends AbstractComposite {
         tableVideoFormat.setHeaderVisible(true);
         tableVideoFormat.setLinesVisible(true);
         GridData table2LData = new GridData();
+        tableVideoFormat.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent evt) {
+                System.out.println("tableVideoFormat.focusLost, event=" + evt);
+                //TODO add your code for tableVideoFormat.focusLost
+            }
+            public void focusGained(FocusEvent evt) {
+                System.out
+                    .println("tableVideoFormat.focusGained, event=" + evt);
+                //TODO add your code for tableVideoFormat.focusGained
+            }
+        });
         tableVideoFormat.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("widgetSelected(SelectionEvent evt = " + evt
-                            + ") - start");
+                    logger.debug("widgetSelected(SelectionEvent evt = "
+                        + evt
+                        + ") - start");
                 }
 
                 int index = tableVideoFormat.getSelectionIndex();
 
-                System.out.println("Table select. id: " + index + " TableItem:"
-                        + tableVideoFormat.getItem(index) + " id: "
-                        + tableVideoFormat.getItem(index).getText(0));
+                System.out.println("Table select. id: "
+                    + index
+                    + " TableItem:"
+                    + tableVideoFormat.getItem(index)
+                    + " id: "
+                    + tableVideoFormat.getItem(index).getText(0));
 
                 //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss die
                 //Detailansicht aktualisiert werden
                 refreshVideoFormatDetail(tableVideoFormat.getItem(index)
-                        .getText(0));
+                    .getText(0));
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("widgetSelected(SelectionEvent) - end");
@@ -320,15 +351,15 @@ public class CompositeFormate extends AbstractComposite {
         tableVideoFormat.setLayoutData(table2LData);
 
         tableColumn = new TableColumn(tableVideoFormat, SWT.CENTER);
-        tableColumn.setText("id");
+        tableColumn.setText(l.getString("videoformat.groupoverview.columnid"));
         tableColumn.setWidth(50);
 
         tableColumn = new TableColumn(tableVideoFormat, SWT.CENTER);
-        tableColumn.setText("Name");
+        tableColumn.setText(l.getString("videoformat.groupoverview.columnname"));
         tableColumn.setWidth(200);
 
         tableColumn = new TableColumn(tableVideoFormat, SWT.CENTER);
-        tableColumn.setText("Abk.");
+        tableColumn.setText(l.getString("videoformat.groupoverview.columnshortname"));
         tableColumn.setWidth(75);
 
         if (logger.isDebugEnabled()) {
@@ -339,18 +370,24 @@ public class CompositeFormate extends AbstractComposite {
     private void initVideoFormatDetailButtons() {
 
         buttonVideoFormatNew = new Button(composite2, SWT.PUSH | SWT.CENTER);
-        buttonVideoFormatNew.setText("Neu");
+        buttonVideoFormatNew.setText(l.getString("button.new"));
         buttonVideoFormatNew.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
 
-                buttonVideoFormatCancel.setEnabled(true);
-                textVideoFormatName.setEditable(true);
-                textVideoFormatShortname.setEditable(true);
                 textVideoFormatID.setText("");
                 textVideoFormatName.setText("");
-                buttonVideoFormatSave.setEnabled(true);
-                textVideoFormatSearch.setEditable(false);
                 textVideoFormatShortname.setText("");
+                
+
+                textVideoFormatName.setEditable(true);
+                textVideoFormatShortname.setEditable(true);
+                buttonVideoFormatCancel.setEnabled(true);
+                buttonVideoFormatSave.setEnabled(true);
+                buttonVideoFormatNew.setEnabled(false);
+                buttonVideoFormatEdit.setEnabled(false);
+                buttonVideoFormatDelete.setEnabled(false);
+                
+                textVideoFormatSearch.setEditable(false);
                 tableVideoFormat.setEnabled(false);
 
                 mode_VideoFormat = ManagmentGui.MODE_ADD;
@@ -359,7 +396,7 @@ public class CompositeFormate extends AbstractComposite {
         });
 
         buttonVideoFormatEdit = new Button(composite2, SWT.PUSH | SWT.CENTER);
-        buttonVideoFormatEdit.setText("Bearbeiten");
+        buttonVideoFormatEdit.setText(l.getString("button.edit"));
         buttonVideoFormatEdit.setEnabled(false);
         buttonVideoFormatEdit.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
@@ -387,7 +424,7 @@ public class CompositeFormate extends AbstractComposite {
         });
 
         buttonVideoFormatDelete = new Button(composite2, SWT.PUSH | SWT.CENTER);
-        buttonVideoFormatDelete.setText("Löschen");
+        buttonVideoFormatDelete.setText(l.getString("button.delete"));
         buttonVideoFormatDelete.setEnabled(false);
         buttonVideoFormatDelete.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
@@ -396,7 +433,13 @@ public class CompositeFormate extends AbstractComposite {
                                 + evt);
                 
                 
-               int question = showMsg("","", SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+               String msg = MessageFormat.format(
+                       l.getString("videoformat.groupdetail.deletebutton.question.text"),
+                               new Object[]{textVideoFormatName.getText()+" "+textVideoFormatShortname.getText()});
+                
+               int question = showMsg(msg,
+                       l.getString("videoformat.groupdetail.deletebutton.question.header"), 
+                       SWT.ICON_QUESTION | SWT.YES | SWT.NO);
                
                if (question != SWT.YES){
                    return;
@@ -414,6 +457,16 @@ public class CompositeFormate extends AbstractComposite {
 
                     //ÜbersichtsTabelle aktualisieren
                     refreshVideoFormatTable(textVideoFormatSearch.getText());
+                    
+                    //Detailansicht leeren
+                    textVideoFormatID.setText("");
+                    textVideoFormatName.setText("");
+                    textVideoFormatShortname.setText("");
+                    
+                    //in Tabelle nächsten auswählen
+                    try {
+                        tableVideoFormat.select(0);
+                    } catch (Exception ex) {}
                     
                     //Statusline Nachricht sezten
                     statusLine.setStatus(1,l.getString("videoformat.groupdetail.deletebutton.newok"));
@@ -454,7 +507,7 @@ public class CompositeFormate extends AbstractComposite {
         buttonVideoFormatFill.setLayoutData(buttonVideoFormatFillLData);
 
         buttonVideoFormatSave = new Button(composite2, SWT.PUSH | SWT.CENTER);
-        buttonVideoFormatSave.setText("Speichern");
+        buttonVideoFormatSave.setText(l.getString("button.save"));
         buttonVideoFormatSave.setEnabled(false);
         buttonVideoFormatSave.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
@@ -489,11 +542,14 @@ public class CompositeFormate extends AbstractComposite {
                     try {
                         //object speichern
                         // Fehlerbehandlung
-                        Database.saveObject(
+                        Object o = Database.saveObject(
                                 new VideoFormat(textVideoFormatName.getText(),
                                         textVideoFormatShortname.getText()));
-                        //ÜbersichtsTabelle aktualisieren
-                        refreshVideoFormatTable(textVideoFormatSearch.getText());
+                        
+                        // in Übersichtstabelle einfügen
+                        insertIntoVideoFormatTable((VideoFormat)o);
+                        textVideoFormatID.setText( ((VideoFormat)o).getVideoFormatId()+"" );
+                        
                         
                         //Statusline Nachricht sezten
                         statusLine.setStatus(1,l.getString("videoformat.groupdetail.savebutton.newok"));
@@ -572,7 +628,7 @@ public class CompositeFormate extends AbstractComposite {
         });
 
         buttonVideoFormatCancel = new Button(composite2, SWT.PUSH | SWT.CENTER);
-        buttonVideoFormatCancel.setText("Abbruch");
+        buttonVideoFormatCancel.setText(l.getString("button.cancel"));
         buttonVideoFormatCancel.setEnabled(false);
         buttonVideoFormatCancel.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
@@ -718,6 +774,18 @@ public class CompositeFormate extends AbstractComposite {
             groupVideoFormat.setText(l.getString("videoformat.group.label"));
             groupVideoFormat.setSize(758, 284);
             FormData group2LData = new FormData();
+            groupVideoFormat.addFocusListener(new FocusAdapter() {
+                public void focusLost(FocusEvent evt) {
+                    System.out.println("groupVideoFormat.focusLost, event="
+                        + evt);
+                    buttonVideoFormatCancel.setEnabled(false);
+                    buttonVideoFormatDelete.setEnabled(false);
+                    buttonVideoFormatEdit.setEnabled(false);
+                    buttonVideoFormatNew.setEnabled(false);
+                    buttonVideoFormatSave.setEnabled(false);
+                    //TODO add your code for groupVideoFormat.focusLost
+                }
+            });
             groupVideoFormat.setLayout(group2Layout);
             groupVideoFormat.setLayoutData(group2LData);
             {
