@@ -72,9 +72,19 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     
     private Table tableMoviesOverview;
     private TableColumn tableMoviesOverview_ColumnID;
-    private TableColumn tableMoviesOverview_ColumnFName;
-    private TableColumn tableMoviesOverview_ColumnLName;
-        
+    private TableColumn tableMoviesOverview_ColumnTitle;
+    private TableColumn tableMoviesOverview_ColumnSubtitles;
+    private TableColumn tableMoviesOverview_ColumnGenres;
+    private TableColumn tableMoviesOverview_ColumnActors;
+    private TableColumn tableMoviesOverview_ColumnDescription;
+    private TableColumn tableMoviesOverview_ColumnDate;
+    private TableColumn tableMoviesOverview_ColumnVideoformats;
+    private TableColumn tableMoviesOverview_ColumnAudioformats;
+    
+    private TableColumn tableMoviesOverview_Column;
+    
+    
+    
     private Group groupMovie;
     private Group groupMoviesOverview;
     private Group groupMoviesDetail;
@@ -219,7 +229,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
      * 
      */
     private void initMoviesOverview() {
-	    //	  Group Actors Overview 
+	    //	  Group Movies Overview 
         {
             groupMoviesOverview = new Group(sashForm1,SWT.NONE);
             GridLayout group1Layout = new GridLayout();
@@ -294,23 +304,31 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     tableMoviesOverview_ColumnID.setWidth(40);
                 }
                 {
-                    tableMoviesOverview_ColumnFName = new TableColumn(
+                    tableMoviesOverview_ColumnTitle = new TableColumn(
                         tableMoviesOverview,
                         SWT.CENTER);
-                    tableMoviesOverview_ColumnFName.setText(l
-                        .getString("movies.groupoverview.columnfirstname"));
-                    tableMoviesOverview_ColumnFName.setWidth(120);
+                    tableMoviesOverview_ColumnTitle.setText(l
+                        .getString("movies.groupoverview.columntitle"));
+                    tableMoviesOverview_ColumnTitle.setWidth(120);
                 }
                 {
-                    tableMoviesOverview_ColumnLName = new TableColumn(
+                    tableMoviesOverview_ColumnSubtitles = new TableColumn(
                         tableMoviesOverview,
                         SWT.CENTER);
-                    tableMoviesOverview_ColumnLName.setText(l
-                        .getString("movies.groupoverview.columnlastname"));
-                    tableMoviesOverview_ColumnLName.setWidth(120);
+                    tableMoviesOverview_ColumnSubtitles.setText(l
+                        .getString("movies.groupoverview.columnsubtitles"));
+                    tableMoviesOverview_ColumnSubtitles.setWidth(120);
+                }
+                {
+                    tableMoviesOverview_ColumnDate = new TableColumn(
+                        tableMoviesOverview,
+                        SWT.CENTER);
+                    tableMoviesOverview_ColumnDate.setText(l
+                        .getString("movies.groupoverview.columndate"));
+                    tableMoviesOverview_ColumnDate.setWidth(120);
                 }
             }
-            // table Actors Overview
+            // table Movies Overview
             // Search
             {
                 //label for Search
@@ -367,8 +385,21 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
      * 
      */
     private void initMoviesDetail() {
-        // TODO Auto-generated method stub
-        
+        // Group Actors Detail
+        {
+            groupMoviesDetail = new Group(sashForm1, SWT.NONE);
+            GridLayout group2Layout = new GridLayout();
+            GridData group2LData = new GridData();
+            group2Layout.verticalSpacing = 15;
+            group2Layout.numColumns = 6;
+            groupMoviesDetail.setText(l.getString("movies.groupdetail.label"));   
+            FormData formData = new FormData();
+            groupMoviesDetail.setLayout(group2Layout);
+            formData.right = new FormAttachment(100, 100, -5);
+            formData.top = new FormAttachment(0, 100, 5);
+            formData.bottom = new FormAttachment(100, 100, -5);
+            groupMoviesDetail.setLayoutData(formData);
+        }
     }
 
     /**
