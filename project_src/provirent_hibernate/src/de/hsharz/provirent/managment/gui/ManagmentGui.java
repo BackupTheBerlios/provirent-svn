@@ -99,8 +99,6 @@ public class ManagmentGui {
     /**
      * Logger for this class
      */
-    private static int test=0;
-
     private static final Logger logger = Logger.getLogger(ManagmentGui.class);
 
     public final static int MODE_VIEW = 0;
