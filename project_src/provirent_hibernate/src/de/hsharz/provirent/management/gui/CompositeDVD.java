@@ -467,7 +467,7 @@ public class CompositeDVD extends AbstractComposite {
             labelDVDMovie.setLayoutData(labelDVDMovieLData);
         }
         {
-            comboDVDMovie = new Combo(groupDVDDetail, SWT.NONE);
+            comboDVDMovie = new Combo(groupDVDDetail, SWT.READ_ONLY);
             comboDVDMovie.setText("comboDVDMovie");
             GridData combo1LData1 = new GridData();
             combo1LData1.horizontalAlignment = GridData.FILL;
@@ -486,7 +486,7 @@ public class CompositeDVD extends AbstractComposite {
             labelDVDPayment.setLayoutData(labelDVDPaymentLData);
         }
         {
-            comboDVDPayment = new Combo(groupDVDDetail, SWT.NONE);
+            comboDVDPayment = new Combo(groupDVDDetail, SWT.READ_ONLY);
             comboDVDPayment.setText("comboDVDPayment");
             GridData combo1LData = new GridData();
             combo1LData.horizontalAlignment = GridData.FILL;
@@ -505,7 +505,7 @@ public class CompositeDVD extends AbstractComposite {
             labelDVDStatus.setLayoutData(labelDVDStatusLData);
         }
         {
-            comboDVDStatus = new Combo(groupDVDDetail, SWT.NONE);
+            comboDVDStatus = new Combo(groupDVDDetail, SWT.READ_ONLY);
             comboDVDStatus.setText("comboDVDStatus");
             GridData combo1LData2 = new GridData();
             combo1LData2.horizontalSpan = 5;
@@ -525,7 +525,7 @@ public class CompositeDVD extends AbstractComposite {
             labelDVDCondition.setLayoutData(labelDVDConditionLData);
         }
         {
-            comboDVDCondition = new Combo(groupDVDDetail, SWT.NONE);
+            comboDVDCondition = new Combo(groupDVDDetail, SWT.READ_ONLY);
             comboDVDCondition.setText("comboDVDCondition");
             GridData combo1LData3 = new GridData();
             combo1LData3.horizontalAlignment = GridData.FILL;

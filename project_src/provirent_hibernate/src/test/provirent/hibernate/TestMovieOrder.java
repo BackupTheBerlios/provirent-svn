@@ -120,14 +120,14 @@ public class TestMovieOrder extends TestCase {
                 List orderItems = new ArrayList();
 
                 
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < dvds.size(); j++) {
 
                     OrderItem orderItem = new OrderItem();
                     orderItem.setCustomer(customer);
                     orderItem.setDuration(2);
 
                     
-                    Dvd dvd = (Dvd)dvds.get(j % dvds.size());
+                    Dvd dvd = (Dvd)dvds.get(j);
                     orderItem.setDvd(dvd);
                     
                     orderItem.setOrderTime(Calendar.getInstance());

@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Widget;
 
-/** 
+/**
  * Class to manage SWT resources (Font, Color, Image and Cursor)
  * There are no restrictions on the use of this code.
  */

@@ -73,9 +73,9 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	private MenuItem fileMenuItem;
 
 	//private Button button1;
-	private Label labelMainHead, labelSendStartHead, labelStartHeader;
-
-	private Button buttonMainMenue;
+	private Label labelMainHead, labelSendStartHead, labelStartHeader,labelSendDetailsHeader;
+	private Label labelSendDetailsCustomer,labelSendDetailsCustomerD,labelSendDetailsDate,labelSendDetailsDateD;
+	private Button buttonMainMenue,buttonPrintBill,buttonPrintLabel;
 
 	private Label labelMainHeader;
 
@@ -84,11 +84,12 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	private Button buttonReceive, buttonSend;
 
 	//private Composite composite3;
-	private Table tableOrders;
+	private Table tableOrders,tableOrderDetails;
 
 	private TableColumn tableStart_ColumnID, tableStart_ColumnDate,
 			tableStart_ColumnQuantity;
 
+	private TableColumn tableOrderDetails_ColumnDvdBarcode, tableOrderDetails_ColumnDvdName, tableOrderDetails_ColumnID;
 	
 	StackLayout stacklayout;
 	Group[] groups;
@@ -108,7 +109,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 	 */
 	private void initGUI() {
 		try {
-			this.setSize(new org.eclipse.swt.graphics.Point(400, 300));
+			this.setSize(new org.eclipse.swt.graphics.Point(800, 600));
 			this.setBackground(SWTResourceManager.getColor(192, 192, 192));
 
 			this.setLayout(new GridLayout());
@@ -193,7 +194,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 			stacklayout = new StackLayout();
 			parent.setLayout(stacklayout);
 
-			groups = new Group[2];
+			groups = new Group[3];
 
 			{
 				groups[0] = new Group(parent, SWT.NONE);
@@ -302,7 +303,14 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 					public void widgetSelected(SelectionEvent evt) {
 						System.out.println("table1.widgetSelected, event="
 							+ evt);
+	
 						
+						
+
+
+						refreshOrderDetails(tableOrders.getItem(tableOrders.getSelectionIndex()).getText(0));
+						stacklayout.topControl = groups[2];
+						parent.layout();
 					}
 				});
 
@@ -352,9 +360,146 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 						
 					}
 				});
+
+			}
+			
+			{
 				
+				// OrderDetails
+				groups[2] = new Group(parent, SWT.NONE);
+				GridLayout gridLayout = new GridLayout();
+				gridLayout.numColumns = 2;
+				groups[2].setLayout(gridLayout);
+				
+				
+				labelSendDetailsHeader = new Label(groups[2], SWT.NONE);
+				labelSendDetailsHeader.setText("Bestellung:");
+				labelSendDetailsHeader.setFont(SWTResourceManager.getFont("Tahoma", 20, 0, false, true));
+				GridData labelLData = new GridData();
+				labelLData.grabExcessHorizontalSpace = true;
+				labelLData.horizontalAlignment = GridData.FILL;
+				labelLData.horizontalSpan = 2;
+				labelSendDetailsHeader.setLayoutData(labelLData);
+				
+				
+				
+				labelSendDetailsCustomer = new Label(groups[2], SWT.NONE);
+				labelSendDetailsCustomer.setText("Kundennummer:");
+				labelSendDetailsCustomer.setFont(SWTResourceManager.getFont("Tahoma", 15, 0, false, true));
+
+				labelSendDetailsCustomerD = new Label(groups[2], SWT.NONE);
+				labelSendDetailsCustomerD.setText("");
+				labelSendDetailsCustomerD.setFont(SWTResourceManager.getFont("Tahoma", 15, 0, false, false));
+
+				labelSendDetailsDate = new Label(groups[2], SWT.NONE);
+				labelSendDetailsDate.setText("Bestelldatum:");
+				labelSendDetailsDate.setFont(SWTResourceManager.getFont("Tahoma", 15, 0, false, true));
+
+				labelSendDetailsDateD = new Label(groups[2], SWT.NONE);
+				labelSendDetailsDateD.setText("");
+				labelSendDetailsDateD.setFont(SWTResourceManager.getFont("Tahoma", 15, 0, false, false));
+
+				
+				tableOrderDetails =  new Table(groups[2], SWT.SINGLE | SWT.FULL_SELECTION);
+				tableOrderDetails.setLinesVisible(true);
+				tableOrderDetails.setHeaderVisible(true);
+				
+				
+				tableOrderDetails.setFont(SWTResourceManager.getFont("Tahoma", 20, 0, false, false));
+				
+				GridData table1LData = new GridData();
+				table1LData.horizontalAlignment = GridData.FILL;
+				table1LData.grabExcessHorizontalSpace = true;
+				table1LData.grabExcessVerticalSpace = true;
+				table1LData.horizontalSpan = 2;
+				table1LData.verticalAlignment = GridData.FILL;
+				tableOrderDetails.setLayoutData(table1LData);
+				
+				
+				tableOrderDetails.addSelectionListener(new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent evt) {
+						System.out.println("table1.widgetSelected, event="
+							+ evt);
+						
+					}
+				});
+
+				
+				{
+                    tableOrderDetails_ColumnID = new TableColumn(
+                    		tableOrderDetails,
+                            SWT.CENTER);
+                    tableOrderDetails_ColumnID.setText("ID");
+                    tableOrderDetails_ColumnID.setWidth(50);
+				}
+				{
+					tableOrderDetails_ColumnDvdName = new TableColumn(
+                    		tableOrderDetails,
+                            SWT.CENTER);
+					tableOrderDetails_ColumnDvdName.setText("Name");
+					tableOrderDetails_ColumnDvdName.setWidth(300);
+				}
+				{
+					tableOrderDetails_ColumnDvdBarcode = new TableColumn(
+                    		tableOrderDetails,
+                            SWT.CENTER);
+					tableOrderDetails_ColumnDvdBarcode.setText("Barcode");
+					tableOrderDetails_ColumnDvdBarcode.setWidth(200);
+				}
+				
+				buttonPrintBill = new Button(groups[2], SWT.PUSH | SWT.CENTER);
+				buttonPrintBill.setFont(SWTResourceManager.getFont("Tahoma", 20, 0,
+						false, false));
+				buttonPrintBill.setText("Drucke Rechnung");
+				GridData button5LData = new GridData();
+				button5LData.widthHint = 273;
+				button5LData.heightHint = 50;
+				button5LData.horizontalAlignment = GridData.CENTER;
+				button5LData.grabExcessHorizontalSpace = true;
+				buttonPrintBill.setLayoutData(button5LData);
+				
+				
+				buttonPrintLabel = new Button(groups[2], SWT.PUSH | SWT.CENTER);
+				buttonPrintLabel.setFont(SWTResourceManager.getFont("Tahoma", 20, 0,
+						false, false));
+				buttonPrintLabel.setText("Drucke Rechnung");
+				GridData button4LData = new GridData();
+				button4LData.widthHint = 273;
+				button4LData.heightHint = 50;
+				button4LData.horizontalAlignment = GridData.CENTER;
+				button4LData.grabExcessHorizontalSpace = true;
+				buttonPrintLabel.setLayoutData(button4LData);
+				
+			
+			
+				//back to the mainmenue
+				buttonMainMenue = new Button(groups[2], SWT.PUSH | SWT.CENTER);
+				buttonMainMenue.setFont(SWTResourceManager.getFont("Tahoma", 20, 0,
+						false, false));
+				buttonMainMenue.setText("Hauptmenü");
+				GridData button1LData = new GridData();
+				button1LData.widthHint = 273;
+				button1LData.heightHint = 50;
+				button1LData.horizontalSpan = 2;
+				button1LData.horizontalAlignment = GridData.CENTER;
+				button1LData.grabExcessHorizontalSpace = true;
+				buttonMainMenue.setLayoutData(button1LData);
+
+				buttonMainMenue.addSelectionListener(new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent evt) {
+						System.out.println("buttonSend .widgetSelected, event="
+							+ evt);
+						
+						stacklayout.topControl = groups[0];
+						parent.layout();
+						
+					}
+				});
 				
 			}
+			
+			
+			
 			stacklayout.topControl = groups[0];
 
 			
@@ -397,6 +542,7 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 		List orders = Database.getOrder("");
 		System.out.println("List: "+orders);
 		
+		tableOrders.removeAll();
 		TableItem item;
 		for (int i = 0; i < orders.size(); i++) {
 			MovieOrder o = (MovieOrder)orders.get(i);
@@ -405,16 +551,30 @@ public class NewSWTApp extends org.eclipse.swt.widgets.Composite {
 				item = new TableItem(tableOrders, SWT.NONE);
 				String date = DateFormat.getDateInstance(DateFormat.LONG).format(((OrderItem)o.getMovieOrderItems().get(0)).getOrderTime().getTime());
 				item.setText(new String[]{o.getMovieOrderId()+"",date,o.getMovieOrderItems().size()+""  });
-			}else {
-				continue;
 			}
+					}
+	}
+
+	private void refreshOrderDetails(final String orderid){
+		
+		MovieOrder order = Database.getSingleOrder(Integer.parseInt(orderid));
+		
+		
+		labelSendDetailsCustomerD.setText(order.getCustomer().getCustomerId()+"");
+		labelSendDetailsCustomerD.redraw();
+		if (order.getMovieOrderItems().size() > 0){
+			labelSendDetailsDateD.setText(DateFormat.getDateInstance(DateFormat.LONG).format(((OrderItem)order.getMovieOrderItems().get(0)).getOrderTime().getTime()));
+			labelSendDetailsDateD.redraw();
+		}
+		tableOrderDetails.removeAll();
+		
+		TableItem item ;
+		for (int i = 0; i < order.getMovieOrderItems().size(); i++) {
+			item = new TableItem(tableOrderDetails, SWT.NONE);
 			
+			item.setText(new String[]{((OrderItem)order.getMovieOrderItems().get(i)).getOrderItemId()+"",  ((OrderItem)order.getMovieOrderItems().get(i)).getDvd().getMovie().getTitle(), ((OrderItem)order.getMovieOrderItems().get(i)).getDvd().getBarcode()});
 			
 		}
 		
-
-
-		
 	}
-	
 }
