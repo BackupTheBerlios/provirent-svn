@@ -440,7 +440,8 @@ public class CompositePayment extends AbstractComposite {
                     final SWTCalendarDialog cal = new SWTCalendarDialog(
                             getDisplay(),
                             l
-                                    .getString("Payment.groupdetail.startdatebuttonfinish"));
+                                    .getString("Payment.groupdetail.startdatebuttonfinish"),
+                                    l.getString("Payment.groupdetail.startdatedialogtitle"));
 
                     cal.addDateChangedListener(new SWTCalendarListener() {
 

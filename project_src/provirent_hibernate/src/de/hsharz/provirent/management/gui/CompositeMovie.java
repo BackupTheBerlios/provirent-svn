@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -532,7 +533,8 @@ public class CompositeMovie extends
                     //open responsible Dialog and insert text
                     final SWTCalendarDialog cal = new SWTCalendarDialog(
                             getDisplay(),
-                            l.getString("movies.groupdetail.datebuttonfinish"));
+                            l.getString("movies.groupdetail.datebuttonfinish"),
+                            l.getString("movies.groupdetail.datedialogtitle"));
 
                     cal.addDateChangedListener(new SWTCalendarListener() {
                         public void dateChanged(SWTCalendarEvent calendarEvent) {
@@ -1272,25 +1274,30 @@ public class CompositeMovie extends
                                         + evt);
                     }
 
-                    if (textMoviesTitle.getText().trim().equalsIgnoreCase("")
-                            || textMoviesDescription.getText().trim()
-                                    .equalsIgnoreCase("")
-                            || textMoviesDate.getText().trim()
-                                    .equalsIgnoreCase("")
-                            || localmovie.getDirector().size() == 0
-                            || localmovie.getActors().size() == 0
-                            || localmovie.getGenres().size() == 0
-                            || localmovie.getImages().size() == 0) {
+                    
+                    
+                    List errors = validateInput();
+
+                    if (errors.size() > 0) {
+                        StringBuffer buf = new StringBuffer();
+
+                        for (int i = 0; i < errors.size(); i++) {
+                            buf.append("- ").append(errors.get(i)).append("\n");
+                        }
 
                         showMsg(
                                 l
-                                        .getString("movies.groupdetail.savebutton.warn.noname.msg"),
+                                        .getString("movies.groupdetail.savebutton.warn.noitems.msg")
+                                        + new String(buf),
                                 l
-                                        .getString("movies.groupdetail.savebutton.warn.noname.title"),
+                                        .getString("movies.groupdetail.savebutton.warn.noitems.title"),
                                 SWT.ICON_WARNING | SWT.YES);
-
                         return;
-                    }
+
+                    }                    
+                    
+                    
+
 
                     //testen welcher mode
                     localmovie.setTitle(textMoviesTitle.getText());
@@ -1559,5 +1566,44 @@ public class CompositeMovie extends
         //Change mode to view
         mode_movie = ManagementGui.MODE_VIEW;
 
+    }
+    
+    
+    private List validateInput(){
+        List errors = new ArrayList();
+        
+
+        if( textMoviesTitle.getText().trim().equalsIgnoreCase("") ){
+            errors.add(l.getString("movies.groupdetail.savebutton.warn.notitle"));
+        }
+
+        if( textMoviesDescription.getText().trim().equalsIgnoreCase("") ){
+            errors.add(l.getString("movies.groupdetail.savebutton.warn.nodescription"));
+        }
+        
+        if( textMoviesDate.getText().trim().equalsIgnoreCase("") ){
+            errors.add( l.getString("movies.groupdetail.savebutton.warn.noreleasedate") );
+        }
+        
+        if( localmovie.getDirector().size() == 0 ){
+            errors.add( l.getString("movies.groupdetail.savebutton.warn.nodirector") );
+        }
+        
+        if( localmovie.getActors().size() == 0 ){
+            errors.add( l.getString("movies.groupdetail.savebutton.warn.noactor") );
+        }
+        
+        if( localmovie.getGenres().size() == 0 ){
+            errors.add( l.getString("movies.groupdetail.savebutton.warn.nogenres") );
+        }
+        
+        if( localmovie.getImages().size() == 0 ){
+            errors.add( l.getString("movies.groupdetail.savebutton.warn.noimages") );
+        }
+
+        
+        
+        return errors;
+        
     }
 }

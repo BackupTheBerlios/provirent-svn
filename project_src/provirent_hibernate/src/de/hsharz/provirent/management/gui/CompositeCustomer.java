@@ -527,7 +527,8 @@ public class CompositeCustomer extends AbstractComposite {
                             final SWTCalendarDialog cal = new SWTCalendarDialog(
                                     getDisplay(),
                                     l
-                                            .getString("Customer.groupdetail.birthdaybuttonfinish"));
+                                            .getString("Customer.groupdetail.birthdaybuttonfinish"),
+                                            l.getString("Customer.groupdetail.birthday.dialog.title"));
 
                             cal
                                     .addDateChangedListener(new SWTCalendarListener() {
@@ -764,7 +765,8 @@ public class CompositeCustomer extends AbstractComposite {
                             final SWTCalendarDialog cal = new SWTCalendarDialog(
                                     getDisplay(),
                                     l
-                                            .getString("Customer.groupdetail.registrationdatebuttonfinish"));
+                                            .getString("Customer.groupdetail.registrationdatebuttonfinish"),
+                                            l.getString("Customer.groupdetail.registrationdate.dialog.title"));
 
                             cal
                                     .addDateChangedListener(new SWTCalendarListener() {

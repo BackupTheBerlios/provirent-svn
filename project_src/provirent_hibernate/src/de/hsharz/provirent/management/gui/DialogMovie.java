@@ -125,6 +125,7 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
             int type) {
         super(parent, style);
         shell = parent;
+
         this.movie = movie;
         initLanguage(locale);
         this.type = type;
@@ -134,7 +135,6 @@ public class DialogMovie extends org.eclipse.swt.widgets.Dialog {
             int type, int x, int y, int width, int height) {
         super(parent, style);
         shell = parent;
-        shell.setText("Das soll ein Titel sein");
         this.movie = movie;
         initLanguage(locale);
         this.type = type;

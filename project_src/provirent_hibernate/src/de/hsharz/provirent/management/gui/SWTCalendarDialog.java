@@ -5,17 +5,17 @@ import java.util.Calendar;import java.util.Date;import org.eclipse.swt.SWT;i
 /*** This code was generated using CloudGarden's Jigloo* SWT/Swing GUI Builder, which is free for non-commercial* use. If Jigloo is being used commercially (ie, by a corporation,* company or business for any purpose whatever) then you* should purchase a license for each developer using Jigloo.* Please visit www.cloudgarden.com for details.* Use of Jigloo implies acceptance of these licensing terms.* ************************************** A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED* for this machine, so Jigloo or this code cannot be used legally* for any corporate or commercial purpose.* **************************************/public class SWTCalendarDialog {
     private Shell shell;
     private SWTCalendar swtcal;
-    private Display display;    
+    private Display display;    private String title ="";
 
-    public SWTCalendarDialog(Display display, String finishbut) {
-        this.display = display;
+    public SWTCalendarDialog(final Display display, final String finishbut, final String dialogtitle) {
+        this.display = display;        title = dialogtitle;
         shell = new Shell(display, SWT.APPLICATION_MODAL | SWT.CLOSE);        GridLayout grid = new GridLayout();        grid.numColumns = 1;        shell.setLayout(grid);
         swtcal = new SWTCalendar(shell);        Button finish = new Button(shell, SWT.PUSH                | SWT.CENTER);        finish.setText(finishbut);        GridData text1LData3 = new GridData();
         text1LData3.horizontalAlignment = GridData.FILL;        text1LData3.horizontalSpan = 1;        text1LData3.grabExcessHorizontalSpace = true;        finish.setLayoutData(text1LData3);                finish.addSelectionListener(new SelectionAdapter() {            public void widgetSelected(SelectionEvent evt) {                shell.close();                }});                        }
 
     public void open() {
         shell.pack();
-        shell.open();        shell.setText("Calender Titel");
+        shell.open();        shell.setText(title);
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch()) display.sleep();
         }
