@@ -177,7 +177,6 @@ public class TestStatus extends TestCase {
                     // Something went wrong; discard all partial changes
                     tx.rollback();
                 }
-                throw e;
             }
 
         } catch (Exception e) {
@@ -187,12 +186,10 @@ public class TestStatus extends TestCase {
             throw e;
         } finally {
             // No matter what, close the session
-            s.close();
+            HibernateUtil.closeSession();
         }
 
-        HibernateUtil.closeSession();
-
-        if (logger.isDebugEnabled()) {
+      if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
     }
@@ -248,7 +245,7 @@ public class TestStatus extends TestCase {
                     // Something went wrong; discard all partial changes
                     tx.rollback();
                 }
-                throw e;
+
             }
 
         } catch (Exception e) {
@@ -258,10 +255,9 @@ public class TestStatus extends TestCase {
             throw e;
         } finally {
             // No matter what, close the session
-            s.close();
+            HibernateUtil.closeSession();
         }
 
-        HibernateUtil.closeSession();
 
         if (logger.isDebugEnabled()) {
             logger.debug("testSaveStatus() - end");

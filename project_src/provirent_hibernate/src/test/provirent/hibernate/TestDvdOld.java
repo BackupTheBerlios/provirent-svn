@@ -282,7 +282,7 @@ public class TestDvdOld {
             throw e;
         } finally {
             // No matter what, close the session
-            s.close();
+            HibernateUtil.closeSession();
         }
 
         // Clean up after ourselves

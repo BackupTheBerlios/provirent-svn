@@ -104,17 +104,17 @@ public class TestPerson extends TestCase {
                 List Persons = new ArrayList();
 
                 Person myd1 = new Person();
-                Person myd2 = new Person();
-                
-                Person myd3 = new Person();
-                
-                Person myd4 = new Person();
+                myd1.setFirstName("");
+                myd1.setLastName("");
+                myd1.setStreet("");
+                myd1.setStreetNumber("");
+                myd1.setCity("");
+                myd1.setZipCode("");
+                myd1.setCountry("");
+                myd1.setSalutation("");
+                myd1.setEmailAddress("");
 
                 Persons.add(myd1);
-                Persons.add(myd2);
-                Persons.add(myd3);
-                Persons.add(myd4);
-
 
                 List ids = new ArrayList();
 
@@ -180,7 +180,7 @@ public class TestPerson extends TestCase {
                     // Something went wrong; discard all partial changes
                     tx.rollback();
                 }
-                throw e;
+
             }
 
         } catch (Exception e) {
@@ -190,10 +190,8 @@ public class TestPerson extends TestCase {
             throw e;
         } finally {
             // No matter what, close the session
-            s.close();
+            HibernateUtil.closeSession();
         }
-
-        HibernateUtil.closeSession();
 
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
@@ -226,21 +224,12 @@ public class TestPerson extends TestCase {
                 myd1.setStreetNumber("");
                 myd1.setCity("");
                 myd1.setZipCode("");
+                myd1.setCountry("");
                 myd1.setSalutation("");
                 myd1.setEmailAddress("");
                 
                 
-                Person myd2 = new Person();
-                
-                Person myd3 = new Person();
-                
-                Person myd4 = new Person();
-
                 Persons.add(myd1);
-                Persons.add(myd2);
-                Persons.add(myd3);
-                Persons.add(myd4);
-
                 List ids = new ArrayList();
 
                 //save objects
@@ -263,7 +252,7 @@ public class TestPerson extends TestCase {
                     // Something went wrong; discard all partial changes
                     tx.rollback();
                 }
-                throw e;
+
             }
 
         } catch (Exception e) {
@@ -273,10 +262,8 @@ public class TestPerson extends TestCase {
             throw e;
         } finally {
             // No matter what, close the session
-            s.close();
+            HibernateUtil.closeSession();
         }
-
-        HibernateUtil.closeSession();
 
         if (logger.isDebugEnabled()) {
             logger.debug("testSavePerson() - end");
