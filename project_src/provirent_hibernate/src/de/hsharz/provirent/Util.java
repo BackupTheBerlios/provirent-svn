@@ -32,24 +32,75 @@
  */
 package de.hsharz.provirent;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.util.Properties;
+
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
 /**
  * @author Philipp Schneider
- *
+ *  
  */
 public class Util {
     /**
      * Logger for this class
      */
     private static final Logger logger = Logger.getLogger(Util.class);
-    
-    static public String createHash(final String s) {
-        
+
+    private static final String MAIL_SERVER = "phil-schneider.de";
+
+    private static final String MAIL_PORT = "";
+
+    private static final String MAIL_USER = "web2_103p9";
+
+    private static final String MAIL_PASS = "jboss14";
+
+    public Util() {
+
+    }
+
+    public static void sendemail(final String toEmail, final String toName,
+            final String subject, final String plainText, final String htmlText)
+            throws MessagingException, UnsupportedEncodingException {
+
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+        MimeMessage message = new MimeMessage(session);
+
+        message.setContent(htmlText, "text/html");
+        message.setContent(plainText, "text/plain");
+        message.setSubject(subject);
+
+        Address address = new InternetAddress(
+                "provirent-test@phil-schneider.de", "Provirent test");
+        message.setFrom(address);
+        message.setReplyTo(new Address[] { address });
+
+        Address toaddress = new InternetAddress(toEmail, toName);
+        message.addRecipient(Message.RecipientType.TO, toaddress);
+
+        message.saveChanges(); // implicit with send()
+        Transport transport = session.getTransport("smtp");
+        transport.connect(MAIL_SERVER, MAIL_USER, MAIL_PASS);
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
+
+    }
+
+    public static String createHash(final String s) {
+
         try {
-            byte[] encryptbyte = MessageDigest.getInstance("SHA-1").digest(s.getBytes());
+            byte[] encryptbyte = MessageDigest.getInstance("SHA-1").digest(
+                    s.getBytes());
             StringBuffer sb = new StringBuffer();
 
             //create a StringBuffer for the hash
@@ -58,11 +109,15 @@ public class Util {
             }
 
             return new String(sb);
-            
+
         } catch (Exception ex) {
-            logger.error("Fehler beim HashCode erstellen.",ex);
+            logger.error("Fehler beim HashCode erstellen.", ex);
             return null;
         }
     }
 
+    public static void main(String[] args) {
+        Util h = new Util();
+
+    }
 }
