@@ -49,17 +49,14 @@ import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
 /**
- * This code was generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * *************************************
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED
- * for this machine, so Jigloo or this code cannot be used legally
- * for any corporate or commercial purpose.
+ * This code was generated using CloudGarden's Jigloo SWT/Swing GUI Builder,
+ * which is free for non-commercial use. If Jigloo is being used commercially
+ * (ie, by a corporation, company or business for any purpose whatever) then you
+ * should purchase a license for each developer using Jigloo. Please visit
+ * www.cloudgarden.com for details. Use of Jigloo implies acceptance of these
+ * licensing terms. ************************************* A COMMERCIAL LICENSE
+ * HAS NOT BEEN PURCHASED for this machine, so Jigloo or this code cannot be
+ * used legally for any corporate or commercial purpose.
  * *************************************
  */
 public class CompositeImage extends AbstractComposite {
@@ -75,8 +72,6 @@ public class CompositeImage extends AbstractComposite {
      */
     private static final Logger logger = Logger.getLogger(CompositeImage.class);
 
-
-
     private Label labelImagesResize;
 
     private Scale scaleResize;
@@ -91,9 +86,10 @@ public class CompositeImage extends AbstractComposite {
 
     private SashForm sashForm2;
 
-    //private Image ideaImage, scaledImage;
-    //private byte[] imagebytedata;
-    private ImageData original_imagedata;    
+    private de.hsharz.provirent.objects.Image localImage;
+
+    private ImageData original_imagedata;
+
     private ImageData scaled_imagedata;
 
     private int iy, ix = 0;
@@ -171,8 +167,9 @@ public class CompositeImage extends AbstractComposite {
 
     }
 
-    /* 
+    /*
      * Init die Sprache (properties Datei)
+     * 
      * @see de.hsharz.provirent.managment.gui.AbstractComposite#initLanguage(java.util.Locale)
      */
     public void initLanguage(Locale locale) {
@@ -183,7 +180,7 @@ public class CompositeImage extends AbstractComposite {
     }
 
     /**
-     * Auto-generated main method to display this 
+     * Auto-generated main method to display this
      * org.eclipse.swt.widgets.Composite inside a new Shell.
      */
     public static void main(String[] args) {
@@ -191,8 +188,8 @@ public class CompositeImage extends AbstractComposite {
     }
 
     /**
-     * Auto-generated method to display this 
-     * org.eclipse.swt.widgets.Composite inside a new Shell.
+     * Auto-generated method to display this org.eclipse.swt.widgets.Composite
+     * inside a new Shell.
      */
     public static void showGUI() {
         Display display = Display.getDefault();
@@ -266,7 +263,7 @@ public class CompositeImage extends AbstractComposite {
     }
 
     private void initImagesOverview() {
-        //	  Group Images Overview 
+        //	  Group Images Overview
 
         groupImagesOverview = new Group(sashForm2, SWT.NONE);
         GridLayout group1Layout = new GridLayout();
@@ -295,14 +292,15 @@ public class CompositeImage extends AbstractComposite {
 
                     int index = tableImagesOverview.getSelectionIndex();
 
-                    //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss die
+                    //es wurde ein Element aus Tabelle ausgewaehlt jetzt muss
+                    // die
                     //Detailansicht aktualisiert werden
                     refreshImagesDetail(tableImagesOverview.getItem(index)
                             .getText(0));
 
                     buttonImageDelete.setEnabled(true);
                     buttonImageEdit.setEnabled(true);
-                    
+
                     if (logger.isDebugEnabled()) {
                         logger.debug("widgetSelected(SelectionEvent) - end");
                     }
@@ -383,7 +381,7 @@ public class CompositeImage extends AbstractComposite {
             text2LData.horizontalSpan = 5;
             text2LData.grabExcessHorizontalSpace = true;
             textImagesSearch.setLayoutData(text2LData);
-        }// Search                    
+        }// Search
 
     }
 
@@ -471,7 +469,7 @@ public class CompositeImage extends AbstractComposite {
             text1LData3.horizontalSpan = 4;
             text1LData3.grabExcessHorizontalSpace = true;
             textImagesDescription.setLayoutData(text1LData3);
-        }// label and buttons for detail      
+        }// label and buttons for detail
         {
             labelImagesFile = new Label(groupImagesDetail, SWT.NONE);
             labelImagesFile.setText(l
@@ -520,7 +518,8 @@ public class CompositeImage extends AbstractComposite {
                     String selectedFile = fileDialog.open();
                     if (selectedFile != null) {
 
-                        original_imagedata = scaled_imagedata = new ImageData(selectedFile);
+                        original_imagedata = scaled_imagedata = new ImageData(
+                                selectedFile);
 
                         canvasImg.redraw();
                         textFileUrl.setText(fileDialog.getFilterPath()
@@ -533,7 +532,7 @@ public class CompositeImage extends AbstractComposite {
                                         0,
                                         fileDialog.getFileName().lastIndexOf(
                                                 ".")));
-                        //save the selected dir 
+                        //save the selected dir
                         currentDir = fileDialog.getFilterPath();
 
                         //set the resizescale enable
@@ -565,7 +564,7 @@ public class CompositeImage extends AbstractComposite {
             canvasImg.setLayoutData(canvasImgLData);
             canvasImg.addPaintListener(new PaintListener() {
                 public void paintControl(PaintEvent e) {
-                    if (scaled_imagedata != null ) {
+                    if (scaled_imagedata != null) {
                         paintImage(e);
                         //e.gc.drawImage(scaledImage, 0, 0);
                         e.gc.dispose();
@@ -624,10 +623,10 @@ public class CompositeImage extends AbstractComposite {
                     int newwidth = (int) (original_imagedata.width * scaleFaktor);
                     int newheight = (int) (original_imagedata.height * scaleFaktor);
 
-                    if(newwidth== 0){
+                    if (newwidth == 0) {
                         newwidth = 1;
                     }
-                    if (newheight == 0){
+                    if (newheight == 0) {
                         newheight = 1;
                     }
                     if (logger.isDebugEnabled()) {
@@ -635,9 +634,8 @@ public class CompositeImage extends AbstractComposite {
                                 .debug("widgetSelected(SelectionEvent) - newwidth: "
                                         + newwidth + " newheight: " + newheight);
                     }
-                    scaled_imagedata = original_imagedata.scaledTo(
-                            newwidth, newheight);
-
+                    scaled_imagedata = original_imagedata.scaledTo(newwidth,
+                            newheight);
 
                     //redraw the image
                     canvasImg.redraw();
@@ -737,7 +735,6 @@ public class CompositeImage extends AbstractComposite {
                         //reset and resize the scrollbars
                         resetScrollBars();
                         resizeScrollBars();
-                        
 
                     }
                 });
@@ -750,94 +747,7 @@ public class CompositeImage extends AbstractComposite {
                     public void widgetSelected(SelectionEvent evt) {
                         logger.debug("buttonImageDelete.widgetSelected, event="
                                 + evt);
-
-                        String msg = MessageFormat
-                                .format(
-                                        l
-                                                .getString("images.groupdetail.deletebutton.question.text"),
-                                        new Object[] { textImagesName.getText() });
-
-                        int question = showMsg(
-                                msg,
-                                l
-                                        .getString("images.groupdetail.deletebutton.question.header"),
-                                SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-                        
-                        if (question != SWT.YES) {
-                            return;
-                        }
-
-                        de.hsharz.provirent.objects.Image o = new de.hsharz.provirent.objects.Image();
-                        o.setImageId(new Integer(Integer.parseInt(textImagesID
-                                .getText())));
-                        o.setImageFileName(textImagesName.getText());
-                        o.setImageFileDescription(textImagesDescription
-                                .getText());
-
-                        /**@todo BildDatei holen */
-                        /*
-                         try {
-                         //object speichern
-                         // Fehlerbehandlung
-                         Database.deleteObject(o);
-
-                         //ÜbersichtsTabelle aktualisieren
-                         refreshImageOverviewTable(textImageSearch
-                         .getText());
-
-                         //Detailansicht leeren
-                         textImageID.setText("");
-                         textImageFName.setText("");
-                         textImageLName.setText("");
-
-                         //in Tabelle nächsten auswählen
-                         try {
-                         tableImageOverview.select(0);
-                         } catch (Exception ex) {
-                         }
-
-                         //Statusline Nachricht sezten
-                         statusLine
-                         .setStatus(
-                         1,
-                         l
-                         .getString("images.groupdetail.deletebutton.newok"));
-
-                         } catch (DataBaseException e) {
-                         if (e.getMessage().equalsIgnoreCase("1")) {
-                         //Fehler beim Speichern des Objectes
-
-                         statusLine
-                         .setStatus(
-                         3,
-                         l
-                         .getString("images.groupdetail.deletebutton.errorsave"));
-                         showMsg(
-                         l
-                         .getString("images.groupdetail.deletebutton.errorsave"),
-                         l.getString("error"),
-                         SWT.ICON_ERROR | SWT.OK);
-
-                         } else if (e.getMessage().equalsIgnoreCase("2")) {
-                         //fehler beim db aufbau
-                         statusLine
-                         .setStatus(
-                         3,
-                         l
-                         .getString("images.groupdetail.deletebutton.errordb"));
-                         showMsg(
-                         l
-                         .getString("images.groupdetail.deletebutton.errordb"),
-                         l.getString("error"),
-                         SWT.ICON_ERROR | SWT.OK);
-
-                         } else {
-                         //@todo
-                         e.printStackTrace();
-                         }
-
-                         }
-                         */
+                        deleteImage();
 
                     }
                 });
@@ -892,9 +802,10 @@ public class CompositeImage extends AbstractComposite {
                         if (mode_image == ManagementGui.MODE_ADD) {
 
                             /**
-                             * @todo eine Exception bekommen wieder leider NOCH nicht mit
-                             * d.h. es muss noch ein rückgabewert kommen oder eine Exception 
-                             * übermitteln werden (aus der DB Klasse)
+                             * @todo eine Exception bekommen wieder leider NOCH
+                             *       nicht mit d.h. es muss noch ein
+                             *       rückgabewert kommen oder eine Exception
+                             *       übermitteln werden (aus der DB Klasse)
                              */
                             //neues Objekt erzeugen
                             de.hsharz.provirent.objects.Image tmp = new de.hsharz.provirent.objects.Image();
@@ -915,8 +826,7 @@ public class CompositeImage extends AbstractComposite {
                                         + SWT.IMAGE_JPEG);
                             }
 
-                            imageLoader.save(bos,
-                                    scaled_imagedata.type);
+                            imageLoader.save(bos, scaled_imagedata.type);
 
                             tmp.setImageFile(bos.toByteArray());
 
@@ -988,18 +898,24 @@ public class CompositeImage extends AbstractComposite {
                             //setImagesGroupButtonSaveCancel();
 
                         } else if (mode_image == ManagementGui.MODE_EDIT) {
-                            /*
-                             Actor tmp = new Actor(
-                             textImageFName.getText(),
-                             textImageLName.getText());
-                             tmp.setActorId(new Integer(Integer
-                             .parseInt(textImageID.getText())));
+                            
+
+                             localImage.setImageFileName(textImagesName.getText());
+                             localImage.setImageId(new Integer(Integer.parseInt(textImagesID.getText())));
+                             localImage.setImageFileDescription(textImagesDescription.getText());
+                             
+                             ImageLoader imageLoader = new ImageLoader();
+                             imageLoader.data = new ImageData[] { scaled_imagedata };
+                             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                             localImage.setImageFile( bos.toByteArray() );
+                             
+                             
                              try {
                              //object speichern
                              // Fehlerbehandlung
-                             Database.saveObject(tmp);
+                             Database.saveObject(localImage);
                              //Übersichtstabelle aktualisieren
-                             refreshImageOverviewTable(textImageSearch
+                             refreshImageOverviewTable(textImagesSearch
                              .getText());
 
                              //Statusline Nachricht sezten
@@ -1045,16 +961,9 @@ public class CompositeImage extends AbstractComposite {
 
                              }
 
-                             //alle Buttons auf aktiv setzen
-                             setImageGroupButtonSaveCancel();
-
                              }
-                             */
-                            /**
-                             * @todo Exception werfen, da nur die zwei Modes sein dürfen
-                             */
                         }
-                    }
+                    
                 });
             }
             {
@@ -1067,10 +976,10 @@ public class CompositeImage extends AbstractComposite {
 
                         tableImagesOverview.setEnabled(true);
                         textImagesSearch.setEnabled(true);
-                        
+
                         textImagesDescription.setEnabled(false);
                         textImagesName.setEnabled(false);
-                        
+
                         buttonImageCancel.setEnabled(false);
                         buttonImageDelete.setEnabled(false);
                         buttonImageEdit.setEnabled(false);
@@ -1078,8 +987,7 @@ public class CompositeImage extends AbstractComposite {
                         buttonImageSave.setEnabled(false);
                         buttonImageNew.setEnabled(true);
                         scaleResize.setEnabled(false);
-                        
-                        
+
                     }
                 });
             }
@@ -1088,7 +996,79 @@ public class CompositeImage extends AbstractComposite {
         // buttons for detail
     }
 
-    void resizeScrollBars() {
+    private void deleteImage() {
+
+        String msg = MessageFormat.format(l
+                .getString("images.groupdetail.deletebutton.question.text"),
+                new Object[] { textImagesName.getText() });
+
+        int question = showMsg(msg, l
+                .getString("images.groupdetail.deletebutton.question.header"),
+                SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+
+        if (question != SWT.YES) {
+            return;
+        }
+
+        try {
+            //object speichern
+            // Fehlerbehandlung
+            Database.deleteObject(localImage);
+
+            //ÜbersichtsTabelle aktualisieren
+            refreshImageOverviewTable("");
+
+            //Detailansicht leeren
+            textImagesID.setText("");
+            textImagesName.setText("");
+            textImagesDescription.setText("");
+            
+            localImage= null;
+            scaled_imagedata = null;
+            original_imagedata = null;
+            
+
+            //in Tabelle nächsten auswählen
+            try {
+                tableImagesOverview.setSelection(0);
+            } catch (Exception ex) {
+            }
+
+            //Statusline Nachricht sezten
+            statusLine.setStatus(1, l
+                    .getString("images.groupdetail.deletebutton.newok"));
+
+        } catch (DataBaseException e) {
+            if (e.getMessage().equalsIgnoreCase("1")) {
+                //Fehler beim Speichern des Objectes
+
+                statusLine
+                        .setStatus(
+                                3,
+                                l
+                                        .getString("images.groupdetail.deletebutton.errorsave"));
+                showMsg(
+                        l
+                                .getString("images.groupdetail.deletebutton.errorsave"),
+                        l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+
+            } else if (e.getMessage().equalsIgnoreCase("2")) {
+                //fehler beim db aufbau
+                statusLine.setStatus(3, l
+                        .getString("images.groupdetail.deletebutton.errordb"));
+                showMsg(l.getString("images.groupdetail.deletebutton.errordb"),
+                        l.getString("error"), SWT.ICON_ERROR | SWT.OK);
+
+            } else {
+                //@todo
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    private void resizeScrollBars() {
         // Set the max and thumb for the image canvas scroll bars.
         ScrollBar horizontal = canvasImg.getHorizontalBar();
         ScrollBar vertical = canvasImg.getVerticalBar();
@@ -1121,7 +1101,7 @@ public class CompositeImage extends AbstractComposite {
         }
     }
 
-    void scrollHorizontally(ScrollBar scrollBar) {
+    private void scrollHorizontally(ScrollBar scrollBar) {
         if (scaled_imagedata == null)
             return;
         Rectangle canvasBounds = canvasImg.getClientArea();
@@ -1140,7 +1120,7 @@ public class CompositeImage extends AbstractComposite {
         }
     }
 
-    void scrollVertically(ScrollBar scrollBar) {
+    private void scrollVertically(ScrollBar scrollBar) {
         if (scaled_imagedata == null)
             return;
         Rectangle canvasBounds = canvasImg.getClientArea();
@@ -1159,7 +1139,7 @@ public class CompositeImage extends AbstractComposite {
     }
 
     // Reset the scroll bars to 0.
-    void resetScrollBars() {
+    private void resetScrollBars() {
         ix = 0;
         iy = 0;
         resizeScrollBars();
@@ -1168,14 +1148,13 @@ public class CompositeImage extends AbstractComposite {
 
     }
 
-    void paintImage(PaintEvent event) {
-        Image paintImage = new Image(getDisplay(),scaled_imagedata);
+    private void paintImage(PaintEvent event) {
+        Image paintImage = new Image(getDisplay(), scaled_imagedata);
 
         int w = Math.round(scaled_imagedata.width);
         int h = Math.round(scaled_imagedata.height);
         event.gc.drawImage(paintImage, 0, 0, scaled_imagedata.width,
-                scaled_imagedata.height, ix
-                        + scaled_imagedata.x, iy
+                scaled_imagedata.height, ix + scaled_imagedata.x, iy
                         + scaled_imagedata.y, w, h);
         event.gc.dispose();
     }
@@ -1204,7 +1183,7 @@ public class CompositeImage extends AbstractComposite {
             //id ist keine Zahl
             return;
         }
-
+        localImage = object;
         textImagesID.setText(object.getImageId() + "");
         textImagesName.setText(object.getImageFileName());
         textImagesDescription.setText(object.getImageFileDescription());
@@ -1217,7 +1196,8 @@ public class CompositeImage extends AbstractComposite {
                 logger
                         .debug("refreshImagesDetail(String) - Versuche zu zeichnen");
             }
-            scaled_imagedata = original_imagedata = new ImageData(new ByteArrayInputStream(object.getImageFile()));
+            scaled_imagedata = original_imagedata = new ImageData(
+                    new ByteArrayInputStream(object.getImageFile()));
             canvasImg.redraw();
         } else {
             statusLine.setStatus(StatusLineStyledText.STATUS_WARN,
@@ -1235,7 +1215,7 @@ public class CompositeImage extends AbstractComposite {
     }
 
     /**
-     * 
+     *  
      */
 
     protected void insertIntoImagesOverviewTable(
@@ -1284,9 +1264,9 @@ public class CompositeImage extends AbstractComposite {
 
         int maxheight = 75;
         int maxwidth = 75;
-        
+
         final ImageData imgdata = new ImageData(new ByteArrayInputStream(data));
-        
+
         final int width = imgdata.width;
         final int height = imgdata.height;
         float scalefactor = 1;
@@ -1301,9 +1281,8 @@ public class CompositeImage extends AbstractComposite {
 
         }
 
-        return new Image(getDisplay(), imgdata
-                .scaledTo((int) (width * scalefactor),
-                        (int) (height * scalefactor)));
+        return new Image(getDisplay(), imgdata.scaledTo(
+                (int) (width * scalefactor), (int) (height * scalefactor)));
 
     }
 }

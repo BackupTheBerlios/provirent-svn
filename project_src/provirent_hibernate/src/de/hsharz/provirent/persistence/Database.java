@@ -227,6 +227,74 @@ public class Database {
         return o;
     }
     
+    public static void deleteObjectWithId(final Class deleteclass, final Integer id) throws DataBaseException{
+        if (logger.isDebugEnabled()) {
+            logger.debug("deleteObjectWithId(Class = " + deleteclass.getName()+" Id: "+id+ ") - start");
+        }
+        int exception =0;
+        
+        Session s = null;
+        Transaction tx = null;
+  
+            try {
+                //get new Session and begin Transaction
+                s = HibernateUtil.currentSession();
+                tx = s.beginTransaction();
+                
+                try{
+                    s.delete("");
+                
+                } catch (HibernateException e) {
+                    logger.error("deleteObjectWithId(). Fehler beim Speichern/Updaten "
+                            + "des Objectes:" + deleteclass.getName() + " ID: "+id+" Exception: " + e);
+                    exception = 1;
+                }
+               
+                
+
+                //s.flush();
+                
+                tx.commit();
+                
+                
+            } catch (HibernateException e) {
+                exception = 2;
+                logger.error("Message "+  e.getMessages().toString()); 
+                logger
+                        .error(
+                                "deleteObjectWithId(Object) - Something went wrong here; discard all partial changes",
+                                e);
+                if (tx != null) {
+                    try {
+                        // Something went wrong; discard all partial changes
+                        tx.rollback();
+                    } catch (HibernateException e1) {
+                        e1.printStackTrace();
+                    }
+                }    
+
+            } finally {
+                try {
+                    // No matter what, close the session
+                    HibernateUtil.closeSession();
+                } catch (HibernateException e1) {
+                    
+                    logger
+                            .error(
+                                    "deleteObjectWithId(Object) - Could not Close the Session",
+                                    e1);
+                    
+                }
+            }
+
+            if (exception > 0) {
+                throw new DataBaseException("exception");
+            }
+            
+        if (logger.isDebugEnabled()) {
+            logger.debug("deleteObjectWithId(Object) - end");
+        }
+    }
   
     
     public static void deleteObject(Object o) throws DataBaseException{
@@ -247,7 +315,7 @@ public class Database {
                     s.delete(o);
                 
                 } catch (HibernateException e) {
-                    logger.error("saveObject(). Fehler beim Speichern/Updaten "
+                    logger.error("deleteObject(). Fehler beim Speichern/Updaten "
                             + "des Objectes:" + o + " Exception: " + e);
                     exception = 1;
                 }
@@ -1539,7 +1607,7 @@ public class Database {
 	 * This method gets all Movies from the database.
 	 * searches for ID,Title,Date,Description,Actor,Director...
 	 * @param filter 
-	 * @return List of Payment objects, or an empty List
+	 * @return List of Movie objects, or an empty List
 	 */
 	public static List getMovie(final String filter){
 	    if (logger.isDebugEnabled()) {
@@ -1559,14 +1627,6 @@ public class Database {
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
 	          
-	            /*
-	            any.add(Expression.sql("Select * from PAYMENT where name like '" + 
-	                    		name + 
-	                    		"' and startdate = (select startdate from PAYMENT where name like '" + 
-	                    		name +
-	                    						   "')"));
-	            
-	            */
 	
 	            //if filter not empty
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
