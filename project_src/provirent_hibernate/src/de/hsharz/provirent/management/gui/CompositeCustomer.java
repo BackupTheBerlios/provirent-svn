@@ -1566,7 +1566,7 @@ public class CompositeCustomer extends AbstractComposite{
 	        textQuestion.setText(temp == null ? "" : temp);
 	        temp = object.getHiddenAnswer();
 	        textAnswer.setText(temp == null ? "" : temp);
-	        
+
 
             if (object.getPerson().getDayOfBirth() == null) {
                 textBirthday.setText("");
