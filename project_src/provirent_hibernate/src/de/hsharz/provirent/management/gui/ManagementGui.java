@@ -109,6 +109,7 @@ public class ManagementGui {
     private CTabItem tabItemPayment;
     private CTabItem tabItemActor;
     private CTabItem tabItemDirector;
+    private CTabItem tabItemOrder;
     private CTabItem tabItemLanguage;
     private CTabItem tabItemCustomer;
     private CTabItem tabItemGenre;
@@ -121,6 +122,7 @@ public class ManagementGui {
     private CompositeActors compositeActor;
     private CompositeDirectors compositeDirector;
     private CompositeGenre compositeGenre;
+    private CompositeOrder compositeOrder;
     private CompositeLanguage compositeLanguage;
     private CompositeImage compositeImage;
     private CompositeMovie compositeMovie;
@@ -143,6 +145,7 @@ public class ManagementGui {
     private MenuItem viewDirectorMenuItem;
     private MenuItem viewVideoFormatMenuItem;
     private MenuItem viewActorMenuItem;
+    private MenuItem viewOrderMenuItem;
     private MenuItem viewCustomerMenuItem;
     private MenuItem viewGenreMenuItem;
     private MenuItem viewLanguageMenuItem;
@@ -462,6 +465,23 @@ public class ManagementGui {
             }
         });
         
+        viewOrderMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewOrderMenuItem.setText(l.getString("menu.view.order"));
+        viewOrderMenuItem.setSelection(false);
+        viewOrderMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemOrder == null || tabItemOrder.isDisposed()){
+				    initOrderTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemOrder);
+				viewOrderMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();				
+            
+            }
+        });
+        
         viewGenreMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewGenreMenuItem.setText(l.getString("menu.view.genre"));
         viewGenreMenuItem.setSelection(false);
@@ -694,6 +714,28 @@ public class ManagementGui {
         
     }
     
+    private void initOrderTab() {
+        tabItemOrder = new CTabItem(cTabFolderMain, SWT.NONE);        
+        tabItemOrder.setText(l.getString("tab.Order.title"));
+        tabItemOrder.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+
+                if (!viewOrderMenuItem.isDisposed()){
+                    viewOrderMenuItem.setSelection(false);
+                }
+            }
+        });
+
+        {
+            compositeOrder = new CompositeOrder(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemOrder.setControl(compositeOrder);
+        }
+        cTabFolderMain.setSelection(tabItemOrder);
+        
+    }    
     
     private void initDirectorTab() {
         tabItemDirector = new CTabItem(cTabFolderMain, SWT.NONE);
