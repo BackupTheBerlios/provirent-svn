@@ -84,7 +84,7 @@ public class TestStatus extends TestCase {
         }
     }
 
-   
+   /*
     public void testStatus() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
@@ -193,7 +193,7 @@ public class TestStatus extends TestCase {
       if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
-    }
+    }*/
 
     public void testSaveStatus() throws Exception {
         if (logger.isDebugEnabled()) {

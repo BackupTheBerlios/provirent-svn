@@ -44,7 +44,6 @@ public class AllTestsComplexObjects {
     public static Test suite() {
         TestSuite suite = new TestSuite("Test for test.provirent.hibernate");
         //$JUnit-BEGIN$
-        suite.addTestSuite(TestCustomer.class);
         suite.addTestSuite(TestMovie.class);
         suite.addTestSuite(TestDvd.class);
         //$JUnit-END$

@@ -146,24 +146,10 @@ public class TestPayment extends TestCase {
                 logger.debug("Test    Test");
                 logger.debug("Cat"+categorys.size());
                 logger.debug("pay"+payments.size());
-                
-                RandomRange randomRange;
 
-                for (int i = 0; i < payments.size(); i++) {
-
-                     
-                    
-                    randomRange = new RandomRange(0, (categorys.size() - 1));
-
-                    logger.debug(i + " Randomnum:"
-                            + randomRange.getNumbers(1).get(0));
-                    
-                    PaymentCategory prop = (PaymentCategory) categorys
-                            .get(((Integer) randomRange.getNumbers(
-                                    1 ).get(0)).intValue());
-
+                for (int i = 0; i < payments.size(); i++) {                    
+                    PaymentCategory prop = (PaymentCategory) categorys.get(i % 5);
                     ((Payment) payments.get(i)).setPaymentCategory(prop);
-
                 }
 
                 //save objects

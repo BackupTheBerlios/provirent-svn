@@ -117,6 +117,28 @@ public class CompositeOrder extends AbstractComposite {
     private Group groupOrderDetail;
 
     private MovieOrder localCustomer;
+
+    private SashForm sashFormOrderDetail;
+
+    private Group groupOrderDetails;
+
+    private Group groupOrderItemDetails;
+
+    private Label labelOrderId;
+
+    private Label labelOrderCustomerName;
+
+    private Text textOrderId;
+
+    private Text textOrderCustomerName;
+
+    private Label labelOrderCustomerLastName;
+
+    private Text textOrderCustomerLastName;
+
+    private Label labelOrderCustomerFirstName;
+
+    private Text textOrderCustomerFirstName;
     
     /**
      * @param p
@@ -204,9 +226,9 @@ public class CompositeOrder extends AbstractComposite {
             item = new TableItem(tableOrder, SWT.NONE);
                         
             item.setText(new String[] { o.getMovieOrderId() + "",
-                    o.getCustomer().getUserName(), o.getCustomer().getPerson().getLastName(),
-                    o.getCustomer().getPerson().getFirstName()});
-
+                    					o.getCustomer() == null ? "" : o.getCustomer().getUserName(), 
+                    					o.getCustomer() == null ? "" : o.getCustomer().getPerson().getLastName(),
+                    					o.getCustomer() == null ? "" : o.getCustomer().getPerson().getFirstName()});
         }
     }
     
@@ -256,7 +278,7 @@ public class CompositeOrder extends AbstractComposite {
 	            String orderdate = "";
 	            if (o.getOrderTime() != null) {
 	                orderdate = DateFormat.getDateInstance(DateFormat.SHORT).format(
-	                    o.getOrderTime());
+	                    o.getOrderTime().getTime());
 	            }
 	           
 	            String senddate = "";
@@ -276,10 +298,10 @@ public class CompositeOrder extends AbstractComposite {
 	                    orderdate, 
 	                    senddate, 
 	                    receivingdate,
-	                    o.getPayment().getPaymentCategory().getName(),
+	                    o.getPayment() == null ? "" : o.getPayment().getPaymentCategory().getName(),
 	                    Integer.toString(o.getDuration()),
-	                    o.getConditionSend().getConditionName(),
-	                    o.getConditionReceiving().getConditionName()});
+	                    o.getConditionSend() == null ? "" : o.getConditionSend().getConditionName(),
+	                    o.getConditionReceiving() == null ? "" : o.getConditionReceiving().getConditionName()});
 	
 	        }
         }
@@ -356,6 +378,134 @@ public class CompositeOrder extends AbstractComposite {
         formData.top = new FormAttachment(0, 100, 5);
         formData.bottom = new FormAttachment(100, 100, -5);
         groupOrderDetail.setLayoutData(formData);
+        {
+            sashFormOrderDetail = new SashForm(groupOrderDetail, SWT.VERTICAL | SWT.V_SCROLL);
+            GridData sashForm2LData = new GridData();
+            sashForm2LData.verticalAlignment = GridData.FILL;
+            sashForm2LData.horizontalAlignment = GridData.FILL;
+            sashForm2LData.grabExcessHorizontalSpace = true;
+            sashForm2LData.grabExcessVerticalSpace = true;
+            sashFormOrderDetail.setLayoutData(sashForm2LData);
+
+        }
+        initOrderDetails();
+        
+        initOrderItemDetails();
+    }
+
+    /**
+     * 
+     */
+    private void initOrderItemDetails() {
+        groupOrderItemDetails = new Group(sashFormOrderDetail, SWT.NONE);
+        GridLayout groupOrderDetailLayout = new GridLayout();
+        groupOrderDetailLayout.marginHeight = 25;
+        groupOrderDetailLayout.numColumns = 4;
+        groupOrderDetailLayout.verticalSpacing = 15;
+        groupOrderItemDetails.setText(l.getString("Order.groupdetail.orderitems.label"));
+        FormData formData = new FormData();
+        groupOrderItemDetails.setLayout(groupOrderDetailLayout);
+        groupOrderItemDetails.setLayoutData(formData);
+    }
+
+    /**
+     * 
+     */
+    private void initOrderDetails() {
+        groupOrderDetails = new Group(sashFormOrderDetail, SWT.NONE);
+        GridLayout groupOrderDetailLayout = new GridLayout();
+        groupOrderDetailLayout.marginHeight = 25;
+        groupOrderDetailLayout.numColumns = 4;
+        groupOrderDetailLayout.verticalSpacing = 15;
+        groupOrderDetails.setText(l.getString("Order.groupdetail.order.label"));
+        FormData formData = new FormData();
+        groupOrderDetails.setLayout(groupOrderDetailLayout);
+        groupOrderDetails.setLayoutData(formData);
+        {
+            labelOrderId = new Label(groupOrderDetails, SWT.NONE);
+            labelOrderId.setText(l
+                    .getString("order.groupdetail.order.idlabel")
+                    + ":");
+            labelOrderId.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.widthHint = 125;
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 2;
+            labelOrderId.setLayoutData(formData2);
+        }
+        {
+            textOrderId = new Text(groupOrderDetails, SWT.READ_ONLY
+                    | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 2;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderId.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderCustomerName = new Label(groupOrderDetails, SWT.NONE);
+            labelOrderCustomerName.setText(l
+                    .getString("order.groupdetail.order.customernamelabel")
+                    + ":");
+            labelOrderCustomerName.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.widthHint = 125;
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 2;
+            labelOrderCustomerName.setLayoutData(formData2);
+        }
+        {
+            textOrderCustomerName = new Text(groupOrderDetails, SWT.READ_ONLY | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 2;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderCustomerName.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderCustomerLastName = new Label(groupOrderDetails, SWT.NONE);
+            labelOrderCustomerLastName.setText(l
+                    .getString("order.groupdetail.order.customerlastnamelabel")
+                    + ":");
+            labelOrderCustomerLastName.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.widthHint = 125;
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 2;
+            labelOrderCustomerLastName.setLayoutData(formData2);
+        }
+        {
+            textOrderCustomerLastName = new Text(groupOrderDetails, SWT.READ_ONLY | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 2;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderCustomerLastName.setLayoutData(text1LData1);
+        }
+        {
+            labelOrderCustomerFirstName = new Label(groupOrderDetails, SWT.NONE);
+            labelOrderCustomerFirstName.setText(l
+                    .getString("order.groupdetail.order.customerfirstnamelabel")
+                    + ":");
+            labelOrderCustomerFirstName.setSize(125, 15);
+            GridData formData2 = new GridData();
+            formData2.widthHint = 125;
+            formData2.heightHint = 15;
+            formData2.horizontalSpan = 2;
+            labelOrderCustomerFirstName.setLayoutData(formData2);
+        }
+        {
+            textOrderCustomerFirstName = new Text(groupOrderDetails, SWT.READ_ONLY | SWT.BORDER);
+            GridData text1LData1 = new GridData();
+            text1LData1.horizontalAlignment = GridData.FILL;
+            text1LData1.heightHint = 13;
+            text1LData1.horizontalSpan = 2;
+            text1LData1.grabExcessHorizontalSpace = true;
+            textOrderCustomerFirstName.setLayoutData(text1LData1);
+        }
     }
 
     /**

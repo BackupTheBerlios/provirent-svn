@@ -109,7 +109,7 @@ public class TestMovieOrder extends TestCase {
                     dvds.size() > 0);          
             
             //for each movie 
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 2; i++) {
 
                 Customer customer = (Customer) customers.get(i);
 
@@ -120,14 +120,14 @@ public class TestMovieOrder extends TestCase {
                 List orderItems = new ArrayList();
 
                 
-                for (int j = 0; j < 1; j++) {
+                for (int j = 0; j < 3; j++) {
 
                     OrderItem orderItem = new OrderItem();
                     orderItem.setCustomer(customer);
                     orderItem.setDuration(2);
 
                     
-                    Dvd dvd = (Dvd)dvds.get(0);
+                    Dvd dvd = (Dvd)dvds.get(j % dvds.size());
                     orderItem.setDvd(dvd);
                     
                     orderItem.setOrderTime(Calendar.getInstance());
@@ -171,7 +171,9 @@ public class TestMovieOrder extends TestCase {
 
                 //save the movieOrder
                 logger.debug("MovieOrder: "+movieOrder);
-                //s.save(movieOrder);
+                s.save(movieOrder);
+                s.flush();
+                tx.commit();
             }
         } catch (HibernateException e) {
             // TODO Auto-generated catch block

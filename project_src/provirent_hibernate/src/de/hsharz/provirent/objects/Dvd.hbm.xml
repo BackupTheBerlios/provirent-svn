@@ -17,7 +17,9 @@
       <id name="dvdId" type="int" column="DVDID">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
-        <generator class="native"/>
+        <generator class="sequence">
+					<param name="sequence">dvd_id_sequence</param>
+		</generator>
       </id>
  
  
