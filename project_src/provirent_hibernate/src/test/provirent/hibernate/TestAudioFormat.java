@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
+import net.sf.hibernate.AssertionFailure;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
 
@@ -202,7 +203,6 @@ public class TestAudioFormat extends TestCase {
         //get new Session and begin Transaction
         Session s = HibernateUtil.currentSession();
         Transaction tx = null;
-        try {
             tx = s.beginTransaction();
 
             try {
@@ -235,24 +235,7 @@ public class TestAudioFormat extends TestCase {
 
                 tx.commit();
 
-            } catch (Exception e) {
-                if (tx != null) {
-                    logger
-                            .error(
-                                    "testSaveAudioFormat() - Something went wrong here; discard all partial changes",
-                                    e);
 
-                    // Something went wrong; discard all partial changes
-                    tx.rollback();
-                }
-
-            }
-
-        } catch (Exception e) {
-            logger.error(
-                    "testSaveAudioFormat() - Error while trying to beginTransaction",
-                    e);
-            throw e;
         } finally {
             // No matter what, close the session
             HibernateUtil.closeSession();

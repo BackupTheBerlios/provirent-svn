@@ -43,22 +43,10 @@ public class Movie implements Serializable {
     private List director;
 
     /** persistent field */
-    private List languages;
-
-    /** persistent field */
-    private List subtitles;
-
-    /** persistent field */
     private List genres;
 
-    /** persistent field */
-    private List audioFormats;
-
-    /** persistent field */
-    private List videoFormats;
-
     /** full constructor */
-    public Movie(String title, String description, int runtime, Calendar releaseDate, de.hsharz.provirent.objects.Image mainImage, List images, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
+    public Movie(String title, String description, int runtime, Calendar releaseDate, de.hsharz.provirent.objects.Image mainImage, List images, List actors, List director, List genres) {
         this.title = title;
         this.description = description;
         this.runtime = runtime;
@@ -67,11 +55,7 @@ public class Movie implements Serializable {
         this.images = images;
         this.actors = actors;
         this.director = director;
-        this.languages = languages;
-        this.subtitles = subtitles;
         this.genres = genres;
-        this.audioFormats = audioFormats;
-        this.videoFormats = videoFormats;
     }
 
     /** default constructor */
@@ -79,17 +63,13 @@ public class Movie implements Serializable {
     }
 
     /** minimal constructor */
-    public Movie(String title, String description, List images, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
+    public Movie(String title, String description, List images, List actors, List director, List genres) {
         this.title = title;
         this.description = description;
         this.images = images;
         this.actors = actors;
         this.director = director;
-        this.languages = languages;
-        this.subtitles = subtitles;
         this.genres = genres;
-        this.audioFormats = audioFormats;
-        this.videoFormats = videoFormats;
     }
 
     public Integer getMovieId() {
@@ -170,44 +150,12 @@ public class Movie implements Serializable {
         this.director = director;
     }
 
-    public List getLanguages() {
-        return this.languages;
-    }
-
-    public void setLanguages(List languages) {
-        this.languages = languages;
-    }
-
-    public List getSubtitles() {
-        return this.subtitles;
-    }
-
-    public void setSubtitles(List subtitles) {
-        this.subtitles = subtitles;
-    }
-
     public List getGenres() {
         return this.genres;
     }
 
     public void setGenres(List genres) {
         this.genres = genres;
-    }
-
-    public List getAudioFormats() {
-        return this.audioFormats;
-    }
-
-    public void setAudioFormats(List audioFormats) {
-        this.audioFormats = audioFormats;
-    }
-
-    public List getVideoFormats() {
-        return this.videoFormats;
-    }
-
-    public void setVideoFormats(List videoFormats) {
-        this.videoFormats = videoFormats;
     }
 
     public String toString() {
@@ -221,11 +169,7 @@ public class Movie implements Serializable {
             .append("images", getImages())
             .append("actors", getActors())
             .append("director", getDirector())
-            .append("languages", getLanguages())
-            .append("subtitles", getSubtitles())
             .append("genres", getGenres())
-            .append("audioFormats", getAudioFormats())
-            .append("videoFormats", getVideoFormats())
             .toString();
     }
 
@@ -243,11 +187,7 @@ public class Movie implements Serializable {
             .append(this.getImages(), castOther.getImages())
             .append(this.getActors(), castOther.getActors())
             .append(this.getDirector(), castOther.getDirector())
-            .append(this.getLanguages(), castOther.getLanguages())
-            .append(this.getSubtitles(), castOther.getSubtitles())
             .append(this.getGenres(), castOther.getGenres())
-            .append(this.getAudioFormats(), castOther.getAudioFormats())
-            .append(this.getVideoFormats(), castOther.getVideoFormats())
             .isEquals();
     }
 
@@ -262,11 +202,7 @@ public class Movie implements Serializable {
             .append(getImages())
             .append(getActors())
             .append(getDirector())
-            .append(getLanguages())
-            .append(getSubtitles())
             .append(getGenres())
-            .append(getAudioFormats())
-            .append(getVideoFormats())
             .toHashCode();
     }
 

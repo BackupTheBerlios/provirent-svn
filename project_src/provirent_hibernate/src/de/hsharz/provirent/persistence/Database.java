@@ -1451,13 +1451,15 @@ public class Database {
 	            Criteria criteria = s.createCriteria(Payment.class);
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
+	          
+	            /*
 	            any.add(Expression.sql("Select * from PAYMENT where name like '" + 
 	                    		name + 
 	                    		"' and startdate = (select startdate from PAYMENT where name like '" + 
 	                    		name +
 	                    						   "')"));
 	            
-	            
+	            */
 	
 	            //if filter not empty
 	            if (filter != null && !filter.equalsIgnoreCase("")) {

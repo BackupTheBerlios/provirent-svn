@@ -30,6 +30,44 @@
 						<meta attribute="use-in-tostring">true</meta>
 				</many-to-one>
   
+  
+   			<list	name="languages"
+ 						table="MOVIELANGUAGES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Language" column="LANGUAGEID" />			
+ 			</list> 			
+
+ 			<list	name="subtitles"
+ 						table="DVDSUBTITLES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="DVDID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Subtitle" column="SUBTITLEID" />			
+ 			</list> 
+			
+ 			<list	name="audioFormats"
+ 						table="DVDAUDIOFORMATES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="DVDID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.AudioFormat" column="AUDIOFORMATID" />			
+ 			</list>  
+
+ 			<list	name="videoFormats"
+ 						table="DVDVIDEOFORMATES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="DVDID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.VideoFormat" column="VIDEOFORMATID" />			
+ 			</list> 			
+  
+  
   	<many-to-one name="condition" class="de.hsharz.provirent.objects.Condition" column="CONDITION"/>
   	
   	<many-to-one name="status" class="de.hsharz.provirent.objects.Status" column="STATUS"/>

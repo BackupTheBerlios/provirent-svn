@@ -941,13 +941,9 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
 
                 movie = new Movie();
                 movie.setActors(new ArrayList());
-                movie.setAudioFormats(new ArrayList());
                 movie.setDirector(new ArrayList());
                 movie.setGenres(new ArrayList());
                 movie.setImages(new ArrayList());
-                movie.setLanguages(new ArrayList());
-                movie.setSubtitles(new ArrayList());
-                movie.setVideoFormats(new ArrayList());
             }
         });
 

@@ -78,23 +78,7 @@
 				<many-to-many class="de.hsharz.provirent.objects.Director" column="DIRECTORID" />			
  			</list> 			
 
- 			<list	name="languages"
- 						table="MOVIELANGUAGES"
- 						 >
-				<meta attribute="use-in-tostring">true</meta>
-				<key column="MOVIEID"/>
-				<index column="POS"/>
-				<many-to-many class="de.hsharz.provirent.objects.Language" column="LANGUAGEID" />			
- 			</list> 			
-
- 			<list	name="subtitles"
- 						table="MOVIESUBTITLES"
- 						 >
-				<meta attribute="use-in-tostring">true</meta>
-				<key column="MOVIEID"/>
-				<index column="POS"/>
-				<many-to-many class="de.hsharz.provirent.objects.Subtitle" column="SUBTITLEID" />			
- 			</list> 	
+	
 
  			<list	name="genres"
  						table="MOVIEGENRES"
@@ -105,23 +89,7 @@
 				<many-to-many class="de.hsharz.provirent.objects.Genre" column="GENREID" />			
  			</list>  			
 
- 			<list	name="audioFormats"
- 						table="MOVIEAUDIOFORMATES"
- 						 >
-				<meta attribute="use-in-tostring">true</meta>
-				<key column="MOVIEID"/>
-				<index column="POS"/>
-				<many-to-many class="de.hsharz.provirent.objects.AudioFormat" column="AUDIOFORMATID" />			
- 			</list>  
 
- 			<list	name="videoFormats"
- 						table="MOVIEVIDEOFORMATES"
- 						 >
-				<meta attribute="use-in-tostring">true</meta>
-				<key column="MOVIEID"/>
-				<index column="POS"/>
-				<many-to-many class="de.hsharz.provirent.objects.VideoFormat" column="VIDEOFORMATID" />			
- 			</list> 
  			
 
  			

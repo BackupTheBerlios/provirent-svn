@@ -17,12 +17,6 @@ public class MovieOrder implements Serializable {
     /** identifier field */
     private Integer movieOrderId;
 
-    /** persistent field */
-    private String name;
-
-    /** persistent field */
-    private String shortname;
-
     /** nullable persistent field */
     private de.hsharz.provirent.objects.Customer customer;
 
@@ -30,9 +24,7 @@ public class MovieOrder implements Serializable {
     private List movieOrderItems;
 
     /** full constructor */
-    public MovieOrder(String name, String shortname, de.hsharz.provirent.objects.Customer customer, List movieOrderItems) {
-        this.name = name;
-        this.shortname = shortname;
+    public MovieOrder(de.hsharz.provirent.objects.Customer customer, List movieOrderItems) {
         this.customer = customer;
         this.movieOrderItems = movieOrderItems;
     }
@@ -42,9 +34,7 @@ public class MovieOrder implements Serializable {
     }
 
     /** minimal constructor */
-    public MovieOrder(String name, String shortname, List movieOrderItems) {
-        this.name = name;
-        this.shortname = shortname;
+    public MovieOrder(List movieOrderItems) {
         this.movieOrderItems = movieOrderItems;
     }
 
@@ -54,22 +44,6 @@ public class MovieOrder implements Serializable {
 
     public void setMovieOrderId(Integer movieOrderId) {
         this.movieOrderId = movieOrderId;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getShortname() {
-        return this.shortname;
-    }
-
-    public void setShortname(String shortname) {
-        this.shortname = shortname;
     }
 
     public de.hsharz.provirent.objects.Customer getCustomer() {
@@ -91,8 +65,6 @@ public class MovieOrder implements Serializable {
     public String toString() {
         return new ToStringBuilder(this)
             .append("movieOrderId", getMovieOrderId())
-            .append("name", getName())
-            .append("shortname", getShortname())
             .append("customer", getCustomer())
             .append("movieOrderItems", getMovieOrderItems())
             .toString();
@@ -104,8 +76,6 @@ public class MovieOrder implements Serializable {
         MovieOrder castOther = (MovieOrder) other;
         return new EqualsBuilder()
             .append(this.getMovieOrderId(), castOther.getMovieOrderId())
-            .append(this.getName(), castOther.getName())
-            .append(this.getShortname(), castOther.getShortname())
             .append(this.getCustomer(), castOther.getCustomer())
             .append(this.getMovieOrderItems(), castOther.getMovieOrderItems())
             .isEquals();
@@ -114,8 +84,6 @@ public class MovieOrder implements Serializable {
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getMovieOrderId())
-            .append(getName())
-            .append(getShortname())
             .append(getCustomer())
             .append(getMovieOrderItems())
             .toHashCode();

@@ -1,6 +1,7 @@
 package de.hsharz.provirent.objects;
 
 import java.io.Serializable;
+import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -28,16 +29,40 @@ public class Dvd implements Serializable {
     /** nullable persistent field */
     private de.hsharz.provirent.objects.Status status;
 
+    /** persistent field */
+    private List languages;
+
+    /** persistent field */
+    private List subtitles;
+
+    /** persistent field */
+    private List audioFormats;
+
+    /** persistent field */
+    private List videoFormats;
+
     /** full constructor */
-    public Dvd(String barcode, de.hsharz.provirent.objects.Movie movie, de.hsharz.provirent.objects.Condition condition, de.hsharz.provirent.objects.Status status) {
+    public Dvd(String barcode, de.hsharz.provirent.objects.Movie movie, de.hsharz.provirent.objects.Condition condition, de.hsharz.provirent.objects.Status status, List languages, List subtitles, List audioFormats, List videoFormats) {
         this.barcode = barcode;
         this.movie = movie;
         this.condition = condition;
         this.status = status;
+        this.languages = languages;
+        this.subtitles = subtitles;
+        this.audioFormats = audioFormats;
+        this.videoFormats = videoFormats;
     }
 
     /** default constructor */
     public Dvd() {
+    }
+
+    /** minimal constructor */
+    public Dvd(List languages, List subtitles, List audioFormats, List videoFormats) {
+        this.languages = languages;
+        this.subtitles = subtitles;
+        this.audioFormats = audioFormats;
+        this.videoFormats = videoFormats;
     }
 
     public Integer getDvdId() {
@@ -80,11 +105,47 @@ public class Dvd implements Serializable {
         this.status = status;
     }
 
+    public List getLanguages() {
+        return this.languages;
+    }
+
+    public void setLanguages(List languages) {
+        this.languages = languages;
+    }
+
+    public List getSubtitles() {
+        return this.subtitles;
+    }
+
+    public void setSubtitles(List subtitles) {
+        this.subtitles = subtitles;
+    }
+
+    public List getAudioFormats() {
+        return this.audioFormats;
+    }
+
+    public void setAudioFormats(List audioFormats) {
+        this.audioFormats = audioFormats;
+    }
+
+    public List getVideoFormats() {
+        return this.videoFormats;
+    }
+
+    public void setVideoFormats(List videoFormats) {
+        this.videoFormats = videoFormats;
+    }
+
     public String toString() {
         return new ToStringBuilder(this)
             .append("dvdId", getDvdId())
             .append("barcode", getBarcode())
             .append("movie", getMovie())
+            .append("languages", getLanguages())
+            .append("subtitles", getSubtitles())
+            .append("audioFormats", getAudioFormats())
+            .append("videoFormats", getVideoFormats())
             .toString();
     }
 
@@ -98,6 +159,10 @@ public class Dvd implements Serializable {
             .append(this.getMovie(), castOther.getMovie())
             .append(this.getCondition(), castOther.getCondition())
             .append(this.getStatus(), castOther.getStatus())
+            .append(this.getLanguages(), castOther.getLanguages())
+            .append(this.getSubtitles(), castOther.getSubtitles())
+            .append(this.getAudioFormats(), castOther.getAudioFormats())
+            .append(this.getVideoFormats(), castOther.getVideoFormats())
             .isEquals();
     }
 
@@ -108,6 +173,10 @@ public class Dvd implements Serializable {
             .append(getMovie())
             .append(getCondition())
             .append(getStatus())
+            .append(getLanguages())
+            .append(getSubtitles())
+            .append(getAudioFormats())
+            .append(getVideoFormats())
             .toHashCode();
     }
 
