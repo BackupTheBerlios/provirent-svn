@@ -115,11 +115,13 @@ public class ManagmentGui {
 
     private CTabFolder cTabFolderMain;
 
-    private CTabItem tabItemFormat,tabItemActor,tabItemDirector;
+    private CTabItem tabItemFormat,tabItemActor,tabItemDirector,tabItemLanguage,tabItemGenre;
 
     private CompositeFormate compositeFormate;
     private CompositeActors compositeActor;
     private CompositeDirectors compositeDirector;
+    private CompositeGenre compositeGenre;
+    private CompositeLanguage compositeLanguage;
     
 
     private MenuItem aboutMenuItem;
@@ -197,6 +199,7 @@ public class ManagmentGui {
 
 
     public void run() {
+        shell.layout();
         shell.open();
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch())
@@ -209,7 +212,6 @@ public class ManagmentGui {
         if (logger.isDebugEnabled()) {
             logger.debug("ManagmentGui() Locale: " + Locale.getDefault());
         }
-
         
         locale = Locale.getDefault();
         
@@ -248,7 +250,7 @@ public class ManagmentGui {
         //init the rest
         initGUI();
         
-        shell.layout();
+        //shell.layout();
 
     }
 
@@ -439,16 +441,40 @@ public class ManagmentGui {
         
         viewGenreMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewGenreMenuItem.setText(l.getString("menu.view.genre"));
-        viewActorMenuItem.setSelection(false);
+        viewGenreMenuItem.setSelection(false);
+        viewGenreMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemGenre == null || tabItemGenre.isDisposed()){
+				    initGenreTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemGenre);
+				viewGenreMenuItem.setSelection(true);
+            
+            }
+        }); 
 
-        viewSubtitleMenuItem = new MenuItem(viewMenu, SWT.CHECK);
-        viewSubtitleMenuItem.setText(l.getString("menu.view.subtitle"));
-        viewSubtitleMenuItem.setSelection(false);
-        
         viewLanguageMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewLanguageMenuItem.setText(l.getString("menu.view.language"));
         viewLanguageMenuItem.setSelection(false);
+        viewLanguageMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemLanguage == null || tabItemLanguage.isDisposed()){
+				    initLanguageTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemLanguage);
+				viewGenreMenuItem.setSelection(true);
+            
+            }
+        });         
 
+        viewSubtitleMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewSubtitleMenuItem.setText(l.getString("menu.view.subtitle"));
+        viewSubtitleMenuItem.setSelection(false);        
+        
         viewStatusMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewStatusMenuItem.setText(l.getString("menu.view.status"));
         viewStatusMenuItem.setSelection(false);
@@ -499,6 +525,7 @@ public class ManagmentGui {
     private void initFormatTab() {
         tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemFormat.setText(l.getString("tab.format.title"));
+        /*
         tabItemFormat.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
                 viewFormatMenuItem.setSelection(false);
@@ -511,12 +538,14 @@ public class ManagmentGui {
             
             tabItemFormat.setControl(compositeFormate);
         }
+        */
     }
     
     
     private void initDirectorTab() {
         tabItemDirector = new CTabItem(cTabFolderMain, SWT.NONE);
-        tabItemDirector.setText(l.getString("tab.actor.title"));
+        tabItemDirector.setText(l.getString("tab.director.title"));
+        /*
         tabItemDirector.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
                 viewDirectorMenuItem.setSelection(false);
@@ -529,11 +558,13 @@ public class ManagmentGui {
             
             tabItemDirector.setControl(compositeDirector);
         }
+        */
     }    
     
     private void initActorTab() {
         tabItemActor = new CTabItem(cTabFolderMain, SWT.NONE);
-        tabItemActor.setText(l.getString("tab.director.title"));
+        tabItemActor.setText(l.getString("tab.actor.title"));
+        /*
         tabItemActor.addDisposeListener(new DisposeListener() {
             public void widgetDisposed(DisposeEvent evt) {
                 viewActorMenuItem.setSelection(false);
@@ -546,10 +577,45 @@ public class ManagmentGui {
             
             tabItemActor.setControl(compositeActor);
         }
+        */
     }
 
+    private void initGenreTab() {
+        tabItemGenre = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemGenre.setText(l.getString("tab.genre.title"));
+        /*
+        tabItemGenre.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+                viewGenreMenuItem.setSelection(false);
+           }
+        });      
+        {
+            compositeGenre = new CompositeGenre(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemGenre.setControl(compositeGenre);
+        }
+        */
+    }
 
-
+    private void initLanguageTab() {
+        tabItemLanguage = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemLanguage.setText(l.getString("tab.language.title"));
+        tabItemLanguage.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+                viewLanguageMenuItem.setSelection(false);
+           }
+        });      
+        {
+            compositeLanguage = new CompositeLanguage(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemLanguage.setControl(compositeLanguage);
+        }
+    }    
+    
     private void initStatusLine() {
         statusLine = new StatusLineStyledText(compositeStatusLine, SWT.READ_ONLY);
         statusLine.setText("");

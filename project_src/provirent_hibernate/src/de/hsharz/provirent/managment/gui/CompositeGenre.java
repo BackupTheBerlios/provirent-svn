@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Text;
 * for any corporate or commercial purpose.
 * *************************************
 */
-public class CompositeActors extends AbstractComposite{
+public class CompositeGenre extends AbstractComposite{
 
     {
         //Register as a resource user - SWTResourceManager will
@@ -44,14 +44,14 @@ public class CompositeActors extends AbstractComposite{
      * Logger for this class
      */
     private static final Logger logger = Logger
-            .getLogger(CompositeActors.class);
+            .getLogger(CompositeGenre.class);
     
     
     private final static int MODE_VIEW = 0;
 
     private final static int MODE_ADD = 1;
     private Text text1;
-    private Group groupActor;
+    private Group groupGenre;
 
     private final static int MODE_EDIT = 2;
     
@@ -77,7 +77,7 @@ public class CompositeActors extends AbstractComposite{
     public void initLanguage(Locale locale) {
 
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language.actors", locale);
+                "de.hsharz.provirent.managment.gui.language.genre", locale);
 
     }
     
@@ -105,7 +105,7 @@ public class CompositeActors extends AbstractComposite{
 		}
 	}
 
-	public CompositeActors(Composite p, int style,
+	public CompositeGenre(Composite p, int style,
             StatusLineStyledText status, Locale l) {
 	    super(p, style, status, l);
         parent = p;
@@ -127,22 +127,22 @@ public class CompositeActors extends AbstractComposite{
         this.setLayout(new GridLayout());
         this.setSize(816, 540);
         {
-            groupActor = new Group(this, SWT.NONE);
-            GridLayout groupActorLayout = new GridLayout();
-            GridData groupActorLData = new GridData();
-            groupActorLData.grabExcessHorizontalSpace = true;
-            groupActorLData.grabExcessVerticalSpace = true;
-            groupActorLData.horizontalAlignment = GridData.FILL;
-            groupActorLData.verticalAlignment = GridData.FILL;
-            groupActor.setLayoutData(groupActorLData);
-            groupActorLayout.makeColumnsEqualWidth = true;
-            groupActor.setLayout(groupActorLayout);
-            groupActor.setText("Actor");
+            groupGenre = new Group(this, SWT.NONE);
+            GridLayout groupGenreLayout = new GridLayout();
+            GridData groupGenreLData = new GridData();
+            groupGenreLData.grabExcessHorizontalSpace = true;
+            groupGenreLData.grabExcessVerticalSpace = true;
+            groupGenreLData.horizontalAlignment = GridData.FILL;
+            groupGenreLData.verticalAlignment = GridData.FILL;
+            groupGenre.setLayoutData(groupGenreLData);
+            groupGenreLayout.makeColumnsEqualWidth = true;
+            groupGenre.setLayout(groupGenreLayout);
+            groupGenre.setText("Genre");
             {
-                text1 = new Text(groupActor, SWT.MULTI | SWT.WRAP);
+                text1 = new Text(groupGenre, SWT.MULTI | SWT.WRAP);
                 text1.setText("text1");
                 GridData text1LData = new GridData();
-                text1.setBackground(SWTResourceManager.getColor(255, 0, 0));
+                text1.setBackground(SWTResourceManager.getColor(150, 50, 0));
                 text1LData.widthHint = 336;
                 text1LData.heightHint = 173;
                 text1.setLayoutData(text1LData);
