@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
@@ -410,6 +411,7 @@ public class CompositePayment extends AbstractComposite{
             text1LData3.horizontalSpan = 3;
             text1LData3.grabExcessHorizontalSpace = true;
             textstartdate.setLayoutData(text1LData3);
+            textstartdate.setEditable(false);
         }
         {
             changeStartDateButton = new Button(groupPaymentDetail, SWT.PUSH
@@ -505,7 +507,7 @@ public class CompositePayment extends AbstractComposite{
                 textduration1.setEditable(true);
                 textduration2.setEditable(true);
                 textduration3.setEditable(true);
-                textstartdate.setEditable(true);
+                //textstartdate.setEditable(true);
                 changeStartDateButton.setEnabled(true);
                 
                 
@@ -537,7 +539,7 @@ public class CompositePayment extends AbstractComposite{
                 textduration1.setEditable(true);
                 textduration2.setEditable(true);                
                 textduration3.setEditable(true);
-                textstartdate.setEditable(true);
+                //textstartdate.setEditable(true);
                 changeStartDateButton.setEnabled(true);
                 
                 textduration1.setFocus();
@@ -653,11 +655,7 @@ public class CompositePayment extends AbstractComposite{
         buttonPaymentSave.setEnabled(false);
         buttonPaymentSave.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                System.out
-                        .println("buttonPaymentSave.widgetSelected, event="
-                                + evt);
-
-                
+    
                 //testen ob duration leer ist
                 if (   textPaymentName.getText().trim().equalsIgnoreCase("") ||
                        textduration1.getText().trim().equalsIgnoreCase("") || 
@@ -683,22 +681,20 @@ public class CompositePayment extends AbstractComposite{
                      */
 	                    
                     try {	
+                        
+                        Calendar tmp_cal = Calendar.getInstance();
+                        tmp_cal.setTime(DateFormat.getDateInstance(DateFormat.LONG).parse(textstartdate.getText()));
                     	//neues Objekt erzeugen
 	                    Payment tmp = new Payment(textPaymentName.getText(), 
                             			Float.parseFloat(textduration1.getText()),
                             			Float.parseFloat(textduration2.getText()), 
                             			Float.parseFloat(textduration3.getText()),
-                            			Util.getDateByText(textstartdate.getText()));
+                            			tmp_cal);
                     
                     
                         //object speichern
                         // Fehlerbehandlung
-                        Object o = Database.saveObject(
-                                new Payment(textPaymentName.getText(), 
-                                        Float.parseFloat(textduration1.getText()),
-                                        Float.parseFloat(textduration2.getText()), 
-                                        Float.parseFloat(textduration3.getText()),
-                                        Util.getDateByText(textstartdate.getText())));
+                        Object o = Database.saveObject(tmp);
                         
                         // in Übersichtstabelle einfügen
                         insertIntoPaymentTable((Payment)o);
@@ -725,6 +721,10 @@ public class CompositePayment extends AbstractComposite{
                             e.printStackTrace();
                         }
                         
+                    } catch (ParseException pex){
+                        statusLine.setStatus(3,l.getString("Payment.groupdetail.savebutton.errorsave"));
+                        showMsg(l.getString("Payment.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                        
                     }
                     
                     
@@ -733,11 +733,15 @@ public class CompositePayment extends AbstractComposite{
                     
                 } else if (mode_Payment == ManagementGui.MODE_EDIT) {
                     try {
+                        
+                        Calendar tmp_cal = Calendar.getInstance();
+                        tmp_cal.setTime(DateFormat.getDateInstance(DateFormat.LONG).parse(textstartdate.getText()));
+                        
 	                    Payment tmp = new Payment(textPaymentName.getText(), 
 	                            Float.parseFloat(textduration1.getText()),
 	                            Float.parseFloat(textduration2.getText()), 
 	                            Float.parseFloat(textduration3.getText()),
-	                            Util.getDateByText(textstartdate.getText()));
+	                            tmp_cal);
 	                    tmp.setPaymentId(new Integer(Integer.parseInt(textPaymentID.getText())));
 	                
 	                    //object speichern
@@ -767,7 +771,11 @@ public class CompositePayment extends AbstractComposite{
 	                        e.printStackTrace();
 	                    }
                     
-	                }
+                    } catch (ParseException pex){
+                        statusLine.setStatus(3,l.getString("Payment.groupdetail.savebutton.errorsave"));
+                        showMsg(l.getString("Payment.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                        
+                    }
                     
  
                     //alle Buttons auf aktiv setzen
@@ -811,7 +819,7 @@ public class CompositePayment extends AbstractComposite{
         textduration1.setEditable(false);
         textduration2.setEditable(false);
         textduration3.setEditable(false);
-        textstartdate.setEditable(false);
+        //textstartdate.setEditable(false);
         changeStartDateButton.setEnabled(false);
         textPaymentSearch.setEditable(true);
 
