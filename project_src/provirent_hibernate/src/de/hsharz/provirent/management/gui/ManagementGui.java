@@ -110,6 +110,7 @@ public class ManagementGui {
     private CTabItem tabItemActor;
     private CTabItem tabItemDirector;
     private CTabItem tabItemLanguage;
+    private CTabItem tabItemCustomer;
     private CTabItem tabItemGenre;
     private CTabItem tabItemImage;
     private CTabItem tabItemMovie;
@@ -124,7 +125,8 @@ public class ManagementGui {
     private CompositeImage compositeImage;
     private CompositeMovie compositeMovie;
     private CompositePayment compositePayment;
-    private CompositeStatus compositeStatus;   
+    private CompositeStatus compositeStatus;
+    private CompositeCustomer compositeCustomer;
 
     private Menu rootMenu;
     
@@ -141,6 +143,7 @@ public class ManagementGui {
     private MenuItem viewDirectorMenuItem;
     private MenuItem viewVideoFormatMenuItem;
     private MenuItem viewActorMenuItem;
+    private MenuItem viewCustomerMenuItem;
     private MenuItem viewGenreMenuItem;
     private MenuItem viewLanguageMenuItem;
     private MenuItem viewStatusMenuItem;
@@ -333,7 +336,8 @@ public class ManagementGui {
             
             //initFormatTab();
             //initMovieTab();
-            initImageTab();
+            //initImageTab();
+            initCustomerTab();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -439,7 +443,24 @@ public class ManagementGui {
 				cTabFolderMain.showSelection();				
             
             }
-        });         
+        });  
+        
+        viewCustomerMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewCustomerMenuItem.setText(l.getString("menu.view.customer"));
+        viewCustomerMenuItem.setSelection(false);
+        viewCustomerMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemCustomer == null || tabItemCustomer.isDisposed()){
+				    initCustomerTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemCustomer);
+				viewCustomerMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();				
+            
+            }
+        });
         
         viewGenreMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewGenreMenuItem.setText(l.getString("menu.view.genre"));
@@ -647,6 +668,29 @@ public class ManagementGui {
             tabItemFormat.setControl(compositeFormate);
         }
         cTabFolderMain.setSelection(tabItemFormat);
+        
+    }
+    
+    private void initCustomerTab() {
+        tabItemCustomer = new CTabItem(cTabFolderMain, SWT.NONE);        
+        tabItemCustomer.setText(l.getString("tab.customer.title"));
+        tabItemCustomer.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+
+                if (!viewCustomerMenuItem.isDisposed()){
+                    viewCustomerMenuItem.setSelection(false);
+                }
+            }
+        });
+
+        {
+            compositeCustomer = new CompositeCustomer(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemCustomer.setControl(compositeCustomer);
+        }
+        cTabFolderMain.setSelection(tabItemCustomer);
         
     }
     

@@ -176,7 +176,7 @@ public class TestCustomer extends TestCase {
                         "Select: Customer aus DB nicht gleich meiner. DB: "
                                 + dbc + " My:" + c, c, dbc); 
 
-                //Update
+                logger.debug("Customer: "+dbc+ "Person: "+dbc.getPerson());
 
                 //delete the object
                 s.delete(c);
@@ -357,6 +357,8 @@ public class TestCustomer extends TestCase {
                         }
                         return;
                     }
+                    logger.debug("Customer: "+dbc+" Person:"+dbc.getPerson());
+                    
                     Customer myc = (Customer)customer.get(i);
                     //are both equal?
                     assertEquals(

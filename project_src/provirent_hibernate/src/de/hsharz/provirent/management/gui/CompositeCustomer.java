@@ -781,6 +781,19 @@ public class CompositeCustomer extends AbstractComposite{
             textBirthday.setEnabled(false);
         }
         {
+            labelRegistrationDate = new Label(groupCustomerDetail,
+                    SWT.NONE);
+            labelRegistrationDate.setText(l
+                    .getString("Customer.groupdetail.regdatelabel")
+                    + ":");
+            labelRegistrationDate.setSize(125, 15);
+            GridData label1LData1 = new GridData();
+            label1LData1.widthHint = 125;
+            label1LData1.heightHint = 15;
+            label1LData1.horizontalSpan = 2;
+            labelRegistrationDate.setLayoutData(label1LData1);
+        }
+        {
             textRegistrationDate = new Text(groupCustomerDetail,
                     SWT.READ_ONLY | SWT.BORDER);
             GridData text1LData3 = new GridData();
@@ -1259,6 +1272,9 @@ public class CompositeCustomer extends AbstractComposite{
         for (int i = 0; i < Customerlist.size(); i++) {
 
             Customer o = (Customer) Customerlist.get(i);
+            
+            logger.debug("Customer " + i + " aus DB:"+o+" Person: "+o.getPerson());
+            
             item = new TableItem(tableCustomer, SWT.NONE);
             Calendar regdate = Calendar.getInstance();
             regdate.setTime(o.getDayOfRegistration());

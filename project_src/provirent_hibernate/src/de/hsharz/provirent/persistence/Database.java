@@ -54,6 +54,7 @@ import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.Payment;
+import de.hsharz.provirent.objects.Person;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
@@ -1626,14 +1627,14 @@ public class Database {
 	            Criteria criteria = s.createCriteria(Customer.class);
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
-
+	            //Disjunction any2 = Expression.disjunction();
 
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
 	                any.add(Expression.like("userName", "%"+filter+"%"));
 	                any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
-	                any.add(Expression.like("duration2", "%"+filter+"%"));
-	                any.add(Expression.like("duration3", "%"+filter+"%"));
-	                any.add(Expression.like("startdate", "%"+filter+"%"));
+	                //any2.add(Expression.like("lastName", "%"+filter+"%"));
+	                //any2.add(Expression.like("firstName", "%"+filter+"%"));
+	                //any2.add(Expression.like("dayOfBirth", "%"+filter+"%"));
 	                //maybe we are searching for the id?
 	                try {
 	                    any.add(Expression.eq("CustomerId", new Integer(Integer.parseInt(filter))));
@@ -1643,11 +1644,14 @@ public class Database {
 	            }
 	            
 	            //add all criteria
+	            
 	            criteria.add(any);
+	            //criteria.createCriteria("person").add(any2);
+	            
 	            //get the results
 	            returnlist = criteria.list();
 	            
-	            
+	            logger.debug("Anzahl der Elemente in Rückgabeliste: " + returnlist.size());
 	            int i = 0;
 	
 	
@@ -1784,7 +1788,7 @@ public class Database {
 	}
 	
 	
-	public static Movie getSingleMovie(final int id){
+	public static Movie getSingleMovie(final int id) {
 	    if (logger.isDebugEnabled()) {
 	        logger.debug("getSingleMovie() - start. int filter= "+id);
 	    }

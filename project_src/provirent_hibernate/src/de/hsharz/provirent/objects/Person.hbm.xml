@@ -18,6 +18,10 @@
         <meta attribute="use-in-equals">true</meta>
         <generator class="native"/>
       </id>
+	  
+	  <one-to-one name="customer" cascade="all" constrained="true" foreign-key="">
+		
+	  </one-to-one>
  
  			
  

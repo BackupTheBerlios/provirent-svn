@@ -182,9 +182,9 @@ public class TestHibernate {
             s.save(l5);
             s.flush();
 
-            movie.setLanguages(new ArrayList());
-            movie.getLanguages().add(l1);
-            movie.getLanguages().add(l2);
+            
+            
+            
             
             Subtitle s1 = new Subtitle("Deutsch", "de");
             Subtitle s2 = new Subtitle("Englisch", "en");
@@ -198,9 +198,6 @@ public class TestHibernate {
             s.save(s5);
             s.flush();
 
-            movie.setSubtitles(new ArrayList());
-            movie.getSubtitles().add(s1);
-            movie.getSubtitles().add(s2);
             
             Genre g1 = new Genre("Action","");
             Genre g2 = new Genre("Abenteuer","");
@@ -223,17 +220,11 @@ public class TestHibernate {
             s.save(a4);
             s.flush();
              
-            movie.setAudioFormats(new ArrayList());
-            movie.getAudioFormats().add(a1);
-            movie.getAudioFormats().add(a4);
             
             VideoFormat v1 = new VideoFormat("2.35:1","");
             s.save(v1);
             s.flush();
           
-            movie.setVideoFormats(new ArrayList());
-            movie.getVideoFormats().add(v1);
-            
           
             s.save(movie);
 
