@@ -104,14 +104,24 @@ public class ManagementGui {
 
     private CTabFolder cTabFolderMain;
 
-    private CTabItem tabItemFormat,tabItemActor,tabItemDirector,tabItemLanguage,tabItemGenre,tabItemImage;
-
+    private CTabItem tabItemFormat;
+    private CTabItem tabItemActor;
+    private CTabItem tabItemDirector;
+    private CTabItem tabItemLanguage;
+    private CTabItem tabItemGenre;
+    private CTabItem tabItemImage;
+    private CTabItem tabItemMovie;
+    
+    
+    
+    
     private CompositeFormate compositeFormate;
     private CompositeActors compositeActor;
     private CompositeDirectors compositeDirector;
     private CompositeGenre compositeGenre;
     private CompositeLanguage compositeLanguage;
     private CompositeImage compositeImage;
+    private CompositeMovie compositeMovie;
     
 
     private MenuItem aboutMenuItem;
@@ -515,6 +525,19 @@ public class ManagementGui {
         viewMovieMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewMovieMenuItem.setText(l.getString("menu.view.movie"));
         viewMovieMenuItem.setSelection(false);
+        viewMovieMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemMovie == null || tabItemMovie.isDisposed()){
+				    initMovieTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemActor);
+				viewActorMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();				
+            
+            }
+        });         
 
         viewDvdMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewDvdMenuItem.setText(l.getString("menu.view.dvd"));
@@ -711,6 +734,29 @@ public class ManagementGui {
         }
         cTabFolderMain.setSelection(tabItemLanguage);
     }    
+    
+    private void initMovieTab() {
+        tabItemMovie = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemMovie.setText(l.getString("tab.movie.title"));
+        tabItemMovie.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                if(!viewMovieMenuItem.isDisposed()){
+                viewMovieMenuItem.setSelection(false);
+                }
+            }
+            
+        });
+  
+        {
+            compositeMovie = new CompositeMovie(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemMovie.setControl(compositeMovie);
+        }
+        cTabFolderMain.setSelection(tabItemMovie);
+    }
     
     private void initStatusLine() {
         statusLine = new StatusLineStyledText(compositeStatusLine, SWT.READ_ONLY);

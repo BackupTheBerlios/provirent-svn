@@ -73,9 +73,7 @@ public class CompositeActors extends AbstractComposite{
     private TableColumn tableActorsOverview_ColumnFName;
     private TableColumn tableActorsOverview_ColumnLName;
     
-    
     private SashForm sashForm1;
-    private SashForm sashForm2;
     
     private Group groupActor;
     private Group groupActorsOverview;
@@ -185,13 +183,13 @@ public class CompositeActors extends AbstractComposite{
             groupActor.setLayout(groupActorLayout);
             groupActor.setText(l.getString("actors.group.label"));
             {
-                sashForm2 = new SashForm(groupActor, SWT.NONE);
-                GridData sashForm2LData = new GridData();
-                sashForm2LData.verticalAlignment = GridData.FILL;
-                sashForm2LData.horizontalAlignment = GridData.FILL;
-                sashForm2LData.grabExcessHorizontalSpace = true;
-                sashForm2LData.grabExcessVerticalSpace = true;
-                sashForm2.setLayoutData(sashForm2LData);
+                sashForm1 = new SashForm(groupActor, SWT.NONE);
+                GridData sashForm1LData = new GridData();
+                sashForm1LData.verticalAlignment = GridData.FILL;
+                sashForm1LData.horizontalAlignment = GridData.FILL;
+                sashForm1LData.grabExcessHorizontalSpace = true;
+                sashForm1LData.grabExcessVerticalSpace = true;
+                sashForm1.setLayoutData(sashForm1LData);
                 
                
             }
@@ -212,9 +210,9 @@ public class CompositeActors extends AbstractComposite{
 
 	
 	private void initActorsOverview()  {	    
-//	  Group Actors Overview 
+	    //	  Group Actors Overview 
         {
-            groupActorsOverview = new Group(sashForm2,SWT.NONE);
+            groupActorsOverview = new Group(sashForm1,SWT.NONE);
             GridLayout group1Layout = new GridLayout();
             group1Layout.numColumns = 8;
             groupActorsOverview.setLayout(group1Layout);
@@ -357,7 +355,7 @@ public class CompositeActors extends AbstractComposite{
 	private void initActorsDetail()  {	    
 	    // Group Actors Detail
         {
-            groupActorsDetail = new Group(sashForm2, SWT.NONE);
+            groupActorsDetail = new Group(sashForm1, SWT.NONE);
             GridLayout group2Layout = new GridLayout();
             GridData group2LData = new GridData();
             group2Layout.verticalSpacing = 15;

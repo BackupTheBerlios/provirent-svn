@@ -71,10 +71,8 @@ public class CompositeDirectors extends AbstractComposite{
     private TableColumn tableDirectorsOverview_ColumnID;
     private TableColumn tableDirectorsOverview_ColumnFName;
     private TableColumn tableDirectorsOverview_ColumnLName;
-    
-    
+      
     private SashForm sashForm1;
-    private SashForm sashForm2;
     
     private Group groupDirector;
     private Group groupDirectorsOverview;
@@ -184,13 +182,13 @@ public class CompositeDirectors extends AbstractComposite{
             groupDirector.setLayout(groupDirectorLayout);
             groupDirector.setText(l.getString("directors.group.label"));
             {
-                sashForm2 = new SashForm(groupDirector, SWT.NONE);
-                GridData sashForm2LData = new GridData();
-                sashForm2LData.verticalAlignment = GridData.FILL;
-                sashForm2LData.horizontalAlignment = GridData.FILL;
-                sashForm2LData.grabExcessHorizontalSpace = true;
-                sashForm2LData.grabExcessVerticalSpace = true;
-                sashForm2.setLayoutData(sashForm2LData);
+                sashForm1 = new SashForm(groupDirector, SWT.NONE);
+                GridData sashForm1LData = new GridData();
+                sashForm1LData.verticalAlignment = GridData.FILL;
+                sashForm1LData.horizontalAlignment = GridData.FILL;
+                sashForm1LData.grabExcessHorizontalSpace = true;
+                sashForm1LData.grabExcessVerticalSpace = true;
+                sashForm1.setLayoutData(sashForm1LData);
                 
                
             }
@@ -213,7 +211,7 @@ public class CompositeDirectors extends AbstractComposite{
 	private void initDirectorsOverview()  {	    
 //	  Group Actors Overview 
         {
-            groupDirectorsOverview = new Group(sashForm2,SWT.NONE);
+            groupDirectorsOverview = new Group(sashForm1,SWT.NONE);
             GridLayout group1Layout = new GridLayout();
             group1Layout.numColumns = 8;
             groupDirectorsOverview.setLayout(group1Layout);
@@ -356,7 +354,7 @@ public class CompositeDirectors extends AbstractComposite{
 	private void initDirectorsDetail()  {	    
 	    // Group Actors Detail
         {
-            groupDirectorsDetail = new Group(sashForm2, SWT.NONE);
+            groupDirectorsDetail = new Group(sashForm1, SWT.NONE);
             GridLayout group2Layout = new GridLayout();
             GridData group2LData = new GridData();
             group2Layout.verticalSpacing = 15;
