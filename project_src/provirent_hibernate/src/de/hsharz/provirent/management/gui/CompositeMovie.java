@@ -1421,7 +1421,7 @@ public class CompositeMovie extends
                 movie2.getMovieId() + " ",
                 movie2.getTitle() + " ",
                 DateFormat.getDateInstance(DateFormat.SHORT).format(
-                        movie2.getReleaseDate()) });
+                        movie2.getReleaseDate().getTime()) });
     }
 
     /**
