@@ -67,6 +67,21 @@ import org.eclipse.swt.widgets.Text;
 
 
 
+
+/**
+* This code was generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* *************************************
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED
+* for this machine, so Jigloo or this code cannot be used legally
+* for any corporate or commercial purpose.
+* *************************************
+*/
 /**
  * @author Philipp Schneider
  *
@@ -116,7 +131,7 @@ public class ClientGui {
         display = new Display();
         shell = new Shell(display);
      
-        shell.setSize(SHELL_WIDTH,SHELL_HEIGHT);
+        shell.setSize(400, 300);
         /**
          * @todo Dynamisch mit Resourcenbundle
          */
@@ -156,10 +171,28 @@ public class ClientGui {
 		setupAdministrationPane();
 		setupMoviePane();
 
+
+	
+		
+		
+		
 		//setupProjectManagerPane();
 	}
     
+	private void refreshEmployeeList(){
+	
+		String[] data = new String[]{"1 - Max Meier","2 - Stefan Forstner",
+		        "3 - Remo Griesch","4 - Philipp Schneider"};
 
+		//Load the Employee list
+		employeeList.removeAll();
+
+		for (int i = 0; i < data.length; i++)
+			employeeList.add(data[i]);
+	}
+	
+	
+	
 	private void setupEmployeeList() {
 		//Create employee list.
 		employeeListComp = new Group(administrationPane, SWT.NONE);
@@ -182,11 +215,6 @@ public class ClientGui {
 			new List(
 				employeeListComp,
 				SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
-		employeeList.add("1 - Max Meier");
-		employeeList.add("2 - Stefan Forstner");
-		employeeList.add("3 - Remo Griesch");
-		employeeList.add("4 - Philipp Schneider");
-		
 		GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 2;
 		employeeList.setLayoutData(data);
@@ -196,7 +224,8 @@ public class ClientGui {
 				//setTransMode(VIEW_MODE);
 				//setEmployeeMode(VIEW_MODE);
 				//processor.setActiveEmployee(employeeList.getSelectionIndex());
-				//refreshEmployeeData();
+				System.out.println("Es wurde gerade einer ausgewaehlt: " + employeeList.getSelectionIndex());
+				 refreshEmployeeList();
 			}
 		});
 
@@ -213,6 +242,7 @@ public class ClientGui {
 
 		employeeFilterText.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent arg0) {
+			    System.out.println("Focus verloren: " + employeeFilterText.getText());
 				//processor.setEmployeeFilter(employeeFilterText.getText());
 				//refreshEmployeeData();
 			}
@@ -220,6 +250,7 @@ public class ClientGui {
 
 		employeeFilterText.addListener(SWT.DefaultSelection, new Listener() {
 			public void handleEvent(Event e) { //check for "enter" key
+			    System.out.println("Enter key: " + employeeFilterText.getText());
 				//processor.setEmployeeFilter(employeeFilterText.getText());
 				//refreshEmployeeData();
 			}
@@ -227,13 +258,13 @@ public class ClientGui {
 
 		//Create radio buttons to switch viewing mode.
 		employeeNameRadio = new Button(employeeListComp, SWT.RADIO);
-		employeeNameRadio.setText("View by name");
+		employeeNameRadio.setText("View by Name");
 		data = new GridData();
 		data.horizontalSpan = 2;
 		employeeNameRadio.setLayoutData(data);
 
 		employeeNumRadio = new Button(employeeListComp, SWT.RADIO);
-		employeeNumRadio.setText("View by ID");
+		employeeNumRadio.setText("View by KundenID");
 		data = new GridData();
 		data.horizontalSpan = 2;
 		employeeNumRadio.setLayoutData(data);
@@ -241,6 +272,8 @@ public class ClientGui {
 		employeeNameRadio.setSelection(true);
 		employeeNameRadio.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent arg0) {
+			    System.out.println("Nur Namen anschauen");
+			    System.out.println(employeeFilterText.getText());
 				//processor.setEmployeeView(TimeTrackerProc.VIEW_BY_NAME);
 				//refreshEmployeeData();
 			}
@@ -248,6 +281,7 @@ public class ClientGui {
 
 		employeeNumRadio.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent arg0) {
+			    System.out.println("Nur kundennummer anschauen ");
 				//processor.setEmployeeView(TimeTrackerProc.VIEW_BY_ID);
 				//refreshEmployeeData();
 			}
@@ -270,6 +304,7 @@ public class ClientGui {
 		administrationPane.setLayout(new FormLayout());
 
 		setupEmployeeList();
+		refreshEmployeeList();
 		
 		//administrationInfo has a FormLayout
 		administrationInfo = new Group(administrationPane, SWT.NONE);
