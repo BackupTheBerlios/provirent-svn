@@ -6,3 +6,6 @@ Datum		h	Beschreibung
 09.10.2004	4,5	JUnit Simple Object Test
 11.10.2004	2	JUnit Complex Object Test
 12.10.2004	3,5	SWT erster Versuch
+
+20.10.2004	4	SWT Managment
+21.10.2004	4	SWTDual VideoFormat als erstes richtiges Element
