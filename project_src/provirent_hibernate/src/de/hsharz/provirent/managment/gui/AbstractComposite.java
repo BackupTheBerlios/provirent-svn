@@ -2,8 +2,9 @@ package de.hsharz.provirent.managment.gui;
 
 import java.util.Locale;
 
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.MessageBox;
 
 
 /**
@@ -21,15 +22,30 @@ import org.eclipse.swt.widgets.Composite;
 * *************************************
 */
 abstract public class AbstractComposite extends org.eclipse.swt.widgets.Composite {
-
+private Composite parent;
+    
     abstract public void changeLanguage(Locale l);
     //abstract public void setStatusLine(StatusLineStyledText status);
     abstract public void initLanguage(Locale l);
 
-	public AbstractComposite(Composite parent, int style, StatusLineStyledText status, Locale l) {
-		super(parent, style);
+   
+    
+    
+	public AbstractComposite(Composite p, int style, StatusLineStyledText status, Locale l) {
+		super(p, style);
+		parent = p;
 		//initGUI();
 	}
 
+	protected int showMsg(String msg, String title, int para) {
+        MessageBox messageBox = new MessageBox(parent.getShell(),
+                para);
+        messageBox.setMessage(msg);
+        messageBox.setText(title);
+        
+        return messageBox.open();
+
+
+	}
 
 }
