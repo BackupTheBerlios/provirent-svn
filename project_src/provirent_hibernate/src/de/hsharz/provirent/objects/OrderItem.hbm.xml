@@ -20,9 +20,9 @@
         <generator class="native"/>
       </id>
 
-			<timestamp	name="orderTime">
+			<property	name="orderTime" type="calendar">
 				<meta attribute="use-in-tostring">true</meta>
-			</timestamp>
+			</property>
 
 
       <property name="senderTime" type="calendar">
