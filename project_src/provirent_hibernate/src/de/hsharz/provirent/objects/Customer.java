@@ -1,7 +1,7 @@
 package de.hsharz.provirent.objects;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,6 +17,9 @@ public class Customer implements Serializable {
     /** identifier field */
     private Integer customerId;
 
+    /** nullable persistent field */
+    private Calendar dayOfRegistration;
+
     /** persistent field */
     private String userName;
 
@@ -30,18 +33,15 @@ public class Customer implements Serializable {
     private String hiddenAnswer;
 
     /** nullable persistent field */
-    private Date dayOfRegistration;
-
-    /** nullable persistent field */
     private de.hsharz.provirent.objects.Person person;
 
     /** full constructor */
-    public Customer(String userName, String userPassword, String hiddenQuestion, String hiddenAnswer, Date dayOfRegistration, de.hsharz.provirent.objects.Person person) {
+    public Customer(Calendar dayOfRegistration, String userName, String userPassword, String hiddenQuestion, String hiddenAnswer, de.hsharz.provirent.objects.Person person) {
+        this.dayOfRegistration = dayOfRegistration;
         this.userName = userName;
         this.userPassword = userPassword;
         this.hiddenQuestion = hiddenQuestion;
         this.hiddenAnswer = hiddenAnswer;
-        this.dayOfRegistration = dayOfRegistration;
         this.person = person;
     }
 
@@ -63,6 +63,14 @@ public class Customer implements Serializable {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    } 
+
+    public Calendar getDayOfRegistration() {
+        return this.dayOfRegistration;
+    }
+
+    public void setDayOfRegistration(Calendar dayOfRegistration) {
+        this.dayOfRegistration = dayOfRegistration;
     }
 
     public String getUserName() {
@@ -97,14 +105,6 @@ public class Customer implements Serializable {
         this.hiddenAnswer = hiddenAnswer;
     }
 
-    public Date getDayOfRegistration() {
-        return this.dayOfRegistration;
-    }
-
-    public void setDayOfRegistration(Date dayOfRegistration) {
-        this.dayOfRegistration = dayOfRegistration;
-    }
-
     public de.hsharz.provirent.objects.Person getPerson() {
         return this.person;
     }
@@ -116,11 +116,12 @@ public class Customer implements Serializable {
     public String toString() {
         return new ToStringBuilder(this)
             .append("customerId", getCustomerId())
+            .append("dayOfRegistration", getDayOfRegistration())
             .append("userName", getUserName())
             .append("userPassword", getUserPassword())
             .append("hiddenQuestion", getHiddenQuestion())
             .append("hiddenAnswer", getHiddenAnswer())
-            .append("dayOfRegistration", getDayOfRegistration())
+            .append("person", getPerson())
             .toString();
     }
 
@@ -130,11 +131,11 @@ public class Customer implements Serializable {
         Customer castOther = (Customer) other;
         return new EqualsBuilder()
             .append(this.getCustomerId(), castOther.getCustomerId())
+            .append(this.getDayOfRegistration(), castOther.getDayOfRegistration())
             .append(this.getUserName(), castOther.getUserName())
             .append(this.getUserPassword(), castOther.getUserPassword())
             .append(this.getHiddenQuestion(), castOther.getHiddenQuestion())
             .append(this.getHiddenAnswer(), castOther.getHiddenAnswer())
-            .append(this.getDayOfRegistration(), castOther.getDayOfRegistration())
             .append(this.getPerson(), castOther.getPerson())
             .isEquals();
     }
@@ -142,11 +143,11 @@ public class Customer implements Serializable {
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getCustomerId())
+            .append(getDayOfRegistration())
             .append(getUserName())
             .append(getUserPassword())
             .append(getHiddenQuestion())
             .append(getHiddenAnswer())
-            .append(getDayOfRegistration())
             .append(getPerson())
             .toHashCode();
     }

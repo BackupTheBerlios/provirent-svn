@@ -166,6 +166,7 @@ public class Database {
         
 
     }
+
     public static Object saveObject(Object o) throws DataBaseException{
         if (logger.isDebugEnabled()) {
             logger
@@ -180,7 +181,6 @@ public class Database {
             try {
                 //get new Session and begin Transaction
                 s = HibernateUtil.currentSession();
-                tx = s.beginTransaction();
                 try{
                     s.saveOrUpdate(o);
                 } catch (HibernateException e) {
@@ -190,7 +190,6 @@ public class Database {
                 }
                 s.flush();
                
-                tx.commit();
                 
             } catch (HibernateException e) {
                 //exception = 2;
@@ -229,9 +228,13 @@ public class Database {
         return o;
     }
     
-    public static void deleteObjectWithId(final Class deleteclass, final Integer id) throws DataBaseException{
+
+
+    public static Object updateObject(Object o) throws DataBaseException{
         if (logger.isDebugEnabled()) {
-            logger.debug("deleteObjectWithId(Class = " + deleteclass.getName()+" Id: "+id+ ") - start");
+            logger
+                    .debug("updateObject(Object o = " + o
+                            + ") - start");
         }
         int exception =0;
         
@@ -241,31 +244,24 @@ public class Database {
             try {
                 //get new Session and begin Transaction
                 s = HibernateUtil.currentSession();
-                tx = s.beginTransaction();
-                
                 try{
-                    s.delete("");
-                
+                		logger.debug("Object "+o.getClass().getName() + " String:"+o);
+                    s.update(o);
                 } catch (HibernateException e) {
-                    logger.error("deleteObjectWithId(). Fehler beim Speichern/Updaten "
-                            + "des Objectes:" + deleteclass.getName() + " ID: "+id+" Exception: " + e);
+                    logger.error("updateObject(). Fehler beim Updaten "
+                            +"des Objectes:"+o+" Exception: "+e);
                     exception = 1;
                 }
+                s.flush();
                
                 
-
-                //s.flush();
-                
-                tx.commit();
-                
-                
             } catch (HibernateException e) {
-                exception = 2;
-                logger.error("Message "+  e.getMessages().toString()); 
+                //exception = 2;
                 logger
-                        .error(
-                                "deleteObjectWithId(Object) - Something went wrong here; discard all partial changes",
-                                e);
+                .error(
+                        "updateObject() - Something went wrong here; discard all partial changes",
+                        e);
+                
                 if (tx != null) {
                     try {
                         // Something went wrong; discard all partial changes
@@ -281,10 +277,7 @@ public class Database {
                     HibernateUtil.closeSession();
                 } catch (HibernateException e1) {
                     
-                    logger
-                            .error(
-                                    "deleteObjectWithId(Object) - Could not Close the Session",
-                                    e1);
+                    logger.error("updateObject() - Could not Close the Session", e1);
                     
                 }
             }
@@ -294,10 +287,11 @@ public class Database {
             }
             
         if (logger.isDebugEnabled()) {
-            logger.debug("deleteObjectWithId(Object) - end");
+            logger.debug("updateObject(VideoFormat) - end");
         }
+        return o;
     }
-  
+
     
     public static void deleteObject(Object o) throws DataBaseException{
         if (logger.isDebugEnabled()) {
@@ -319,7 +313,7 @@ public class Database {
                     
                 
                 } catch (HibernateException e) {
-                    logger.error("deleteObject(). Fehler beim Speichern/Updaten "
+                    logger.error("deleteObject(). Fehler beim Löschen "
                             + "des Objectes:" + o + " Exception: " + e);
                     exception = 1;
                 }

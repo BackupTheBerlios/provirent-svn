@@ -1,6 +1,8 @@
 package de.hsharz.provirent.management.gui;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -735,13 +737,28 @@ public class CompositeCustomer extends AbstractComposite{
                     cal.addDateChangedListener(new SWTCalendarListener() {
 
                         public void dateChanged(SWTCalendarEvent calendarEvent) {
+                            textRegistrationDate.setText(DateFormat.getDateInstance(
+                                    DateFormat.LONG).format(
+                                    calendarEvent.getCalendar().getTime()));
+
+                            
+                            /*
                             String date = null;
                             date = Util.getTextByDate(calendarEvent.getCalendar(), "dd.MM.yyyy");
-                            textRegistrationDate.setText(date);                          
+                            textRegistrationDate.setText(date);
+                            */                          
                         }
                     });
                     if (textRegistrationDate.getText() != null && textRegistrationDate.getText().length() > 0) {
-                        Date date = Util.getDateByText(textRegistrationDate.getText(), "dd.MM.yyyy").getTime();
+                        Date date;
+                        try {
+                            date = DateFormat.getDateInstance(DateFormat.LONG)
+                            .parse(textRegistrationDate.getText());
+                        } catch (ParseException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                            return;
+                        }
                         cal.setDate(date);
                     }
                     cal.open();                                                          
@@ -901,40 +918,10 @@ public class CompositeCustomer extends AbstractComposite{
                    return;
                }
                 try {
-	                Customer o = new Customer();
-	                Person p = new Person();
-	                o.setCustomerId(new Integer(Integer.parseInt(textCustomerID.getText())));
-	                o.setUserName(textUserName.getText());
-	                Date regdate = null;
-	                if (textRegistrationDate.getText() != null) {
-	                    regdate = Util.getDateByText(textRegistrationDate.getText(), "dd.MM.yyyy").getTime();
-	                }
-	                o.setDayOfRegistration(regdate);
-	                o.setUserPassword(textPassword.getText());
-	                o.setHiddenQuestion(textQuestion.getText());
-	                o.setHiddenAnswer(textAnswer.getText());
-	                p.setLastName(textLastName.getText());
-	                p.setFirstName(textFirstName.getText());
-	                p.setMiddleName(textMiddleName.getText());
-	                p.setSalutation(textSalutation.getText());
-	                p.setTitle(textTitle.getText());
-	                p.setStreet(textStreet.getText());
-	                p.setStreetNumber(textNumber.getText());
-	                p.setZipCode(textZipCode.getText());
-	                p.setCity(textCity.getText());
-	                p.setCountry(textCountry.getText());
-	                p.setEmailAddress(textEmail.getText());
-	                Calendar birthday = null;
-	                if (textBirthday.getText() != "") {
-	                    birthday = Util.getDateByText(textBirthday.getText(), "dd.MM.yyyy");
-	                }
-	                p.setDayOfBirth(birthday);
-	                o.setPerson(p);
 	                
                     //object löschen
                     // Fehlerbehandlung
 	                
-                   // Database.deleteObject(o);
 	                Database.deleteObject(localCustomer);
 	                
                     //ÜbersichtsTabelle aktualisieren
@@ -1050,11 +1037,22 @@ public class CompositeCustomer extends AbstractComposite{
                         Customer o = new Customer();
     	                Person p = new Person();
     	                o.setUserName(textUserName.getText());
+    	                
+    	                /*
     	                Date regdate = null;
     	                if (textRegistrationDate.getText() != "") {
     	                    regdate = Util.getDateByText(textRegistrationDate.getText(), "dd.MM.yyyy").getTime();
     	                }   	          
     	                o.setDayOfRegistration(regdate);
+    	                */
+    	                Calendar cal = Calendar.getInstance();
+    	                cal.setTime(DateFormat.getDateInstance(
+                                    DateFormat.LONG).parse(
+                                    textRegistrationDate.getText()));
+    	                o.setDayOfRegistration(cal);
+    	                
+    	                
+    	                
     	                o.setUserPassword(textPassword.getText());
     	                o.setHiddenQuestion(textQuestion.getText());
     	                o.setHiddenAnswer(textAnswer.getText());
@@ -1077,7 +1075,7 @@ public class CompositeCustomer extends AbstractComposite{
     	                o.setPerson(p);
                                         
                         //object speichern
-                        // Fehlerbehandlung
+                        // Fehlerbehandlung 
                         Object newCust = Database.saveObject(o);
                         
                         // in Übersichtstabelle einfügen
@@ -1103,6 +1101,8 @@ public class CompositeCustomer extends AbstractComposite{
                             e.printStackTrace();
                         }
                         
+                    } catch (ParseException pex){
+                        pex.printStackTrace();
                     }
                     
                     
@@ -1113,13 +1113,26 @@ public class CompositeCustomer extends AbstractComposite{
                     
                 } else if (mode_Customer == ManagementGui.MODE_EDIT) {
                     try {
-                        
+                        logger.debug("LocalCustomer: "+localCustomer);
+                        logger.debug("LocalPerson: "+localCustomer.getPerson());
                         //Customer o = localCustomer;
     	                //Person p = o.getPerson();
     	                
     	                //o.setCustomerId(new Integer(Integer.parseInt(textCustomerID.getText())));
     	                localCustomer.setUserName(textUserName.getText());
-    	                localCustomer.setDayOfRegistration(Util.getDateByText(textRegistrationDate.getText(), "dd.MM.yyyy").getTime());
+    	                
+    	                
+    	                //localCustomer.setDayOfRegistration(Util.getDateByText(textRegistrationDate.getText(), "dd.MM.yyyy").getTime());
+    	                
+    	                Calendar cal = Calendar.getInstance();
+    	                cal.setTime(DateFormat.getDateInstance(
+                                    DateFormat.LONG).parse(
+                                    textRegistrationDate.getText()));
+    	                localCustomer.setDayOfRegistration(cal);
+
+    	                
+    	                
+    	                
     	                localCustomer.setUserPassword(textPassword.getText());
     	                localCustomer.setHiddenQuestion(textQuestion.getText());
     	                localCustomer.setHiddenAnswer(textAnswer.getText());
@@ -1141,7 +1154,9 @@ public class CompositeCustomer extends AbstractComposite{
 	                */
 	                    //object speichern
 	                    // Fehlerbehandlung
-	                    Database.saveObject(localCustomer);
+    	                logger.debug("Versuche edit zu speichern: "+localCustomer);
+    	                
+	                    Database.updateObject(localCustomer);
 	                    //Übersichtstabelle aktualisieren
 	                    refreshCustomerTable(textCustomerSearch.getText());
 	                    
@@ -1166,6 +1181,8 @@ public class CompositeCustomer extends AbstractComposite{
 	                        e.printStackTrace();
 	                    }
                     
+                    } catch (ParseException pex){
+                        pex.printStackTrace();
                     }
                     
                     //alle Buttons auf aktiv setzen
@@ -1246,7 +1263,7 @@ public class CompositeCustomer extends AbstractComposite{
         String regdate = "";
         if (customer.getDayOfRegistration() != null) {
             Calendar cal = Calendar.getInstance();
-            cal.setTime(customer.getDayOfRegistration());
+            cal = (customer.getDayOfRegistration());
             birthday = Util.getTextByDate(cal, "dd.MM.yyyy");            
         }
         item.setText(new String[] { customer.getCustomerId() + "", 
@@ -1291,7 +1308,7 @@ public class CompositeCustomer extends AbstractComposite{
             
             item = new TableItem(tableCustomer, SWT.NONE);
             Calendar regdate = Calendar.getInstance();
-            regdate.setTime(o.getDayOfRegistration());
+            regdate = (o.getDayOfRegistration());
             String date = null;
             if (o.getPerson().getDayOfBirth() == null) {
                 date = "";
@@ -1550,22 +1567,32 @@ public class CompositeCustomer extends AbstractComposite{
 	        temp = object.getHiddenAnswer();
 	        textAnswer.setText(temp == null ? "" : temp);
 	        
-	        String date = null;
-            String regdate = null;
+
             if (object.getPerson().getDayOfBirth() == null) {
-                date = "";
+                textBirthday.setText("");
             } else {
-                date = Util.getTextByDate(object.getPerson().getDayOfBirth(), "dd.MM.yyyy");
+                
+                textBirthday.setText(DateFormat.getDateInstance(
+                        DateFormat.LONG).format(
+                                object.getPerson().getDayOfBirth().getTime()));
+
+                
+                //date = Util.getTextByDate(object.getPerson().getDayOfBirth(), "dd.MM.yyyy");
             }
-            textBirthday.setText(date);
+            
             if (object.getDayOfRegistration() == null) {
-                regdate = "";
+                textRegistrationDate.setText("");
             } else {
+                textRegistrationDate.setText(DateFormat.getDateInstance(
+                        DateFormat.LONG).format(
+                                object.getDayOfRegistration().getTime()));
+                /*
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(object.getDayOfRegistration());
+                cal = (object.getDayOfRegistration());
                 regdate = Util.getTextByDate(cal, "dd.MM.yyyy");
+                */
             }
-            textRegistrationDate.setText(regdate);
+            
 	        
 	        //Buttons zum löschen und editieren aktivieren
 	        

@@ -13,12 +13,12 @@
  			<meta attribute="implement-equals">true</meta>
  			<meta attribute="use-in-equals">true</meta>
  			
-      <id name="personId" type="int" column="PERSONID">
+      <id name="personId" type="int" column="PERSONID" unsaved-value="null">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
         <generator class="sequence">
-			<param name="sequence">person_id_sequence</param>
-		</generator>
+					<param name="sequence">person_id_sequence</param>
+				</generator>
       </id>
 	  
 

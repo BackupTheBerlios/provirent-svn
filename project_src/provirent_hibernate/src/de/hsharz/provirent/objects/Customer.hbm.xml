@@ -13,20 +13,22 @@
  			<meta attribute="implement-equals">true</meta>
  			<meta attribute="use-in-equals">true</meta>
  
-      <id name="customerId" type="int" column="CUSTOMERID">
+      <id name="customerId" type="int" column="CUSTOMERID" unsaved-value="null">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
         <generator class="sequence">
-			<param name="sequence">customer_id_sequence</param>
-		</generator>
+					<param name="sequence">customer_id_sequence</param>
+				</generator>
       </id>
+
  
- 			<timestamp	name="dayOfRegistration">
- 				<meta attribute="use-in-tostring">true</meta>
- 			</timestamp>
+      <property name="dayOfRegistration" type="calendar" >
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
  
-	<many-to-one name="person" class="de.hsharz.provirent.objects.Person" column="person_id" unique="true" cascade="all"/>
- 
+	<many-to-one name="person" class="de.hsharz.provirent.objects.Person" column="person_id" unique="true" cascade="all">
+		<meta attribute="use-in-tostring">true</meta>
+	</many-to-one>
       
       <property name="userName" type="string" not-null="true">
       	<meta attribute="use-in-tostring">true</meta>
