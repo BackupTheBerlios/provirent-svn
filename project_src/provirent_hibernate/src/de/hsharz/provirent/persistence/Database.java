@@ -44,15 +44,16 @@ import net.sf.hibernate.expression.Expression;
 
 import org.apache.log4j.Logger;
 
+import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.AudioFormat;
 import de.hsharz.provirent.objects.Condition;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
+import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
-import de.hsharz.provirent.objects.Actor;
 
 
 /**
@@ -676,14 +677,14 @@ public class Database {
 	}
 
 	/**
-	 * This method gets all Actor from the database.
+	 * This method gets all Images from the database.
 	 * searches for firstname or lastname or id
 	 * @param filter 
-	 * @return List of Director objects, or an empty List
+	 * @return List of Image objects, or an empty List
 	 */
-	public static List getActor(final String filter){
+	public static List getImages(final String filter){
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getActor() - start. String filter= "+filter);
+	        logger.debug("getImages() - start. String filter= "+filter);
 	    }
 	    //init the returnlist
 	    List returnlist = new ArrayList();
@@ -695,18 +696,18 @@ public class Database {
 	        s = HibernateUtil.currentSession();
 	            
 	            //init the criteria
-	            Criteria criteria = s.createCriteria(Actor.class);
+	            Criteria criteria = s.createCriteria(Image.class);
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
 	
 	            //if filter not empty
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
-	                any.add(Expression.like("firstName", "%"+filter+"%"));
-	                any.add(Expression.like("lastName", "%"+filter+"%"));
+	                any.add(Expression.like("imageFileName", "%"+filter+"%"));
+	                any.add(Expression.like("imageFileDescription", "%"+filter+"%"));
 	                
 	                //maybe we are searching for the id?
 	                try {
-	                    any.add(Expression.eq("actorId", new Integer(Integer.parseInt(filter))));
+	                    any.add(Expression.eq("imageId", new Integer(Integer.parseInt(filter))));
 	                } catch (Exception e) {
 	                }
 	                
@@ -721,7 +722,7 @@ public class Database {
 	
 	    } catch (Exception e) {
 	        logger.error(
-	                "getActor() - Error while trying to do Transaction",
+	                "getImages() - Error while trying to do Transaction",
 	                e);
 	        returnlist = new ArrayList();
 	    } finally {
@@ -729,24 +730,24 @@ public class Database {
 	            // No matter what, close the session
 	            HibernateUtil.closeSession();
 	        } catch (HibernateException e1) {
-	            logger.error("getActor() - Could not Close the Session", e1);
+	            logger.error("getImages() - Could not Close the Session", e1);
 	        }
 	    }
 	
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getActor() - end");
+	        logger.debug("getImages() - end");
 	    }
 	    return returnlist;
 	    	
 	}
 	
 	
-	public static Actor getSingleActor(final int id){
+	public static Object getSingleObject( final Class gclass, final int id){
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getSingleActor() - start. int filter= "+id);
+	        logger.debug("getSingleObject() - start. int filter= "+id);
 	    }
 	    //init the returnlist
-	    Actor returnobject = null;
+	    Object returnobject = null;
 	
 	    Session s = null;
 	    Transaction tx = null;
@@ -754,11 +755,11 @@ public class Database {
 	        //get new Session and begin Transaction
 	        s = HibernateUtil.currentSession();
 	
-	            returnobject = (Actor)s.get(Actor.class, new Integer(id));
+	            returnobject = (Object)s.get(gclass, new Integer(id));
 	
 	    } catch (Exception e) {
 	        logger.error(
-	                "getSingleActor() - Error while trying to do Transaction",
+	                "getSingleObject() - Error while trying to do Transaction",
 	                e);
 	        
 	    } finally {
@@ -766,12 +767,12 @@ public class Database {
 	            // No matter what, close the session
 	            HibernateUtil.closeSession();
 	        } catch (HibernateException e1) {
-	            logger.error("getSingleActor() - Could not Close the Session", e1);
+	            logger.error("getSingleObject() - Could not Close the Session", e1);
 	        }
 	    }
 	
 	    if (logger.isDebugEnabled()) {
-	        logger.debug("getSingleActor() - end");
+	        logger.debug("getSingleObject() - end");
 	    }
 	    return returnobject;
 	    	
@@ -1190,6 +1191,111 @@ public class Database {
 	    return returnobject;
 	    	
 	}
+	
+
+	/**
+	 * This method gets all Actor from the database.
+	 * searches for firstname or lastname or id
+	 * @param filter 
+	 * @return List of Actors objects, or an empty List
+	 */
+	public static List getActor(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getActor() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Actor.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("firstName", "%"+filter+"%"));
+	                any.add(Expression.like("lastName", "%"+filter+"%"));
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("actorId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getActor() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getActor() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getActor() - end");
+	    }
+	    return returnlist;
+	    	
+	}
+	
+	
+	public static Actor getSingleActor(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleActor() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Actor returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Actor)s.get(Actor.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleActor() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleActor() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleActor() - end");
+	    }
+	    return returnobject;
+	    	
+	}
+	
+	
 	
 	
 	/**

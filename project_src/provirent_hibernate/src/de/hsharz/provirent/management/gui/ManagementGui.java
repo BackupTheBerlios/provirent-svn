@@ -104,13 +104,14 @@ public class ManagementGui {
 
     private CTabFolder cTabFolderMain;
 
-    private CTabItem tabItemFormat,tabItemActor,tabItemDirector,tabItemLanguage,tabItemGenre;
+    private CTabItem tabItemFormat,tabItemActor,tabItemDirector,tabItemLanguage,tabItemGenre,tabItemImage;
 
     private CompositeFormate compositeFormate;
     private CompositeActors compositeActor;
     private CompositeDirectors compositeDirector;
     private CompositeGenre compositeGenre;
     private CompositeLanguage compositeLanguage;
+    private CompositeImage compositeImage;
     
 
     private MenuItem aboutMenuItem;
@@ -125,7 +126,7 @@ public class ManagementGui {
     
     private MenuItem viewVideoFormatMenuItem,viewActorMenuItem,viewGenreMenuItem;
     private MenuItem viewLanguageMenuItem,viewStatusMenuItem;
-    private MenuItem viewConditionMenuItem,viewMovieMenuItem,viewDvdMenuItem, viewBillMenuItem;
+    private MenuItem viewConditionMenuItem,viewMovieMenuItem,viewDvdMenuItem, viewBillMenuItem, viewImageMenuItem;
     
 
     private Shell shell;
@@ -494,6 +495,23 @@ public class ManagementGui {
             }
         });   
 
+        viewImageMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+        viewImageMenuItem.setText(l.getString("menu.view.image"));
+        viewImageMenuItem.setSelection(false);
+        viewImageMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemImage == null || tabItemImage.isDisposed()){
+				    initImageTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemStatus);
+				viewStatusMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();
+            }
+        });   
+        
+        
         viewMovieMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewMovieMenuItem.setText(l.getString("menu.view.movie"));
         viewMovieMenuItem.setSelection(false);
@@ -533,7 +551,28 @@ public class ManagementGui {
         cTabFolderMain.setSelection(tabItemStatus);
     }
 
+    private void initImageTab() {
+        tabItemImage = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemImage.setText(l.getString("tab.image.title"));
+        tabItemImage.addDisposeListener(new DisposeListener() {
 
+            public void widgetDisposed(DisposeEvent evt) {
+                if(!viewImageMenuItem.isDisposed()){
+                    viewImageMenuItem.setSelection(false);
+                }
+            }
+            
+        });
+        {
+            compositeImage = new CompositeImage(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemImage.setControl(compositeImage);
+        }
+        cTabFolderMain.setSelection(tabItemImage);
+    }
+    
     /**
      * init the help menu
      */
