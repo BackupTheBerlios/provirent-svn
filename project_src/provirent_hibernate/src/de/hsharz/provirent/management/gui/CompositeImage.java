@@ -17,6 +17,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -31,6 +32,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -41,6 +43,7 @@ import com.cloudgarden.resource.SWTResourceManager;
 
 import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.persistence.Database;
+import org.eclipse.swt.widgets.Slider;
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -107,6 +110,7 @@ public class CompositeImage extends AbstractComposite{
     protected int mode_actor;
     
     private Image ideaImage,scaledImage;
+    int iy,ix = 0;
     
     private StatusLineStyledText statusLine;
 
@@ -176,6 +180,8 @@ public class CompositeImage extends AbstractComposite{
 	}
 
 	private void initGUI() {
+		{
+		}
         if (logger.isDebugEnabled()) {
             logger.debug("initGUI() - start");
         }
@@ -479,18 +485,24 @@ public class CompositeImage extends AbstractComposite{
                 GridData button1LData = new GridData();
                 button1.addSelectionListener(new SelectionAdapter() {
                     public void widgetSelected(SelectionEvent evt) {
-                        String[] filterExtensions = {"*.gif","*.jpg", "*.*"};
-                        FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN);
+                        String[] filterExtensions = { "*.gif", "*.jpg", "*.*" };
+                        FileDialog fileDialog = new FileDialog(
+                            getShell(),
+                            SWT.OPEN);
                         fileDialog.setText("FileDialog Demo");
                         fileDialog.setFilterPath("C:/");
-                        
+
                         fileDialog.setFilterExtensions(filterExtensions);
-                        String selectedFile = fileDialog.open(); 
-                        if (selectedFile != null){
-                            scaledImage = ideaImage = new Image(getDisplay(),selectedFile);
+                        String selectedFile = fileDialog.open();
+                        if (selectedFile != null) {
+                            scaledImage = ideaImage = new Image(
+                                getDisplay(),
+                                selectedFile);
                             canvas1.redraw();
                             text1.setText(fileDialog.getFileName());
                             scale1.setEnabled(true);
+                            resetScrollBars();
+                            resizeScrollBars();
                         }
                     }
                 });
@@ -498,11 +510,11 @@ public class CompositeImage extends AbstractComposite{
                 button1LData.grabExcessHorizontalSpace = true;
                 button1LData.horizontalSpan = 2;
                 button1.setLayoutData(button1LData);
-                
 
-                
-            
-                canvas1 = new Canvas(groupActorsDetail, SWT.BORDER);
+                canvas1 = new Canvas(groupActorsDetail, SWT.NO_REDRAW_RESIZE
+                    | SWT.H_SCROLL
+                    | SWT.V_SCROLL
+                    | SWT.BORDER);
                 GridData canvas1LData = new GridData();
                 canvas1LData.grabExcessHorizontalSpace = true;
                 canvas1LData.horizontalAlignment = GridData.FILL;
@@ -512,12 +524,33 @@ public class CompositeImage extends AbstractComposite{
                 canvas1.setLayoutData(canvas1LData);
                 canvas1.addPaintListener(new PaintListener() {
                     public void paintControl(PaintEvent e) {
-                        if (ideaImage != null && !ideaImage.isDisposed()){
-                     e.gc.drawImage(scaledImage,0,0);
+                        if (ideaImage != null && !ideaImage.isDisposed()) {
+                            paintImage(e);
+                            //e.gc.drawImage(scaledImage, 0, 0);
                         }
                     }
-                });    
-                  
+                });
+
+                // Set up the image canvas scroll bars.
+                ScrollBar horizontal = canvas1.getHorizontalBar();
+                horizontal.setVisible(true);
+                horizontal.setMinimum(0);
+                horizontal.setEnabled(false);
+                horizontal.addSelectionListener(new SelectionAdapter() {
+                    public void widgetSelected(SelectionEvent event) {
+                        scrollHorizontally((ScrollBar)event.widget);
+                    }
+                });
+                ScrollBar vertical = canvas1.getVerticalBar();
+                vertical.setVisible(true);
+                vertical.setMinimum(0);
+                vertical.setEnabled(false);
+                vertical.addSelectionListener(new SelectionAdapter() {
+                    public void widgetSelected(SelectionEvent event) {
+                        scrollVertically((ScrollBar)event.widget);
+                    }
+                });
+
             }
             {
                 label2 = new Label(groupActorsDetail, SWT.NONE);
@@ -539,23 +572,24 @@ public class CompositeImage extends AbstractComposite{
                         //System.out.println("scale1.widgetSelected, event="
                         //    + evt);
 
-                        float  scaleFaktor = (float)scale1.getSelection()/100;
-                        int newwidth =(int)(ideaImage.getBounds().width*scaleFaktor);
-                        int newheight = (int)(ideaImage.getBounds().height*scaleFaktor);
-                            
-                        ImageData newdata = ideaImage.getImageData().scaledTo(newwidth,newheight);
-                        
-                        scaledImage = new Image(getDisplay(),newdata);
+                        float scaleFaktor = (float) scale1.getSelection() / 100;
+                        int newwidth = (int) (ideaImage.getBounds().width * scaleFaktor);
+                        int newheight = (int) (ideaImage.getBounds().height * scaleFaktor);
+
+                        ImageData newdata = ideaImage.getImageData().scaledTo(
+                            newwidth,
+                            newheight);
+
+                        scaledImage = new Image(getDisplay(), newdata);
                         canvas1.redraw();
-                        
+
                         ImageLoader imageLoader = new ImageLoader();
-                        imageLoader.data = new ImageData[] {newdata};
+                        imageLoader.data = new ImageData[] { newdata };
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        imageLoader.save(bos,SWT.IMAGE_GIF); 
-                        
-                        
-                        
+                        imageLoader.save(bos, SWT.IMAGE_GIF);
+
                         imagebytedata = bos.toByteArray();
+                        resizeScrollBars();
                     }
                 });
                 scale1LData.grabExcessHorizontalSpace = true;
@@ -566,15 +600,110 @@ public class CompositeImage extends AbstractComposite{
                 scale1.setMinimum(0);
                 scale1.setIncrement(10);
                 scale1.setSelection(100);
-                
-                
+
             }
 
         	// buttons for detail
 	}
 
-	 
+	void resizeScrollBars() {
+		// Set the max and thumb for the image canvas scroll bars.
+		ScrollBar horizontal = canvas1.getHorizontalBar();
+		ScrollBar vertical = canvas1.getVerticalBar();
+		Rectangle canvasBounds = canvas1.getClientArea();
+		int width = Math.round(scaledImage.getImageData().width);
+		if (width > canvasBounds.width) {
+			// The image is wider than the canvas.
+			horizontal.setEnabled(true);
+			horizontal.setMaximum(width);
+			horizontal.setThumb(canvasBounds.width);
+			horizontal.setPageIncrement(canvasBounds.width);
+		} else {
+			// The canvas is wider than the image.
+			horizontal.setEnabled(false);
+
+			canvas1.redraw();
+		}
+		int height = Math.round(scaledImage.getImageData().height);
+		if (height > canvasBounds.height) {
+			// The image is taller than the canvas.
+			vertical.setEnabled(true);
+			vertical.setMaximum(height);
+			vertical.setThumb(canvasBounds.height);
+			vertical.setPageIncrement(canvasBounds.height);
+		} else {
+			// The canvas is taller than the image.
+			vertical.setEnabled(false);
+				canvas1.redraw();
+			
+		}
+	}
 	
+	
+	void scrollHorizontally(ScrollBar scrollBar) {
+		if (scaledImage == null) return;
+		Rectangle canvasBounds = canvas1.getClientArea();
+		int width = Math.round(scaledImage.getImageData().width );
+		int height = Math.round(scaledImage.getImageData().height );
+		if (width > canvasBounds.width) {
+			// Only scroll if the image is bigger than the canvas.
+			int x = -scrollBar.getSelection();
+			if (x + width < canvasBounds.width) {
+				// Don't scroll past the end of the image.
+				x = canvasBounds.width - width;
+			}
+			canvas1.scroll(x, iy, ix, iy, width, height, false);
+			ix = x;
+			
+		}
+	}
+	
+	void scrollVertically(ScrollBar scrollBar) {
+		if (scaledImage == null) return;
+		Rectangle canvasBounds = canvas1.getClientArea();
+		int width = Math.round(scaledImage.getImageData().width);
+		int height = Math.round(scaledImage.getImageData().height);
+		if (height > canvasBounds.height) {
+			// Only scroll if the image is bigger than the canvas.
+			int y = -scrollBar.getSelection();
+			if (y + height < canvasBounds.height) {
+				// Don't scroll past the end of the image.
+				y = canvasBounds.height - height;
+			}
+			canvas1.scroll(ix, y, ix, iy, width, height, false);
+			iy = y;
+		}
+	}	
+	
+	// Reset the scroll bars to 0.
+	void resetScrollBars() {
+		if (scaledImage == null) return;
+		ix = 0; iy = 0;
+		resizeScrollBars();
+		canvas1.getHorizontalBar().setSelection(0);
+		canvas1.getVerticalBar().setSelection(0);
+		
+	}
+	
+	
+	void paintImage(PaintEvent event) {
+		Image paintImage = scaledImage;
+
+		int w = Math.round(scaledImage.getImageData().width);
+		int h = Math.round(scaledImage.getImageData().height);
+		event.gc.drawImage(
+			paintImage,
+			0,
+			0,
+			scaledImage.getImageData().width,
+			scaledImage.getImageData().height,
+			ix + scaledImage.getImageData().x,
+			iy + scaledImage.getImageData().y,
+			w,
+			h);
+	}
+
+
 	
 	/**
      * @param text
