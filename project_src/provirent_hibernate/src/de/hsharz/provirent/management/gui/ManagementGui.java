@@ -347,7 +347,8 @@ public class ManagementGui {
             cTabFolderMain.setLayoutData(cTabFolder1LData);
             
             //initFormatTab();
-            initMovieTab();
+            //initMovieTab();
+            initImageTab();
 
         } catch (Exception e) {
             e.printStackTrace();
