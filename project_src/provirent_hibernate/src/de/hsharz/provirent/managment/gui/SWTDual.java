@@ -109,6 +109,7 @@ public class SWTDual  {
 	private TableColumn tableColumn1;
 	private Table tableAudioFormat;
 	private Group groupAudioFormatOverview;
+	private SashForm sashForm1;
 	private Button buttonVideoFormatCancel;
 	private Button buttonVideoFormatSave;
 	private Button buttonVideoFormatFill;
@@ -125,8 +126,7 @@ public class SWTDual  {
 	private SashForm sashFormAudioFormat;
 	private Group groupVideoFormat;
 	private Group groupAudioFormat;
-	private Composite composite1;
-	
+
     private Text textVideoFormatId;
   
 	/**
@@ -251,27 +251,33 @@ public void run() {
                     tabItemFormat = new CTabItem(cTabFolder1, SWT.NONE);
                     tabItemFormat.setText("Formate");
                     {
-                        composite1 = new Composite(cTabFolder1, SWT.NONE);
-                        FormLayout composite1Layout = new FormLayout();
-                        composite1.setLayout(composite1Layout);
-                        tabItemFormat.setControl(composite1);
+                        sashForm1 = new SashForm(cTabFolder1, SWT.VERTICAL | SWT.V_SCROLL);
+                        tabItemFormat.setControl(sashForm1);
                         {
-                            groupVideoFormat = new Group(composite1, SWT.NONE);
+                            groupVideoFormat = new Group(sashForm1, SWT.NONE);
                             GridLayout group2Layout = new GridLayout();
-                            FormData group2LData = new FormData(758, 284);
+                            FormData group2LData = new FormData();
                             groupVideoFormat.setSize(758, 284);
-                            group2LData.height = 284;
+                            group2LData.height = 222;
                             group2LData.width = 758;
-                            group2LData.left =  new FormAttachment(0, 1000, 0);
-                            group2LData.right =  new FormAttachment(1000, 1000, 0);
-                            group2LData.top =  new FormAttachment(0, 1000, 0);
-                            group2LData.bottom =  new FormAttachment(500, 1000, 0);
+                            group2LData.left = new FormAttachment(0, 1000, 0);
+                            group2LData.right = new FormAttachment(
+                                1000,
+                                1000,
+                                0);
+                            group2LData.top = new FormAttachment(0, 1000, 0);
+                            group2LData.bottom = new FormAttachment(
+                                500,
+                                1000,
+                                0);
                             groupVideoFormat.setLayoutData(group2LData);
                             group2Layout.makeColumnsEqualWidth = true;
                             groupVideoFormat.setLayout(group2Layout);
                             groupVideoFormat.setText("VideoFormat");
                             {
-                                sashFormVideoFormat = new SashForm(groupVideoFormat, SWT.NONE);
+                                sashFormVideoFormat = new SashForm(
+                                    groupVideoFormat,
+                                    SWT.NONE);
                                 FormLayout sashForm2Layout = new FormLayout();
                                 GridData sashForm2LData = new GridData();
                                 sashFormVideoFormat.setSize(748, 300);
@@ -279,55 +285,72 @@ public void run() {
                                 sashForm2LData.horizontalAlignment = GridData.FILL;
                                 sashForm2LData.verticalAlignment = GridData.FILL;
                                 sashForm2LData.grabExcessVerticalSpace = true;
-                                sashFormVideoFormat.setLayoutData(sashForm2LData);
+                                sashFormVideoFormat
+                                    .setLayoutData(sashForm2LData);
                                 sashFormVideoFormat.setLayout(sashForm2Layout);
                                 {
-                                    groupVideoFormatOverview = new Group(sashFormVideoFormat, SWT.NONE);
+                                    groupVideoFormatOverview = new Group(
+                                        sashFormVideoFormat,
+                                        SWT.NONE);
                                     GridLayout group5Layout = new GridLayout();
                                     group5Layout.numColumns = 6;
-                                    groupVideoFormatOverview.setText("Übersicht");
+                                    groupVideoFormatOverview
+                                        .setText("Übersicht");
                                     FormData group5LData = new FormData();
-                                    groupVideoFormatOverview.setLayout(group5Layout);
-                                    group5LData.top =  new FormAttachment(0, 100, 0);
-                                    group5LData.left =  new FormAttachment(0, 100, 0);
-                                    groupVideoFormatOverview.setLayoutData(group5LData);
+                                    groupVideoFormatOverview
+                                        .setLayout(group5Layout);
+                                    group5LData.top = new FormAttachment(
+                                        0,
+                                        100,
+                                        0);
+                                    group5LData.left = new FormAttachment(
+                                        0,
+                                        100,
+                                        0);
+                                    groupVideoFormatOverview
+                                        .setLayoutData(group5LData);
                                     {
-                                        tableVideoFormat = new Table(groupVideoFormatOverview, SWT.SINGLE
-                                            | SWT.FULL_SELECTION
-                                            | SWT.V_SCROLL
-                                            | SWT.BORDER);
+                                        tableVideoFormat = new Table(
+                                            groupVideoFormatOverview,
+                                            SWT.SINGLE
+                                                | SWT.FULL_SELECTION
+                                                | SWT.V_SCROLL
+                                                | SWT.BORDER);
                                         tableVideoFormat.setHeaderVisible(true);
                                         tableVideoFormat.setLinesVisible(true);
                                         GridData table2LData = new GridData();
                                         tableVideoFormat
                                             .addSelectionListener(new SelectionAdapter() {
-                                            public void widgetSelected(
-                                                SelectionEvent evt) {
+                                                public void widgetSelected(
+                                                    SelectionEvent evt) {
 
-                                                int index = tableVideoFormat
-                                                    .getSelectionIndex();
-                                                System.out
-                                                    .println("Table select. id: "
-                                                        + index
-                                                        + " TableItem:"
-                                                        + tableVideoFormat
-                                                            .getItem(index)
-                                                        + " id: "
-                                                        + tableVideoFormat
-                                                            .getItem(index)
-                                                            .getText(0));
-                                                
-                                                //es wurde ein Element aus Tabelle ausgewaehlt 
-                                                // jetzt muss die Detailansicht aktualisiert werden
-                                                refreshVideoFormatDetail(tableVideoFormat.getItem(index).getText(0));
-                                            }
+                                                    int index = tableVideoFormat
+                                                        .getSelectionIndex();
+                                                    System.out
+                                                        .println("Table select. id: "
+                                                            + index
+                                                            + " TableItem:"
+                                                            + tableVideoFormat
+                                                                .getItem(index)
+                                                            + " id: "
+                                                            + tableVideoFormat
+                                                                .getItem(index)
+                                                                .getText(0));
+
+                                                    //es wurde ein Element aus Tabelle ausgewaehlt 
+                                                    // jetzt muss die Detailansicht aktualisiert werden
+                                                    refreshVideoFormatDetail(tableVideoFormat
+                                                        .getItem(index)
+                                                        .getText(0));
+                                                }
                                             });
                                         table2LData.verticalAlignment = GridData.FILL;
                                         table2LData.horizontalAlignment = GridData.FILL;
                                         table2LData.horizontalSpan = 6;
                                         table2LData.grabExcessHorizontalSpace = true;
                                         table2LData.grabExcessVerticalSpace = true;
-                                        tableVideoFormat.setLayoutData(table2LData);
+                                        tableVideoFormat
+                                            .setLayoutData(table2LData);
                                         {
                                             tableColumn4 = new TableColumn(
                                                 tableVideoFormat,
@@ -335,7 +358,7 @@ public void run() {
                                             tableColumn4.setText("id");
                                             tableColumn4.setAlignment(SWT.LEAD);
                                             tableColumn4.setWidth(50);
-                                            
+
                                         }
                                         {
                                             tableColumn5 = new TableColumn(
@@ -351,61 +374,86 @@ public void run() {
                                             tableColumn6.setText("Shortname");
                                             tableColumn6.setWidth(100);
                                         }
-                                        
+
                                     }
                                     {
-                                        labelVideoFormatSearch = new Label(groupVideoFormatOverview, SWT.NONE);
-                                        labelVideoFormatSearch.setText("Suche nach:");
+                                        labelVideoFormatSearch = new Label(
+                                            groupVideoFormatOverview,
+                                            SWT.NONE);
+                                        labelVideoFormatSearch
+                                            .setText("Suche nach:");
                                         GridData label2LData = new GridData();
                                         label2LData.horizontalSpan = 2;
-                                        labelVideoFormatSearch.setLayoutData(label2LData);
+                                        labelVideoFormatSearch
+                                            .setLayoutData(label2LData);
                                     }
                                     {
-                                        textVideoFormatSearch = new Text(groupVideoFormatOverview, SWT.BORDER);
+                                        textVideoFormatSearch = new Text(
+                                            groupVideoFormatOverview,
+                                            SWT.BORDER);
                                         GridData text2LData = new GridData();
                                         text2LData.horizontalAlignment = GridData.FILL;
                                         text2LData.horizontalSpan = 4;
                                         text2LData.grabExcessHorizontalSpace = true;
-                                        textVideoFormatSearch.setLayoutData(text2LData);
-                                        
-                                        textVideoFormatSearch.addFocusListener(new FocusAdapter() {
-                    						public void focusLost(FocusEvent arg0) {
-                    							System.out.println("Focus Verloren: " + textVideoFormatSearch.getText());
-                    							refreshVideoFormatTable(textVideoFormatSearch.getText());
-                    						}
-                    					});
+                                        textVideoFormatSearch
+                                            .setLayoutData(text2LData);
 
-                                        textVideoFormatSearch.addListener(SWT.DefaultSelection, new Listener() {
-                    						public void handleEvent(Event e) { //check for "enter" key
-                    							System.out.println("Enter key: " + textVideoFormatSearch.getText());
-                    							refreshVideoFormatTable(textVideoFormatSearch.getText());
-                    							
-                    						}
-                    					});
+                                        textVideoFormatSearch
+                                            .addFocusListener(new FocusAdapter() {
+                                                public void focusLost(
+                                                    FocusEvent arg0) {
+                                                    System.out
+                                                        .println("Focus Verloren: "
+                                                            + textVideoFormatSearch
+                                                                .getText());
+                                                    refreshVideoFormatTable(textVideoFormatSearch
+                                                        .getText());
+                                                }
+                                            });
 
-                                        
+                                        textVideoFormatSearch.addListener(
+                                            SWT.DefaultSelection,
+                                            new Listener() {
+                                                public void handleEvent(Event e) { //check for "enter" key
+                                                    System.out
+                                                        .println("Enter key: "
+                                                            + textVideoFormatSearch
+                                                                .getText());
+                                                    refreshVideoFormatTable(textVideoFormatSearch
+                                                        .getText());
+
+                                                }
+                                            });
 
                                     }
-                                   
+
                                 }
                                 {
-                                    groupVideoFormatDetail = new Group(sashFormVideoFormat, SWT.NONE);
-                                    
-                            		GridLayout groupVideoFormatDetailLayout = new GridLayout();
-                            		groupVideoFormatDetailLayout.numColumns = 6;
-                            		groupVideoFormatDetailLayout.verticalSpacing = 15;
-                            		groupVideoFormatDetailLayout.marginHeight = 25;
-                            		groupVideoFormatDetail.setLayout(groupVideoFormatDetailLayout);
+                                    groupVideoFormatDetail = new Group(
+                                        sashFormVideoFormat,
+                                        SWT.NONE);
+
+                                    GridLayout groupVideoFormatDetailLayout = new GridLayout();
+                                    groupVideoFormatDetailLayout.numColumns = 6;
+                                    groupVideoFormatDetailLayout.verticalSpacing = 15;
+                                    groupVideoFormatDetailLayout.marginHeight = 25;
+                                    groupVideoFormatDetail
+                                        .setLayout(groupVideoFormatDetailLayout);
                                     groupVideoFormatDetail.setText("Detail");
-                            		
+
                                     FormData formData = new FormData();
-                            		formData.left = new FormAttachment(33, 5);
-                            		formData.right = new FormAttachment(100, -5);
-                            		formData.top = new FormAttachment(0, 5);
-                            		formData.bottom = new FormAttachment(100, -5);
-                            		groupVideoFormatDetail.setLayoutData(formData);
+                                    formData.left = new FormAttachment(33, 5);
+                                    formData.right = new FormAttachment(100, -5);
+                                    formData.top = new FormAttachment(0, 5);
+                                    formData.bottom = new FormAttachment(
+                                        100,
+                                        -5);
+                                    groupVideoFormatDetail
+                                        .setLayoutData(formData);
                                     {
-                                        labelVideoFormatId = new Label(groupVideoFormatDetail, SWT.NONE);
+                                        labelVideoFormatId = new Label(
+                                            groupVideoFormatDetail,
+                                            SWT.NONE);
                                         labelVideoFormatId
                                             .setText("VideoFormat ID:");
                                         GridData formData2 = new GridData();
@@ -413,17 +461,21 @@ public void run() {
                                         formData2.widthHint = 125;
                                         formData2.heightHint = 15;
                                         formData2.horizontalSpan = 2;
-                                        labelVideoFormatId.setLayoutData(formData2);
+                                        labelVideoFormatId
+                                            .setLayoutData(formData2);
                                     }
                                     {
-                                        textVideoFormatID = new Text(groupVideoFormatDetail, SWT.READ_ONLY | SWT.BORDER);
+                                        textVideoFormatID = new Text(
+                                            groupVideoFormatDetail,
+                                            SWT.READ_ONLY | SWT.BORDER);
                                         textVideoFormatID.setText("");
                                         GridData text1LData1 = new GridData();
                                         text1LData1.horizontalSpan = 4;
                                         text1LData1.grabExcessHorizontalSpace = true;
                                         text1LData1.horizontalAlignment = GridData.FILL;
                                         text1LData1.heightHint = 13;
-                                        textVideoFormatID.setLayoutData(text1LData1);
+                                        textVideoFormatID
+                                            .setLayoutData(text1LData1);
                                     }
                                     {
                                         labelVideoFormatName = new Label(
@@ -436,40 +488,55 @@ public void run() {
                                         labelVideoFormatNameLData.heightHint = 15;
                                         labelVideoFormatNameLData.horizontalSpan = 2;
                                         labelVideoFormatNameLData.widthHint = 125;
-                                        labelVideoFormatName.setLayoutData(labelVideoFormatNameLData);
+                                        labelVideoFormatName
+                                            .setLayoutData(labelVideoFormatNameLData);
                                     }
                                     {
-                                        textVideoFormatName = new Text(groupVideoFormatDetail, SWT.READ_ONLY | SWT.BORDER);
+                                        textVideoFormatName = new Text(
+                                            groupVideoFormatDetail,
+                                            SWT.READ_ONLY | SWT.BORDER);
                                         textVideoFormatName.setText("");
                                         GridData text1LData2 = new GridData();
                                         text1LData2.horizontalAlignment = GridData.FILL;
                                         text1LData2.horizontalSpan = 4;
                                         text1LData2.grabExcessHorizontalSpace = true;
                                         text1LData2.heightHint = 13;
-                                        textVideoFormatName.setLayoutData(text1LData2);
+                                        textVideoFormatName
+                                            .setLayoutData(text1LData2);
                                     }
                                     {
-                                        labelVideoFormatShortname = new Label(groupVideoFormatDetail, SWT.NONE);
-                                        labelVideoFormatShortname.setText("VideoFormat Kurzname:");
+                                        labelVideoFormatShortname = new Label(
+                                            groupVideoFormatDetail,
+                                            SWT.NONE);
+                                        labelVideoFormatShortname
+                                            .setText("VideoFormat Kurzname:");
                                         GridData label1LData1 = new GridData();
-                                        labelVideoFormatShortname.setSize(125, 15);
+                                        labelVideoFormatShortname.setSize(
+                                            125,
+                                            15);
                                         label1LData1.widthHint = 125;
                                         label1LData1.heightHint = 15;
                                         label1LData1.horizontalSpan = 2;
-                                        labelVideoFormatShortname.setLayoutData(label1LData1);
+                                        labelVideoFormatShortname
+                                            .setLayoutData(label1LData1);
                                     }
                                     {
-                                        textVideoFormatShortname = new Text(groupVideoFormatDetail, SWT.READ_ONLY | SWT.BORDER);
+                                        textVideoFormatShortname = new Text(
+                                            groupVideoFormatDetail,
+                                            SWT.READ_ONLY | SWT.BORDER);
                                         textVideoFormatShortname.setText("");
                                         GridData text1LData3 = new GridData();
                                         text1LData3.horizontalAlignment = GridData.FILL;
                                         text1LData3.horizontalSpan = 4;
                                         text1LData3.grabExcessHorizontalSpace = true;
                                         text1LData3.heightHint = 13;
-                                        textVideoFormatShortname.setLayoutData(text1LData3);
+                                        textVideoFormatShortname
+                                            .setLayoutData(text1LData3);
                                     }
                                     {
-                                        composite2 = new Composite(groupVideoFormatDetail, SWT.EMBEDDED);
+                                        composite2 = new Composite(
+                                            groupVideoFormatDetail,
+                                            SWT.EMBEDDED);
                                         GridLayout composite2Layout = new GridLayout();
                                         composite2Layout.numColumns = 6;
                                         GridData composite2LData = new GridData();
@@ -478,7 +545,8 @@ public void run() {
                                         composite2LData.horizontalAlignment = GridData.CENTER;
                                         composite2LData.verticalAlignment = GridData.END;
                                         composite2LData.grabExcessVerticalSpace = true;
-                                        composite2.setLayoutData(composite2LData);
+                                        composite2
+                                            .setLayoutData(composite2LData);
                                         composite2.setLayout(composite2Layout);
                                         {
                                             buttonVideoFormatNew = new Button(
@@ -487,69 +555,83 @@ public void run() {
                                             buttonVideoFormatNew.setText("Neu");
                                             buttonVideoFormatNew
                                                 .addSelectionListener(new SelectionAdapter() {
-                                                public void widgetSelected(
-                                                    SelectionEvent evt) {
-                                                    System.out
-                                                        .println("buttonVideoFormatNew.widgetSelected, event="
-                                                            + evt);
-                                                    //TODO add your code for buttonVideoFormatNew.widgetSelected
-                                                }
+                                                    public void widgetSelected(
+                                                        SelectionEvent evt) {
+                                                        System.out
+                                                            .println("buttonVideoFormatNew.widgetSelected, event="
+                                                                + evt);
+                                                        //TODO add your code for buttonVideoFormatNew.widgetSelected
+                                                    }
                                                 });
                                         }
                                         {
                                             buttonVideoFormatEdit = new Button(
                                                 composite2,
                                                 SWT.PUSH | SWT.CENTER);
-                                            buttonVideoFormatEdit.setText("Bearbeiten");
-                                            buttonVideoFormatEdit.setEnabled(false);
+                                            buttonVideoFormatEdit
+                                                .setText("Bearbeiten");
+                                            buttonVideoFormatEdit
+                                                .setEnabled(false);
                                             buttonVideoFormatEdit
                                                 .addSelectionListener(new SelectionAdapter() {
-                                                public void widgetSelected(
-                                                    SelectionEvent evt) {
-                                                    //Edit Button wurde gedrückt;
-                                                    mode_VideoFormat = SWTDual.MODE_EDIT;
-                                                    
-                                                    //Felder zum bearbeiten zulassen
-                                                    textVideoFormatID.setEditable(false); //primary key
-                                                    textVideoFormatName.setEditable(true);
-                                                    textVideoFormatShortname.setEditable(true);
-                                                    
-                                                    //Speichern und abbruch Button aktivieren
-                                                    buttonVideoFormatCancel.setEnabled(true);
-                                                    buttonVideoFormatSave.setEnabled(true);
-                                                    
-                                                    //Neu, Edit und Delete DEaktivieren
-                                                    buttonVideoFormatNew.setEnabled(false);
-                                                    buttonVideoFormatEdit.setEnabled(false);
-                                                    buttonVideoFormatDelete.setEnabled(false);
-                                                    //VideoTabelle deaktivieren
-                                                    tableVideoFormat.setEnabled(false);
-                                                    
-                                                    //VideoSearch deaktivieren
-                                                    textVideoFormatSearch.setEnabled(false);
-                                                    
-                                                    System.out
-                                                        .println("buttonVideoFormatEdit.widgetSelected, event="
-                                                            + evt);
-                                                    //TODO add your code for buttonVideoFormatEdit.widgetSelected
-                                                }
+                                                    public void widgetSelected(
+                                                        SelectionEvent evt) {
+                                                        //Edit Button wurde gedrückt;
+                                                        mode_VideoFormat = SWTDual.MODE_EDIT;
+
+                                                        //Felder zum bearbeiten zulassen
+                                                        textVideoFormatID
+                                                            .setEditable(false); //primary key
+                                                        textVideoFormatName
+                                                            .setEditable(true);
+                                                        textVideoFormatShortname
+                                                            .setEditable(true);
+
+                                                        //Speichern und abbruch Button aktivieren
+                                                        buttonVideoFormatCancel
+                                                            .setEnabled(true);
+                                                        buttonVideoFormatSave
+                                                            .setEnabled(true);
+
+                                                        //Neu, Edit und Delete DEaktivieren
+                                                        buttonVideoFormatNew
+                                                            .setEnabled(false);
+                                                        buttonVideoFormatEdit
+                                                            .setEnabled(false);
+                                                        buttonVideoFormatDelete
+                                                            .setEnabled(false);
+                                                        //VideoTabelle deaktivieren
+                                                        tableVideoFormat
+                                                            .setEnabled(false);
+
+                                                        //VideoSearch deaktivieren
+                                                        textVideoFormatSearch
+                                                            .setEnabled(false);
+
+                                                        System.out
+                                                            .println("buttonVideoFormatEdit.widgetSelected, event="
+                                                                + evt);
+                                                        //TODO add your code for buttonVideoFormatEdit.widgetSelected
+                                                    }
                                                 });
                                         }
                                         {
                                             buttonVideoFormatDelete = new Button(
                                                 composite2,
                                                 SWT.PUSH | SWT.CENTER);
-                                            buttonVideoFormatDelete.setText("Löschen");
-                                            buttonVideoFormatDelete.setEnabled(false);
+                                            buttonVideoFormatDelete
+                                                .setText("Löschen");
+                                            buttonVideoFormatDelete
+                                                .setEnabled(false);
                                             buttonVideoFormatDelete
                                                 .addSelectionListener(new SelectionAdapter() {
-                                                public void widgetSelected(
-                                                    SelectionEvent evt) {
-                                                    System.out
-                                                        .println("buttonVideoFormatDelete.widgetSelected, event="
-                                                            + evt);
-                                                    //TODO add your code for buttonVideoFormatDelete.widgetSelected
-                                                }
+                                                    public void widgetSelected(
+                                                        SelectionEvent evt) {
+                                                        System.out
+                                                            .println("buttonVideoFormatDelete.widgetSelected, event="
+                                                                + evt);
+                                                        //TODO add your code for buttonVideoFormatDelete.widgetSelected
+                                                    }
                                                 });
                                         }
                                         {
@@ -558,44 +640,51 @@ public void run() {
                                                 SWT.PUSH | SWT.CENTER);
                                             buttonVideoFormatFill.setText("");
                                             GridData buttonVideoFormatFillLData = new GridData();
-                                            buttonVideoFormatFill.setVisible(false);
-                                            buttonVideoFormatFill.setEnabled(false);
+                                            buttonVideoFormatFill
+                                                .setVisible(false);
+                                            buttonVideoFormatFill
+                                                .setEnabled(false);
                                             buttonVideoFormatFillLData.widthHint = 30;
                                             buttonVideoFormatFillLData.heightHint = 23;
-                                            buttonVideoFormatFill.setLayoutData(buttonVideoFormatFillLData);
+                                            buttonVideoFormatFill
+                                                .setLayoutData(buttonVideoFormatFillLData);
                                         }
                                         {
                                             buttonVideoFormatSave = new Button(
                                                 composite2,
                                                 SWT.PUSH | SWT.CENTER);
-                                            buttonVideoFormatSave.setText("Speichern");
-                                            buttonVideoFormatSave.setEnabled(false);
+                                            buttonVideoFormatSave
+                                                .setText("Speichern");
+                                            buttonVideoFormatSave
+                                                .setEnabled(false);
                                             buttonVideoFormatSave
                                                 .addSelectionListener(new SelectionAdapter() {
-                                                public void widgetSelected(
-                                                    SelectionEvent evt) {
-                                                    System.out
-                                                        .println("buttonVideoFormatSave.widgetSelected, event="
-                                                            + evt);
-                                                    //TODO add your code for buttonVideoFormatSave.widgetSelected
-                                                }
+                                                    public void widgetSelected(
+                                                        SelectionEvent evt) {
+                                                        System.out
+                                                            .println("buttonVideoFormatSave.widgetSelected, event="
+                                                                + evt);
+                                                        //TODO add your code for buttonVideoFormatSave.widgetSelected
+                                                    }
                                                 });
                                         }
                                         {
                                             buttonVideoFormatCancel = new Button(
                                                 composite2,
                                                 SWT.PUSH | SWT.CENTER);
-                                            buttonVideoFormatCancel.setText("Abbruch");
-                                            buttonVideoFormatCancel.setEnabled(false);
+                                            buttonVideoFormatCancel
+                                                .setText("Abbruch");
+                                            buttonVideoFormatCancel
+                                                .setEnabled(false);
                                             buttonVideoFormatCancel
                                                 .addSelectionListener(new SelectionAdapter() {
-                                                public void widgetSelected(
-                                                    SelectionEvent evt) {
-                                                    System.out
-                                                        .println("buttonVideoFormatCancel.widgetSelected, event="
-                                                            + evt);
-                                                    //TODO add your code for buttonVideoFormatCancel.widgetSelected
-                                                }
+                                                    public void widgetSelected(
+                                                        SelectionEvent evt) {
+                                                        System.out
+                                                            .println("buttonVideoFormatCancel.widgetSelected, event="
+                                                                + evt);
+                                                        //TODO add your code for buttonVideoFormatCancel.widgetSelected
+                                                    }
                                                 });
                                         }
                                     }
@@ -604,21 +693,29 @@ public void run() {
                             }
                         }
                         {
-                            groupAudioFormat = new Group(composite1, SWT.NONE);
+                            groupAudioFormat = new Group(sashForm1, SWT.NONE);
                             GridLayout group1Layout = new GridLayout();
                             FormData group1LData = new FormData();
                             group1LData.height = 240;
                             group1LData.width = 750;
-                            group1LData.left =  new FormAttachment(0, 1000, 0);
-                            group1LData.right =  new FormAttachment(1000, 1000, 0);
-                            group1LData.top =  new FormAttachment(500, 1000, 0);
-                            group1LData.bottom =  new FormAttachment(1000, 1000, 0);
+                            group1LData.left = new FormAttachment(0, 1000, 0);
+                            group1LData.right = new FormAttachment(
+                                1000,
+                                1000,
+                                0);
+                            group1LData.top = new FormAttachment(500, 1000, 0);
+                            group1LData.bottom = new FormAttachment(
+                                1000,
+                                1000,
+                                0);
                             groupAudioFormat.setLayoutData(group1LData);
                             group1Layout.makeColumnsEqualWidth = true;
                             groupAudioFormat.setLayout(group1Layout);
                             groupAudioFormat.setText("AudioFormat");
                             {
-                                sashFormAudioFormat = new SashForm(groupAudioFormat, SWT.NONE);
+                                sashFormAudioFormat = new SashForm(
+                                    groupAudioFormat,
+                                    SWT.NONE);
                                 FormLayout sashForm1Layout = new FormLayout();
                                 GridData sashForm1LData = new GridData();
                                 sashForm1LData.grabExcessHorizontalSpace = true;
@@ -626,15 +723,20 @@ public void run() {
                                 sashForm1LData.horizontalAlignment = GridData.FILL;
                                 sashForm1LData.verticalAlignment = GridData.FILL;
                                 sashForm1LData.grabExcessVerticalSpace = true;
-                                sashFormAudioFormat.setLayoutData(sashForm1LData);
+                                sashFormAudioFormat
+                                    .setLayoutData(sashForm1LData);
                                 sashFormAudioFormat.setLayout(sashForm1Layout);
                                 {
-                                    groupAudioFormatOverview = new Group(sashFormAudioFormat, SWT.NONE);
+                                    groupAudioFormatOverview = new Group(
+                                        sashFormAudioFormat,
+                                        SWT.NONE);
                                     GridLayout group3Layout = new GridLayout();
                                     group3Layout.numColumns = 6;
-                                    groupAudioFormatOverview.setText("Übersicht");
+                                    groupAudioFormatOverview
+                                        .setText("Übersicht");
                                     FormData group3LData = new FormData();
-                                    groupAudioFormatOverview.setLayout(group3Layout);
+                                    groupAudioFormatOverview
+                                        .setLayout(group3Layout);
                                     group3LData.right = new FormAttachment(
                                         100,
                                         100,
@@ -647,12 +749,15 @@ public void run() {
                                         100,
                                         100,
                                         -5);
-                                    groupAudioFormatOverview.setLayoutData(group3LData);
+                                    groupAudioFormatOverview
+                                        .setLayoutData(group3LData);
                                     {
-                                        tableAudioFormat = new Table(groupAudioFormatOverview, SWT.SINGLE
-                                            | SWT.FULL_SELECTION
-                                            | SWT.V_SCROLL
-                                            | SWT.BORDER);
+                                        tableAudioFormat = new Table(
+                                            groupAudioFormatOverview,
+                                            SWT.SINGLE
+                                                | SWT.FULL_SELECTION
+                                                | SWT.V_SCROLL
+                                                | SWT.BORDER);
                                         tableAudioFormat.setHeaderVisible(true);
                                         tableAudioFormat.setLinesVisible(true);
                                         GridData table1LData = new GridData();
@@ -680,7 +785,8 @@ public void run() {
                                         table1LData.horizontalSpan = 6;
                                         table1LData.grabExcessHorizontalSpace = true;
                                         table1LData.grabExcessVerticalSpace = true;
-                                        tableAudioFormat.setLayoutData(table1LData);
+                                        tableAudioFormat
+                                            .setLayoutData(table1LData);
                                         {
                                             tableColumn1 = new TableColumn(
                                                 tableAudioFormat,
@@ -704,28 +810,38 @@ public void run() {
                                         }
                                     }
                                     {
-                                        labelAudioFormatSearch = new Label(groupAudioFormatOverview, SWT.NONE);
-                                        labelAudioFormatSearch.setText("Suche nach:");
+                                        labelAudioFormatSearch = new Label(
+                                            groupAudioFormatOverview,
+                                            SWT.NONE);
+                                        labelAudioFormatSearch
+                                            .setText("Suche nach:");
                                         GridData label1LData = new GridData();
                                         label1LData.horizontalSpan = 2;
-                                        labelAudioFormatSearch.setLayoutData(label1LData);
+                                        labelAudioFormatSearch
+                                            .setLayoutData(label1LData);
                                     }
                                     {
-                                        textAudioFormatSearch = new Text(groupAudioFormatOverview, SWT.BORDER);
+                                        textAudioFormatSearch = new Text(
+                                            groupAudioFormatOverview,
+                                            SWT.BORDER);
                                         GridData text1LData = new GridData();
                                         text1LData.horizontalAlignment = GridData.FILL;
                                         text1LData.horizontalSpan = 4;
                                         text1LData.grabExcessHorizontalSpace = true;
-                                        textAudioFormatSearch.setLayoutData(text1LData);
+                                        textAudioFormatSearch
+                                            .setLayoutData(text1LData);
                                     }
                                 }
                                 {
-                                    groupAudioFormatDetail = new Group(sashFormAudioFormat, SWT.NONE);
+                                    groupAudioFormatDetail = new Group(
+                                        sashFormAudioFormat,
+                                        SWT.NONE);
                                     GridLayout group4Layout = new GridLayout();
                                     group4Layout.numColumns = 2;
                                     groupAudioFormatDetail.setText("Detail");
                                     FormData group4LData = new FormData();
-                                    groupAudioFormatDetail.setLayout(group4Layout);
+                                    groupAudioFormatDetail
+                                        .setLayout(group4Layout);
                                     group4LData.left = new FormAttachment(
                                         0,
                                         100,
@@ -738,12 +854,15 @@ public void run() {
                                         100,
                                         100,
                                         -5);
-                                    groupAudioFormatDetail.setLayoutData(group4LData);
+                                    groupAudioFormatDetail
+                                        .setLayoutData(group4LData);
                                     {
-                                        list1 = new List(groupAudioFormatDetail, SWT.SINGLE
-                                            | SWT.H_SCROLL
-                                            | SWT.V_SCROLL
-                                            | SWT.BORDER);
+                                        list1 = new List(
+                                            groupAudioFormatDetail,
+                                            SWT.SINGLE
+                                                | SWT.H_SCROLL
+                                                | SWT.V_SCROLL
+                                                | SWT.BORDER);
                                         GridData list1LData = new GridData();
                                         list1
                                             .addSelectionListener(new SelectionAdapter() {
@@ -752,7 +871,6 @@ public void run() {
                                                     System.out
                                                         .println("list1.widgetSelected, event="
                                                             + evt);
-                                                  
 
                                                     //TODO add your code for list1.widgetSelected
                                                 }
