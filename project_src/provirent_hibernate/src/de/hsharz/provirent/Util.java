@@ -34,13 +34,10 @@ package de.hsharz.provirent;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -51,8 +48,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
-
-import de.hsharz.provirent.persistence.DataBaseException;
 
 /**
  * @author Philipp Schneider
@@ -138,19 +133,21 @@ public class Util {
      * @param text
      * @return
      */
-    public static Calendar getDateByText(String textdate) throws ParseException {
+    public static Calendar getDateByText(String textdate) {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Calendar date = Calendar.getInstance();
-
-        date.setTime(format.parse(textdate));
-
+        try {
+            date.setTime(format.parse(textdate));
+        } catch (ParseException e) {
+            date = null;
+            logger.error(e.toString());
+        }
         return date;
     }
-
+    
     public static String getTextByDate(Calendar date) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-
-        return format.format(date.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");       
+        return date != null ? format.format(date.getTime()) : null;
     }
 
     public static int compareDates(Calendar Date1, Calendar Date2) {
