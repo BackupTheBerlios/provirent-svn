@@ -85,8 +85,6 @@ public class TestPayment extends TestCase {
             logger.debug("tearDown() - end");
         }
     }
-    
- 
 
     public void testSavePayment() throws Exception {
         if (logger.isDebugEnabled()) {
@@ -107,36 +105,35 @@ public class TestPayment extends TestCase {
                 //create new objects
                 List payments = new ArrayList();
                 Calendar date1 = Calendar.getInstance();
-                date1.set(2004,11,12);
+                date1.set(2004, 11, 12);
                 Calendar date2 = Calendar.getInstance();
-                date2.set(2004,11,30);
+                date2.set(2004, 11, 30);
                 Calendar date3 = Calendar.getInstance();
-                date3.set(2005,1,16);
+                date3.set(2005, 1, 16);
                 Calendar date4 = Calendar.getInstance();
-                date4.set(2005,11,8);
+                date4.set(2005, 11, 8);
                 Calendar date5 = Calendar.getInstance();
-                date5.set(2004,10,12);
+                date5.set(2004, 10, 12);
                 Calendar date6 = Calendar.getInstance();
-                date6.set(2004,10,28);
+                date6.set(2004, 10, 28);
                 Calendar date7 = Calendar.getInstance();
-                date7.set(2004,10,29);
+                date7.set(2004, 10, 29);
                 Calendar date8 = Calendar.getInstance();
-                date8.set(2004,10,20);
-                
-                payments.add( new Payment(2.00d, 4.00d, 8.00d,date1,null));
-                payments.add( new Payment(3.00d, 6.00d, 12.00d,date2,null));
-                payments.add( new Payment(4.00d, 8.00d, 14.00d,date3,null));
-                payments.add( new Payment(5.00d, 10.00d, 20.00d,date4,null));
-                payments.add( new Payment(2.00d, 4.00d, 8.00d,date5,null));
-                payments.add( new Payment(3.00d, 6.00d, 12.00d,date6,null));
-                payments.add( new Payment(4.00d, 8.00d, 14.00d,date7,null));
-                payments.add( new Payment(5.00d, 10.00d, 20.00d,date8,null));
-                
-                
-                
+                date8.set(2004, 10, 20);
+
+                payments.add(new Payment(2.00d, 4.00d, 8.00d, date1, null));
+                payments.add(new Payment(3.00d, 6.00d, 12.00d, date2, null));
+                payments.add(new Payment(4.00d, 8.00d, 14.00d, date3, null));
+                payments.add(new Payment(5.00d, 10.00d, 20.00d, date4, null));
+                payments.add(new Payment(2.00d, 4.00d, 8.00d, date5, null));
+                payments.add(new Payment(3.00d, 6.00d, 12.00d, date6, null));
+                payments.add(new Payment(4.00d, 8.00d, 14.00d, date7, null));
+                payments.add(new Payment(5.00d, 10.00d, 20.00d, date8, null));
+
                 //get and set the paymentcategory
                 //add Payment
-                List categorys = s.find("from PaymentCategory as paymentcategory");
+                List categorys = s
+                        .find("from PaymentCategory as paymentcategory");
                 assertNotNull(
                         "testCreateDvd(): Can't get PaymentCategory from DB. Null",
                         categorys);
@@ -144,34 +141,35 @@ public class TestPayment extends TestCase {
                         "testCreateDvd(): Can not find PaymentCategory in DB",
                         categorys.size() > 0);
 
+                
+                
+                logger.debug("Test    Test");
+                logger.debug("Cat"+categorys.size());
+                logger.debug("pay"+payments.size());
+                
                 RandomRange randomRange;
-                
-                
-                
-  
 
-                 for (int i = 0; i < payments.size(); i++) {
-                    
-                     randomRange = new RandomRange(0, (categorys.size() - 1));
+                for (int i = 0; i < payments.size(); i++) {
+
                      
-                      randomRange.getNumbers(1); 
-                
-                     PaymentCategory prop = (PaymentCategory) categorys
-                            .get(((Integer) randomRange.getNumbers(1).get(0)).intValue());
-                   
-                    ((Payment)payments.get(i)).setPaymentCategory(prop);
                     
-                    
-                 
-                
-                 }
+                    randomRange = new RandomRange(0, (categorys.size() - 1));
 
-               
+                    logger.debug(i + " Randomnum:"
+                            + randomRange.getNumbers(1).get(0));
+                    
+                    PaymentCategory prop = (PaymentCategory) categorys
+                            .get(((Integer) randomRange.getNumbers(
+                                    1 ).get(0)).intValue());
+
+                    ((Payment) payments.get(i)).setPaymentCategory(prop);
+
+                }
 
                 //save objects
                 for (Iterator iter = payments.iterator(); iter.hasNext();) {
                     Payment pay = (Payment) iter.next();
-                    
+
                     s.save(pay);
 
                 }
@@ -193,9 +191,10 @@ public class TestPayment extends TestCase {
             }
 
         } catch (Exception e) {
-            logger.error(
-                    "testSavePayment() - Error while trying to beginTransaction",
-                    e);
+            logger
+                    .error(
+                            "testSavePayment() - Error while trying to beginTransaction",
+                            e);
             throw e;
         } finally {
             // No matter what, close the session

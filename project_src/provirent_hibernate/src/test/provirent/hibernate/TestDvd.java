@@ -15,6 +15,7 @@ import de.hsharz.provirent.objects.Dvd;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.Payment;
+import de.hsharz.provirent.objects.PaymentCategory;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
 
@@ -240,12 +241,12 @@ public class TestDvd extends TestCase {
 
                     
                     //add Payment
-                    dbprops = s.find("from Payment as payment");
+                    dbprops = s.find("from PaymentCategory as paymentCategory");
                     assertNotNull(
-                            "testCreateDvd(): Can't get Payment from DB. Null",
+                            "testCreateDvd(): Can't get PaymentCategory from DB. Null",
                             dbprops);
                     assertTrue(
-                            "testCreateDvd(): Can not find Payment in DB",
+                            "testCreateDvd(): Can not find PaymentCategory in DB",
                             dbprops.size() > 0);
 
                     anzahl = 1;
@@ -254,9 +255,9 @@ public class TestDvd extends TestCase {
                     random = randomRange.getNumbers(anzahl);
 
                     for (int k = 0; k < anzahl; k++) {
-                        Payment prop = (Payment) dbprops
+                        PaymentCategory prop = (PaymentCategory) dbprops
                                 .get(((Integer) random.get(k)).intValue());
-                        dvd.setPayment(prop);
+                        dvd.setPaymentCategory(prop);
                         break;
                     }
                     

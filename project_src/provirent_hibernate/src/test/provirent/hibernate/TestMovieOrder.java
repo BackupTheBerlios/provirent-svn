@@ -37,13 +37,13 @@ import java.util.Calendar;
 import java.util.List;
 
 import junit.framework.TestCase;
+import net.sf.hibernate.Criteria;
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
-import de.hsharz.provirent.objects.Condition;
+import net.sf.hibernate.expression.Expression;
+import net.sf.hibernate.expression.Order;
 import de.hsharz.provirent.objects.Customer;
-import de.hsharz.provirent.objects.Dvd;
-import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.OrderItem;
 import de.hsharz.provirent.objects.Payment;
@@ -76,7 +76,7 @@ public class TestMovieOrder extends TestCase {
         super(arg0);
     }
 
-    public void createMovieOrder() {
+    public void testCreateMovieOrder() {
 
         Session s = null;
         Transaction tx = null;
@@ -86,10 +86,15 @@ public class TestMovieOrder extends TestCase {
             tx = s.beginTransaction();
 
             List customers = new ArrayList();
+            
+            List dvds = new ArrayList();
+            
+            
             //for each movie 
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
 
-                Customer customer = (Customer) customers.get(i);
+                Customer customer =null;
+                //customer = (Customer) customers.get(i);
 
 
                 MovieOrder movieOrder = new MovieOrder();
@@ -97,21 +102,51 @@ public class TestMovieOrder extends TestCase {
 
                 List orderItems = new ArrayList();
 
-                for (int j = 0; j < 3; j++) {
+
+                
+                
+                
+                for (int j = 0; j < 1; j++) {
 
                     OrderItem orderItem = new OrderItem();
                     orderItem.setCustomer(customer);
                     orderItem.setDuration(2);
 
-                    orderItem.setDvd(new Dvd());
+                    
+                    //Dvd dvd = (Dvd)dvds.get(0);
+                    //orderItem.setDvd(dvd);
                     
                     orderItem.setOrderTime(Calendar.getInstance());
+                    
+                    //dvd.getPaymentCategory();
+                    
+                    //get the Payment where the PaymentCategory are the one
+                    //from dvd and the date is the highest
+                    
+                    
+                    
+                    
+            		Criteria criteria = s.createCriteria(Payment.class).addOrder(Order.desc("startdate")).setMaxResults(1)
+            				.createAlias("PaymentCategory", "pc").add(Expression.eq("pc.name","A"));
+
+            		List pay = criteria.list();
+            		System.out.println("Payment: "+pay.size());
+            		for (int k = 0; k < pay.size(); k++) {
+            		    System.out.println(k+" "+pay.get(k) );
+                    }
+            		
+            		
+                    
+                    
+                    
+                    
+                    
                     orderItem.setPayment(new Payment());
 
                     //this data is to be set when the dvd is beeing
                     //send to the customer
-                    orderItem.setConditionSend(new Condition());
-                    orderItem.setSenderTime(Calendar.getInstance());
+                    orderItem.setConditionSend(null);
+                    orderItem.setSenderTime(null);
 
                     //this data is set when the dvd is beeig received
                     //from the customer
@@ -125,7 +160,7 @@ public class TestMovieOrder extends TestCase {
                 movieOrder.setMovieOrderItems(orderItems);
 
                 //save the movieOrder
-                s.save(movieOrder);
+                //s.save(movieOrder);
             }
         } catch (HibernateException e) {
             // TODO Auto-generated catch block

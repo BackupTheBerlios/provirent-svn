@@ -22,9 +22,9 @@
  
  
  		 <many-to-one
-				name="payment"
-				column="payment"
-				class="de.hsharz.provirent.objects.Payment"
+				name="paymentCategory"
+				column="paymentCategory"
+				class="de.hsharz.provirent.objects.PaymentCategory"
 		>
 						<meta attribute="use-in-tostring">true</meta>
 				</many-to-one> 
