@@ -25,7 +25,7 @@
     <font color=red><html:errors property="password" /></font></p>
 <p> <html:submit property="action" value="Weiter" />
     <html:submit property="action" value="Abbrechen" /></p>
-<p> <html:link property="action" value="registrate"</p>
+<p> <html:link property="action" value="Registrate"</p>
 
 </html:form>
 

@@ -1,9 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-
-<!DOCTYPE struts-config PUBLIC
-          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
-          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
-
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
 <!--
      This is a blank Struts configuration file with an example
      welcome action/page and other commented sample elements.
@@ -15,10 +10,7 @@
      for you, you could include the details in the "form-bean" declarations.
      Otherwise, you would only define the "form-bean" element itself, with the
      corresponding "name" and "type" attributes, as shown here.
--->
-
-
-<struts-config>
+--><struts-config>
 
 <!-- ============================================ Data Source Configuration -->
 <!--
@@ -58,8 +50,9 @@
 <!-- ================================================ Form Bean Definitions -->
 
     <form-beans>
-		<form-bean name="DatenFormBean" type="de.hsharz.provirent.strutstest.DatenFormBean" />
-		
+		<form-bean name="DatenFormBean" type="de.hsharz.provirent.strutstest.forms.DatenFormBean" />
+		<form-bean name="RegistrationCompleteFormBean" type="de.hsharz.provirent.strutstest.forms.RegistrationCompleteFormBean" />
+		<form-bean name="RegistrateFormBean" type="de.hsharz.provirent.strutstest.forms.RegistrateFormBean" />
     <!-- sample form bean descriptor for an ActionForm
         <form-bean
             name="inputForm"
@@ -109,15 +102,25 @@
             <!-- Default "Welcome" action -->
             <!-- Forwards to Welcome.jsp -->
         <action path="/StartActionPath" forward="/pages/EingabeFormular.jsp" />
-		<action path="/htmlFormActionPath" type="de.hsharz.provirent.strutstest.AuswerteActionBean" 
-			name="DatenFormBean" scope="request" input="/pages/EingabeFormular.jsp">
-			<forward name="Weiter"    path="/ErgebnisanzeigeActionPath.do" />
+		<action path="/htmlFormActionPath" type="de.hsharz.provirent.strutstest.action.AuswerteActionBean" name="DatenFormBean" scope="request" input="/pages/EingabeFormular.jsp">
+			<forward name="Weiter" path="/ErgebnisanzeigeActionPath.do" />
 			<forward name="Abbrechen" path="/StartActionPath.do" />
+			<forward name="Registrate" path="/RegistrateActionPath.do"/>
 		</action>
 		<action path="/ErgebnisanzeigeActionPath" forward="/pages/ErgebnisAnzeige.jsp" />
+		<action path="/RegistrateActionPath" forward="/pages/RegistrateForm.jsp" />
 
-
-    <!-- sample input and input submit actions
+		<action path="/SubscribeFormActionPath" type="de.hsharz.provirent.strutstest.action.RegistrateAction" name="RegistrateFormBean" scope="request" input="/pages/RegistrateForm.jsp">
+			<forward name="Registrate" path="/SubscribeActionPath.do" />
+			<forward name="Cancel" path="/StartActionPath.do" />
+		</action>
+		<action path="/SubscribeActionPath" forward="/pages/RegistrationCompleteForm.jsp"/>
+	
+		<action path="/SubscribeCompleteFormActionPath" type="de.hsharz.provirent.strutstest.action.RegistrationCompleteAction" name="RegistrationCompleteFormBean" scope="request" input="/pages/RegistrateCompleteForm.jsp">
+			<forward name="OK" path="/StartActionPath.do" />
+		</action>
+	
+		<!-- sample input and input submit actions
 
         <action
             path="/Input"
@@ -141,13 +144,13 @@
                 input="/pages/Edit{1}.jsp"/>
 
     end samples -->
-    </action-mappings>
+		
+	</action-mappings>
 
 
 <!-- ============================================= Controller Configuration -->
 
-    <controller
-       processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
 
 
 <!-- ======================================== Message Resources Definitions -->
@@ -185,11 +188,10 @@
 	  Paths found in Tiles definitions are relative to the main context.
   -->
 
-    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
 
       <!-- Path to XML definition file -->
-      <set-property property="definitions-config"
-                       value="/WEB-INF/tiles-defs.xml" />
+      <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
       <!-- Set Module-awareness to true -->
       <set-property property="moduleAware" value="true" />
     </plug-in>
@@ -198,10 +200,7 @@
   <!-- =================================================== Validator plugin -->
 
   <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
-    <set-property
-        property="pathnames"
-        value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
   </plug-in>
 
 </struts-config>
-

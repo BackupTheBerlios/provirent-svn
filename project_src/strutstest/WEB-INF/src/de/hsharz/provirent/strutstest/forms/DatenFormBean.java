@@ -28,7 +28,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *  
  */
-package de.hsharz.provirent.strutstest;
+package de.hsharz.provirent.strutstest.forms;
 
 import javax.servlet.http.*;
 import org.apache.struts.action.*;
@@ -80,13 +80,13 @@ public final class DatenFormBean extends ActionForm {
             if (username == null || username.length() < 1) {
                 if (errors == null)
                     errors = new ActionErrors();
-                errors.add("username", new ActionError(
+                errors.add("username", new ActionMessage(
                         "error.username.required"));
             }
             if (password == null || password.length() < 1) {
                 if (errors == null)
                     errors = new ActionErrors();
-                errors.add("password", new ActionError(
+                errors.add("password", new ActionMessage(
                         "error.password.required"));
             }
         }

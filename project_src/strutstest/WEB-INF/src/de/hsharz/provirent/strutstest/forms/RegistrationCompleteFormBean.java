@@ -1,5 +1,5 @@
 /*
- * Created on 26.10.2004
+ * Created on 08.11.2004
  *
  * Copyright (c) 2004/2005, Remo Griesch/Stefan Forstner/Philipp Schneider
  * All rights reserved.
@@ -30,24 +30,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package de.hsharz.provirent.strutstest;
+package de.hsharz.provirent.strutstest.forms;
+
+import org.apache.struts.action.ActionForm;
 
 /**
  * @author Stefan Forstner
  *
  */
-
-import javax.servlet.http.*;
-import org.apache.struts.action.*;
-
-public final class AuswerteActionBean extends Action {
-  public ActionForward execute( ActionMapping       mp,
-                                ActionForm          fm,
-                                HttpServletRequest  rq,
-                                HttpServletResponse rp ) {
-    DatenFormBean dfb = (DatenFormBean)fm;
-    String sAction = dfb.getAction();
-    return mp.findForward( sAction );
-  }
+public class RegistrationCompleteFormBean extends ActionForm {
+    private String action = null;
+    /**
+     * @return Returns the action.
+     */
+    public String getAction() {
+        return action;
+    }
+    /**
+     * @param action The action to set.
+     */
+    public void setAction(String action) {
+        this.action = action;
+    }
 }
-
