@@ -13,9 +13,6 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.DeviceData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -26,21 +23,22 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.custom.StyledText;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
+import de.hsharz.provirent.objects.Actor;
+import de.hsharz.provirent.objects.Director;
+import de.hsharz.provirent.objects.Genre;
+import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
-
-
-import org.eclipse.swt.widgets.List;
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -140,7 +138,9 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private StatusLineStyledText statusLine;
     
     private ResourceBundle l;
+    private Locale locale;
     
+    private Movie movie;
     
     /*
      * Ändert die Sprache aller Elemente
@@ -198,8 +198,9 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         //Statusline wird gestzt
         statusLine = status;
         
+        locale = l;
         //sprache wird init
-        initLanguage(l);
+        initLanguage(locale);
 	    
 	    
 		initGUI();
@@ -529,6 +530,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    GridData formData2 = new GridData();
     	    formData2.heightHint = 15;
     	    formData2.horizontalAlignment = GridData.FILL;
+    	    formData2.verticalAlignment = GridData.BEGINNING;
     	    labelMoviesID.setLayoutData(formData2);
     	}
     	{
@@ -553,6 +555,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData labelActorNameLData = new GridData();
             labelActorNameLData.heightHint = 15;
             labelActorNameLData.horizontalAlignment = GridData.FILL;
+            labelActorNameLData.verticalAlignment = GridData.BEGINNING;
             labelMoviesTitle.setLayoutData(labelActorNameLData);
         }
         {
@@ -576,6 +579,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData labelActorNameLData = new GridData();
             labelActorNameLData.heightHint = 15;
             labelActorNameLData.horizontalAlignment = GridData.FILL;
+            labelActorNameLData.verticalAlignment = GridData.BEGINNING;
             labelMoviesDate.setLayoutData(labelActorNameLData);
         }
         {
@@ -594,8 +598,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    labelMoviesDescription = new Label(groupMoviesDetail, SWT.NONE);
     	    labelMoviesDescription.setText(l.getString("movies.groupdetail.labeldescription"));
     	    GridData formData2 = new GridData();
-    	    formData2.horizontalSpan = 1;
     	    formData2.verticalSpan = 5;
+    	    formData2.verticalAlignment = GridData.BEGINNING;
     	    labelMoviesDescription.setLayoutData(formData2);
     	}
         {
@@ -614,8 +618,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridLayout composite1Layout = new GridLayout();
             GridData composite1LData = new GridData();
             composite1LData.horizontalAlignment = GridData.FILL;
-            composite1LData.horizontalSpan=1;
-            composite1LData.verticalSpan=1;
+            composite1LData.verticalAlignment = GridData.BEGINNING;
             compositeMoviesEditDirectors.setLayoutData(composite1LData);
             composite1Layout.numColumns = 2;
             compositeMoviesEditDirectors.setLayout(composite1Layout);
@@ -641,10 +644,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddDirectors.setLayoutData(text1LData2);        
         	    buttonMoviesAddDirectors.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
-
-
+        	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_DIRECTOR);
+        	            dialog.open();
                     
+        	            listMoviesDirectors.removeAll();
+        	            for(int i =0; i< movie.getDirector().size(); i++){
+        	                listMoviesDirectors.add( ((Director)movie.getDirector().get(i)).getLastName() );
+        	            }                    
+        	            
         	        }
         	    });  
         	}
@@ -679,8 +686,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridLayout composite1Layout = new GridLayout();
             GridData composite1LData = new GridData();
             composite1LData.horizontalAlignment = GridData.FILL;
-            composite1LData.horizontalSpan=1;
-            composite1LData.verticalSpan=1;
+            composite1LData.verticalAlignment = GridData.BEGINNING;
             compositeMoviesEditActors.setLayoutData(composite1LData);
             composite1Layout.numColumns = 2;
             compositeMoviesEditActors.setLayout(composite1Layout);
@@ -707,8 +713,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddActors.setLayoutData(text1LData2);        
         	    buttonMoviesAddActors.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
-                    
+        	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_ACTOR);
+        	            dialog.open();
+
+        	            listMoviesActors.removeAll();
+        	            for(int i =0; i< movie.getActors().size(); i++){
+        	                listMoviesActors.add( ((Actor)movie.getActors().get(i)).getLastName() );
+        	            }                    
         	        }
         	    });  
         	}
@@ -745,8 +756,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridLayout composite1Layout = new GridLayout();
             GridData composite1LData = new GridData();
             composite1LData.horizontalAlignment = GridData.FILL;
-            composite1LData.horizontalSpan=1;
-            composite1LData.verticalSpan=1;
+            composite1LData.verticalAlignment = GridData.BEGINNING;
             compositeMoviesEditGenres.setLayoutData(composite1LData);
             composite1Layout.numColumns = 2;
             compositeMoviesEditGenres.setLayout(composite1Layout);
@@ -773,7 +783,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddGenres.setLayoutData(text1LData2);        
         	    buttonMoviesAddGenres.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
+        	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_GENRE);
+        	            dialog.open();
+
+        	            listMoviesGenres.removeAll();
+        	            for(int i =0; i< movie.getGenres().size(); i++){
+        	                listMoviesGenres.add( ((Genre)movie.getGenres().get(i)).getName() );
+        	            }
+        	            
 
                     
         	        }
@@ -811,8 +828,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridLayout composite1Layout = new GridLayout();
             GridData composite1LData = new GridData();
             composite1LData.horizontalAlignment = GridData.FILL;
-            composite1LData.horizontalSpan=1;
-            composite1LData.verticalSpan=1;
+            composite1LData.verticalAlignment = GridData.BEGINNING;
             compositeMoviesEditImages.setLayoutData(composite1LData);
             composite1Layout.numColumns = 2;
             compositeMoviesEditImages.setLayout(composite1Layout);
@@ -839,8 +855,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    buttonMoviesAddImages.setLayoutData(text1LData2);        
         	    buttonMoviesAddImages.addSelectionListener(new SelectionAdapter() {
         	        public void widgetSelected(SelectionEvent evt) {
-        	            // TODO
+        	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_IMAGE);
+        	            dialog.open();
 
+        	            listMoviesImages.removeAll();
+        	            for(int i =0; i< movie.getImages().size(); i++){
+        	                listMoviesImages.add( ((Image)movie.getImages().get(i)).getImageFileName() );
+        	            }
         	        }
         	    });  
         	}
@@ -918,6 +939,15 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 textMoviesSearch.setEditable(false);
                 tableMoviesOverview.setEnabled(false);
 
+                movie = new Movie();
+                movie.setActors(new ArrayList());
+                movie.setAudioFormats(new ArrayList());
+                movie.setDirector(new ArrayList());
+                movie.setGenres(new ArrayList());
+                movie.setImages(new ArrayList());
+                movie.setLanguages(new ArrayList());
+                movie.setSubtitles(new ArrayList());
+                movie.setVideoFormats(new ArrayList());
             }
         });
 
