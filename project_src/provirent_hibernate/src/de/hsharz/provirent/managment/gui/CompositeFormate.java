@@ -2,6 +2,7 @@ package de.hsharz.provirent.managment.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -84,6 +85,9 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
     private final static int MODE_VIEW = 0;
 
     private final static int MODE_ADD = 1;
+    private TableColumn tableColumn6;
+    private TableColumn tableColumn5;
+    private TableColumn tableColumn4;
 
     private final static int MODE_EDIT = 2;
 
@@ -91,7 +95,52 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
 
     private int mode_AudioFormat = 0;
 	
+    private StyledText statusLine;
+    
+    public void setStatusObject(StyledText status){
+        statusLine = status;
+    }
 	
+    private void setStatus(final int mode, final String message) {
+        /**
+         * mode values 0 normal message 1 information message 2 warn message 3
+         * error message
+         *  
+         */
+        if (mode == 0) {
+            statusLine.setBackground(ColorDef.STATUS_B_STANDARD);
+            statusLine.setForeground(ColorDef.STATUS_F_STANDARD);
+        } else if (mode == 1) {
+            statusLine.setBackground(ColorDef.STATUS_B_INFO);
+            statusLine.setForeground(ColorDef.STATUS_F_INFO);
+        } else if (mode == 2) {
+            statusLine.setBackground(ColorDef.STATUS_B_WARN);
+            statusLine.setForeground(ColorDef.STATUS_F_WARN);
+        } else if (mode == 3) {
+            statusLine.setBackground(ColorDef.STATUS_B_ERROR);
+            statusLine.setForeground(ColorDef.STATUS_F_ERROR);
+        }
+
+        statusLine.setText(message);
+
+		new Thread() {
+			public void run() {
+				
+				try {Thread.sleep (1000 *5);} catch (Throwable th) {}
+					if (Display.getDefault().isDisposed()) return;
+					Display.getDefault().asyncExec(new Runnable() {
+						public void run() {
+				            statusLine.setBackground(ColorDef.STATUS_B_STANDARD);
+				            statusLine.setForeground(ColorDef.STATUS_F_STANDARD);
+						}
+					});
+				
+			}
+		}.start();
+
+    }
+    
+    
 	/**
 	* Auto-generated main method to display this 
 	* org.eclipse.swt.widgets.Composite inside a new Shell.
@@ -136,6 +185,7 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
 	private void initGUI() {
 		try {
 			this.setLayout(new GridLayout());
+			this.setSize(660, 421);
             {
                 sashForm1 = new SashForm(this, SWT.VERTICAL | SWT.V_SCROLL);
                 GridData sashForm1LData1 = new GridData();
@@ -207,6 +257,21 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
                                 table2LData.grabExcessHorizontalSpace = true;
                                 table2LData.grabExcessVerticalSpace = true;
                                 tableVideoFormat.setLayoutData(table2LData);
+                                {
+                                    tableColumn4 = new TableColumn(tableVideoFormat, SWT.CENTER);
+                                    tableColumn4.setText("id");
+                                    tableColumn4.setWidth(100);
+                                }
+                                {
+                                    tableColumn5 = new TableColumn(tableVideoFormat, SWT.CENTER);
+                                    tableColumn5.setText("Name");
+                                    tableColumn5.setWidth(100);
+                                }
+                                {
+                                    tableColumn6 = new TableColumn(tableVideoFormat, SWT.CENTER);
+                                    tableColumn6.setText("vorname");
+                                    tableColumn6.setWidth(100);
+                                }
                             }
                             {
                                 labelVideoFormatSearch = new Label(groupVideoFormatOverview, SWT.NONE);
@@ -331,6 +396,7 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
                                             //TODO add your
                                             // code for
                                             // buttonVideoFormatNew.widgetSelected
+                                            setStatus(3, "Test");
                                         }
                                         });
                                 }
@@ -388,9 +454,7 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
                                             System.out
                                                 .println("buttonVideoFormatEdit.widgetSelected, event="
                                                     + evt);
-                                            //TODO add your
-                                            // code for
-                                            // buttonVideoFormatEdit.widgetSelected
+                                          
                                         }
                                         });
                                 }
@@ -448,9 +512,21 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
                                             System.out
                                                 .println("buttonVideoFormatCancel.widgetSelected, event="
                                                     + evt);
-                                            //TODO add your
-                                            // code for
-                                            // buttonVideoFormatCancel.widgetSelected
+                                            buttonVideoFormatCancel.setEnabled(false);
+                                            buttonVideoFormatEdit.setEnabled(true);
+                                            buttonVideoFormatNew.setEnabled(true);
+                                            buttonVideoFormatDelete.setEnabled(true);
+                                            textVideoFormatName.setEditable(false);
+                                            textVideoFormatShortname.setEditable(false);
+                                            
+//                                          VideoTabelle
+                                            // aktivieren
+                                            tableVideoFormat.setEnabled(true);
+
+                                            //VideoSearch
+                                            // aktivieren
+                                            textVideoFormatSearch
+                                                .setEnabled(true);
                                         }
                                         });
                                 }

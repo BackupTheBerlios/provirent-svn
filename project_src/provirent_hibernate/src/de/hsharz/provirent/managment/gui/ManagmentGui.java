@@ -442,6 +442,7 @@ public class ManagmentGui {
                                 compositeFormate = new CompositeFormate(
                                     cTabFolderMain,
                                     SWT.NONE);
+                                
                                 tabItemFormat.setControl(compositeFormate);
                             }
                         }
@@ -599,6 +600,7 @@ public class ManagmentGui {
                 {
                     //init the Composite for statusline
                     initStatusComposite();
+                    compositeFormate.setStatusObject(statusLine);
 
                 }
             }
@@ -675,9 +677,20 @@ public class ManagmentGui {
 
         statusLine.setText(message);
 
-        /**
-         * @todo hier jetzt nach ca. 10 sec. wieder normale Farbe einblenden
-         */
+		new Thread() {
+			public void run() {
+				
+				try {Thread.sleep (1000 *5);} catch (Throwable th) {}
+					if (display.isDisposed()) return;
+					display.asyncExec(new Runnable() {
+						public void run() {
+				            statusLine.setBackground(ColorDef.STATUS_B_STANDARD);
+				            statusLine.setForeground(ColorDef.STATUS_F_STANDARD);
+						}
+					});
+				
+			}
+		}.start();
 
     }
 
