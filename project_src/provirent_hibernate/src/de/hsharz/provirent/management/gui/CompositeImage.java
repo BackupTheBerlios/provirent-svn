@@ -1262,9 +1262,6 @@ public class CompositeImage extends AbstractComposite {
         System.out.println("Type:"+image.getImageData().type);
         
         image.dispose();
-
-        //System.out.println("Größe: "+scaledtemp.getBounds());
-        
         
         return scaledtemp;
         

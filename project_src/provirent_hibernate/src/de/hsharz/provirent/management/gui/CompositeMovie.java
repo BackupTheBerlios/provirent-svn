@@ -1,13 +1,13 @@
 package de.hsharz.provirent.management.gui;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
@@ -1145,7 +1144,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         Shell dialogShell = new Shell();
         //Dialog dialogDescription=new Dialog(dialogShell);
         //dialogDescription.open();
-        DialogDescription test= new DialogDescription(dialogShell,1,l.getLocale());
+        Movie film = new Movie();
+        film.setActors(new ArrayList());
+        film.setImages(new ArrayList());
+        film.setGenres(new ArrayList());
+        film.setDirector(new ArrayList());
+        
+        DialogMovie test= new DialogMovie(dialogShell,1, l.getLocale( ),film,DialogMovie.TYPE_ACTOR);
         test.open();
 
     }
