@@ -1,5 +1,7 @@
 /*C2*/CONNECT USER SA
 SET AUTOCOMMIT FALSE
-INSERT INTO CUSTOMER VALUES(1,'2004-10-08 20:26:26.554','Philipp','Schneider',NULL,'Herr',NULL,'Kastanienring','16','Leipzig','04316','Deutschland','egal@aol.com','boelkstoff','egal','Wer','ich',NULL)
+INSERT INTO DIRECTOR VALUES(1,'Bibo','Bergeron')
+INSERT INTO DIRECTOR VALUES(2,'Vicky','Jenson')
+INSERT INTO DIRECTOR VALUES(3,'Jay','Russell')
+INSERT INTO DIRECTOR VALUES(4,'Joseph','Ruben')
 COMMIT
-DISCONNECT

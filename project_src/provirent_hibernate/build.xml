@@ -55,6 +55,7 @@
         <fileset dir="${source.root}" >
           <include name="**/*.properties"/>
           <include name="**/*.hbm.xml"/>
+          <include name="**/*.cfg.xml"/>
         </fileset>
       </copy>
     </target>

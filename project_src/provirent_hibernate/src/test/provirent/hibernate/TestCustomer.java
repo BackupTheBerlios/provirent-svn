@@ -1,5 +1,7 @@
+package test.provirent.hibernate;
+import junit.framework.TestCase;
 /*
- * Created on 07.10.2004
+ * Created on 09.10.2004
  *
  * Copyright (c) 2004/2005, Remo Griesch/Stefan Forstner/Philipp Schneider
  * All rights reserved.
@@ -30,127 +32,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package test.provirent.hibernate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import net.sf.hibernate.Session;
-import net.sf.hibernate.SessionFactory;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.cfg.Configuration;
-import de.hsharz.provirent.objects.*;
-
 
 /**
  * @author Philipp Schneider
- *  
+ *
  */
-public class TestCustomer {
+public class TestCustomer extends TestCase {
 
-    public static void main(String args[]) throws Exception {
-        TestCustomer th = new TestCustomer();
-        th.saveObjects();
-        //th.getObjects();
-    }
-    
-
-        
-
-
-
-    public void getObjects() throws Exception {
-        Configuration config = new Configuration();
-
-        // Tell it about the classes we want mapped, taking advantage
-        // of
-        // the way we've named their mapping documents.
-        config.addClass(Customer.class);
-
-        // Get the session factory we can use for persistence
-        SessionFactory sessionFactory = config.buildSessionFactory();
-
-        // Ask for a session using the JDBC information we've
-        // configured
-        Session session = sessionFactory.openSession();
-        try {
-            int id = 1;
-            Dvd movie = (Dvd) session.get(Dvd.class, new Integer(id));
-            if (movie == null) {
-                System.out.println("Keine Dvd mit id " + id + "gefunden");
-                return;
-            }
-            System.out.println("DVD gefunden: " + movie.toString());
-            
-
-        } finally {
-            // No matter what, close the session
-            session.close();
-        }
-
-        // Clean up after ourselves
-        sessionFactory.close();
+    /*
+     * @see TestCase#setUp()
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
     }
 
-    public void saveObjects() throws Exception {
-        // Create a configuration based on the properties file we've put
-        // in the standard place.
-        Configuration config = new Configuration();
+    /*
+     * @see TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
 
-        // Tell it about the classes we want mapped, taking advantage of
-        // the way we've named their mapping documents.
-        config.addClass(Customer.class);
-
-        // Get the session factory we can use for persistence
-        SessionFactory sessionFactory = config.buildSessionFactory();
-
-        // Ask for a session using the JDBC information we've configured
-        Session s = sessionFactory.openSession();
-        Transaction tx = null;
-        try {
-            // Create some data and persist it
-            tx = s.beginTransaction();
-
-            Customer c = new Customer();
-            c.setFirstName("Philipp");
-            c.setLastName("Schneider");
-            c.setStreet("Kastanienring");
-            c.setStreetNumber("16");
-            c.setCity("Leipzig");
-            c.setZipCode("04316");
-            c.setCountry("Deutschland");
-            c.setSalutation("Herr");
-            c.setEmailAddress("egal@aol.com");
-            c.setUserName("boelkstoff");
-            c.setPassword("egal");
-            c.setHiddenQuestion("Wer");
-            c.setHiddenAnswer("ich");
-            
-            s.save(c);
-            s.flush();
-            
-            System.out.println("Customer id: " +c.getCustomerId() );
-            System.out.println("Customer id: " +c.getDayOfRegistration() );
-            
-            
-            
-            // We're done; make our changes permanent
-            tx.commit();
-
-        } catch (Exception e) {
-            if (tx != null) {
-                // Something went wrong; discard all partial changes
-                tx.rollback();
-            }
-            throw e;
-        } finally {
-            // No matter what, close the session
-            s.close();
-        }
-
-        // Clean up after ourselves
-        sessionFactory.close();
+    /**
+     * Constructor for TestCustomer.
+     * @param arg0
+     */
+    public TestCustomer(String arg0) {
+        super(arg0);
     }
 
 }

@@ -1,5 +1,7 @@
+package test.provirent.hibernate;
+import junit.framework.TestCase;
 /*
- * Created on 07.10.2004
+ * Created on 09.10.2004
  *
  * Copyright (c) 2004/2005, Remo Griesch/Stefan Forstner/Philipp Schneider
  * All rights reserved.
@@ -30,263 +32,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-package test.provirent.hibernate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
-import net.sf.hibernate.Session;
-import net.sf.hibernate.SessionFactory;
-import net.sf.hibernate.Transaction;
-import net.sf.hibernate.cfg.Configuration;
-import de.hsharz.provirent.objects.*;
-
 
 /**
  * @author Philipp Schneider
- *  
+ *
  */
-public class TestDVD {
+public class TestDvd extends TestCase {
 
-    public static void main(String args[]) throws Exception {
-        TestDVD th = new TestDVD();
-        //th.saveObjects();
-        th.getObjects();
-    }
-    
-
-        
-
-
-
-    public void getObjects() throws Exception {
-        Configuration config = new Configuration();
-
-        // Tell it about the classes we want mapped, taking advantage
-        // of
-        // the way we've named their mapping documents.
-        config.addClass(Movie.class).addClass(Actor.class)
-        .addClass(AudioFormat.class).addClass(Condition.class)
-        .addClass(Director.class).addClass(Dvd.class)
-.addClass(Genre.class).addClass(Language.class)
-.addClass(Status.class)
-.addClass(Subtitle.class).addClass(VideoFormat.class);
-
-        // Get the session factory we can use for persistence
-        SessionFactory sessionFactory = config.buildSessionFactory();
-
-        // Ask for a session using the JDBC information we've
-        // configured
-        Session session = sessionFactory.openSession();
-        try {
-            int id = 1;
-            Dvd movie = (Dvd) session.get(Dvd.class, new Integer(id));
-            if (movie == null) {
-                System.out.println("Keine Dvd mit id " + id + "gefunden");
-                return;
-            }
-            System.out.println("DVD gefunden: " + movie.toString());
-            
-
-        } finally {
-            // No matter what, close the session
-            session.close();
-        }
-
-        // Clean up after ourselves
-        sessionFactory.close();
+    /*
+     * @see TestCase#setUp()
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
     }
 
-    public void saveObjects() throws Exception {
-        // Create a configuration based on the properties file we've put
-        // in the standard place.
-        Configuration config = new Configuration();
+    /*
+     * @see TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
 
-        // Tell it about the classes we want mapped, taking advantage of
-        // the way we've named their mapping documents.
-        config.addClass(Movie.class).addClass(Actor.class)
-        .addClass(AudioFormat.class).addClass(Condition.class)
-        .addClass(Director.class).addClass(Dvd.class)
-.addClass(Genre.class).addClass(Language.class)
-.addClass(Status.class)
-.addClass(Subtitle.class).addClass(VideoFormat.class);
-
-        // Get the session factory we can use for persistence
-        SessionFactory sessionFactory = config.buildSessionFactory();
-
-        // Ask for a session using the JDBC information we've configured
-        Session s = sessionFactory.openSession();
-        Transaction tx = null;
-        try {
-            // Create some data and persist it
-            tx = s.beginTransaction();
-            
-            Movie movie = new Movie();
-            movie.setTitle("Fluch der Karibik");
-            movie.setDescription("eine interaktive Geschichte eines Piraten");
-
-            Actor actor1 = new Actor("Johnny", "Depp");
-            Actor actor2 = new Actor("Geoffrey", "Rush");
-            Actor actor3 = new Actor("Gore", "Verbinski ");
-            Actor actor4 = new Actor("Julianne", "Moore ");
-            Actor actor5 = new Actor("Anthony", "Edwards ");
-            Actor actor6 = new Actor("Matthew", "Pleszewicz ");
-            Actor actor7 = new Actor("Christopher", "Kovaleski ");
-            s.save(actor1);
-            s.save(actor2);
-            s.save(actor3);
-            s.save(actor4);
-            s.save(actor5);
-            s.save(actor6);
-            s.save(actor7);
-            s.flush();
-
-            ArrayList actors = new ArrayList();
-            actors.add(actor1);
-            actors.add(actor2);
-            movie.setActors(actors);
-            
-            
-
-            Director d1 = new Director("Bibo","Bergeron");
-            Director d2 = new Director("Vicky","Jenson");
-            Director d3 = new Director("Jay","Russell");
-            Director d4 = new Director("Joseph","Ruben");
-            s.save(d1);
-            s.save(d2);
-            s.save(d3);
-            s.save(d4);
-            s.flush();
-
-			movie.setDirector(new ArrayList());
-            movie.getDirector().add(d1);
-
-            Language l1 = new Language("Deutsch", "de");
-            Language l2 = new Language("Englisch", "en");
-            Language l3 = new Language("Franzoesisch", "fr");
-            Language l4 = new Language("Spanisch", "es");
-            Language l5 = new Language("Japanisch", "jp");
-            s.save(l1);
-            s.save(l2);
-            s.save(l3);
-            s.save(l4);
-            s.save(l5);
-            s.flush();
-
-            movie.setLanguages(new ArrayList());
-            movie.getLanguages().add(l1);
-            movie.getLanguages().add(l2);
-            
-            Subtitle s1 = new Subtitle("Deutsch", "de");
-            Subtitle s2 = new Subtitle("Englisch", "en");
-            Subtitle s3 = new Subtitle("Franzoesisch", "fr");
-            Subtitle s4 = new Subtitle("Spanisch", "es");
-            Subtitle s5 = new Subtitle("Japanisch", "jp");        
-            s.save(s1);
-            s.save(s2);
-            s.save(s3);
-            s.save(s4);
-            s.save(s5);
-            s.flush();
-
-            movie.setSubtitles(new ArrayList());
-            movie.getSubtitles().add(s1);
-            movie.getSubtitles().add(s2);
-            
-            Genre g1 = new Genre("Action","");
-            Genre g2 = new Genre("Abenteuer","");
-            Genre g3 = new Genre("Dokumentation","");
-            s.save(g1);
-            s.save(g2);
-            s.save(g3);
-            s.flush();
-       
-            movie.setGenres(new ArrayList());
-            movie.getGenres().add(g1);
-            
-            AudioFormat a1 = new AudioFormat("DTS Surround Sound","");
-            AudioFormat a2 = new AudioFormat("Surround Sound","");
-            AudioFormat a3 = new AudioFormat("Dolby","");
-            AudioFormat a4 = new AudioFormat("Stereo","");
-            s.save(a1);
-            s.save(a2);
-            s.save(a3);
-            s.save(a4);
-            s.flush();
-             
-            movie.setAudioFormats(new ArrayList());
-            movie.getAudioFormats().add(a1);
-            movie.getAudioFormats().add(a4);
-            
-            VideoFormat v1 = new VideoFormat("2.35:1","");
-            s.save(v1);
-            s.flush();
-          
-            movie.setVideoFormats(new ArrayList());
-            movie.getVideoFormats().add(v1);
-            
-          
-            s.save(movie);
-
-            System.out.println("MovieID: " + movie.getMovieId());
-            System.out.println("Movie Actors vor: " + movie.getActors());
-            s.flush();
-            System.out.println("Movie Actors nach: " + movie.getActors());
-
-
-            
-
-            Dvd dvd = new Dvd();
-            dvd.setMovie(movie);
-            
-            Status status1 = new Status("ausleihbar","");
-            Status status2 = new Status("verliehen","");
-            Status status3 = new Status("in Bearbeitung","");
-            s.save(status1);
-            s.save(status2);
-            s.save(status3);
-            s.flush();
-
-            dvd.setStatus(status1);
-            
-            Condition con1 = new Condition("neu","");
-            Condition con2 = new Condition("leichte Kratzer","");
-            Condition con3 = new Condition("mittlere Kratzer","");
-            Condition con4 = new Condition("schwere Kratzer","");
-            Condition con5 = new Condition("nicht lesbar","");
-            s.save(con1);
-            s.save(con2);
-            s.save(con3);
-            s.save(con4);
-            s.save(con5);
-            s.flush();
-            
-            dvd.setCondition(con1);
-            dvd.setBarcode("01246682");
-            
-            s.save(dvd);
-            s.flush();
-            System.out.println("DVD ID: " + dvd.getDvdId());
-
-            
-            
-            // We're done; make our changes permanent
-            tx.commit();
-
-        } catch (Exception e) {
-            if (tx != null) {
-                // Something went wrong; discard all partial changes
-                tx.rollback();
-            }
-            throw e;
-        } finally {
-            // No matter what, close the session
-            s.close();
-        }
-
-        // Clean up after ourselves
-        sessionFactory.close();
+    /**
+     * Constructor for TestDvd.
+     * @param arg0
+     */
+    public TestDvd(String arg0) {
+        super(arg0);
     }
 
 }
