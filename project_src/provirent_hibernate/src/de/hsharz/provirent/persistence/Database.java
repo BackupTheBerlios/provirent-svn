@@ -47,6 +47,7 @@ import org.apache.log4j.Logger;
 import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.AudioFormat;
 import de.hsharz.provirent.objects.Condition;
+import de.hsharz.provirent.objects.Customer;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Image;
@@ -1602,7 +1603,117 @@ public class Database {
 	    
 	
 	}
+	
+	/**
+	 * This method gets all Customers from the database
+	 * @param filter 
+	 * @return List of Customer objects, or an empty List
+	 */
+	public static List getCustomer(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getCustomer() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Customer.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
 
+<<<<<<< .mine
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("userName", "%"+filter+"%"));
+	                any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
+	                any.add(Expression.like("duration2", "%"+filter+"%"));
+	                any.add(Expression.like("duration3", "%"+filter+"%"));
+	                any.add(Expression.like("startdate", "%"+filter+"%"));
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("CustomerId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	            
+	            
+	            int i = 0;
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getCustomer() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getCustomer() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getCustomer() - end");
+	    }
+	    return returnlist;
+	    
+	
+	}
+	
+	
+	public static Customer getSingleCustomer(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleCustomer() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Customer returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Customer)s.get(Customer.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleCustomer() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleCustomer() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleCustomer() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
+
+=======
 	/**
 	 * This method gets all Movies from the database.
 	 * searches for ID,Title,Date,Description,Actor,Director...
@@ -1710,5 +1821,6 @@ public class Database {
 	}
 
 
+>>>>>>> .r180
 }
 
