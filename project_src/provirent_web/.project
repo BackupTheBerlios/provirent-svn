@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>web</name>
+	<name>provirent_web</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -20,11 +20,4 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>lib</name>
-			<type>2</type>
-			<location>G:/eclipse/workspace/web/lib</location>
-		</link>
-	</linkedResources>
 </projectDescription>
