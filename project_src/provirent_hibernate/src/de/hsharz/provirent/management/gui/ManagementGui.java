@@ -401,6 +401,7 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemFormat == null || tabItemFormat.isDisposed()){
 				    initFormatTab();
+				    cTabFolderMain.setSelection(tabItemFormat);
 				 return;   
 				}
 				
@@ -417,6 +418,7 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemDirector == null || tabItemDirector.isDisposed()){
 				    initDirectorTab();
+				    cTabFolderMain.setSelection(tabItemDirector);
 				    return;   
 				}
 				
@@ -433,6 +435,7 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemActor == null || tabItemActor.isDisposed()){
 				    initActorTab();
+				    cTabFolderMain.setSelection(tabItemActor);
 				    return;   
 				}
 				
@@ -450,6 +453,7 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemGenre == null || tabItemGenre.isDisposed()){
 				    initGenreTab();
+				    cTabFolderMain.setSelection(tabItemGenre);
 				    return;   
 				}
 				
@@ -467,6 +471,7 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemLanguage == null || tabItemLanguage.isDisposed()){
 				    initLanguageTab();
+				    cTabFolderMain.setSelection(tabItemLanguage);
 				    return;   
 				}
 				
@@ -484,6 +489,7 @@ public class ManagementGui {
             public void widgetSelected(SelectionEvent evt) {
 				if(tabItemStatus == null || tabItemStatus.isDisposed()){
 				    initStatusTab();
+				    cTabFolderMain.setSelection(tabItemStatus);
 				    return;   
 				}
 				

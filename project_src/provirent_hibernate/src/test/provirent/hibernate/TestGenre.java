@@ -159,6 +159,15 @@ public class TestGenre extends TestCase {
                     s.delete(myd);
                     s.flush();
 
+                    logger.debug("Lösche eins per Hand");
+                    Genre o = new Genre();
+                    o.setGenreId(new Integer(0));
+                    o.setName("");
+                    o.setShortname("");
+                    s.delete(o);
+                    s.flush();
+                    
+                    
                     dbd = myd = null;
 
                     Object obj = s.get(Genre.class, new Integer(id));

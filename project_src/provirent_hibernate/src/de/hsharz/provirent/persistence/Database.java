@@ -239,20 +239,27 @@ public class Database {
                 //get new Session and begin Transaction
                 s = HibernateUtil.currentSession();
                 tx = s.beginTransaction();
+                
                 try{
                     s.delete(o);
+                
                 } catch (HibernateException e) {
                     logger.error("saveObject(). Fehler beim Speichern/Updaten "
                             + "des Objectes:" + o + " Exception: " + e);
                     exception = 1;
                 }
-                
-                s.flush();
                
+                
+
+                //s.flush();
+                
                 tx.commit();
+                
+                o= null;
                 
             } catch (HibernateException e) {
                 exception = 2;
+                logger.error("Message "+  e.getMessages().toString()); 
                 logger
                         .error(
                                 "deleteObject(Object) - Something went wrong here; discard all partial changes",

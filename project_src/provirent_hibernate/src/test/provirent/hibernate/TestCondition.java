@@ -84,7 +84,7 @@ public class TestCondition extends TestCase {
         }
     }
 
-    /*public void testCondition() throws Exception {
+    public void testCondition() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
         }
@@ -194,7 +194,7 @@ public class TestCondition extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
-    }*/
+    }
 
     public void testSaveCondition() throws Exception {
         if (logger.isDebugEnabled()) {

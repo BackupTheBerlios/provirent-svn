@@ -9,3 +9,9 @@ Datum		h	Beschreibung
 
 20.10.2004	4	SWT Managment
 21.10.2004	4	SWTDual VideoFormat als erstes richtiges Element
+
+
+
+
+10.11.2004	3	Auf Firebird umstellen und Fehler gesucht
+11.11.2004	1,5	tests, gui probleme
