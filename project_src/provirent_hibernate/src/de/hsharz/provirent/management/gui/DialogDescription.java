@@ -62,7 +62,7 @@ public class DialogDescription extends org.eclipse.swt.widgets.Dialog {
 		try {
 			Display display = Display.getDefault();
 			Shell shell = new Shell(display);
-			DialogDescription inst = new DialogDescription(shell, SWT.NULL);
+			DialogDescription inst = new DialogDescription(shell, SWT.NULL, Locale.GERMAN);
 			inst.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -89,10 +89,15 @@ public class DialogDescription extends org.eclipse.swt.widgets.Dialog {
     }
 	
 	
-	public DialogDescription(Shell parent, int style) {
+    
+	public DialogDescription(Shell parent, int style, Locale locale) {
 		super(parent, style);
+		
+		initLanguage(locale);
 	}
 
+
+	
 	public void open() {
 		try {
 			Shell parent = getParent();

@@ -346,8 +346,8 @@ public class ManagementGui {
             cTabFolder1LData.verticalAlignment = GridData.FILL;
             cTabFolderMain.setLayoutData(cTabFolder1LData);
             
-            initFormatTab();
-            
+            //initFormatTab();
+            initMovieTab();
 
         } catch (Exception e) {
             e.printStackTrace();

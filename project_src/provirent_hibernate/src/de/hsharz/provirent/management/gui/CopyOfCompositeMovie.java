@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
@@ -32,11 +31,14 @@ import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
+import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 
 
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Combo;
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -51,7 +53,7 @@ import de.hsharz.provirent.persistence.Database;
 * for any corporate or commercial purpose.
 * *************************************
 */
-public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractComposite {
+public class CopyOfCompositeMovie extends de.hsharz.provirent.management.gui.AbstractComposite {
 
     {
         //Register as a resource user - SWTResourceManager will
@@ -109,27 +111,24 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Button buttonMoviesCancel;
     private Button buttonMoviesDelete;
     private Button buttonMoviesFill;
-    private Button buttonMoviesEditActors;
-    private Button buttonMoviesEditDirectors;
-    private Button buttonMoviesEditGenres;
-    private Button buttonMoviesEditLanguages;
-    private Button buttonMoviesEditSubtitles;
-    private Button buttonMoviesEditAudioformats;
-    private Button buttonMoviesEditVideoformats;
-    private Button buttonMoviesEditImages;
-    private Button buttonMoviesEditDescription;
-     
+
     private SashForm sashForm1;
     
     private Composite parent;
     private Composite compositeButtons;
-    
+    private Button button5;
+    private Combo combo1;
+    private Button button4;
+    private Button button3;
+    private Button button2;
+    private Button button1;
+    private List list1;
+
     protected int mode_actor;
     
     private StatusLineStyledText statusLine;
     
     private ResourceBundle l;
-    
     
     /*
      * Ändert die Sprache aller Elemente
@@ -180,7 +179,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
 		}
 	}
 
-	public CompositeMovie(Composite p, int style,
+	public CopyOfCompositeMovie(Composite p, int style,
             StatusLineStyledText status, Locale l) {
 	    super(p, style, status, l);
         parent = p;
@@ -626,174 +625,373 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    labelMoviesAdvice.setLayoutData(formData2);
     	}
         {
-            buttonMoviesEditDescription = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditDescription.setText(l
-                .getString("movies.button.editdescription"));
-            buttonMoviesEditDescription.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditDescription.setLayoutData(text1LData2);        
-            buttonMoviesEditDescription.addSelectionListener(new SelectionAdapter() {
+            combo1 = new Combo(groupMoviesDetail, SWT.NONE);
+            combo1.add("AudioFormate");
+            combo1.add("VideoFormate");
+            combo1.add("Darsteller");
+            combo1.add("Genre");
+            combo1.add("Director");
+            
+            GridData combo1LData = new GridData();
+            combo1LData.horizontalSpan = 5;
+            combo1LData.grabExcessHorizontalSpace = true;
+            combo1LData.horizontalAlignment = GridData.FILL;
+            combo1.setLayoutData(combo1LData);
+        }
+        {
+            buttonMoviesNew = new Button(compositeButtons, SWT.PUSH
+                | SWT.CENTER);
+            buttonMoviesNew.setText(l.getString("button.new"));
+            buttonMoviesNew.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                   openDialogDescription();
+
+                    mode_actor = ManagementGui.MODE_ADD;
+
+                    textMoviesID.setText("");
+                    textMoviesTitle.setText("");
+                    textMoviesDate.setText("");
+                    textMoviesTitle.setEditable(true);
+                    textMoviesDate.setEditable(true);
+
+                    buttonMoviesCancel.setEnabled(true);
+                    buttonMoviesSave.setEnabled(true);
+                    buttonMoviesNew.setEnabled(false);
+                    buttonMoviesEdit.setEnabled(false);
+                    buttonMoviesDelete.setEnabled(false);
+
+                    textMoviesSearch.setEditable(false);
+                    tableMoviesOverview.setEnabled(false);
+
+                }
+            });
+
+            buttonMoviesEdit = new Button(compositeButtons, SWT.PUSH
+                | SWT.CENTER);
+            buttonMoviesEdit.setText(l.getString("button.edit"));
+            buttonMoviesEdit.setEnabled(false);
+            buttonMoviesEdit.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+
+                    mode_actor = ManagementGui.MODE_EDIT;
+
+                    textMoviesID.setEditable(false);
+                    textMoviesTitle.setEditable(true);
+                    textMoviesTitle.setFocus();
+                    textMoviesDate.setEditable(true);
+
+                    buttonMoviesCancel.setEnabled(true);
+                    buttonMoviesSave.setEnabled(true);
+                    buttonMoviesNew.setEnabled(false);
+                    buttonMoviesEdit.setEnabled(false);
+                    buttonMoviesDelete.setEnabled(false);
+
+                    tableMoviesOverview.setEnabled(false);
+                    textMoviesSearch.setEnabled(false);
+
+                }
+            });
+
+            buttonMoviesDelete = new Button(compositeButtons, SWT.PUSH
+                | SWT.CENTER);
+            buttonMoviesDelete.setText(l.getString("button.delete"));
+            buttonMoviesDelete.setEnabled(false);
+            buttonMoviesDelete.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+                    System.out
+                        .println("buttonMoviesDelete.widgetSelected, event="
+                            + evt);
+
+                    String msg = MessageFormat
+                        .format(
+                            l
+                                .getString("movies.groupdetail.deletebutton.question.text"),
+                            new Object[] { textMoviesTitle.getText()
+                                + " "
+                                + l
+                                    .getString("movies.groupdetail.deletebutton.question.gap")
+                                + " "
+                                + textMoviesDate.getText() });
+
+                    int question = showMsg(
+                        msg,
+                        l
+                            .getString("movies.groupdetail.deletebutton.question.header"),
+                        SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+
+                    if (question != SWT.YES) {
+                        return;
+                    }
+
+                    Movie o = new Movie();
+                    o.setMovieId(new Integer(Integer.parseInt(textMoviesID
+                        .getText())));
+                    o.setTitle(textMoviesTitle.getText());
+                    //TODO
+                    //entsprechendes Objekt erzeugen
+                    //o.setReleaseDate(textMoviesDate.getText());
+
+                    try {
+                        //object speichern
+                        // Fehlerbehandlung
+                        Database.deleteObject(o);
+
+                        //ÜbersichtsTabelle aktualisieren
+                        refreshMoviesOverviewTable(textMoviesSearch.getText());
+
+                        //Detailansicht leeren
+                        textMoviesID.setText("");
+                        textMoviesTitle.setText("");
+                        textMoviesDate.setText("");
+                        tableMoviesOverviewDetail.removeAll();
+                        //in Tabelle nächsten auswählen
+                        try {
+                            tableMoviesOverview.select(0);
+                        } catch (Exception ex) {
+                        }
+
+                        //Statusline Nachricht sezten
+                        statusLine
+                            .setStatus(
+                                1,
+                                l
+                                    .getString("movies.groupdetail.deletebutton.newok"));
+
+                    } catch (DataBaseException e) {
+                        if (e.getMessage().equalsIgnoreCase("1")) {
+                            //Fehler beim Speichern des Objectes
+
+                            statusLine
+                                .setStatus(
+                                    3,
+                                    l
+                                        .getString("movies.groupdetail.deletebutton.errorsave"));
+                            showMsg(
+                                l
+                                    .getString("movies.groupdetail.deletebutton.errorsave"),
+                                l.getString("error"),
+                                SWT.ICON_ERROR | SWT.OK);
+
+                        } else if (e.getMessage().equalsIgnoreCase("2")) {
+                            //fehler beim db aufbau
+                            statusLine
+                                .setStatus(
+                                    3,
+                                    l
+                                        .getString("movies.groupdetail.deletebutton.errordb"));
+                            showMsg(
+                                l
+                                    .getString("movies.groupdetail.deletebutton.errordb"),
+                                l.getString("error"),
+                                SWT.ICON_ERROR | SWT.OK);
+
+                        } else {
+                            //@todo
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }
+
+            });
+
+            //leerer nicht sichtbarer Button
+            buttonMoviesFill = new Button(compositeButtons, SWT.PUSH
+                | SWT.CENTER);
+            GridData buttonActorFillLData = new GridData();
+            buttonMoviesFill.setVisible(false);
+            buttonMoviesFill.setEnabled(false);
+            buttonActorFillLData.widthHint = 30;
+            buttonActorFillLData.heightHint = 23;
+            buttonMoviesFill.setLayoutData(buttonActorFillLData);
+
+            buttonMoviesSave = new Button(compositeButtons, SWT.PUSH
+                | SWT.CENTER);
+            buttonMoviesSave.setText(l.getString("button.save"));
+            buttonMoviesSave.setEnabled(false);
+            buttonMoviesSave.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+                    System.out
+                        .println("buttonMoviesSave.widgetSelected, event="
+                            + evt);
+
+                    //testen ob Name leer ist
+                    //TODO
+                    //komplette Speichervorgan muss erweitert werden da
+                    //Ausmaß von Film größer als bei anderen Composite
+                    /*
+                     if (textActorsFName.getText().trim().equalsIgnoreCase("") 
+                     ||  textActorsLName.getText().trim().equalsIgnoreCase("")   ) {
+                     
+                     showMsg(l.getString("actors.groupdetail.savebutton.warn.noname.msg"),
+                     l.getString("actors.groupdetail.savebutton.warn.noname.title"),
+                     SWT.ICON_WARNING | SWT.YES);
+
+                     return;
+                     }
+                     
+                     //testen welcher mode
+                     
+                     if (mode_actor == ManagementGui.MODE_ADD) {
+                     */
+                    /**
+                     * @todo eine Exception bekommen wieder leider NOCH nicht mit
+                     * d.h. es muss noch ein rückgabewert kommen oder eine Exception 
+                     * übermitteln werden (aus der DB Klasse)
+                     */
+                    //neues Objekt erzeugen
+                    /*
+                     Actor tmp = new Actor(textActorsFName.getText(),
+                     textActorsLName.getText());
+                     
+                     try {
+                     //object speichern
+                     // Fehlerbehandlung
+                     Object o = Database.saveObject(
+                     new Actor(textActorsFName.getText(),
+                     textActorsLName.getText()));
+                     
+                     // in Übersichtstabelle einfügen
+                     insertIntoActorsOverviewTable((Actor)o);
+                     textActorsID.setText( ((Actor)o).getActorId()+"" );
+                     
+                     
+                     //Statusline Nachricht sezten
+                     statusLine.setStatus(1,l.getString("actors.groupdetail.savebutton.newok"));
+
+                     } catch (DataBaseException e) {
+                     if (e.getMessage().equalsIgnoreCase("1")) {
+                     //Fehler beim Speichern des Objectes
+
+                     statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errorsave"));
+                     showMsg(l.getString("actors.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                     
+                     } else if (e.getMessage().equalsIgnoreCase("2")) {
+                     //fehler beim db aufbau
+                     statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errordb"));
+                     showMsg(l.getString("actors.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                     
+                     } else {
+                     //@todo
+                     e.printStackTrace();
+                     }
+                     
+                     }
+                     
+                     
+                     //alle Buttons auf aktiv setzen
+                     setActorsGroupButtonSaveCancel();
+                     
+                     } else if (mode_actor == ManagementGui.MODE_EDIT) {
+                     
+                     Actor tmp = new Actor(textActorsFName.getText(),
+                     textActorsLName.getText());
+                     tmp.setActorId( new Integer (Integer.parseInt(textActorsID.getText())) );
+                     try {
+                     //object speichern
+                     // Fehlerbehandlung
+                     Database.saveObject(tmp);
+                     //Übersichtstabelle aktualisieren
+                     refreshActorsOverviewTable(textActorsSearch.getText());
+                     
+                     //Statusline Nachricht sezten
+                     statusLine.setStatus(1,l.getString("actors.groupdetail.savebutton.editok"));
+                     
+
+                     } catch (DataBaseException e) {
+                     if (e.getMessage().equalsIgnoreCase("1")) {
+                     //Fehler beim Speichern des Objectes
+
+                     statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errorsave"));
+                     showMsg(l.getString("actors.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                     
+                     } else if (e.getMessage().equalsIgnoreCase("2")) {
+                     //fehler beim db aufbau
+                     statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errordb"));
+                     showMsg(l.getString("actors.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
+                     
+                     } else {
+                     //@todo
+                     e.printStackTrace();
+                     }
+                     
+                     }
+                     
+                     
+                     //alle Buttons auf aktiv setzen
+                     setActorsGroupButtonSaveCancel();
+                     
+                     }
+                     
+                     
+                     
+                     
+                     // @todo Exception werfen, da nur die zwei Modes sein dürfen
+                     
+                     */
+                }
+
+            });
+
+            buttonMoviesCancel = new Button(groupMoviesDetail, SWT.PUSH
+                | SWT.CENTER);
+            buttonMoviesCancel.setText("ansehen / bearbeiten");
+            buttonMoviesCancel.setEnabled(false);
+            buttonMoviesCancel.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+                    System.out
+                        .println("buttonMoviesCancel.widgetSelected, event="
+                            + evt);
+                    setMoviesGroupButtonSaveCancel();
                 }
             });
         }
         {
-            buttonMoviesEditDirectors = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditDirectors.setText(l
-                .getString("movies.button.editdirectors"));
-            buttonMoviesEditDirectors.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditDirectors.setLayoutData(text1LData2);        
-            buttonMoviesEditDirectors.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
+            list1 = new List(groupMoviesDetail, SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
+            GridData list1LData = new GridData();
+            list1LData.horizontalAlignment = GridData.FILL;
+            list1LData.horizontalSpan = 4;
+            list1LData.verticalSpan = 4;
+            list1LData.grabExcessHorizontalSpace = true;
+            list1LData.verticalAlignment = GridData.FILL;
+            list1.setLayoutData(list1LData);
         }
         {
-            buttonMoviesEditActors = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditActors.setText(l
-                .getString("movies.button.editactors"));
-            buttonMoviesEditActors.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditActors.setLayoutData(text1LData2);        
-            buttonMoviesEditActors.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
+            button1 = new Button(groupMoviesDetail, SWT.PUSH | SWT.CENTER);
+            button1.setText("add");
+            GridData list1LData = new GridData();
+            list1LData.horizontalAlignment = GridData.FILL;
+            list1LData.horizontalSpan = 2;
+            list1LData.grabExcessHorizontalSpace = true;
+            button1.setLayoutData(list1LData);            
+            
         }
         {
-            buttonMoviesEditGenres = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditGenres.setText(l
-                .getString("movies.button.editgenres"));
-            buttonMoviesEditGenres.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditGenres.setLayoutData(text1LData2);        
-            buttonMoviesEditGenres.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
+            button3 = new Button(groupMoviesDetail, SWT.PUSH | SWT.CENTER);
+            button3.setText("up");
+            GridData list1LData = new GridData();
+            list1LData.horizontalAlignment = GridData.FILL;
+            list1LData.horizontalSpan = 2;
+            list1LData.grabExcessHorizontalSpace = true;
+            button3.setLayoutData(list1LData); 
         }
         {
-            buttonMoviesEditSubtitles = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditSubtitles.setText(l
-                .getString("movies.button.editsubtitles"));
-            buttonMoviesEditSubtitles.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditSubtitles.setLayoutData(text1LData2);        
-            buttonMoviesEditSubtitles.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
+            button2 = new Button(groupMoviesDetail, SWT.PUSH | SWT.CENTER);
+            button2.setText("Delete");
+            GridData list1LData = new GridData();
+            list1LData.horizontalAlignment = GridData.FILL;
+            list1LData.horizontalSpan = 2;
+            list1LData.grabExcessHorizontalSpace = true;
+            button2.setLayoutData(list1LData); 
         }
         {
-            buttonMoviesEditLanguages = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditLanguages.setText(l
-                .getString("movies.button.editlanguages"));
-            buttonMoviesEditLanguages.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditLanguages.setLayoutData(text1LData2);        
-            buttonMoviesEditLanguages.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
-        }
-        {
-            buttonMoviesEditVideoformats = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditVideoformats.setText(l
-                .getString("movies.button.editvideoformats"));
-            buttonMoviesEditVideoformats.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditVideoformats.setLayoutData(text1LData2);        
-            buttonMoviesEditVideoformats.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
-        }
-        {
-            buttonMoviesEditAudioformats = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditAudioformats.setText(l
-                .getString("movies.button.editaudioformats"));
-            buttonMoviesEditAudioformats.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 5;
-    	    text1LData2.grabExcessHorizontalSpace = true;
-    	    buttonMoviesEditAudioformats.setLayoutData(text1LData2);        
-            buttonMoviesEditAudioformats.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
-        }
-        {
-            buttonMoviesEditImages = new Button(groupMoviesDetail
-                    , SWT.NONE);
-            buttonMoviesEditImages.setText(l
-                .getString("movies.button.editimages"));
-            buttonMoviesEditImages.setEnabled(false);
-            GridData text1LData2 = new GridData();
-    	    text1LData2.heightHint = 20;
-    	    text1LData2.horizontalSpan = 1;
-    	    text1LData2.horizontalAlignment = GridData.FILL;
-    	    buttonMoviesEditImages.setLayoutData(text1LData2);        
-            buttonMoviesEditImages.addSelectionListener(new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {
-                   // TODO
-                    
-                }
-            });  
+            button4 = new Button(groupMoviesDetail, SWT.PUSH | SWT.CENTER);
+            button4.setText("down");
+            GridData list1LData = new GridData();
+            list1LData.horizontalAlignment = GridData.FILL;
+            list1LData.horizontalSpan = 2;
+            list1LData.grabExcessHorizontalSpace = true;
+            button4.setLayoutData(list1LData); 
         }
         {
     	    compositeButtons = new Composite(groupMoviesDetail, SWT.EMBEDDED);
@@ -810,295 +1008,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	composite2LData.heightHint = 35;
         	compositeButtons.setLayoutData(composite2LData);
     	}
-    	{
-    	    buttonMoviesNew = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
-    	    buttonMoviesNew.setText(l.getString("button.new"));
-    	    buttonMoviesNew.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent evt) {
-                
-                mode_actor = ManagementGui.MODE_ADD;
-                
-                textMoviesID.setText("");
-                textMoviesTitle.setText("");
-                textMoviesDate.setText("");
-                textMoviesTitle.setEditable(true);
-                textMoviesDate.setEditable(true);
-                
-                buttonMoviesCancel.setEnabled(true);
-                buttonMoviesSave.setEnabled(true);
-                buttonMoviesNew.setEnabled(false);
-                buttonMoviesEdit.setEnabled(false);
-                buttonMoviesDelete.setEnabled(false);
-                buttonMoviesEditDescription.setEnabled(true);
-                buttonMoviesEditDirectors.setEnabled(true);
-                buttonMoviesEditActors.setEnabled(true);
-                buttonMoviesEditGenres.setEnabled(true);
-                buttonMoviesEditSubtitles.setEnabled(true);
-                buttonMoviesEditLanguages.setEnabled(true);
-                buttonMoviesEditVideoformats.setEnabled(true);
-                buttonMoviesEditAudioformats.setEnabled(true);
-                buttonMoviesEditImages.setEnabled(true);
-                
-                textMoviesSearch.setEditable(false);
-                tableMoviesOverview.setEnabled(false);
+        {
+            button5 = new Button(groupMoviesDetail, SWT.PUSH | SWT.CENTER);
+            button5.setText("auswählen");
+        }
 
-            }
-        });
-
-    	    buttonMoviesEdit = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
-    	    buttonMoviesEdit.setText(l.getString("button.edit"));
-    	    buttonMoviesEdit.setEnabled(false);
-    	    buttonMoviesEdit.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent evt) {
-
-                mode_actor = ManagementGui.MODE_EDIT;
-
-                textMoviesID.setEditable(false);
-                textMoviesTitle.setEditable(true);
-                textMoviesTitle.setFocus();
-                textMoviesDate.setEditable(true);
-                
-                buttonMoviesCancel.setEnabled(true);
-                buttonMoviesSave.setEnabled(true);
-                buttonMoviesNew.setEnabled(false);
-                buttonMoviesEdit.setEnabled(false);
-                buttonMoviesDelete.setEnabled(false);
-
-                tableMoviesOverview.setEnabled(false);
-                textMoviesSearch.setEnabled(false);
-                
-            }
-        });
-
-    	    buttonMoviesDelete = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
-    	    buttonMoviesDelete.setText(l.getString("button.delete"));
-    	    buttonMoviesDelete.setEnabled(false);
-    	    buttonMoviesDelete.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent evt) {
-                System.out
-                        .println("buttonMoviesDelete.widgetSelected, event="
-                                + evt);
-                
-                
-               String msg = MessageFormat.format(
-                       l.getString("movies.groupdetail.deletebutton.question.text"),
-                               new Object[]{textMoviesTitle.getText()+" "
-                               +l.getString("movies.groupdetail.deletebutton.question.gap")
-                               +" "+textMoviesDate.getText()});
-                
-               int question = showMsg(msg,
-                       l.getString("movies.groupdetail.deletebutton.question.header"), 
-                       SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-               
-               if (question != SWT.YES){
-                   return;
-               }
-                
-                Movie o = new Movie();
-                o.setMovieId(new Integer(Integer.parseInt(textMoviesID.getText())));
-                o.setTitle(textMoviesTitle.getText());
-                //TODO
-                //entsprechendes Objekt erzeugen
-                //o.setReleaseDate(textMoviesDate.getText());
-                
-                try {
-                    //object speichern
-                    // Fehlerbehandlung
-                    Database.deleteObject(o);
-
-                    //ÜbersichtsTabelle aktualisieren
-                    refreshMoviesOverviewTable(textMoviesSearch.getText());
-                    
-                    //Detailansicht leeren
-                    textMoviesID.setText("");
-                    textMoviesTitle.setText("");
-                    textMoviesDate.setText("");
-                    tableMoviesOverviewDetail.removeAll();
-                    //in Tabelle nächsten auswählen
-                    try {
-                        tableMoviesOverview.select(0);
-                    } catch (Exception ex) {}
-                    
-                    //Statusline Nachricht sezten
-                    statusLine.setStatus(1,l.getString("movies.groupdetail.deletebutton.newok"));
-
-                } catch (DataBaseException e) {
-                    if (e.getMessage().equalsIgnoreCase("1")) {
-                        //Fehler beim Speichern des Objectes
-
-                        statusLine.setStatus(3,l.getString("movies.groupdetail.deletebutton.errorsave"));
-                        showMsg(l.getString("movies.groupdetail.deletebutton.errorsave"),
-                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
-                        
-                    } else if (e.getMessage().equalsIgnoreCase("2")) {
-                        //fehler beim db aufbau
-                        statusLine.setStatus(3,l.getString("movies.groupdetail.deletebutton.errordb"));
-                        showMsg(l.getString("movies.groupdetail.deletebutton.errordb"),
-                                l.getString("error"), SWT.ICON_ERROR | SWT.OK);
-                        
-                    } else {
-                        //@todo
-                        e.printStackTrace();
-                    }
-                    
-                }                
-                
-
-                }
-
-            }
-    	    );
-
-    	    //leerer nicht sichtbarer Button
-    	    buttonMoviesFill = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
-    	    GridData buttonActorFillLData = new GridData();
-    	    buttonMoviesFill.setVisible(false);
-    	    buttonMoviesFill.setEnabled(false);
-    	    buttonActorFillLData.widthHint = 30;
-    	    buttonActorFillLData.heightHint = 23;
-    	    buttonMoviesFill.setLayoutData(buttonActorFillLData);
-
-    	    buttonMoviesSave = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
-    	    buttonMoviesSave.setText(l.getString("button.save"));
-    	    buttonMoviesSave.setEnabled(false);
-    	    buttonMoviesSave.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent evt) {
-                System.out
-                        .println("buttonMoviesSave.widgetSelected, event="
-                                + evt);
-
-                
-                //testen ob Name leer ist
-                //TODO
-                //komplette Speichervorgan muss erweitert werden da
-                //Ausmaß von Film größer als bei anderen Composite
-                /*
-                if (textActorsFName.getText().trim().equalsIgnoreCase("") 
-                    ||  textActorsLName.getText().trim().equalsIgnoreCase("")   ) {
-                    
-                    showMsg(l.getString("actors.groupdetail.savebutton.warn.noname.msg"),
-                            l.getString("actors.groupdetail.savebutton.warn.noname.title"),
-                            SWT.ICON_WARNING | SWT.YES);
-
-                    	return;
-                }
-                
-                //testen welcher mode
-                
-                if (mode_actor == ManagementGui.MODE_ADD) {
-                */    
-                    /**
-                     * @todo eine Exception bekommen wieder leider NOCH nicht mit
-                     * d.h. es muss noch ein rückgabewert kommen oder eine Exception 
-                     * übermitteln werden (aus der DB Klasse)
-                     */
-                    //neues Objekt erzeugen
-                /*
-                	Actor tmp = new Actor(textActorsFName.getText(),
-                            textActorsLName.getText());
-                    
-                    try {
-                        //object speichern
-                        // Fehlerbehandlung
-                        Object o = Database.saveObject(
-                                new Actor(textActorsFName.getText(),
-                                        textActorsLName.getText()));
-                        
-                        // in Übersichtstabelle einfügen
-                        insertIntoActorsOverviewTable((Actor)o);
-                        textActorsID.setText( ((Actor)o).getActorId()+"" );
-                        
-                        
-                        //Statusline Nachricht sezten
-                        statusLine.setStatus(1,l.getString("actors.groupdetail.savebutton.newok"));
-
-                    } catch (DataBaseException e) {
-                        if (e.getMessage().equalsIgnoreCase("1")) {
-                            //Fehler beim Speichern des Objectes
-
-                            statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errorsave"));
-                            showMsg(l.getString("actors.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                            
-                        } else if (e.getMessage().equalsIgnoreCase("2")) {
-                            //fehler beim db aufbau
-                            statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errordb"));
-                            showMsg(l.getString("actors.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                            
-                        } else {
-                            //@todo
-                            e.printStackTrace();
-                        }
-                        
-                    }
-                    
-                    
-                    //alle Buttons auf aktiv setzen
-                    setActorsGroupButtonSaveCancel();
-                    
-                } else if (mode_actor == ManagementGui.MODE_EDIT) {
-                    
-                    Actor tmp = new Actor(textActorsFName.getText(),
-                                    textActorsLName.getText());
-        		tmp.setActorId( new Integer (Integer.parseInt(textActorsID.getText())) );
-                try {
-                    //object speichern
-                    // Fehlerbehandlung
-                    Database.saveObject(tmp);
-                    //Übersichtstabelle aktualisieren
-                    refreshActorsOverviewTable(textActorsSearch.getText());
-                    
-                    //Statusline Nachricht sezten
-                    statusLine.setStatus(1,l.getString("actors.groupdetail.savebutton.editok"));
-                   
-
-                } catch (DataBaseException e) {
-                    if (e.getMessage().equalsIgnoreCase("1")) {
-                        //Fehler beim Speichern des Objectes
-
-                        statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errorsave"));
-                        showMsg(l.getString("actors.groupdetail.savebutton.errorsave"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                        
-                    } else if (e.getMessage().equalsIgnoreCase("2")) {
-                        //fehler beim db aufbau
-                        statusLine.setStatus(3,l.getString("actors.groupdetail.savebutton.errordb"));
-                        showMsg(l.getString("actors.groupdetail.savebutton.errordb"),"Fehler", SWT.ICON_ERROR | SWT.OK);
-                        
-                    } else {
-                        //@todo
-                        e.printStackTrace();
-                    }
-                    
-                }
-                    
- 
-                    //alle Buttons auf aktiv setzen
-                    setActorsGroupButtonSaveCancel();
-                    
-                }
-                
-                
-                
-                
-                 // @todo Exception werfen, da nur die zwei Modes sein dürfen
-                 
-            */   
-            }
-        
-        });
-        
-    	    buttonMoviesCancel = new Button(compositeButtons, SWT.PUSH | SWT.CENTER);
-    	    buttonMoviesCancel.setText(l.getString("button.cancel"));
-    	    buttonMoviesCancel.setEnabled(false);
-    	    buttonMoviesCancel.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent evt) {
-                System.out
-                        .println("buttonMoviesCancel.widgetSelected, event="
-                                + evt);
-                setMoviesGroupButtonSaveCancel();
-            }
-        });
-    }
-    
     }
 
     /**
@@ -1113,15 +1027,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         buttonMoviesNew.setEnabled(true);
         buttonMoviesEdit.setEnabled(false);
         buttonMoviesDelete.setEnabled(false);
-        buttonMoviesEditDescription.setEnabled(false);
-        buttonMoviesEditDirectors.setEnabled(false);
-        buttonMoviesEditActors.setEnabled(false);
-        buttonMoviesEditGenres.setEnabled(false);
-        buttonMoviesEditSubtitles.setEnabled(false);
-        buttonMoviesEditLanguages.setEnabled(false);
-        buttonMoviesEditVideoformats.setEnabled(false);
-        buttonMoviesEditAudioformats.setEnabled(false);
-        buttonMoviesEditImages.setEnabled(false);
+        
     }
 
     /**
@@ -1139,15 +1045,4 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         // TODO Auto-generated method stub
         
     }
-
-    protected void openDialogDescription() {
-        // TODO Auto-generated method stub
-        Shell dialogShell = new Shell();
-        //Dialog dialogDescription=new Dialog(dialogShell);
-        //dialogDescription.open();
-        DialogDescription test= new DialogDescription(dialogShell,1,l.getLocale());
-        test.open();
-
-    }
-    
 }
