@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
@@ -75,6 +76,12 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     
     private Table tableMoviesOverview;
     private Table tableMoviesOverviewDetail;
+    private Table tableMoviesDirectorsDetail;
+    private Table tableMoviesActorsDetail;
+    private Table tableMoviesGenresDetail;
+    private Table tableMoviesImagesDetail;
+    private TableColumn tableMoviesDetail_ColumnID;
+    private TableColumn tableMoviesDetail_ColumnName;
     private TableColumn tableMoviesOverview_ColumnID;
     private TableColumn tableMoviesOverview_ColumnTitle;
     private TableColumn tableMoviesOverview_ColumnSubtitles;
@@ -128,12 +135,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Composite compositeMoviesEditActors;
     private Composite compositeMoviesEditGenres;
     private Composite compositeMoviesEditImages;
-    private List listMoviesImages;
-    private List listMoviesGenres;
-    private List listMoviesActors;
-    private List listMoviesDirectors;
     
-
     protected int mode_movie;
     
     private StatusLineStyledText statusLine;
@@ -648,9 +650,12 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_DIRECTOR);
         	            dialog.open();
                     
-        	            listMoviesDirectors.removeAll();
+        	            tableMoviesDirectorsDetail.removeAll();
+        	            TableItem item;
         	            for(int i =0; i< movie.getDirector().size(); i++){
-        	                listMoviesDirectors.add( ((Director)movie.getDirector().get(i)).getLastName() );
+        	                item = new TableItem(tableMoviesDirectorsDetail, SWT.NONE);
+        	                item.setText(new String[] { ((Director)movie.getDirector().get(i)).getDirectorId()+ ""
+        	                        ,((Director)movie.getDirector().get(i)).getLastName() + ""});
         	            }                    
         	            
         	        }
@@ -674,12 +679,32 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	    });  
         	}
         {
-            listMoviesDirectors = new List(groupMoviesDetail, SWT.BORDER);
-            GridData listMoviesDirectorsLData = new GridData();
-            listMoviesDirectorsLData.horizontalAlignment = GridData.FILL;
-            listMoviesDirectorsLData.horizontalSpan = 5;
-            listMoviesDirectorsLData.verticalSpan = 1;
-            listMoviesDirectors.setLayoutData(listMoviesDirectorsLData);
+            tableMoviesDirectorsDetail = new Table(groupMoviesDetail,SWT.SINGLE
+                    | SWT.V_SCROLL | SWT.BORDER);
+            tableMoviesDirectorsDetail.setHeaderVisible(true);
+            tableMoviesDirectorsDetail.setLinesVisible(true);
+            GridData tableMoviesDirectorsDetailLData = new GridData();
+            tableMoviesDirectorsDetailLData.horizontalAlignment = GridData.FILL;
+            tableMoviesDirectorsDetailLData.horizontalSpan = 5;
+            tableMoviesDirectorsDetailLData.grabExcessVerticalSpace = true;
+            tableMoviesDirectorsDetailLData.verticalAlignment = GridData.FILL;
+            tableMoviesDirectorsDetail.setLayoutData(tableMoviesDirectorsDetailLData);
+            
+            {
+                tableMoviesDetail_ColumnID = new TableColumn(
+                        tableMoviesDirectorsDetail,
+                     SWT.CENTER);
+                tableMoviesDetail_ColumnID.setWidth(0);
+                tableMoviesDetail_ColumnID.setResizable(false);
+            }
+            {
+                tableMoviesDetail_ColumnName = new TableColumn(
+                        tableMoviesDirectorsDetail,
+                     SWT.CENTER);              
+                tableMoviesDetail_ColumnName.setText(
+                        l.getString("movies.groupoverviewdetail.columndirectors"));
+                tableMoviesDetail_ColumnName.setWidth(200);            
+            }
         }// EditDirectors
         // Edit Actors
         {
@@ -717,9 +742,12 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_ACTOR);
         	            dialog.open();
 
-        	            listMoviesActors.removeAll();
+        	            tableMoviesActorsDetail.removeAll();
+        	            TableItem item;
         	            for(int i =0; i< movie.getActors().size(); i++){
-        	                listMoviesActors.add( ((Actor)movie.getActors().get(i)).getLastName() );
+        	                item = new TableItem(tableMoviesActorsDetail, SWT.NONE);
+        	                item.setText(new String[] { ((Actor)movie.getActors().get(i)).getActorId() + ""
+        	                        , ((Actor)movie.getActors().get(i)).getLastName() + ""});
         	            }                    
         	        }
         	    });  
@@ -741,15 +769,33 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	        }
         	    });  
         	}
-        {
-            listMoviesActors = new List(groupMoviesDetail, SWT.BORDER);
-            GridData listMoviesActorsLData = new GridData();
-            listMoviesActorsLData.horizontalAlignment = GridData.FILL;
-            listMoviesActorsLData.horizontalSpan = 5;
-            listMoviesActorsLData.verticalSpan = 1;
-            listMoviesActorsLData.grabExcessHorizontalSpace = true;
-            listMoviesActorsLData.verticalAlignment = GridData.FILL;
-            listMoviesActors.setLayoutData(listMoviesActorsLData);
+        	{
+                tableMoviesActorsDetail = new Table(groupMoviesDetail,SWT.SINGLE
+                        | SWT.V_SCROLL | SWT.BORDER);
+                tableMoviesActorsDetail.setHeaderVisible(true);
+                tableMoviesActorsDetail.setLinesVisible(true);
+                GridData tableMoviesActorsDetailLData = new GridData();
+                tableMoviesActorsDetailLData.horizontalAlignment = GridData.FILL;
+                tableMoviesActorsDetailLData.horizontalSpan = 5;
+                tableMoviesActorsDetailLData.grabExcessVerticalSpace = true;
+                tableMoviesActorsDetailLData.verticalAlignment = GridData.FILL;
+                tableMoviesActorsDetail.setLayoutData(tableMoviesActorsDetailLData);
+                
+                {
+                    tableMoviesDetail_ColumnID = new TableColumn(
+                            tableMoviesActorsDetail,
+                         SWT.CENTER);
+                    tableMoviesDetail_ColumnID.setWidth(0);
+                    tableMoviesDetail_ColumnID.setResizable(false);              
+                }
+                {
+                    tableMoviesDetail_ColumnName = new TableColumn(
+                            tableMoviesActorsDetail,
+                         SWT.CENTER);              
+                    tableMoviesDetail_ColumnName.setText(
+                            l.getString("movies.groupoverviewdetail.columnactors"));
+                    tableMoviesDetail_ColumnName.setWidth(200);            
+                }
         }//Edit Actors
         //Edit Genres
         {
@@ -787,13 +833,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_GENRE);
         	            dialog.open();
 
-        	            listMoviesGenres.removeAll();
+        	            tableMoviesGenresDetail.removeAll();
+        	            TableItem item;
         	            for(int i =0; i< movie.getGenres().size(); i++){
-        	                listMoviesGenres.add( ((Genre)movie.getGenres().get(i)).getName() );
-        	            }
-        	            
-
-                    
+        	                item = new TableItem(tableMoviesGenresDetail, SWT.NONE);
+        	                item.setText(new String[] { ((Genre)movie.getGenres().get(i)).getGenreId() + ""
+        	                        , ((Genre)movie.getGenres().get(i)).getName() + ""});
+        	            }         	                           
         	        }
         	    });  
         	}
@@ -814,14 +860,33 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	        }
         	    });  
         	}
-        {
-            listMoviesGenres = new List(groupMoviesDetail, SWT.BORDER);
-            GridData listMoviesGenresLData = new GridData();
-
-            listMoviesGenresLData.horizontalAlignment = GridData.FILL;
-            listMoviesGenresLData.horizontalSpan = 5;
-            listMoviesGenresLData.verticalSpan = 1;
-            listMoviesGenres.setLayoutData(listMoviesGenresLData);
+        	{
+                tableMoviesGenresDetail = new Table(groupMoviesDetail,SWT.SINGLE
+                        | SWT.V_SCROLL | SWT.BORDER);
+                tableMoviesGenresDetail.setHeaderVisible(true);
+                tableMoviesGenresDetail.setLinesVisible(true);
+                GridData tableMoviesGenresDetailLData = new GridData();
+                tableMoviesGenresDetailLData.horizontalAlignment = GridData.FILL;
+                tableMoviesGenresDetailLData.horizontalSpan = 5;
+                tableMoviesGenresDetailLData.grabExcessVerticalSpace = true;
+                tableMoviesGenresDetailLData.verticalAlignment = GridData.FILL;
+                tableMoviesGenresDetail.setLayoutData(tableMoviesGenresDetailLData);
+                
+                {
+                    tableMoviesDetail_ColumnID = new TableColumn(
+                            tableMoviesGenresDetail,
+                         SWT.CENTER);
+                    tableMoviesDetail_ColumnID.setWidth(0);
+                    tableMoviesDetail_ColumnID.setResizable(false);              
+                }
+                {
+                    tableMoviesDetail_ColumnName = new TableColumn(
+                            tableMoviesGenresDetail,
+                         SWT.CENTER);              
+                    tableMoviesDetail_ColumnName.setText(
+                            l.getString("movies.groupoverviewdetail.columngenres"));
+                    tableMoviesDetail_ColumnName.setWidth(200);            
+                }
         }// Edit Genre
         // Edit Images
         {
@@ -859,9 +924,12 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	            DialogMovie dialog = new DialogMovie(getShell(),0,locale,movie,DialogMovie.TYPE_IMAGE);
         	            dialog.open();
 
-        	            listMoviesImages.removeAll();
+        	            tableMoviesActorsDetail.removeAll();
+        	            TableItem item;
         	            for(int i =0; i< movie.getImages().size(); i++){
-        	                listMoviesImages.add( ((Image)movie.getImages().get(i)).getImageFileName() );
+        	                item = new TableItem(tableMoviesImagesDetail, SWT.NONE);
+        	                item.setText(new String[] { ((Image)movie.getImages().get(i)).getImageId() + ""
+        	                        , ((Image)movie.getImages().get(i)).getImageFileName() + ""});
         	            }
         	        }
         	    });  
@@ -883,13 +951,33 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         	        }
         	    });  
         	}
-        {
-            listMoviesImages = new List(groupMoviesDetail, SWT.BORDER);
-            GridData listMoviesImagesLData = new GridData();
-            listMoviesImagesLData.horizontalAlignment = GridData.FILL;
-            listMoviesImagesLData.horizontalSpan = 5;
-            listMoviesImagesLData.verticalSpan = 1;
-            listMoviesImages.setLayoutData(listMoviesImagesLData);
+        	{
+                tableMoviesImagesDetail = new Table(groupMoviesDetail,SWT.SINGLE
+                        | SWT.V_SCROLL | SWT.BORDER);
+                tableMoviesImagesDetail.setHeaderVisible(true);
+                tableMoviesImagesDetail.setLinesVisible(true);
+                GridData tableMoviesImagesDetailLData = new GridData();
+                tableMoviesImagesDetailLData.horizontalAlignment = GridData.FILL;
+                tableMoviesImagesDetailLData.horizontalSpan = 5;
+                tableMoviesImagesDetailLData.grabExcessVerticalSpace = true;
+                tableMoviesImagesDetailLData.verticalAlignment = GridData.FILL;
+                tableMoviesImagesDetail.setLayoutData(tableMoviesImagesDetailLData);
+                
+                {
+                    tableMoviesDetail_ColumnID = new TableColumn(
+                            tableMoviesImagesDetail,
+                         SWT.CENTER);
+                    tableMoviesDetail_ColumnID.setWidth(0);
+                    tableMoviesDetail_ColumnID.setResizable(false);              
+                }
+                {
+                    tableMoviesDetail_ColumnName = new TableColumn(
+                            tableMoviesImagesDetail,
+                         SWT.CENTER);              
+                    tableMoviesDetail_ColumnName.setText(
+                            l.getString("movies.groupoverviewdetail.columnimages"));
+                    tableMoviesDetail_ColumnName.setWidth(200);            
+                }
         }// Edit Images
 
         {
@@ -939,7 +1027,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 
                 textMoviesSearch.setEditable(false);
                 tableMoviesOverview.setEnabled(false);
-
+                tableMoviesDirectorsDetail.removeAll();
+                tableMoviesActorsDetail.removeAll();
+                tableMoviesImagesDetail.removeAll();
+                tableMoviesGenresDetail.removeAll();
+                
                 movie = new Movie();
                 movie.setActors(new ArrayList());
                 movie.setDirector(new ArrayList());
