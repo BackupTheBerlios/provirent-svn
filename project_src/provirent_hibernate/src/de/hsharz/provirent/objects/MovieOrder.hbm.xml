@@ -36,16 +36,6 @@
 				<many-to-many class="de.hsharz.provirent.objects.OrderItem" column="ORDERITEMID"/>
 
  			</list>
-
- 
-      <property name="name" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
-				
- 
-      <property name="shortname" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
              
  
     </class>

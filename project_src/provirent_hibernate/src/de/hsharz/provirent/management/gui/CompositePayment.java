@@ -1,6 +1,10 @@
 package de.hsharz.provirent.management.gui;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -29,6 +33,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.vafada.swtcalendar.SWTCalendarEvent;
+import org.vafada.swtcalendar.SWTCalendarListener;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
@@ -36,6 +42,7 @@ import de.hsharz.provirent.Util;
 import de.hsharz.provirent.objects.Payment;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
+
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -75,6 +82,7 @@ public class CompositePayment extends AbstractComposite{
     
     private Composite parent;
     private Composite compositeButtons;
+    private Button changeStartDateButton;
 
     private Group groupPayment;
 
@@ -399,9 +407,55 @@ public class CompositePayment extends AbstractComposite{
             GridData text1LData3 = new GridData();
             text1LData3.horizontalAlignment = GridData.FILL;
             text1LData3.heightHint = 13;
-            text1LData3.horizontalSpan = 4;
+            text1LData3.horizontalSpan = 3;
             text1LData3.grabExcessHorizontalSpace = true;
             textstartdate.setLayoutData(text1LData3);
+        }
+        {
+            changeStartDateButton = new Button(groupPaymentDetail, SWT.PUSH
+                | SWT.CENTER);
+            changeStartDateButton.setText("Change");
+            GridData text1LData3 = new GridData();
+            changeStartDateButton.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+
+                    final SWTCalendarDialog cal = new SWTCalendarDialog(getDisplay());
+
+                    cal.addDateChangedListener(new SWTCalendarListener() {
+
+                        public void dateChanged(SWTCalendarEvent calendarEvent) {
+
+                            textstartdate.setText( DateFormat.getDateInstance(DateFormat.LONG).format(calendarEvent.getCalendar().getTime()));
+
+                        }
+
+                    });
+
+
+
+                    if (textstartdate.getText() != null && textstartdate.getText().length() > 0) {
+
+                        try {
+                               cal.setDate(DateFormat.getDateInstance(DateFormat.LONG).parse(textstartdate.getText()));
+
+                        } catch (ParseException pe) {
+
+
+
+                        }
+
+                    }
+
+                    cal.open();                    
+                    
+                    
+                }
+            });
+            text1LData3.horizontalAlignment = GridData.FILL;
+            
+            text1LData3.horizontalSpan = 1;
+            text1LData3.grabExcessHorizontalSpace = true;
+            changeStartDateButton.setLayoutData(text1LData3);
         }
         {
 
@@ -773,7 +827,7 @@ public class CompositePayment extends AbstractComposite{
                 					Double.toString(Payment.getDuration1()),
                 					Double.toString(Payment.getDuration2()), 
                 					Double.toString(Payment.getDuration3()),
-                					Payment.getStartdate().toString()});
+                					DateFormat.getDateInstance(DateFormat.MEDIUM).format(Payment.getStartdate().getTime()) });
         
     }
 
@@ -801,7 +855,8 @@ public class CompositePayment extends AbstractComposite{
                     					Double.toString(o.getDuration1()),
                     					Double.toString(o.getDuration2()), 
                     					Double.toString(o.getDuration3()),
-                    					((o.getStartdate()== null)?"":o.getStartdate().toString())});
+                    			        DateFormat.getDateInstance(DateFormat.MEDIUM).format(o.getStartdate().getTime())
+                    					});
 
         }
 
@@ -1015,7 +1070,9 @@ public class CompositePayment extends AbstractComposite{
         textduration1.setText(Double.toString(object.getDuration1()));
         textduration2.setText(Double.toString(object.getDuration2()));
         textduration3.setText(Double.toString(object.getDuration3()));
-        textstartdate.setText(object.getStartdate().toString());
+        
+
+        textstartdate.setText(DateFormat.getDateInstance(DateFormat.LONG).format(object.getStartdate().getTime()));
 
         //Buttons zum löschen und editieren aktivieren
         buttonPaymentEdit.setEnabled(true);

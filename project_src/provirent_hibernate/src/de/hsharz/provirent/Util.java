@@ -121,6 +121,12 @@ public class Util {
         }
     }
 
+    
+    public static String formatCalendar(Calendar cal){
+        
+        return "";
+    }
+    
     public static void main(String[] args) {
         Util h = new Util();
 

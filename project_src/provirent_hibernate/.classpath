@@ -43,5 +43,6 @@
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/firebirdsql.jar"/>
+	<classpathentry kind="lib" path="lib/swtcalendar.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
