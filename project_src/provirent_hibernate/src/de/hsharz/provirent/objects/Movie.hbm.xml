@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.Movie" table="MOVIE">
+      <meta attribute="class-description">
+        Represents a single Movie.
+        @author Philipp Schneider
+      </meta>
+      
+  		
+ 			<meta attribute="implement-equals">true</meta>
+ 			
+      <id name="movieId" type="int" column="MOVIEID">
+        <meta attribute="scope-set">protected</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="native"/>
+      </id>
+ 
+      <property name="title" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+				
+ 
+      <property name="description" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+             
+      <property name="runtime" type="int">
+        <meta attribute="field-description">Playing time</meta>
+        <meta attribute="use-in-tostring">true</meta>
+      </property>
+ 
+      <property name="releaseDate" type="date">
+        <meta attribute="field-description">When the movie was released or added</meta>
+				<meta attribute="use-in-tostring">true</meta>
+      </property>
+ 
+ 
+ 			<list	name="actors"
+ 						table="MOVIEACTORS"
+ 						>
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Actor" column="ACTORID"/>
+				
+				
+						
+ 			</list>
+ 			
+			
+ 			<list	name="director"
+ 						table="MOVIEDIRECTORS"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Director" column="DIRECTORID" />			
+ 			</list> 			
+
+ 			<list	name="languages"
+ 						table="MOVIELANGUAGES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Language" column="LANGUAGEID" />			
+ 			</list> 			
+
+ 			<list	name="subtitles"
+ 						table="MOVIESUBTITLES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Subtitle" column="SUBTITLEID" />			
+ 			</list> 	
+
+ 			<list	name="genres"
+ 						table="MOVIEGENRES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.Genre" column="GENREID" />			
+ 			</list>  			
+
+ 			<list	name="audioFormats"
+ 						table="MOVIEAUDIOFORMATES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.AudioFormat" column="AUDIOFORMATID" />			
+ 			</list>  
+
+ 			<list	name="videoFormats"
+ 						table="MOVIEVIDEOFORMATES"
+ 						 >
+				<meta attribute="use-in-tostring">true</meta>
+				<key column="MOVIEID"/>
+				<index column="POS"/>
+				<many-to-many class="de.hsharz.provirent.objects.VideoFormat" column="VIDEOFORMATID" />			
+ 			</list> 
+ 			
+
+ 			
+    </class>
+  </hibernate-mapping>

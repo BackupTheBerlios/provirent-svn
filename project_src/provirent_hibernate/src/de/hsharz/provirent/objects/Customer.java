@@ -2,6 +2,8 @@ package de.hsharz.provirent.objects;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 
@@ -258,7 +260,37 @@ public class Customer implements Serializable {
     public String toString() {
         return new ToStringBuilder(this)
             .append("customerId", getCustomerId())
+            .append("firstName", getFirstName())
+            .append("lastName", getLastName())
+            .append("middleName", getMiddleName())
+            .append("salutation", getSalutation())
+            .append("title", getTitle())
+            .append("street", getStreet())
+            .append("streetNumber", getStreetNumber())
+            .append("city", getCity())
+            .append("zipCode", getZipCode())
+            .append("country", getCountry())
+            .append("emailAddress", getEmailAddress())
+            .append("userName", getUserName())
+            .append("password", getPassword())
+            .append("hiddenQuestion", getHiddenQuestion())
+            .append("hiddenAnswer", getHiddenAnswer())
             .toString();
+    }
+
+    public boolean equals(Object other) {
+        if ( (this == other ) ) return true;
+        if ( !(other instanceof Customer) ) return false;
+        Customer castOther = (Customer) other;
+        return new EqualsBuilder()
+            .append(this.getCustomerId(), castOther.getCustomerId())
+            .isEquals();
+    }
+
+    public int hashCode() {
+        return new HashCodeBuilder()
+            .append(getCustomerId())
+            .toHashCode();
     }
 
 }

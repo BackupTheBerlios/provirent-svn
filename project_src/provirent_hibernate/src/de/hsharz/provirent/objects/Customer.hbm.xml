@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.Customer" table="CUSTOMER">
+      <meta attribute="class-description">
+        Represents a single customer.
+        @author Philipp Schneider
+      </meta>
+ 			
+ 			<meta attribute="implement-equals">true</meta>
+ 
+      <id name="customerId" type="int" column="CUSTOMERID">
+        <meta attribute="scope-set">protected</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="native"/>
+      </id>
+ 
+ 			
+ 
+      <property name="firstName" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>      
+ 
+      <property name="lastName" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+       
+      <property name="middleName" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+       
+      <property name="salutation" type="string" not-null="true">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="title" type="string" not-null="true">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="street" type="string" not-null="true">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="streetNumber" type="string" not-null="true" length="10">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="city" type="string" not-null="true">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="zipCode" type="string" not-null="true" length="10">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="country" type="string" not-null="true">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="emailAddress" type="string" not-null="true">
+       	<meta attribute="use-in-tostring">true</meta>
+      </property>
+      
+      <property name="userName" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+                         
+      <property name="password" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+                         
+      <property name="hiddenQuestion" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+                         
+      <property name="hiddenAnswer" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+                         
+
+      
+ 
+      <property name="dayOfBirth" type="calendar"/>
+ 
+      <property name="dayOfRegistration" type="calendar" not-null="true"/>
+
+
+    </class>
+  </hibernate-mapping>

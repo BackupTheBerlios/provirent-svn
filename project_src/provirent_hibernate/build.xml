@@ -48,7 +48,7 @@
     
     
     <!-- Create our runtime subdirectories and copy resources into them -->
-    <target name="prepare" description="Sets up build structures">
+    <target name="prepare" depends="codegen" description="Sets up build structures">
 
       <!-- Copy our property files and O/R mappings for use at runtime -->
       <copy todir="${class.root}" >
