@@ -261,6 +261,10 @@ public class ManagmentGui {
 
         shell.layout();
 
+        //init the db, so it saves time later
+        //does that in a new Thread
+        initDB();
+        
         //init the rest
         initGUI();
 
@@ -700,4 +704,16 @@ public class ManagmentGui {
 
     }
 
+    private void initDB(){
+        
+		new Thread() {
+			public void run() {
+			    Database.initDB();
+			}
+		}.start();
+
+    }
+        
+    
+    
 }
