@@ -1618,18 +1618,22 @@ public class Database {
 	        s = HibernateUtil.currentSession();
 	            
 	            //init the criteria
-	            Criteria criteria = s.createCriteria(Customer.class);
-	            Criteria personCriteria = criteria.createCriteria("person");
+	            Criteria criteria = s.createCriteria(Customer.class).createAlias("person", "p");
+	            //Criteria personCriteria = criteria.createCriteria("person");
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
-	            Disjunction any2 = Expression.disjunction();
+	            
+	            //Disjunction anyPerson = Expression.disjunction();
 
 	            if (filter != null && !filter.equalsIgnoreCase("")) {
 	                any.add(Expression.like("userName", "%"+filter+"%"));
 	                //any.add(Expression.like("dayOfRegistration", "%"+filter+"%"));
-	                any2.add(Expression.like("lastName", "%"+filter+"%"));
-	                any2.add(Expression.like("firstName", "%"+filter+"%"));
-	                //any2.add(Expression.like("dayOfBirth", "%"+filter+"%"));
+	                any.add(Expression.like("p.lastName", "%"+filter+"%"));
+	                any.add(Expression.like("p.firstName", "%"+filter+"%"));
+	                //any.add(Expression.like("p.dayOfBirth", "%"+filter+"%"));
+	                
+	                
+	                
 	                //maybe we are searching for the id?
 	                try {
 	                    any.add(Expression.eq("customerId", new Integer(Integer.parseInt(filter))));
@@ -1640,12 +1644,18 @@ public class Database {
 	            
 	            //add all criteria
 	            
-	            //criteria.add(any);
-	            personCriteria.add(any2);
+	            criteria.add(any);
+	            // personCriteria.add(anyPerson);
 	            
 	            //get the results
 	            returnlist = criteria.list();
 	            
+	            /*
+	            returnlist = s.createCriteria(Customer.class)
+	            .createAlias("person", "p")
+	            .add( Expression.like("p.lastName","%"+filter+"%") )
+	            .list();
+	            */
 	            logger.debug("Anzahl der Elemente in Rückgabeliste: " + returnlist.size());
 	            int i = 0;
 	
