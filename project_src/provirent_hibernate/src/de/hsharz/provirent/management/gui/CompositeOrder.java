@@ -1,4 +1,4 @@
-/*
+/* 
  * Created on 06.12.2004
  *
  * Copyright (c) 2004/2005, Remo Griesch/Stefan Forstner/Philipp Schneider
@@ -252,7 +252,7 @@ public class CompositeOrder extends AbstractComposite {
 	            OrderItem o = (OrderItem) OrderItemlist.get(i);
 	
 	            item = new TableItem(tableOrderItems, SWT.NONE);
-	            
+	           
 	            String orderdate = "";
 	            if (o.getOrderTime() != null) {
 	                orderdate = DateFormat.getDateInstance(DateFormat.SHORT).format(
@@ -276,7 +276,7 @@ public class CompositeOrder extends AbstractComposite {
 	                    orderdate, 
 	                    senddate, 
 	                    receivingdate,
-	                    o.getPayment().getName(),
+	                    o.getPayment().getPaymentCategory().getName(),
 	                    Integer.toString(o.getDuration()),
 	                    o.getConditionSend().getConditionName(),
 	                    o.getConditionReceiving().getConditionName()});

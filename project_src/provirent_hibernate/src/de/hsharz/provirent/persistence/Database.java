@@ -59,6 +59,7 @@ import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.Payment;
+import de.hsharz.provirent.objects.PaymentCategory;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
@@ -1939,5 +1940,48 @@ public class Database {
 
 	}
 
+	
+	/**
+	 * This method gets all Movies from the database.
+	 * searches for ID,Title,Date,Description,Actor,Director...
+	 * @param filter 
+	 * @return List of Movie objects, or an empty List
+	 */
+	public static List getPaymentCategory() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPaymentCategory() - start. ");
+		}
+		//init the returnlist
+		List returnlist = new ArrayList();
+
+		Session s = null;
+
+		try {
+			//get new Session and begin Transaction
+			s = HibernateUtil.currentSession();
+
+			returnlist = s.createCriteria(PaymentCategory.class).list();
+
+		} catch (Exception e) {
+			logger
+					.error("getPaymentCategory() - Error while trying to do Transaction",
+							e);
+			returnlist = new ArrayList();
+		} finally {
+			try {
+				// No matter what, close the session
+				HibernateUtil.closeSession();
+			} catch (HibernateException e1) {
+				logger.error("getPaymentCategory() - Could not Close the Session", e1);
+			}
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPaymentCategory() - end");
+		}
+		return returnlist;
+
+	}
+	
 }
 

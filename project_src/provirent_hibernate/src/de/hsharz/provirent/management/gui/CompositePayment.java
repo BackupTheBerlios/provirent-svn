@@ -3,9 +3,11 @@ package de.hsharz.provirent.management.gui;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -24,6 +26,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -41,9 +44,9 @@ import org.vafada.swtcalendar.SWTCalendarListener;
 import com.cloudgarden.resource.SWTResourceManager;
 
 import de.hsharz.provirent.objects.Payment;
+import de.hsharz.provirent.objects.PaymentCategory;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
-
 /**
  * This code was generated using CloudGarden's Jigloo SWT/Swing GUI Builder,
  * which is free for non-commercial use. If Jigloo is being used commercially
@@ -80,6 +83,7 @@ public class CompositePayment extends AbstractComposite {
 	private Composite parent;
 
 	private Composite compositeButtons;
+	private Combo ComboPaymentCategory;
 
 	private Button changeStartDateButton;
 
@@ -102,8 +106,6 @@ public class CompositePayment extends AbstractComposite {
 	private Label labelstartdate;
 
 	private Text textPaymentID;
-
-	private Text textPaymentName;
 
 	private Text textduration1;
 
@@ -133,8 +135,10 @@ public class CompositePayment extends AbstractComposite {
 
 	private TableColumn tableColumn;
 
-	Hashtable list = null;
+	private Hashtable list = null;
 
+	private List localCategory = new ArrayList();
+	
 	private final static int MODE_EDIT = 2;
 
 	private StatusLineStyledText statusLine;
@@ -328,14 +332,11 @@ public class CompositePayment extends AbstractComposite {
 			labelPaymentName.setLayoutData(formData2);
 		}
 		{
-			textPaymentName = new Text(groupPaymentDetail, SWT.READ_ONLY
-					| SWT.BORDER);
-			GridData text1LData1 = new GridData();
-			text1LData1.horizontalAlignment = GridData.FILL;
-			text1LData1.heightHint = 13;
-			text1LData1.horizontalSpan = 4;
-			text1LData1.grabExcessHorizontalSpace = true;
-			textPaymentName.setLayoutData(text1LData1);
+			ComboPaymentCategory = new Combo(groupPaymentDetail, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.NO_RADIO_GROUP);
+			GridData ComboPaymentCategoryLData = new GridData();
+			ComboPaymentCategoryLData.horizontalSpan = 4;
+			ComboPaymentCategoryLData.horizontalAlignment = GridData.FILL;
+			ComboPaymentCategory.setLayoutData(ComboPaymentCategoryLData);
 		}
 		{
 			labelduration1 = new Label(groupPaymentDetail, SWT.NONE);
@@ -514,13 +515,13 @@ public class CompositePayment extends AbstractComposite {
 			public void widgetSelected(SelectionEvent evt) {
 
 				textPaymentID.setText("");
-				textPaymentName.setText("");
+				ComboPaymentCategory.setText("");
 				textduration1.setText("");
 				textduration2.setText("");
 				textduration3.setText("");
 				textstartdate.setText("");
 
-				textPaymentName.setEditable(true);
+				ComboPaymentCategory.setEnabled(true);
 				textduration1.setEditable(true);
 				textduration2.setEditable(true);
 				textduration3.setEditable(true);
@@ -550,7 +551,7 @@ public class CompositePayment extends AbstractComposite {
 				mode_Payment = ManagementGui.MODE_EDIT;
 
 				textPaymentID.setEditable(false);
-				textPaymentName.setEditable(true);
+				ComboPaymentCategory.setEnabled(true);
 				textduration1.setEditable(true);
 				textduration2.setEditable(true);
 				textduration3.setEditable(true);
@@ -584,7 +585,7 @@ public class CompositePayment extends AbstractComposite {
 						.format(
 								l
 										.getString("Payment.groupdetail.deletebutton.question.text"),
-								new Object[] { textPaymentName.getText() + " "
+								new Object[] { ComboPaymentCategory.getText() + " "
 										+ textduration1.getText() + " "
 										+ textduration2.getText() + " "
 										+ textduration3.getText() + " "
@@ -603,7 +604,7 @@ public class CompositePayment extends AbstractComposite {
 					Payment o = new Payment();
 					o.setPaymentId(new Integer(Integer.parseInt(textPaymentID
 							.getText())));
-					//o.setName(textPaymentName.getText());
+					//o.setName(ComboPaymentCategory.getText());
 					o.setDuration1(Float.parseFloat(textduration1.getText()));
 					o.setDuration2(Float.parseFloat(textduration2.getText()));
 					o.setDuration3(Float.parseFloat(textduration3.getText()));
@@ -631,7 +632,7 @@ public class CompositePayment extends AbstractComposite {
 
 					//Detailansicht leeren
 					textPaymentID.setText("");
-					textPaymentName.setText("");
+					ComboPaymentCategory.setText("");
 					textduration1.setText("");
 					textduration2.setText("");
 					textduration3.setText("");
@@ -704,7 +705,7 @@ public class CompositePayment extends AbstractComposite {
 			public void widgetSelected(SelectionEvent evt) {
 
 				//testen ob duration leer ist
-				if (textPaymentName.getText().trim().equalsIgnoreCase("")
+				if (ComboPaymentCategory.getText().trim().equalsIgnoreCase("")
 						|| textduration1.getText().trim().equalsIgnoreCase("")
 						|| textduration2.getText().trim().equalsIgnoreCase("")
 						|| textduration3.getText().trim().equalsIgnoreCase("")
@@ -742,12 +743,14 @@ public class CompositePayment extends AbstractComposite {
 										DateFormat.LONG).parse(
 										textstartdate.getText()));
 						//neues Objekt erzeugen
-						Payment tmp = new Payment(textPaymentName.getText(),
+						Payment tmp = null;
+						/*
+						tmp = new Payment(ComboPaymentCategory.getText(),
 								Float.parseFloat(textduration1.getText()),
 								Float.parseFloat(textduration2.getText()),
 								Float.parseFloat(textduration3.getText()),
 								tmp_cal);
-
+								*/
 						//object speichern
 						// Fehlerbehandlung
 						Object o = Database.saveObject(tmp);
@@ -820,14 +823,16 @@ public class CompositePayment extends AbstractComposite {
 										DateFormat.LONG).parse(
 										textstartdate.getText()));
 
-						Payment tmp = new Payment(textPaymentName.getText(),
+						Payment tmp = null;
+						/*
+						tmp = new Payment(ComboPaymentCategory.getText(),
 								Float.parseFloat(textduration1.getText()),
 								Float.parseFloat(textduration2.getText()),
 								Float.parseFloat(textduration3.getText()),
 								tmp_cal);
 						tmp.setPaymentId(new Integer(Integer
 								.parseInt(textPaymentID.getText())));
-
+								*/
 						//object speichern
 						// Fehlerbehandlung
 						Database.updateObject(tmp);
@@ -921,7 +926,7 @@ public class CompositePayment extends AbstractComposite {
 		buttonPaymentEdit.setEnabled(true);
 		buttonPaymentNew.setEnabled(true);
 		buttonPaymentDelete.setEnabled(true);
-		textPaymentName.setEditable(false);
+		ComboPaymentCategory.setEnabled(false);
 		textduration1.setEditable(false);
 		textduration2.setEditable(false);
 		textduration3.setEditable(false);
@@ -1244,8 +1249,8 @@ public class CompositePayment extends AbstractComposite {
 				//since we only can get a String value from the table, we
 				//need to convert this
 				object = Database.getSinglePayment(Integer.parseInt(id));
-
-				if (object == null) {
+				localCategory = Database.getPaymentCategory();
+				if (object == null || localCategory == null || localCategory.size() == 0 ) {
 
 					/*
 					 * 
@@ -1259,7 +1264,7 @@ public class CompositePayment extends AbstractComposite {
 			}
 
 			textPaymentID.setText(object.getPaymentId() + "");
-			textPaymentName.setText(object.getPaymentCategory().getName());
+			ComboPaymentCategory.setText(object.getPaymentCategory().getName());
 			textduration1.setText(Double.toString(object.getDuration1()));
 			textduration2.setText(Double.toString(object.getDuration2()));
 			textduration3.setText(Double.toString(object.getDuration3()));
@@ -1283,9 +1288,20 @@ public class CompositePayment extends AbstractComposite {
 				}
 
 			}
+			
+			logger.debug("PaymentCategory Size: "+localCategory.size());
+			
+			//ComboBox
+			for (int i = 0; i < localCategory.size(); i++) {
+				ComboPaymentCategory.add( ((PaymentCategory)localCategory.get(i)).getName(),i  );
+				if ( ((PaymentCategory)localCategory.get(i)).equals(object.getPaymentCategory())) {
+					ComboPaymentCategory.select(i);
+					
+				}
+			}
 		} else {
 			textPaymentID.setText("");
-			textPaymentName.setText("");
+			ComboPaymentCategory.setText("");
 			textduration1.setText("");
 			textduration2.setText("");
 			textduration3.setText("");
