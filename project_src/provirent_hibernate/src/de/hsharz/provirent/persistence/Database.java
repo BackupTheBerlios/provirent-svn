@@ -157,7 +157,7 @@ public class Database {
         
 
     }
-    public static void saveObject(Object o) throws DataBaseException{
+    public static Object saveObject(Object o) throws DataBaseException{
         if (logger.isDebugEnabled()) {
             logger
                     .debug("saveObject(Object o = " + o
@@ -184,11 +184,12 @@ public class Database {
                 tx.commit();
                 
             } catch (HibernateException e) {
-                exception = 2;
+                //exception = 2;
                 logger
                 .error(
                         "saveObject() - Something went wrong here; discard all partial changes",
                         e);
+                
                 if (tx != null) {
                     try {
                         // Something went wrong; discard all partial changes
@@ -217,6 +218,7 @@ public class Database {
         if (logger.isDebugEnabled()) {
             logger.debug("saveObject(VideoFormat) - end");
         }
+        return o;
     }
     
   
