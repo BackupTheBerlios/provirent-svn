@@ -92,13 +92,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     
     private Text textMoviesSearch;
     private Text textMoviesID;
-    private Text textMoviesFName;
-    private Text textMoviesLName;
+    private Text textMoviesTitle;
     
     private Label labelMoviesSearch;
     private Label labelMoviesID;
-    private Label labelMoviesFName;
-    private Label labelMoviesLName;
+    private Label labelMoviesTitle;
     
     private Button buttonMoviesNew;
     private Button buttonMoviesSave;
@@ -514,6 +512,55 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             formData.bottom = new FormAttachment(100, 100, -5);
             groupMoviesDetail.setLayoutData(formData);
         }
+//      labels and text for detail
+    	{
+    	    labelMoviesID = new Label(groupMoviesDetail, SWT.NONE);
+    	    labelMoviesID.setText(l
+    	            .getString("movies.groupdetail.labelid")
+    	            + ":");
+    	    labelMoviesID.setSize(125, 15);
+    	    GridData formData2 = new GridData();
+    	    formData2.widthHint = 125;
+    	    formData2.heightHint = 15;
+    	    formData2.horizontalSpan = 2;
+    	    labelMoviesID.setLayoutData(formData2);
+    	}
+    	{
+    	    textMoviesID = new Text(
+    	            groupMoviesDetail,
+    	            SWT.READ_ONLY | SWT.BORDER);
+    	    GridData text1LData1 = new GridData();
+    	    text1LData1.horizontalAlignment = GridData.FILL;
+    	    text1LData1.heightHint = 13;
+    	    text1LData1.horizontalSpan = 4;
+    	    text1LData1.grabExcessHorizontalSpace = true;
+    	    textMoviesID.setLayoutData(text1LData1);
+    	}
+    	{
+            labelMoviesTitle = new Label(
+                groupMoviesDetail,
+                SWT.NONE);
+            labelMoviesTitle.setText(l
+                .getString("movies.groupdetail.labeltitle")
+                + ":");
+            labelMoviesTitle.setSize(125, 15);
+            GridData labelActorNameLData = new GridData();
+            labelActorNameLData.widthHint = 125;
+            labelActorNameLData.heightHint = 15;
+            labelActorNameLData.horizontalSpan = 2;
+            labelMoviesTitle
+                .setLayoutData(labelActorNameLData);
+        }
+        {
+    	    textMoviesTitle = new Text(groupMoviesDetail,
+    	            SWT.READ_ONLY | SWT.BORDER);
+    	    GridData text1LData2 = new GridData();
+    	    text1LData2.horizontalAlignment = GridData.FILL;
+    	    text1LData2.heightHint = 13;
+    	    text1LData2.horizontalSpan = 4;
+    	    text1LData2.grabExcessHorizontalSpace = true;
+    	    textMoviesTitle.setLayoutData(text1LData2);        
+    	}// label and buttons for detail      
     }
 
     /**

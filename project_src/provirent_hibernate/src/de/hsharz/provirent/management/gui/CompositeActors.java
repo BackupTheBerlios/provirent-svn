@@ -368,7 +368,7 @@ public class CompositeActors extends AbstractComposite{
             formData.bottom = new FormAttachment(100, 100, -5);
             groupActorsDetail.setLayoutData(formData);
         }
-        	// labels and buttons for detail
+        	// labels and text for detail
         	{
         	    labelActorsID = new Label(groupActorsDetail, SWT.NONE);
         	    labelActorsID.setText(l
@@ -439,7 +439,7 @@ public class CompositeActors extends AbstractComposite{
         	    text1LData3.horizontalSpan = 4;
         	    text1LData3.grabExcessHorizontalSpace = true;
         	    textActorsLName.setLayoutData(text1LData3);
-        	}// label and buttons for detail      
+        	}// label and text for detail      
         	// buttons for detail
         	{
         	    compositeButtons = new Composite(groupActorsDetail, SWT.EMBEDDED);
