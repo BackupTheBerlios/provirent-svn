@@ -1384,7 +1384,7 @@ public class CompositeCustomer extends AbstractComposite {
             String regdate = "";
             if (o.getDayOfRegistration() != null) {
                 regdate = DateFormat.getDateInstance(DateFormat.SHORT).format(
-                        o.getDayOfRegistration().getTime());
+                    o.getDayOfRegistration().getTime());
             }
             item.setText(new String[] { o.getCustomerId() + "",
                     o.getUserName(), o.getPerson().getLastName(),
