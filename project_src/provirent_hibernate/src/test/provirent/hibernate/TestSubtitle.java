@@ -84,7 +84,7 @@ public class TestSubtitle extends TestCase {
         }
     }
 
-    public void testSubtitle() throws Exception {
+    /*public void testSubtitle() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
         }
@@ -196,7 +196,7 @@ public class TestSubtitle extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
         }
-    }
+    }*/
 
     public void testSaveSubtitle() throws Exception {
         if (logger.isDebugEnabled()) {

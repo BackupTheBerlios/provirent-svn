@@ -124,7 +124,7 @@ public class ManagementGui {
     private MenuItem viewDirectorMenuItem;
     
     private MenuItem viewVideoFormatMenuItem,viewActorMenuItem,viewGenreMenuItem;
-    private MenuItem viewSubtitleMenuItem,viewLanguageMenuItem,viewStatusMenuItem;
+    private MenuItem viewLanguageMenuItem,viewStatusMenuItem;
     private MenuItem viewConditionMenuItem,viewMovieMenuItem,viewDvdMenuItem, viewBillMenuItem;
     
 
@@ -469,10 +469,7 @@ public class ManagementGui {
 				cTabFolderMain.showSelection();
             }
         });         
-
-        viewSubtitleMenuItem = new MenuItem(viewMenu, SWT.CHECK);
-        viewSubtitleMenuItem.setText(l.getString("menu.view.subtitle"));
-        viewSubtitleMenuItem.setSelection(false);        
+       
         
         viewStatusMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewStatusMenuItem.setText(l.getString("menu.view.status"));

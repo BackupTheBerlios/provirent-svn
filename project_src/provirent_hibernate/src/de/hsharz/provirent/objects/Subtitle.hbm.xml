@@ -17,7 +17,9 @@
       <id name="subtitleId" type="int" column="SUBTITLEID">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
-        <generator class="native"/>
+        <generator class="sequence">
+			<param name="sequence">subtitle_id_sequence</param>
+		</generator>
       </id>
  
       <property name="name" type="string" not-null="true">

@@ -48,6 +48,7 @@ import de.hsharz.provirent.objects.AudioFormat;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Language;
+import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
 import de.hsharz.provirent.objects.Actor;
 
@@ -67,13 +68,11 @@ public class Database {
         try {
             HibernateUtil.currentSession();
         } catch (HibernateException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             try {
                 HibernateUtil.closeSession();
             } catch (HibernateException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
@@ -198,7 +197,6 @@ public class Database {
                         // Something went wrong; discard all partial changes
                         tx.rollback();
                     } catch (HibernateException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                 }    
@@ -262,7 +260,6 @@ public class Database {
                         // Something went wrong; discard all partial changes
                         tx.rollback();
                     } catch (HibernateException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                 }    
@@ -769,6 +766,110 @@ public class Database {
 	    }
 	    return returnobject;
 	    	
+	}
+	
+	/**
+	 * This method gets all Subtitles from the database.
+	 * searches for name or shortname or id
+	 * @param filter 
+	 * @return List of Subtitle objects, or an empty List
+	 */
+	public static List getSubtitle(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSubtitle() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Subtitle.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("name", "%"+filter+"%"));
+	                any.add(Expression.like("shortname", "%"+filter+"%"));
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("SubtitleId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSubtitle() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSubtitle() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSubtitle() - end");
+	    }
+	    return returnlist;
+	    
+	
+	}
+	
+	
+	public static Subtitle getSingleSubtitle(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleSubtitle() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Subtitle returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Subtitle)s.get(Subtitle.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleSubtitle() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleSubtitle() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleSubtitle() - end");
+	    }
+	    return returnobject;
+	    
+	
 	}
 
 	/**
