@@ -32,8 +32,6 @@
  */
 package test.provirent.hibernate;
 
-import org.apache.log4j.Logger;
-
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
@@ -41,6 +39,7 @@ import net.sf.hibernate.cfg.Configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.AudioFormat;
@@ -55,6 +54,7 @@ import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.OrderItem;
+import de.hsharz.provirent.objects.Payment;
 import de.hsharz.provirent.objects.Person;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
@@ -86,7 +86,7 @@ public class HibernateUtil {
             .addClass(Subtitle.class).addClass(VideoFormat.class)
             .addClass(Customer.class).addClass(Image.class)
             .addClass(MovieOrder.class).addClass(OrderItem.class)
-            .addClass(Person.class);
+            .addClass(Person.class).addClass(Payment.class);
 
 
             sessionFactory = cfg.buildSessionFactory();

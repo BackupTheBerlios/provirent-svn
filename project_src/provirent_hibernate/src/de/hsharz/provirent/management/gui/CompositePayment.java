@@ -801,7 +801,7 @@ public class CompositePayment extends AbstractComposite{
                     					Double.toString(o.getDuration1()),
                     					Double.toString(o.getDuration2()), 
                     					Double.toString(o.getDuration3()),
-                    					o.getStartdate().toString()});
+                    					((o.getStartdate()== null)?"":o.getStartdate().toString())});
 
         }
 

@@ -29,7 +29,7 @@ public class Payment implements Serializable {
     /** persistent field */
     private double duration3;
 
-    /** nullable persistent field */
+    /** persistent field */
     private Calendar startdate;
 
     /** full constructor */
@@ -43,14 +43,6 @@ public class Payment implements Serializable {
 
     /** default constructor */
     public Payment() {
-    }
-
-    /** minimal constructor */
-    public Payment(String name, double duration1, double duration2, double duration3) {
-        this.name = name;
-        this.duration1 = duration1;
-        this.duration2 = duration2;
-        this.duration3 = duration3;
     }
 
     public Integer getPaymentId() {

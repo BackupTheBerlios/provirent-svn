@@ -38,7 +38,7 @@
 
       </property>
 	  
-	  <property name="startdate" type="calendar">
+	  <property name="startdate" type="calendar" not-null="true">
       	<meta attribute="use-in-tostring">true</meta>
       </property>
 	  

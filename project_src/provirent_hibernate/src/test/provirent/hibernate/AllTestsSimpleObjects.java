@@ -55,6 +55,7 @@ public class AllTestsSimpleObjects {
         suite.addTestSuite(TestVideoFormat.class);
         suite.addTestSuite(TestLanguage.class);
         suite.addTestSuite(TestPerson.class);
+        suite.addTestSuite(TestPayment.class);
         //$JUnit-END$
         return suite;
     }

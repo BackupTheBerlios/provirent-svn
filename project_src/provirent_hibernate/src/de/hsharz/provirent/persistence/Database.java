@@ -1446,7 +1446,7 @@ public class Database {
 	        s = HibernateUtil.currentSession();
 	            
 	            //init the criteria
-	            Criteria criteria = s.createCriteria(Condition.class);
+	            Criteria criteria = s.createCriteria(Payment.class);
 	            //any of the criteria 
 	            Disjunction any = Expression.disjunction();
 	

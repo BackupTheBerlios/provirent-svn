@@ -35,6 +35,7 @@ package test.provirent.hibernate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Calendar;
 
 import junit.framework.TestCase;
 import net.sf.hibernate.Session;
@@ -233,14 +234,15 @@ public class TestPayment extends TestCase {
                 assertTrue("Connected to Db? ", s.isConnected());
                 assertTrue("Db Open? ", s.isOpen());
 
-                //cretae new objects
+                //create new objects
                 List Payments = new ArrayList();
 
-                Payment myp1 = new Payment("A", 2.00d, 4.00d, 8.00d);
-                Payment myp2 = new Payment("B", 3.00d, 6.00d, 12.00d);
-                Payment myp3 = new Payment("C", 4.00d, 8.00d, 14.00d);
-                Payment myp4 = new Payment("D", 5.00d, 10.00d, 20.00d);
+                Payment myp1 = new Payment("A", 2.00d, 4.00d, 8.00d,Calendar.getInstance());
+                Payment myp2 = new Payment("B", 3.00d, 6.00d, 12.00d,Calendar.getInstance());
+                Payment myp3 = new Payment("C", 4.00d, 8.00d, 14.00d,Calendar.getInstance());
+                Payment myp4 = new Payment("D", 5.00d, 10.00d, 20.00d,Calendar.getInstance());
 
+                
                 Payments.add(myp1);
                 Payments.add(myp2);
                 Payments.add(myp3);
@@ -250,8 +252,8 @@ public class TestPayment extends TestCase {
 
                 //save objects
                 for (Iterator iter = Payments.iterator(); iter.hasNext();) {
-                    Payment dir = (Payment) iter.next();
-                    ids.add((Integer) s.save(dir));
+                    Payment pay = (Payment) iter.next();
+                    ids.add((Integer) s.save(pay));
 
                 }
                 s.flush();
