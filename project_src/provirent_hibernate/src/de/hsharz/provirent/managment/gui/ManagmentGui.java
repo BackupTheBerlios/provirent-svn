@@ -91,6 +91,8 @@ import de.hsharz.provirent.persistence.Database;
  * *************************************
  */
  import de.hsharz.provirent.managment.gui.CompositeFormate;
+ import org.eclipse.swt.events.DisposeListener;
+ import org.eclipse.swt.events.DisposeEvent;
 /**
  * @author Philipp Schneider
  *  
@@ -107,19 +109,18 @@ public class ManagmentGui {
 
     public final static int MODE_EDIT = 2;
 
-    private int mode_VideoFormat = 0;
-
-    private int mode_AudioFormat = 0;
-
     private static final int MAIN_WINDOW_WIDTH = 700;
 
     private static final int MAIN_WINDOW_HEIGHT = 500;
 
     private CTabFolder cTabFolderMain;
 
-    private CTabItem tabItemFormat;
+    private CTabItem tabItemFormat,tabItemActor,tabItemDirector;
 
     private CompositeFormate compositeFormate;
+    private CompositeActors compositeActor;
+    private CompositeDirectors compositeDirector;
+    
 
     private MenuItem aboutMenuItem;
 
@@ -227,7 +228,7 @@ public class ManagmentGui {
         shell.setText(l.getString("mainwindow.title"));
 
         //set the Site
-        shell.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
+        shell.setSize(476, 216);
 
         {
             //Register as a resource user - SWTResourceManager will
@@ -265,10 +266,69 @@ public class ManagmentGui {
 
             //the root composite
             //this init's the maincomposite
-            initRootComposite();
-            initStatusComposite();
+            //set up the root composite incl. layout
+            compositeRoot = new Composite(shell, SWT.NONE);
+            GridLayout composite1Layout = new GridLayout();
+            composite1Layout.marginWidth = 0;
+            composite1Layout.marginHeight = 0;
+            composite1Layout.horizontalSpacing = 0;
+            composite1Layout.verticalSpacing = 0;
+            GridData composite1LData = new GridData();
+            compositeRoot.setLayout(composite1Layout);
 
-            initMainTabFolder();
+            composite1LData.verticalAlignment = GridData.FILL;
+            composite1LData.horizontalAlignment = GridData.FILL;
+            composite1LData.grabExcessHorizontalSpace = true;
+            composite1LData.grabExcessVerticalSpace = true;
+            compositeRoot.setLayoutData(composite1LData);
+
+            //init the MainComposite
+
+           compositeMain = new Composite(compositeRoot, SWT.EMBEDDED);
+            GridLayout composite3Layout = new GridLayout();
+            composite3Layout.makeColumnsEqualWidth = true;
+            composite3Layout.horizontalSpacing = 0;
+            composite3Layout.marginHeight = 0;
+            composite3Layout.marginWidth = 0;
+            composite3Layout.verticalSpacing = 0;
+            GridData composite3LData = new GridData();
+            compositeMain.setLayout(composite3Layout);
+            compositeMain.setForeground(SWTResourceManager.getColor(0,
+                    255, 0));
+            composite3LData.verticalAlignment = GridData.FILL;
+            composite3LData.horizontalAlignment = GridData.FILL;
+            composite3LData.grabExcessHorizontalSpace = true;
+            composite3LData.grabExcessVerticalSpace = true;
+            compositeMain.setLayoutData(composite3LData);
+        
+            
+            //init Status Composite
+            compositeStatusLine = new Composite(compositeRoot, SWT.EMBEDDED);
+            GridLayout composite2Layout = new GridLayout();
+            composite2Layout.marginWidth = 0;
+            composite2Layout.marginHeight = 0;
+            composite2Layout.makeColumnsEqualWidth = true;
+            composite2Layout.horizontalSpacing = 0;
+            composite2Layout.verticalSpacing = 0;
+            GridData composite2LData = new GridData();
+            compositeStatusLine.setLayout(composite2Layout);
+            composite2LData.horizontalAlignment = GridData.FILL;
+            composite2LData.heightHint = 14;
+            composite2LData.grabExcessHorizontalSpace = true;
+            compositeStatusLine.setLayoutData(composite2LData);
+
+            //StatusLine
+            initStatusLine();
+            
+            //tabFolder
+            cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
+            
+            GridData cTabFolder1LData = new GridData();
+            cTabFolder1LData.grabExcessHorizontalSpace = true;
+            cTabFolder1LData.horizontalAlignment = GridData.FILL;
+            cTabFolder1LData.grabExcessVerticalSpace = true;
+            cTabFolder1LData.verticalAlignment = GridData.FILL;
+            cTabFolderMain.setLayoutData(cTabFolder1LData);
 
             initFormatTab();
 
@@ -348,10 +408,34 @@ public class ManagmentGui {
         viewDirectorMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewDirectorMenuItem.setText(l.getString("menu.view.director"));
         viewDirectorMenuItem.setSelection(false);
+        viewDirectorMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemDirector == null || tabItemDirector.isDisposed()){
+				    initDirectorTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemDirector);
+				viewDirectorMenuItem.setSelection(true);
+            
+            }
+        });        
 
         viewActorMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewActorMenuItem.setText(l.getString("menu.view.actor"));
         viewActorMenuItem.setSelection(false);
+        viewActorMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemActor == null || tabItemActor.isDisposed()){
+				    initActorTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemActor);
+				viewActorMenuItem.setSelection(true);
+            
+            }
+        });         
         
         viewGenreMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewGenreMenuItem.setText(l.getString("menu.view.genre"));
@@ -408,65 +492,18 @@ public class ManagmentGui {
         }
 
     }
-
-    private void initRootComposite() {
-
-        //set up the root composite incl. layout
-        compositeRoot = new Composite(shell, SWT.NONE);
-        GridLayout composite1Layout = new GridLayout();
-        composite1Layout.marginWidth = 0;
-        composite1Layout.marginHeight = 0;
-        composite1Layout.horizontalSpacing = 0;
-        composite1Layout.verticalSpacing = 0;
-        GridData composite1LData = new GridData();
-        compositeRoot.setLayout(composite1Layout);
-
-        composite1LData.verticalAlignment = GridData.FILL;
-        composite1LData.horizontalAlignment = GridData.FILL;
-        composite1LData.grabExcessHorizontalSpace = true;
-        composite1LData.grabExcessVerticalSpace = true;
-        compositeRoot.setLayoutData(composite1LData);
-
-        //init the MainComposite
-        initMainComposite();
-    }
-  
-
-    private void initMainComposite(){
-        compositeMain = new Composite(compositeRoot, SWT.EMBEDDED);
-        GridLayout composite3Layout = new GridLayout();
-        composite3Layout.makeColumnsEqualWidth = true;
-        composite3Layout.horizontalSpacing = 0;
-        composite3Layout.marginHeight = 0;
-        composite3Layout.marginWidth = 0;
-        composite3Layout.verticalSpacing = 0;
-        GridData composite3LData = new GridData();
-        compositeMain.setLayout(composite3Layout);
-        compositeMain.setForeground(SWTResourceManager.getColor(0,
-                255, 0));
-        composite3LData.verticalAlignment = GridData.FILL;
-        composite3LData.horizontalAlignment = GridData.FILL;
-        composite3LData.grabExcessHorizontalSpace = true;
-        composite3LData.grabExcessVerticalSpace = true;
-        compositeMain.setLayoutData(composite3LData);
+   
     
-
-    }
     
-    private void initMainTabFolder() {
-        cTabFolderMain = new CTabFolder(compositeMain, SWT.CLOSE);
-        //cTabFolderMain.setSelection(null);
-        GridData cTabFolder1LData = new GridData();
-        cTabFolder1LData.grabExcessHorizontalSpace = true;
-        cTabFolder1LData.horizontalAlignment = GridData.FILL;
-        cTabFolder1LData.grabExcessVerticalSpace = true;
-        cTabFolder1LData.verticalAlignment = GridData.FILL;
-        cTabFolderMain.setLayoutData(cTabFolder1LData);
-    }
     
     private void initFormatTab() {
         tabItemFormat = new CTabItem(cTabFolderMain, SWT.NONE);
         tabItemFormat.setText(l.getString("tab.format.title"));
+        tabItemFormat.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+                viewFormatMenuItem.setSelection(false);
+           }
+        });
         {
             compositeFormate = new CompositeFormate(
                 cTabFolderMain,
@@ -477,33 +514,41 @@ public class ManagmentGui {
     }
     
     
-
- 
-
+    private void initDirectorTab() {
+        tabItemDirector = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemDirector.setText(l.getString("tab.actor.title"));
+        tabItemDirector.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+                viewDirectorMenuItem.setSelection(false);
+           }
+        });        
+        {
+            compositeDirector = new CompositeDirectors(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemDirector.setControl(compositeDirector);
+        }
+    }    
     
-
-
-
-
-
-    private void initStatusComposite() {
-        compositeStatusLine = new Composite(compositeRoot, SWT.EMBEDDED);
-        GridLayout composite2Layout = new GridLayout();
-        composite2Layout.marginWidth = 0;
-        composite2Layout.marginHeight = 0;
-        composite2Layout.makeColumnsEqualWidth = true;
-        composite2Layout.horizontalSpacing = 0;
-        composite2Layout.verticalSpacing = 0;
-        GridData composite2LData = new GridData();
-        compositeStatusLine.setLayout(composite2Layout);
-        composite2LData.horizontalAlignment = GridData.FILL;
-        composite2LData.heightHint = 14;
-        composite2LData.grabExcessHorizontalSpace = true;
-        compositeStatusLine.setLayoutData(composite2LData);
-
-        initStatusLine();
-
+    private void initActorTab() {
+        tabItemActor = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemActor.setText(l.getString("tab.director.title"));
+        tabItemActor.addDisposeListener(new DisposeListener() {
+            public void widgetDisposed(DisposeEvent evt) {
+                viewActorMenuItem.setSelection(false);
+           }
+        });      
+        {
+            compositeActor = new CompositeActors(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemActor.setControl(compositeActor);
+        }
     }
+
+
 
     private void initStatusLine() {
         statusLine = new StatusLineStyledText(compositeStatusLine, SWT.READ_ONLY);
