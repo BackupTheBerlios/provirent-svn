@@ -41,13 +41,12 @@
 				<meta attribute="use-in-tostring">true</meta>
       </property>
  
-			<one-to-one name="mainImage" class="de.hsharz.provirent.objects.Image" cascade="all">
+			<one-to-one name="mainImage" class="de.hsharz.provirent.objects.Image">
 					<meta attribute="use-in-tostring">true</meta>
 			</one-to-one>
 
  			<list	name="images"
  						table="MOVIEIMAGES"
- 						cascade="all"
  						>
 				<meta attribute="use-in-tostring">true</meta>
 				<key column="MOVIEID"/>

@@ -271,6 +271,7 @@ public class TestMovie extends TestCase {
 
                 
                 logger.debug("Erstelle Movie Objekt");
+                
                 //create new movie objects
                 Movie movie = new Movie();
                 //set simple properties
@@ -279,7 +280,12 @@ public class TestMovie extends TestCase {
                         +"9-year-old son. She is stunned...");
                 movie.setRuntime(96);
                 movie.setTitle("The Forgotten");
-                movie.setReleaseDate(Calendar.getInstance());
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR,0);
+                cal.set(Calendar.MINUTE,0);
+                cal.set(Calendar.SECOND,0);
+                cal.set(Calendar.MILLISECOND,0);
+                movie.setReleaseDate(cal);
                 
                 
                 //try to get Actors from db
@@ -368,77 +374,11 @@ public class TestMovie extends TestCase {
                 
 
                 
-                
-                /*
-                //try to get Language from db
-                dbprops =  s.find("from Language as language");
-                assertNotNull("testCreateDBMovie(): Can't get Language from DB. Null", dbprops);
-                assertTrue("testCreateDBMovie(): Can not find Language in DB", dbprops.size() >0);
-                
-                anzahl =1;
-                movieprops = new ArrayList();
-                random = new RandomRange(0,dbprops.size());
-                randomNum = random.getNumbers(anzahl);
-
-                for (int i = 0; i < anzahl; i++) {
-                    Language prop = (Language) dbprops.get(
-                            ((Integer) randomNum.get(i)).intValue());
-                    movieprops.add(prop);
-                }
-                movie.setLanguages(movieprops);
-
-                //try to get AudioFormat from db
-                dbprops =  s.find("from AudioFormat as audioformat");
-                assertNotNull("testCreateDBMovie(): Can't get AudioFormat from DB. Null", dbprops);
-                assertTrue("testCreateDBMovie(): Can not find AudioFormat in DB", dbprops.size() >0);
-                
-                anzahl =1;
-                movieprops = new ArrayList();
-                random = new RandomRange(0,dbprops.size());
-                randomNum = random.getNumbers(anzahl);
-
-                for (int i = 0; i < anzahl; i++) {
-                    AudioFormat prop = (AudioFormat)dbprops.get( ((Integer)randomNum.get(i)).intValue() );
-                    movieprops.add(prop);
-                }
-                movie.setAudioFormats(movieprops);
-
-
-                //try to get Subtitle from db
-                dbprops =  s.find("from Subtitle as subtitle");
-                assertNotNull("testCreateDBMovie(): Can't get Subtitle from DB. Null", dbprops);
-                assertTrue("testCreateDBMovie(): Can not find Subtitle in DB", dbprops.size() >0);
-                
-                anzahl =1;
-                movieprops = new ArrayList();
-                random = new RandomRange(0,dbprops.size());
-                randomNum = random.getNumbers(anzahl);
-
-                for (int i = 0; i < anzahl; i++) {
-                    Subtitle prop = (Subtitle)dbprops.get( ((Integer)randomNum.get(i)).intValue() );
-                    movieprops.add(prop);
-                }
-                movie.setSubtitles(movieprops);
-
-                //try to get VideoFormat from db
-                dbprops =  s.find("from VideoFormat as videoformat");
-                assertNotNull("testCreateDBMovie(): Can't get VideoFormat from DB. Null", dbprops);
-                assertTrue("testCreateDBMovie(): Can not find VideoFormat in DB", dbprops.size() >0);
-                
-                anzahl =1;
-                movieprops = new ArrayList();
-                random = new RandomRange(0,dbprops.size());
-                randomNum = random.getNumbers(anzahl);
-
-                for (int i = 0; i < anzahl; i++) {
-                    VideoFormat prop = (VideoFormat)dbprops.get( ((Integer)randomNum.get(i)).intValue() );
-                    movieprops.add(prop);
-                }
-                movie.setVideoFormats(movieprops);
-                */
-                
+               
                 logger.debug("Speichere Movie Objekt");
                 
+                
+                //save the new Movie
                 int id = ((Integer)s.save(movie)).intValue();
                 s.flush();
                 logger.debug("Gespeichert unter id: "+id+" movieid:"+movie.getMovieId());
