@@ -44,7 +44,7 @@ public class Dvd implements Serializable {
         return this.dvdId;
     }
 
-    protected void setDvdId(Integer dvdId) {
+    public void setDvdId(Integer dvdId) {
         this.dvdId = dvdId;
     }
 

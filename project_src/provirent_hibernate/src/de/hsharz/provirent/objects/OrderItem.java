@@ -67,7 +67,7 @@ public class OrderItem implements Serializable {
         return this.orderItemId;
     }
 
-    protected void setOrderItemId(Integer orderItemId) {
+    public void setOrderItemId(Integer orderItemId) {
         this.orderItemId = orderItemId;
     }
 

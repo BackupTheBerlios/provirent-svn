@@ -44,7 +44,7 @@ public class Image implements Serializable {
         return this.imageId;
     }
 
-    protected void setImageId(Integer imageId) {
+    public void setImageId(Integer imageId) {
         this.imageId = imageId;
     }
 

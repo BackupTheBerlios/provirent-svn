@@ -36,7 +36,7 @@ public class Director implements Serializable {
         return this.directorId;
     }
 
-    protected void setDirectorId(Integer directorId) {
+    public void setDirectorId(Integer directorId) {
         this.directorId = directorId;
     }
 

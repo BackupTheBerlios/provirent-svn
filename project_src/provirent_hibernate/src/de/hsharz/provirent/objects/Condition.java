@@ -36,7 +36,7 @@ public class Condition implements Serializable {
         return this.conditionId;
     }
 
-    protected void setConditionId(Integer conditionId) {
+    public void setConditionId(Integer conditionId) {
         this.conditionId = conditionId;
     }
 

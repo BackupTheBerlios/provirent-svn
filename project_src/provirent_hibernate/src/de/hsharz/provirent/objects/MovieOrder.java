@@ -52,7 +52,7 @@ public class MovieOrder implements Serializable {
         return this.movieOrderId;
     }
 
-    protected void setMovieOrderId(Integer movieOrderId) {
+    public void setMovieOrderId(Integer movieOrderId) {
         this.movieOrderId = movieOrderId;
     }
 

@@ -61,7 +61,7 @@ public class Customer implements Serializable {
         return this.customerId;
     }
 
-    protected void setCustomerId(Integer customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 

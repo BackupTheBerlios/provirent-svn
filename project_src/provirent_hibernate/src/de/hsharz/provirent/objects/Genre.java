@@ -36,7 +36,7 @@ public class Genre implements Serializable {
         return this.genreId;
     }
 
-    protected void setGenreId(Integer genreId) {
+    public void setGenreId(Integer genreId) {
         this.genreId = genreId;
     }
 

@@ -36,7 +36,7 @@ public class Subtitle implements Serializable {
         return this.subtitleId;
     }
 
-    protected void setSubtitleId(Integer subtitleId) {
+    public void setSubtitleId(Integer subtitleId) {
         this.subtitleId = subtitleId;
     }
 

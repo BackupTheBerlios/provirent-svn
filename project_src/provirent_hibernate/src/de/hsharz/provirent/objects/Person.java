@@ -89,7 +89,7 @@ public class Person implements Serializable {
         return this.personId;
     }
 
-    protected void setPersonId(Integer personId) {
+    public void setPersonId(Integer personId) {
         this.personId = personId;
     }
 

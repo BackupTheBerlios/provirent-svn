@@ -14,7 +14,7 @@
 			<meta attribute="use-in-equals">true</meta>
  			
       <id name="videoFormatId" type="int" column="VIDEOFORMATID">
-        <meta attribute="scope-set">protected</meta>
+        <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
         <generator class="native"/>
       </id>

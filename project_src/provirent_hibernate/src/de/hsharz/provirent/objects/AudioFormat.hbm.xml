@@ -15,7 +15,7 @@
  			<meta attribute="use-in-equals">true</meta>
  			
       <id name="audioFormatId" type="int" column="AUIOFORMATID">
-        <meta attribute="scope-set">protected</meta>
+        <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
         <generator class="native"/>
       </id>

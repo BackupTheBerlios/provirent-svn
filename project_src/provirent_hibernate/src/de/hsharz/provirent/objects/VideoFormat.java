@@ -36,7 +36,7 @@ public class VideoFormat implements Serializable {
         return this.videoFormatId;
     }
 
-    protected void setVideoFormatId(Integer videoFormatId) {
+    public void setVideoFormatId(Integer videoFormatId) {
         this.videoFormatId = videoFormatId;
     }
 

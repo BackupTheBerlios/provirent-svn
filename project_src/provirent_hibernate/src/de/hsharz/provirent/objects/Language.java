@@ -36,7 +36,7 @@ public class Language implements Serializable {
         return this.languageId;
     }
 
-    protected void setLanguageId(Integer languageId) {
+    public void setLanguageId(Integer languageId) {
         this.languageId = languageId;
     }
 

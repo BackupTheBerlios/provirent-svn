@@ -36,7 +36,7 @@ public class Actor implements Serializable {
         return this.actorId;
     }
 
-    protected void setActorId(Integer actorId) {
+    public void setActorId(Integer actorId) {
         this.actorId = actorId;
     }
 

@@ -36,7 +36,7 @@ public class Status implements Serializable {
         return this.statusId;
     }
 
-    protected void setStatusId(Integer statusId) {
+    public void setStatusId(Integer statusId) {
         this.statusId = statusId;
     }
 

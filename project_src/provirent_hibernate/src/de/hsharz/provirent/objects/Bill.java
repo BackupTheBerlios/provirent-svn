@@ -41,7 +41,7 @@ public class Bill implements Serializable {
         return this.billId;
     }
 
-    protected void setBillId(Integer billId) {
+    public void setBillId(Integer billId) {
         this.billId = billId;
     }
 

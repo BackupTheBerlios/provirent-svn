@@ -36,7 +36,7 @@ public class AudioFormat implements Serializable {
         return this.audioFormatId;
     }
 
-    protected void setAudioFormatId(Integer audioFormatId) {
+    public void setAudioFormatId(Integer audioFormatId) {
         this.audioFormatId = audioFormatId;
     }
 

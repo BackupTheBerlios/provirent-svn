@@ -96,7 +96,7 @@ public class Movie implements Serializable {
         return this.movieId;
     }
 
-    protected void setMovieId(Integer movieId) {
+    public void setMovieId(Integer movieId) {
         this.movieId = movieId;
     }
 
