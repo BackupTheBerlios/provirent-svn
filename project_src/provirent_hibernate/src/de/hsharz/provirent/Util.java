@@ -34,6 +34,9 @@ package de.hsharz.provirent;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -139,20 +142,25 @@ public class Util {
     public static Calendar getDateByText(String textdate) throws DataBaseException {
         StringTokenizer tokenizer = new StringTokenizer(textdate, ".");
         Vector vec = new Vector();
-        while (tokenizer.hasMoreTokens()) {
-           vec.add(tokenizer.nextToken());
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Calendar date = Calendar.getInstance();
+        try {
+            date.setTime(format.parse(textdate));
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+        return date;
+    }
+    
+    public static String getTextByDate(Calendar date) throws DataBaseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         
-        if (vec.size() != 3) {
-            return null;     
-        } else {
-            String days = (String) vec.get(0);
-            String months = (String) vec.get(1);
-            String years = (String) vec.get(2);
-            Calendar date = Calendar.getInstance();
-            date.set(Integer.parseInt(years), Integer.parseInt(months), 
-                     Integer.parseInt(days));
-            return date;
-        }
+        return format.format(date.getTime());
+    }
+    
+    public static int compareDates(Calendar Date1, Calendar Date2) {
+        
+        return 0;
     }
 }
