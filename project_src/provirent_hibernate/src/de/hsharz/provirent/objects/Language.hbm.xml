@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping
+             PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+             "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+  <hibernate-mapping>
+ 
+   <class name="de.hsharz.provirent.objects.Language" table="LANGUAGE">
+      <meta attribute="class-description">
+        Represents an Language.
+        @author Philipp Schneider
+      </meta>
+      
+  		
+ 			<meta attribute="implement-equals">true</meta>
+ 			
+      <id name="languageId" type="int" column="LANGUAGEID">
+        <meta attribute="scope-set">protected</meta>
+        <meta attribute="use-in-equals">true</meta>
+        <generator class="native"/>
+      </id>
+ 
+      <property name="name" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+				
+ 
+      <property name="shortname" type="string" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+             
+ 
+    </class>
+  </hibernate-mapping>

@@ -2,6 +2,7 @@ package de.hsharz.provirent.objects;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,13 +24,13 @@ public class Customer implements Serializable {
     /** persistent field */
     private String lastName;
 
-    /** persistent field */
+    /** nullable persistent field */
     private String middleName;
 
-    /** persistent field */
+    /** nullable persistent field */
     private String salutation;
 
-    /** persistent field */
+    /** nullable persistent field */
     private String title;
 
     /** persistent field */
@@ -65,11 +66,11 @@ public class Customer implements Serializable {
     /** nullable persistent field */
     private Calendar dayOfBirth;
 
-    /** persistent field */
-    private Calendar dayOfRegistration;
+    /** nullable persistent field */
+    private Date dayOfRegistration;
 
     /** full constructor */
-    public Customer(String firstName, String lastName, String middleName, String salutation, String title, String street, String streetNumber, String city, String zipCode, String country, String emailAddress, String userName, String password, String hiddenQuestion, String hiddenAnswer, Calendar dayOfBirth, Calendar dayOfRegistration) {
+    public Customer(String firstName, String lastName, String middleName, String salutation, String title, String street, String streetNumber, String city, String zipCode, String country, String emailAddress, String userName, String password, String hiddenQuestion, String hiddenAnswer, Calendar dayOfBirth, Date dayOfRegistration) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -94,12 +95,9 @@ public class Customer implements Serializable {
     }
 
     /** minimal constructor */
-    public Customer(String firstName, String lastName, String middleName, String salutation, String title, String street, String streetNumber, String city, String zipCode, String country, String emailAddress, String userName, String password, String hiddenQuestion, String hiddenAnswer, Calendar dayOfRegistration) {
+    public Customer(String firstName, String lastName, String street, String streetNumber, String city, String zipCode, String country, String emailAddress, String userName, String password, String hiddenQuestion, String hiddenAnswer) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.middleName = middleName;
-        this.salutation = salutation;
-        this.title = title;
         this.street = street;
         this.streetNumber = streetNumber;
         this.city = city;
@@ -110,7 +108,6 @@ public class Customer implements Serializable {
         this.password = password;
         this.hiddenQuestion = hiddenQuestion;
         this.hiddenAnswer = hiddenAnswer;
-        this.dayOfRegistration = dayOfRegistration;
     }
 
     public Integer getCustomerId() {
@@ -249,11 +246,11 @@ public class Customer implements Serializable {
         this.dayOfBirth = dayOfBirth;
     }
 
-    public Calendar getDayOfRegistration() {
+    public Date getDayOfRegistration() {
         return this.dayOfRegistration;
     }
 
-    public void setDayOfRegistration(Calendar dayOfRegistration) {
+    public void setDayOfRegistration(Date dayOfRegistration) {
         this.dayOfRegistration = dayOfRegistration;
     }
 
@@ -275,6 +272,7 @@ public class Customer implements Serializable {
             .append("password", getPassword())
             .append("hiddenQuestion", getHiddenQuestion())
             .append("hiddenAnswer", getHiddenAnswer())
+            .append("dayOfBirth", getDayOfBirth())
             .toString();
     }
 

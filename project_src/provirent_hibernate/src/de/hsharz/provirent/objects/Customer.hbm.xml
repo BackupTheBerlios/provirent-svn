@@ -18,51 +18,9 @@
         <generator class="native"/>
       </id>
  
- 			
+ 			<timestamp	name="dayOfRegistration" />
  
-      <property name="firstName" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>      
  
-      <property name="lastName" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
-       
-      <property name="middleName" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
-       
-      <property name="salutation" type="string" not-null="true">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
-      
-      <property name="title" type="string" not-null="true">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
-      
-      <property name="street" type="string" not-null="true">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
-      
-      <property name="streetNumber" type="string" not-null="true" length="10">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
-      
-      <property name="city" type="string" not-null="true">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
-      
-      <property name="zipCode" type="string" not-null="true" length="10">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
-      
-      <property name="country" type="string" not-null="true">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
-      
-      <property name="emailAddress" type="string" not-null="true">
-       	<meta attribute="use-in-tostring">true</meta>
-      </property>
       
       <property name="userName" type="string" not-null="true">
       	<meta attribute="use-in-tostring">true</meta>
@@ -83,10 +41,16 @@
 
       
  
-      <property name="dayOfBirth" type="calendar"/>
+      <property name="dayOfBirth" type="calendar" >
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
  
-      <property name="dayOfRegistration" type="calendar" not-null="true"/>
-
+ 			
+ <!--
+      <property name="dayOfRegistration" type="calendar" not-null="true" not-null="true">
+      	<meta attribute="use-in-tostring">true</meta>
+      </property>
+-->
 
     </class>
   </hibernate-mapping>

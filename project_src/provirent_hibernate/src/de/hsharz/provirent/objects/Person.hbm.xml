@@ -4,21 +4,21 @@
              "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
   <hibernate-mapping>
  
-   <class name="de.hsharz.provirent.objects.Customer" table="CUSTOMER">
+   <class name="de.hsharz.provirent.objects.Person" table="PERSON">
       <meta attribute="class-description">
-        Represents a single customer.
+        Represents a single Person.
         @author Philipp Schneider
       </meta>
  			
  			<meta attribute="implement-equals">true</meta>
  
-      <id name="customerId" type="int" column="CUSTOMERID">
+      <id name="personId" type="int" column="PERSONID">
         <meta attribute="scope-set">protected</meta>
         <meta attribute="use-in-equals">true</meta>
         <generator class="native"/>
       </id>
  
- 			<timestamp	name="dayOfRegistration" />
+ 			
  
       <property name="firstName" type="string" not-null="true">
       	<meta attribute="use-in-tostring">true</meta>
@@ -64,35 +64,9 @@
        	<meta attribute="use-in-tostring">true</meta>
       </property>
       
-      <property name="userName" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
-                         
-      <property name="password" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
-                         
-      <property name="hiddenQuestion" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
-                         
-      <property name="hiddenAnswer" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
-                         
-
-      
- 
       <property name="dayOfBirth" type="calendar" >
       	<meta attribute="use-in-tostring">true</meta>
       </property>
  
- 			
- <!--
-      <property name="dayOfRegistration" type="calendar" not-null="true" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
--->
-
     </class>
   </hibernate-mapping>
