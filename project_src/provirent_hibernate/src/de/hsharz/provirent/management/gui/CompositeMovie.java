@@ -96,12 +96,14 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Text textMoviesSearch;
     private Text textMoviesID;
     private Text textMoviesTitle;
+    private Text textMoviesRuntime;
     private Text textMoviesDescription;
     private Text textMoviesDate;
     
     private Label labelMoviesSearch;
     private Label labelMoviesID;
     private Label labelMoviesTitle;
+    private Label labelMoviesRuntime;
     private Label labelMoviesDate;
     private Label labelMoviesDescription;
     private Label labelMoviesDirectors;
@@ -463,6 +465,30 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    text1LData2.horizontalSpan = 5;
     	    text1LData2.grabExcessHorizontalSpace = true;
     	    textMoviesTitle.setLayoutData(text1LData2);        
+    	}
+        {
+            labelMoviesRuntime = new Label(
+                groupMoviesDetail,
+                SWT.NONE);
+            labelMoviesRuntime.setText(l
+                .getString("movies.groupdetail.labelruntime")
+                + ":");
+            labelMoviesRuntime.setSize(125, 15);
+            GridData labelRuntimeLData = new GridData();
+            labelRuntimeLData.heightHint = 15;
+            labelRuntimeLData.horizontalAlignment = GridData.FILL;
+            labelRuntimeLData.verticalAlignment = GridData.BEGINNING;
+            labelMoviesRuntime.setLayoutData(labelRuntimeLData);
+        }
+        {
+    	    textMoviesRuntime = new Text(groupMoviesDetail,
+    	            SWT.READ_ONLY | SWT.BORDER);
+    	    GridData text1LData2 = new GridData();
+    	    text1LData2.horizontalAlignment = GridData.FILL;
+    	    text1LData2.heightHint = 13;
+    	    text1LData2.horizontalSpan = 5;
+    	    text1LData2.grabExcessHorizontalSpace = true;
+    	    textMoviesRuntime.setLayoutData(text1LData2);        
     	}     
         {
             labelMoviesDate = new Label(
@@ -993,9 +1019,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 
                 textMoviesID.setText("");
                 textMoviesTitle.setText("");
+                textMoviesRuntime.setText("");
                 textMoviesDate.setText("");
                 textMoviesDescription.setText("");
                 textMoviesTitle.setEditable(true);
+                textMoviesRuntime.setEditable(true);
                 textMoviesDescription.setEditable(true);
                 textMoviesSearch.setEditable(false);
                 
@@ -1038,6 +1066,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
 
                 textMoviesID.setEditable(false);
                 textMoviesTitle.setEditable(true);
+                textMoviesRuntime.setEditable(true);
                 textMoviesTitle.setFocus();
                 textMoviesDescription.setEditable(true);
                 
@@ -1102,6 +1131,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     textMoviesID.setText("");
                     textMoviesTitle.setText("");
                     textMoviesDate.setText("");
+                    textMoviesDescription.setText("");
+                    tableMoviesDirectorsDetail.removeAll();
+                    tableMoviesActorsDetail.removeAll();
+                    tableMoviesGenresDetail.removeAll();
+                    tableMoviesImagesDetail.removeAll();
                     //in Tabelle nächsten auswählen
                     try {
                         tableMoviesOverview.select(0);
@@ -1173,8 +1207,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 if(mode_movie == ManagementGui.MODE_ADD)  {
                     movie.setTitle(textMoviesTitle.getText());
                     movie.setDescription(textMoviesDescription.getText());
-                    movie.setReleaseDate(new GregorianCalendar());
-                    movie.setRuntime(90);
+                    try {
+                        movie.setReleaseDate(Util.getDateByText(textMoviesDate.getText()));
+                    } catch (DataBaseException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    movie.setRuntime(Integer.parseInt(textMoviesRuntime.getText()));
                 }
                     /**
                      * @todo eine Exception bekommen wieder leider NOCH nicht mit
@@ -1375,11 +1414,12 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         //Fill Imagetable
         tableMoviesImagesDetail.removeAll();
         logger.debug("Anzahl der Bilder: "+object.getImages().size());
+        System.out.println(object.getImages().size());
         for (int i=0;i<object.getImages().size();i++)  {
             Image o=(Image)object.getImages().get(i);
             item = new TableItem(tableMoviesImagesDetail , SWT.NONE);
             item.setText(new String[] {o.getImageId() 
-                    + " ",o.getImageFileName()});
+                    + " ",o.getImageFileName()+ ""});
         }
         
         //Enable Buttons for Delete and Edit
