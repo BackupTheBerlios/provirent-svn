@@ -16,7 +16,9 @@
       <id name="videoFormatId" type="int" column="VIDEOFORMATID">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
-        <generator class="native"/>
+        <generator class="sequence">
+			<param name="sequence" >video_format_id_sequence</param>
+		</generator>
       </id>
  
       <property name="name" type="string" not-null="true">
