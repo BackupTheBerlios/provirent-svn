@@ -15,6 +15,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.layout.GridData;
+import com.cloudgarden.resource.SWTResourceManager;
+import org.eclipse.swt.widgets.Text;
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -29,19 +31,27 @@ import org.eclipse.swt.layout.GridData;
 * for any corporate or commercial purpose.
 * *************************************
 */
-public class CompositeArtists extends AbstractComposite{
+public class CompositeActors extends AbstractComposite{
+
+    {
+        //Register as a resource user - SWTResourceManager will
+        //handle the obtaining and disposing of resources
+        SWTResourceManager.registerResourceUser(this);
+    }
+
 
     /**
      * Logger for this class
      */
     private static final Logger logger = Logger
-            .getLogger(CompositeArtists.class);
+            .getLogger(CompositeActors.class);
     
     
     private final static int MODE_VIEW = 0;
 
     private final static int MODE_ADD = 1;
-    private Group groupArtist;
+    private Text text1;
+    private Group groupActor;
 
     private final static int MODE_EDIT = 2;
     
@@ -67,7 +77,7 @@ public class CompositeArtists extends AbstractComposite{
     public void initLanguage(Locale locale) {
 
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language.artists", locale);
+                "de.hsharz.provirent.managment.gui.language.Actors", locale);
 
     }
     
@@ -95,7 +105,7 @@ public class CompositeArtists extends AbstractComposite{
 		}
 	}
 
-	public CompositeArtists(Composite p, int style,
+	public CompositeActors(Composite p, int style,
             StatusLineStyledText status, Locale l) {
 	    super(p, style, status, l);
         parent = p;
@@ -117,17 +127,26 @@ public class CompositeArtists extends AbstractComposite{
         this.setLayout(new GridLayout());
         this.setSize(816, 540);
         {
-            groupArtist = new Group(this, SWT.NONE);
-            GridLayout groupArtistLayout = new GridLayout();
-            GridData groupArtistLData = new GridData();
-            groupArtistLData.grabExcessHorizontalSpace = true;
-            groupArtistLData.grabExcessVerticalSpace = true;
-            groupArtistLData.horizontalAlignment = GridData.FILL;
-            groupArtistLData.verticalAlignment = GridData.FILL;
-            groupArtist.setLayoutData(groupArtistLData);
-            groupArtistLayout.makeColumnsEqualWidth = true;
-            groupArtist.setLayout(groupArtistLayout);
-            groupArtist.setText("Artist");
+            groupActor = new Group(this, SWT.NONE);
+            GridLayout groupActorLayout = new GridLayout();
+            GridData groupActorLData = new GridData();
+            groupActorLData.grabExcessHorizontalSpace = true;
+            groupActorLData.grabExcessVerticalSpace = true;
+            groupActorLData.horizontalAlignment = GridData.FILL;
+            groupActorLData.verticalAlignment = GridData.FILL;
+            groupActor.setLayoutData(groupActorLData);
+            groupActorLayout.makeColumnsEqualWidth = true;
+            groupActor.setLayout(groupActorLayout);
+            groupActor.setText("Actor");
+            {
+                text1 = new Text(groupActor, SWT.MULTI | SWT.WRAP);
+                text1.setText("text1");
+                GridData text1LData = new GridData();
+                text1.setBackground(SWTResourceManager.getColor(255, 0, 0));
+                text1LData.widthHint = 336;
+                text1LData.heightHint = 173;
+                text1.setLayoutData(text1LData);
+            }
         }
 
         this.layout();
