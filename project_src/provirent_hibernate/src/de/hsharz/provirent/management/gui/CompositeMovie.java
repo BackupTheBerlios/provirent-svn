@@ -1286,7 +1286,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             //id ist keine Zahl
             return;
         }
-
+        movie = object;
         textMoviesID.setText(object.getMovieId() + "");
         textMoviesTitle.setText(object.getTitle());
         textMoviesDate.setText(object.getReleaseDate().getTime().toString());
@@ -1294,6 +1294,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         
         TableItem item;
         // Fill Directorstable
+        tableMoviesDirectorsDetail.removeAll();
         for (int i=0;i<object.getDirector().size();i++)  {
             Director o=(Director)object.getDirector().get(i);
             item = new TableItem(tableMoviesDirectorsDetail , SWT.NONE);
@@ -1302,6 +1303,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         }
         
         //Fill Actorstable
+        tableMoviesActorsDetail.removeAll();
         for (int i=0;i<object.getActors().size();i++)  {
             Actor o=(Actor)object.getActors().get(i);
             item = new TableItem(tableMoviesActorsDetail , SWT.NONE);
@@ -1310,7 +1312,12 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         }
         
         //Fill Genretable
-        for (int i=0;i<object.getGenres().size();i++)  {
+        tableMoviesGenresDetail.removeAll();
+        logger.debug("Anzahl der Genres: "+object.getGenres().size());
+        TableItem testitem = new TableItem(tableMoviesGenresDetail , SWT.NONE);
+        testitem.setText(new String[] {"0","Hallo"});
+        
+        for (int i=0; i<object.getGenres().size();i++ )  {
             Genre o=(Genre)object.getGenres().get(i);
             item = new TableItem(tableMoviesGenresDetail , SWT.NONE);
             item.setText(new String[] {o.getGenreId() 
@@ -1318,6 +1325,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         }
         
         //Fill Imagetable
+        tableMoviesGenresDetail.removeAll();
+        logger.debug("Anzahl der Bilder: "+object.getImages().size());
         for (int i=0;i<object.getImages().size();i++)  {
             Image o=(Image)object.getImages().get(i);
             item = new TableItem(tableMoviesImagesDetail , SWT.NONE);

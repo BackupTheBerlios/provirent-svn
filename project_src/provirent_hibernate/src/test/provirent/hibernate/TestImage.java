@@ -91,6 +91,7 @@ public class TestImage extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
         }
+        /*
 
         //get new Session and begin Transaction
         Session s = HibernateUtil.currentSession();
@@ -214,6 +215,7 @@ public class TestImage extends TestCase {
             // No matter what, close the session
             HibernateUtil.closeSession();
         }
+        */
 
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");

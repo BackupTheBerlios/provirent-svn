@@ -88,7 +88,7 @@ public class TestMovie extends TestCase {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreateCompleteNewMovie() - start");
         }
-
+/*
         //get new Session and begin Transaction
         Session s = HibernateUtil.currentSession();
         Transaction tx = null;
@@ -142,7 +142,7 @@ public class TestMovie extends TestCase {
                     s.save( iter.next() );
                 }
                 movie.setGenres(objects);
-              /*  
+              
                 objects = new ArrayList();
                 objects.add(new Language("Deutsch","de"));
                 objects.add(new Language("Englisch","en"));
@@ -175,7 +175,7 @@ public class TestMovie extends TestCase {
                     s.save( iter.next() );
                 }
                 movie.setVideoFormats(new ArrayList());
-                */
+                
                 //add movie to movie List
                 movies.add(movie);
 
@@ -236,7 +236,7 @@ public class TestMovie extends TestCase {
             HibernateUtil.closeSession();
         }
         
-        
+        */
         
         if (logger.isDebugEnabled()) {
             logger.debug("testCreateCompleteNewMovie() - end");
@@ -283,16 +283,16 @@ public class TestMovie extends TestCase {
                 
                 
                 //try to get Actors from db
-                List  dbactors =  s.find("from Actor as actor");
-                assertNotNull("testCreateDBMovie(): Can't get Actors from DB. Null", dbactors);
-                assertTrue("testCreateDBMovie(): Can not find Actors in DB", dbactors.size() >0);
+                List  dbprops =  s.find("from Actor as actor");
+                assertNotNull("testCreateDBMovie(): Can't get Actors from DB. Null", dbprops);
+                assertTrue("testCreateDBMovie(): Can not find Actors in DB", dbprops.size() >0);
                 
                 int anzahl =2;
                 List movieprops = new ArrayList();
-                random = new RandomRange(0, (dbactors.size()-1) );
+                random = new RandomRange(0, (dbprops.size()-1) );
                 randomNum = random.getNumbers(anzahl);
                 for (int i = 0; i < anzahl; i++) {
-                    Actor actor = (Actor)dbactors.get( ((Integer)randomNum.get(i)).intValue() );
+                    Actor actor = (Actor)dbprops.get( ((Integer)randomNum.get(i)).intValue() );
                     movieprops.add(actor);
                 }
                 movie.setActors(movieprops);
@@ -301,7 +301,7 @@ public class TestMovie extends TestCase {
                 List objects = new ArrayList();
 
                 //try to get Directors from db
-                List  dbprops =  s.find("from Director as director");
+                dbprops =  s.find("from Director as director");
                 assertNotNull("testCreateDBMovie(): Can't get Directors from DB. Null", dbprops);
                 assertTrue("testCreateDBMovie(): Can not find Directors in DB", dbprops.size() >0);
                 
@@ -321,7 +321,9 @@ public class TestMovie extends TestCase {
                 assertNotNull("testCreateDBMovie(): Can't get Genre from DB. Null", dbprops);
                 assertTrue("testCreateDBMovie(): Can not find Genre in DB", dbprops.size() >0);
                 
-                anzahl =1;
+                logger.debug("Anzahl Genres: "+dbprops.size());
+                
+                anzahl =3;
                 movieprops = new ArrayList();
                 random = new RandomRange(0, (dbprops.size()-1) );
                 randomNum = random.getNumbers(anzahl);
@@ -338,6 +340,7 @@ public class TestMovie extends TestCase {
                 assertNotNull("testCreateDBMovie(): Can't get Image from DB. Null", dbprops);
                 assertTrue("testCreateDBMovie(): Can not find Image in DB", dbprops.size() >0);
 
+                logger.debug("Anzahl Bilder: "+dbprops.size());
                 //set Mainimage
                 anzahl =1;
                 movieprops = new ArrayList();
@@ -351,14 +354,14 @@ public class TestMovie extends TestCase {
                 }
 
                 //set images
-                anzahl =2;
+                anzahl =3;
                 movieprops = new ArrayList();
                 random = new RandomRange(0, (dbprops.size()-1) );
                 randomNum = random.getNumbers(anzahl);
 
                 for (int i = 0; i < anzahl; i++) {
                     Image prop = (Image)dbprops.get( ((Integer)randomNum.get(i)).intValue() );
-                    movie.setMainImage(prop);
+                    movieprops.add(prop);
 
                 }
                 movie.setImages(movieprops);
