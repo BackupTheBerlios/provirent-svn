@@ -45,7 +45,6 @@ import org.apache.log4j.Logger;
 
 import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.AudioFormat;
-import de.hsharz.provirent.objects.Customer;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Image;

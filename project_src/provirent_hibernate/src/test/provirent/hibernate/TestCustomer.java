@@ -1,7 +1,6 @@
 package test.provirent.hibernate;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +11,6 @@ import net.sf.hibernate.Transaction;
 
 import org.apache.log4j.Logger;
 
-import de.hsharz.provirent.objects.Condition;
 import de.hsharz.provirent.objects.Customer;
 import de.hsharz.provirent.objects.Person;
 /*
@@ -120,7 +118,7 @@ public class TestCustomer extends TestCase {
 
                 Customer c = new Customer();
                 c.setUserName("kunde1");
-                c.setPassword("kunde1");
+                c.setUserPassword("kunde1");
                 c.setHiddenQuestion(" ");
                 c.setHiddenAnswer(" ");
 
@@ -255,7 +253,7 @@ public class TestCustomer extends TestCase {
 
                 Customer c = new Customer();
                 c.setUserName("kunde1");
-                c.setPassword("kunde1");
+                c.setUserPassword("kunde1");
                 c.setHiddenQuestion(" ");
                 c.setHiddenAnswer(" ");
 
@@ -284,7 +282,7 @@ public class TestCustomer extends TestCase {
                 //second Customer
                 c = new Customer();
                 c.setUserName("kunde2");
-                c.setPassword("kunde2");
+                c.setUserPassword("kunde2");
                 c.setHiddenQuestion(" ");
                 c.setHiddenAnswer(" ");
 
@@ -311,7 +309,7 @@ public class TestCustomer extends TestCase {
                 //third Customer
                 c = new Customer();
                 c.setUserName("kunde3");
-                c.setPassword("kunde3");
+                c.setUserPassword("kunde3");
                 c.setHiddenQuestion(" ");
                 c.setHiddenAnswer(" ");
 

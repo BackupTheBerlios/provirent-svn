@@ -33,14 +33,22 @@
 package test.provirent.hibernate;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
 
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.cfg.Configuration;
-import de.hsharz.provirent.objects.*;
+import de.hsharz.provirent.objects.Actor;
+import de.hsharz.provirent.objects.AudioFormat;
+import de.hsharz.provirent.objects.Condition;
+import de.hsharz.provirent.objects.Director;
+import de.hsharz.provirent.objects.Dvd;
+import de.hsharz.provirent.objects.Genre;
+import de.hsharz.provirent.objects.Language;
+import de.hsharz.provirent.objects.Movie;
+import de.hsharz.provirent.objects.Status;
+import de.hsharz.provirent.objects.Subtitle;
+import de.hsharz.provirent.objects.VideoFormat;
 
 
 /**

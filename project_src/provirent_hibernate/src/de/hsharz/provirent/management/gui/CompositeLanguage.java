@@ -35,8 +35,6 @@ import com.cloudgarden.resource.SWTResourceManager;
 
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Subtitle;
-import de.hsharz.provirent.objects.Subtitle;
-import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.persistence.DataBaseException;
 import de.hsharz.provirent.persistence.Database;
 /**
@@ -252,6 +250,8 @@ public class CompositeLanguage extends AbstractComposite{
 
             initLanguageGroup();
             initSubTitleGroup();
+            refreshLanguageTable(textLanguageSearch.getText());
+            refreshSubtitleTable(textSubtitleSearch.getText());
 
         }
         this.layout();

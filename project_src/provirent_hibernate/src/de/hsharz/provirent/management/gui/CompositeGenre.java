@@ -201,6 +201,7 @@ public class CompositeGenre extends AbstractComposite{
             sashForm1.setLayoutData(sashForm1LData1);
 
             initGenreGroup();
+            refreshGenreTable(textGenreSearch.getText());
 
         }
         this.layout();

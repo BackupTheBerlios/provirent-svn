@@ -175,6 +175,12 @@ public class ManagementGui {
     
     private Locale locale ;
 
+    protected CTabItem tabItemStatus;
+
+    private CompositeStatus compositeStatus;
+
+    private CTabItem tabStatusLanguage;
+
     /**
      * Auto-generated main method to display this
      * org.eclipse.swt.widgets.Composite inside a new Shell.
@@ -474,10 +480,18 @@ public class ManagementGui {
         viewStatusMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewStatusMenuItem.setText(l.getString("menu.view.status"));
         viewStatusMenuItem.setSelection(false);
-
-        viewConditionMenuItem = new MenuItem(viewMenu, SWT.CHECK);
-        viewConditionMenuItem.setText(l.getString("menu.view.condition"));
-        viewConditionMenuItem.setSelection(false);
+        viewStatusMenuItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent evt) {
+				if(tabItemStatus == null || tabItemStatus.isDisposed()){
+				    initStatusTab();
+				    return;   
+				}
+				
+				cTabFolderMain.setSelection(tabItemStatus);
+				viewStatusMenuItem.setSelection(true);
+				cTabFolderMain.showSelection();
+            }
+        });   
 
         viewMovieMenuItem = new MenuItem(viewMenu, SWT.CHECK);
         viewMovieMenuItem.setText(l.getString("menu.view.movie"));
@@ -492,6 +506,32 @@ public class ManagementGui {
         viewBillMenuItem.setSelection(false);
 
     }
+
+    /**
+     * 
+     */
+    private void initStatusTab() {
+        tabItemStatus = new CTabItem(cTabFolderMain, SWT.NONE);
+        tabItemStatus.setText(l.getString("tab.Status.title"));
+        tabItemStatus.addDisposeListener(new DisposeListener() {
+
+            public void widgetDisposed(DisposeEvent evt) {
+                if(!viewStatusMenuItem.isDisposed()){
+                    viewStatusMenuItem.setSelection(false);
+                }
+            }
+            
+        });
+        {
+            compositeStatus = new CompositeStatus(
+                cTabFolderMain,
+                SWT.NONE, statusLine, locale);
+            
+            tabItemStatus.setControl(compositeStatus);
+        }
+        
+    }
+
 
     /**
      * init the help menu

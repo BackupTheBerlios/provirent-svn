@@ -32,15 +32,12 @@
  */
 package test.provirent.hibernate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
 import net.sf.hibernate.Transaction;
 import net.sf.hibernate.cfg.Configuration;
-import de.hsharz.provirent.objects.*;
+import de.hsharz.provirent.objects.Customer;
+import de.hsharz.provirent.objects.Person;
 
 
 /**
@@ -141,7 +138,7 @@ public class TestCustomerOld {
             Customer c = new Customer();
             c.setPerson(p);
             c.setUserName("boelkstoff");
-            c.setPassword("egal");
+            c.setUserPassword("egal");
             c.setHiddenQuestion("Wer");
             c.setHiddenAnswer("ich");
             

@@ -45,9 +45,11 @@ import net.sf.hibernate.expression.Expression;
 import org.apache.log4j.Logger;
 
 import de.hsharz.provirent.objects.AudioFormat;
+import de.hsharz.provirent.objects.Condition;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Language;
+import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
 import de.hsharz.provirent.objects.VideoFormat;
 import de.hsharz.provirent.objects.Actor;
@@ -489,7 +491,7 @@ public class Database {
 	                
 	                //maybe we are searching for the id?
 	                try {
-	                    any.add(Expression.eq("GenreId", new Integer(Integer.parseInt(filter))));
+	                    any.add(Expression.eq("genreId", new Integer(Integer.parseInt(filter))));
 	                } catch (Exception e) {
 	                }
 	                
@@ -593,7 +595,7 @@ public class Database {
 	                
 	                //maybe we are searching for the id?
 	                try {
-	                    any.add(Expression.eq("LanguageId", new Integer(Integer.parseInt(filter))));
+	                    any.add(Expression.eq("languageId", new Integer(Integer.parseInt(filter))));
 	                } catch (Exception e) {
 	                }
 	                
@@ -799,7 +801,7 @@ public class Database {
 	                
 	                //maybe we are searching for the id?
 	                try {
-	                    any.add(Expression.eq("SubtitleId", new Integer(Integer.parseInt(filter))));
+	                    any.add(Expression.eq("subtitleId", new Integer(Integer.parseInt(filter))));
 	                } catch (Exception e) {
 	                }
 	                
@@ -866,6 +868,214 @@ public class Database {
 	
 	    if (logger.isDebugEnabled()) {
 	        logger.debug("getSingleSubtitle() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
+	
+	/**
+	 * This method gets all Status from the database.
+	 * searches for name or shortname or id
+	 * @param filter 
+	 * @return List of Status objects, or an empty List
+	 */
+	public static List getStatus(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getStatus() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Status.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("statusName", "%"+filter+"%"));
+	                any.add(Expression.like("statusShortname", "%"+filter+"%"));
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("statusId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getStatus() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getStatus() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getStatus() - end");
+	    }
+	    return returnlist;
+	    
+	
+	}
+	
+	
+	public static Status getSingleStatus(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleStatus() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Status returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Status)s.get(Status.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleStatus() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleStatus() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleStatus() - end");
+	    }
+	    return returnobject;
+	    
+	
+	}
+	
+    /**
+	 * This method gets all Conditions from the database.
+	 * searches for name or shortname or id
+	 * @param filter 
+	 * @return List of Condition objects, or an empty List
+	 */
+	public static List getCondition(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getCondition() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Condition.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("conditionName", "%"+filter+"%"));
+	                any.add(Expression.like("conditionshortname", "%"+filter+"%"));
+	                
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("conditionId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	
+	
+	
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getCondition() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getCondition() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getCondition() - end");
+	    }
+	    return returnlist;
+	    
+	
+	}
+	
+	
+	public static Condition getSingleCondition(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleCondition() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Condition returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Condition)s.get(Condition.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleCondition() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleCondition() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleCondition() - end");
 	    }
 	    return returnobject;
 	    
