@@ -198,6 +198,8 @@ public class ManagmentGui {
      * Bundle for multilanguage
      */
     private ResourceBundle l;
+    
+    private Locale locale ;
 
     /**
      * Auto-generated main method to display this
@@ -231,9 +233,12 @@ public class ManagmentGui {
             logger.debug("ManagmentGui() Locale: " + Locale.getDefault());
         }
 
+        
+        locale = Locale.getDefault();
+        
+        
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language", Locale
-                        .getDefault());
+                "de.hsharz.provirent.managment.gui.language", locale);
 
         //hier muss noch was gemacht werden
         if (l == null) {
@@ -424,6 +429,7 @@ public class ManagmentGui {
                 //the root composite
                 //this init's the maincomposite
                 initRootComposite();
+                initStatusComposite();
 
                 {
                     {
@@ -441,7 +447,7 @@ public class ManagmentGui {
                             {
                                 compositeFormate = new CompositeFormate(
                                     cTabFolderMain,
-                                    SWT.NONE);
+                                    SWT.NONE, statusLine, locale);
                                 
                                 tabItemFormat.setControl(compositeFormate);
                             }
@@ -599,8 +605,8 @@ public class ManagmentGui {
                 }
                 {
                     //init the Composite for statusline
-                    initStatusComposite();
-                    compositeFormate.setStatusLine(statusLine);
+                    
+                    //compositeFormate.setStatusLine(statusLine);
 
                 }
             }

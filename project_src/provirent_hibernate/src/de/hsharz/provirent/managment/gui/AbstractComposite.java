@@ -2,8 +2,8 @@ package de.hsharz.provirent.managment.gui;
 
 import java.util.Locale;
 
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 
 
 /**
@@ -23,21 +23,13 @@ import org.eclipse.swt.layout.GridLayout;
 abstract public class AbstractComposite extends org.eclipse.swt.widgets.Composite {
 
     abstract public void changeLanguage(Locale l);
-    abstract public void setStatusLine(StatusLineStyledText status);
+    //abstract public void setStatusLine(StatusLineStyledText status);
+    abstract public void initLanguage(Locale l);
 
-
-	public AbstractComposite(org.eclipse.swt.widgets.Composite parent, int style) {
+	public AbstractComposite(Composite parent, int style, StatusLineStyledText status, Locale l) {
 		super(parent, style);
-		initGUI();
+		//initGUI();
 	}
 
-	private void initGUI() {
-		try {
-			this.setLayout(new GridLayout());
-			this.layout();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 }
