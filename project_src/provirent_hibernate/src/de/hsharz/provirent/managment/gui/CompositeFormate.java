@@ -1,5 +1,7 @@
 package de.hsharz.provirent.managment.gui;
 
+import java.util.Locale;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
@@ -7,9 +9,6 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -44,7 +43,7 @@ import de.hsharz.provirent.persistence.Database;
 * for any corporate or commercial purpose.
 * *************************************
 */
-public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
+public class CompositeFormate extends AbstractComposite {
 	private SashForm sashForm1;
 	private Group groupVideoFormatOverview;
 	private Group groupVideoFormatDetail;
@@ -95,49 +94,15 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
 
     private int mode_AudioFormat = 0;
 	
-    private StyledText statusLine;
+    private StatusLineStyledText statusLine;
     
-    public void setStatusObject(StyledText status){
-        statusLine = status;
+
+    public void changeLanguage(Locale l){
+        
     }
-	
-    private void setStatus(final int mode, final String message) {
-        /**
-         * mode values 0 normal message 1 information message 2 warn message 3
-         * error message
-         *  
-         */
-        if (mode == 0) {
-            statusLine.setBackground(ColorDef.STATUS_B_STANDARD);
-            statusLine.setForeground(ColorDef.STATUS_F_STANDARD);
-        } else if (mode == 1) {
-            statusLine.setBackground(ColorDef.STATUS_B_INFO);
-            statusLine.setForeground(ColorDef.STATUS_F_INFO);
-        } else if (mode == 2) {
-            statusLine.setBackground(ColorDef.STATUS_B_WARN);
-            statusLine.setForeground(ColorDef.STATUS_F_WARN);
-        } else if (mode == 3) {
-            statusLine.setBackground(ColorDef.STATUS_B_ERROR);
-            statusLine.setForeground(ColorDef.STATUS_F_ERROR);
-        }
-
-        statusLine.setText(message);
-
-		new Thread() {
-			public void run() {
-				
-				try {Thread.sleep (1000 *5);} catch (Throwable th) {}
-					if (Display.getDefault().isDisposed()) return;
-					Display.getDefault().asyncExec(new Runnable() {
-						public void run() {
-				            statusLine.setBackground(ColorDef.STATUS_B_STANDARD);
-				            statusLine.setForeground(ColorDef.STATUS_F_STANDARD);
-						}
-					});
-				
-			}
-		}.start();
-
+    
+    public void setStatusLine(StatusLineStyledText status){
+        statusLine = status;
     }
     
     
@@ -156,6 +121,7 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
 	public static void showGUI() {
 		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
+		/*
 		CompositeFormate inst = new CompositeFormate(shell, SWT.NULL);
 		Point size = inst.getSize();
 		shell.setLayout(new FillLayout());
@@ -170,6 +136,7 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
 				shellBounds.height -= MENU_HEIGHT;
 			shell.setSize(shellBounds.width, shellBounds.height);
 		}
+		*/
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -396,7 +363,7 @@ public class CompositeFormate extends org.eclipse.swt.widgets.Composite {
                                             //TODO add your
                                             // code for
                                             // buttonVideoFormatNew.widgetSelected
-                                            setStatus(3, "Test");
+                                            statusLine.setStatus(3, "Test");
                                         }
                                         });
                                 }

@@ -184,7 +184,7 @@ public class ManagmentGui {
 
     private TableColumn tableColumn4;
 
-    private StyledText statusLine;
+    private StatusLineStyledText statusLine;
 
     private Composite compositeStatusLine;
 
@@ -600,7 +600,7 @@ public class ManagmentGui {
                 {
                     //init the Composite for statusline
                     initStatusComposite();
-                    compositeFormate.setStatusObject(statusLine);
+                    compositeFormate.setStatusLine(statusLine);
 
                 }
             }
@@ -633,7 +633,7 @@ public class ManagmentGui {
     }
 
     private void initStatusLine() {
-        statusLine = new StyledText(compositeStatusLine, SWT.READ_ONLY);
+        statusLine = new StatusLineStyledText(compositeStatusLine, SWT.READ_ONLY);
         statusLine.setText("");
         statusLine
                 .setToolTipText("Hier finden Sie wichtige Statusinformationen");
