@@ -75,7 +75,9 @@ public class CompositeImage extends AbstractComposite {
      */
     private static final Logger logger = Logger.getLogger(CompositeImage.class);
 
-    byte[] imagebytedata;
+    private byte[] imagebytedata;
+    
+    private ImageData imagedata;
 
     private Label labelImagesResize;
 
@@ -93,7 +95,7 @@ public class CompositeImage extends AbstractComposite {
 
     private Image ideaImage, scaledImage;
 
-    int iy, ix = 0;
+    private int iy, ix = 0;
 
     private String currentDir = "";
 
@@ -151,7 +153,7 @@ public class CompositeImage extends AbstractComposite {
 
     private Label labelImagesDescription;
 
-    protected int mode_image;
+    private int mode_image;
 
     private StatusLineStyledText statusLine;
 
@@ -297,6 +299,9 @@ public class CompositeImage extends AbstractComposite {
                     refreshImagesDetail(tableImagesOverview.getItem(index)
                             .getText(0));
 
+                    buttonImageDelete.setEnabled(true);
+                    buttonImageEdit.setEnabled(true);
+                    
                     if (logger.isDebugEnabled()) {
                         logger.debug("widgetSelected(SelectionEvent) - end");
                     }
@@ -514,8 +519,9 @@ public class CompositeImage extends AbstractComposite {
                     String selectedFile = fileDialog.open();
                     if (selectedFile != null) {
 
+                        imagedata = new ImageData(selectedFile);
                         scaledImage = ideaImage = new Image(getDisplay(),
-                                selectedFile);
+                                imagedata);
 
                         canvasImg.redraw();
                         textFileUrl.setText(fileDialog.getFilterPath()
@@ -615,14 +621,20 @@ public class CompositeImage extends AbstractComposite {
 
                     //skale the image
                     float scaleFaktor = (float) scaleResize.getSelection() / 100;
-                    if (scaleFaktor < 0.01)
-                        scaleFaktor = (float) 0.01;
-                    int newwidth = (int) (ideaImage.getBounds().width * scaleFaktor);
-                    int newheight = (int) (ideaImage.getBounds().height * scaleFaktor);
 
-                    ImageData newdata = ideaImage.getImageData().scaledTo(
+                    int newwidth = (int) (imagedata.width * scaleFaktor);
+                    int newheight = (int) (imagedata.height * scaleFaktor);
+
+                    if(newwidth== 0){
+                        newwidth = 1;
+                    }
+                    if (newheight == 0){
+                        newheight = 1;
+                    }
+                    System.out.println("newwidth: "+newwidth+" newheight: "+newheight);
+                    ImageData newdata = imagedata.scaledTo(
                             newwidth, newheight);
-
+                    imagedata = newdata;
                     scaledImage = new Image(getDisplay(), newdata);
 
                     //redraw the image
@@ -712,6 +724,7 @@ public class CompositeImage extends AbstractComposite {
 
                         tableImagesOverview.setEnabled(false);
                         textImagesSearch.setEnabled(false);
+                        buttonSelectFile.setEnabled(true);
 
                     }
                 });
@@ -877,16 +890,14 @@ public class CompositeImage extends AbstractComposite {
                                     .getText());
 
                             ImageLoader imageLoader = new ImageLoader();
-                            imageLoader.data = new ImageData[] { scaledImage
-                                    .getImageData() };
+                            imageLoader.data = new ImageData[] { imagedata };
                             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                            ImageData imgdata = scaledImage.getImageData();
 
-                            System.out.println(imgdata.type);
+                            System.out.println(imagedata.type);
                             System.out.println(SWT.IMAGE_JPEG);
 
                             imageLoader.save(bos,
-                                    scaledImage.getImageData().type);
+                                    imagedata.type);
 
                             tmp.setImageFile(bos.toByteArray());
 
@@ -1031,10 +1042,22 @@ public class CompositeImage extends AbstractComposite {
                 buttonImageCancel.setEnabled(false);
                 buttonImageCancel.addSelectionListener(new SelectionAdapter() {
                     public void widgetSelected(SelectionEvent evt) {
-                        System.out
-                                .println("buttonImageCancel.widgetSelected, event="
-                                        + evt);
-                        //setImageGroupButtonSaveCancel();
+
+                        tableImagesOverview.setEnabled(true);
+                        textImagesSearch.setEnabled(true);
+                        
+                        textImagesDescription.setEnabled(false);
+                        textImagesName.setEnabled(false);
+                        
+                        buttonImageCancel.setEnabled(false);
+                        buttonImageDelete.setEnabled(false);
+                        buttonImageEdit.setEnabled(false);
+                        buttonSelectFile.setEnabled(false);
+                        buttonImageSave.setEnabled(false);
+                        buttonImageNew.setEnabled(true);
+                        scaleResize.setEnabled(false);
+                        
+                        
                     }
                 });
             }
@@ -1240,11 +1263,12 @@ public class CompositeImage extends AbstractComposite {
 
         int maxheight = 75;
         int maxwidth = 75;
+        
+        final ImageData imgdata = new ImageData(new ByteArrayInputStream(data));
 
-        final Image image = new Image(getDisplay(), new ByteArrayInputStream(
-                data));
-        final int width = image.getBounds().width;
-        final int height = image.getBounds().height;
+        
+        final int width = imgdata.width;
+        final int height = imgdata.height;
         float scalefactor = 1;
 
         if (width > maxwidth) {
@@ -1257,13 +1281,13 @@ public class CompositeImage extends AbstractComposite {
 
         }
 
-        final Image scaledtemp = new Image(getDisplay(), image.getImageData()
+        final Image scaledtemp = new Image(getDisplay(), imgdata
                 .scaledTo((int) (width * scalefactor),
                         (int) (height * scalefactor)));
 
-        System.out.println("Type:" + image.getImageData().type);
+        System.out.println("Type:" + imgdata.type);
 
-        image.dispose();
+        
 
         return scaledtemp;
 

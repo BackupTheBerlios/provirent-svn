@@ -414,12 +414,13 @@ public class CompositePayment extends AbstractComposite{
         {
             changeStartDateButton = new Button(groupPaymentDetail, SWT.PUSH
                 | SWT.CENTER);
-            changeStartDateButton.setText("Change");
+            changeStartDateButton.setText(l.getString("Payment.groupdetail.startdatebuttonchange"));
             GridData text1LData3 = new GridData();
+            changeStartDateButton.setEnabled(false);
             changeStartDateButton.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
 
-                    final SWTCalendarDialog cal = new SWTCalendarDialog(getDisplay());
+                    final SWTCalendarDialog cal = new SWTCalendarDialog(getDisplay(),l.getString("Payment.groupdetail.startdatebuttonfinish"));
 
                     cal.addDateChangedListener(new SWTCalendarListener() {
 
@@ -505,12 +506,15 @@ public class CompositePayment extends AbstractComposite{
                 textduration2.setEditable(true);
                 textduration3.setEditable(true);
                 textstartdate.setEditable(true);
+                changeStartDateButton.setEnabled(true);
+                
                 
                 buttonPaymentCancel.setEnabled(true);
                 buttonPaymentSave.setEnabled(true);
                 buttonPaymentNew.setEnabled(false);
                 buttonPaymentEdit.setEnabled(false);
                 buttonPaymentDelete.setEnabled(false);
+                
                 
                 textPaymentSearch.setEditable(false);
                 tablePayment.setEnabled(false);
@@ -534,6 +538,7 @@ public class CompositePayment extends AbstractComposite{
                 textduration2.setEditable(true);                
                 textduration3.setEditable(true);
                 textstartdate.setEditable(true);
+                changeStartDateButton.setEnabled(true);
                 
                 textduration1.setFocus();
                 
@@ -807,6 +812,7 @@ public class CompositePayment extends AbstractComposite{
         textduration2.setEditable(false);
         textduration3.setEditable(false);
         textstartdate.setEditable(false);
+        changeStartDateButton.setEnabled(false);
         textPaymentSearch.setEditable(true);
 
         // PaymentTabelle aktivieren
