@@ -122,7 +122,7 @@ public class ManagementGui {
     private CompositeGenre compositeGenre;
     private CompositeLanguage compositeLanguage;
     private CompositeImage compositeImage;
-    private CopyOfCompositeMovie compositeMovie;
+    private CompositeMovie compositeMovie;
     private CompositePayment compositePayment;
     private CompositeStatus compositeStatus;   
 
@@ -778,7 +778,7 @@ public class ManagementGui {
         });
   
         {
-            compositeMovie = new CopyOfCompositeMovie(
+            compositeMovie = new CompositeMovie(
                 cTabFolderMain,
                 SWT.NONE, statusLine, locale);
             

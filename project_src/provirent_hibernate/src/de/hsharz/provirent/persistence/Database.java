@@ -51,6 +51,7 @@ import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
+import de.hsharz.provirent.objects.Movie;
 import de.hsharz.provirent.objects.Payment;
 import de.hsharz.provirent.objects.Status;
 import de.hsharz.provirent.objects.Subtitle;
@@ -1534,4 +1535,120 @@ public class Database {
 	
 	}
 
+	/**
+	 * This method gets all Movies from the database.
+	 * searches for ID,Title,Date,Description,Actor,Director...
+	 * @param filter 
+	 * @return List of Payment objects, or an empty List
+	 */
+	public static List getMovie(final String filter){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getMovie() - start. String filter= "+filter);
+	    }
+	    //init the returnlist
+	    List returnlist = new ArrayList();
+	
+	    Session s = null;
+	    
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	            
+	            //init the criteria
+	            Criteria criteria = s.createCriteria(Movie.class);
+	            //any of the criteria 
+	            Disjunction any = Expression.disjunction();
+	          
+	            /*
+	            any.add(Expression.sql("Select * from PAYMENT where name like '" + 
+	                    		name + 
+	                    		"' and startdate = (select startdate from PAYMENT where name like '" + 
+	                    		name +
+	                    						   "')"));
+	            
+	            */
+	
+	            //if filter not empty
+	            if (filter != null && !filter.equalsIgnoreCase("")) {
+	                any.add(Expression.like("title", "%"+filter+"%"));
+	                any.add(Expression.like("releaseDate", "%"+filter+"%"));
+	                any.add(Expression.like("description", "%"+filter+"%"));
+	                any.add(Expression.like("actors", "%"+filter+"%"));
+	                any.add(Expression.like("directors", "%"+filter+"%"));
+	                //any.add(Expression.like("images", "%"+filter+"%"));
+	                //maybe we are searching for the id?
+	                try {
+	                    any.add(Expression.eq("movieId", new Integer(Integer.parseInt(filter))));
+	                } catch (Exception e) {
+	                }
+	                
+	            }
+	            
+	            //add all criteria
+	            criteria.add(any);
+	            //get the results
+	            returnlist = criteria.list();
+	            
+	            
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getMovie() - Error while trying to do Transaction",
+	                e);
+	        returnlist = new ArrayList();
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getMovie() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getMovie() - end");
+	    }
+	    return returnlist;
+	    
+	}
+	
+	
+	public static Movie getSingleMovie(final int id){
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleMovie() - start. int filter= "+id);
+	    }
+	    //init the returnlist
+	    Movie returnobject = null;
+	
+	    Session s = null;
+	    Transaction tx = null;
+	    try {
+	        //get new Session and begin Transaction
+	        s = HibernateUtil.currentSession();
+	
+	            returnobject = (Movie)s.get(Movie.class, new Integer(id));
+	
+	    } catch (Exception e) {
+	        logger.error(
+	                "getSingleMovie() - Error while trying to do Transaction",
+	                e);
+	        
+	    } finally {
+	        try {
+	            // No matter what, close the session
+	            HibernateUtil.closeSession();
+	        } catch (HibernateException e1) {
+	            logger.error("getSingleMovie() - Could not Close the Session", e1);
+	        }
+	    }
+	
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("getSingleMovie() - end");
+	    }
+	    return returnobject;
+	    
+	}
+
+
 }
+

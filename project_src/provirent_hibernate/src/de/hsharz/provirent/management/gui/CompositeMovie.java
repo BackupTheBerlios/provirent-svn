@@ -93,6 +93,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Text textMoviesID;
     private Text textMoviesTitle;
     private Text textMoviesDescription;
+    private Text textMoviesDate;
     
     private Label labelMoviesSearch;
     private Label labelMoviesID;
@@ -131,9 +132,9 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private List listMoviesGenres;
     private List listMoviesActors;
     private List listMoviesDirectors;
-    private Text textMoviesDate;
+    
 
-    protected int mode_actor;
+    protected int mode_movie;
     
     private StatusLineStyledText statusLine;
     
@@ -912,7 +913,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    buttonMoviesNew.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 
-                mode_actor = ManagementGui.MODE_ADD;
+                mode_movie = ManagementGui.MODE_ADD;
                 
                 textMoviesID.setText("");
                 textMoviesTitle.setText("");
@@ -953,7 +954,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     	    buttonMoviesEdit.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
 
-                mode_actor = ManagementGui.MODE_EDIT;
+                mode_movie = ManagementGui.MODE_EDIT;
 
                 textMoviesID.setEditable(false);
                 textMoviesTitle.setEditable(true);
@@ -1237,9 +1238,41 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     /**
      * @param text
      */
-    protected void refreshMoviesDetail(String text) {
+    protected void refreshMoviesDetail(String id) {
         // TODO Auto-generated method stub
-        
+        Movie object;
+        try {
+            //since we only can get a String value from the table, we
+            //need to convert this
+            object = Database.getSingleMovie(Integer.parseInt(id));
+
+            if (object == null) {
+
+                /*
+                 * 
+                 * @TODO Statusbar aktualiseren
+                 */
+                return;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            //id ist keine Zahl
+            return;
+        }
+
+        textMoviesID.setText(object.getMovieId() + "");
+        textMoviesTitle.setText(object.getTitle());
+        textMoviesDate.setText(object.getReleaseDate().toString());
+        textMoviesDescription.setText(object.getDescription());
+        //listMoviesImages.
+
+        //Buttons zum löschen und editieren aktivieren
+        buttonMoviesEdit.setEnabled(true);
+        buttonMoviesDelete.setEnabled(true);
+
+        //Mode auf view setzen
+        mode_movie = ManagementGui.MODE_VIEW;
+          
     }
 
     protected void openDialogDescription() {

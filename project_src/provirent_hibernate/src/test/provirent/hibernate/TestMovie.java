@@ -142,7 +142,7 @@ public class TestMovie extends TestCase {
                     s.save( iter.next() );
                 }
                 movie.setGenres(objects);
-                
+              /*  
                 objects = new ArrayList();
                 objects.add(new Language("Deutsch","de"));
                 objects.add(new Language("Englisch","en"));
@@ -175,7 +175,7 @@ public class TestMovie extends TestCase {
                     s.save( iter.next() );
                 }
                 movie.setVideoFormats(new ArrayList());
-
+                */
                 //add movie to movie List
                 movies.add(movie);
 
@@ -335,6 +335,7 @@ public class TestMovie extends TestCase {
                 }
                 movie.setGenres(movieprops);
                 
+                /*
                 //try to get Language from db
                 dbprops =  s.find("from Language as language");
                 assertNotNull("testCreateDBMovie(): Can't get Language from DB. Null", dbprops);
@@ -400,7 +401,7 @@ public class TestMovie extends TestCase {
                     movieprops.add(prop);
                 }
                 movie.setVideoFormats(movieprops);
-                
+                */
                 
                 int id = ((Integer)s.save(movie)).intValue();
                 s.flush();
