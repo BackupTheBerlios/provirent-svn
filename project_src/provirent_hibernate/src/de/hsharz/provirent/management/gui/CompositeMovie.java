@@ -1,6 +1,8 @@
 package de.hsharz.provirent.management.gui;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -32,7 +34,9 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
-
+import org.vafada.swtcalendar.SWTCalendarEvent;
+import org.vafada.swtcalendar.SWTCalendarListener;
+import de.hsharz.provirent.Util;
 import de.hsharz.provirent.objects.Actor;
 import de.hsharz.provirent.objects.Director;
 import de.hsharz.provirent.objects.Genre;
@@ -119,7 +123,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Button buttonMoviesDeleteGenres;
     private Button buttonMoviesAddImages;
     private Button buttonMoviesDeleteImages;
-     
+    private Button buttonMoviesChangeDate; 
+    
     private SashForm sashForm1;
     
     private Composite parent;
@@ -129,7 +134,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     private Composite compositeMoviesEditGenres;
     private Composite compositeMoviesEditImages;
     
-    protected int mode_movie;
+    private int mode_movie;
     
     private StatusLineStyledText statusLine;
     
@@ -479,10 +484,41 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
             GridData text1LData2 = new GridData();
             text1LData2.horizontalAlignment = GridData.FILL;
             text1LData2.heightHint = 13;
-            text1LData2.horizontalSpan = 5;
+            text1LData2.horizontalSpan = 4;
             text1LData2.grabExcessHorizontalSpace = true;
             textMoviesDate.setLayoutData(text1LData2);
             textMoviesDate.setText(l.getString("movies.groupdetail.textdate"));
+        }
+        {
+    	    buttonMoviesChangeDate = new Button(groupMoviesDetail, SWT.NONE);
+    	    buttonMoviesChangeDate.setText(l
+    	            .getString("movies.button.changedate"));
+    	    buttonMoviesChangeDate.setEnabled(false);
+    	    GridData text1LData2 = new GridData();
+    	    text1LData2.horizontalAlignment = GridData.FILL;
+    	    text1LData2.heightHint = 20;
+    	    text1LData2.horizontalSpan =1;
+    	    buttonMoviesChangeDate.setLayoutData(text1LData2);        
+    	    buttonMoviesChangeDate.addSelectionListener(new SelectionAdapter() {
+    	        public void widgetSelected(SelectionEvent evt) {
+    	            //open responsible Dialog and insert text
+    	            final SWTCalendarDialog cal = new SWTCalendarDialog(getDisplay(),l.getString("movies.groupdetail.datebuttonfinish"));
+
+                    cal.addDateChangedListener(new SWTCalendarListener() {
+                        public void dateChanged(SWTCalendarEvent calendarEvent) {
+                            textMoviesDate.setText( DateFormat.getDateInstance(DateFormat.LONG).format(calendarEvent.getCalendar().getTime()));
+                        }
+                    });
+
+                    if (textMoviesDate.getText() != null && textMoviesDate.getText().length() > 0) {
+                        try {
+                               cal.setDate(DateFormat.getDateInstance(DateFormat.LONG).parse(textMoviesDate.getText()));
+                        } catch (ParseException pe) {
+                        }
+                    }
+                    cal.open();                                                                	            
+    	        }
+    	    });  
         }
         //labels and buttons for Detail
         {
@@ -960,8 +996,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 textMoviesDate.setText("");
                 textMoviesDescription.setText("");
                 textMoviesTitle.setEditable(true);
-                textMoviesDate.setEditable(true);
                 textMoviesDescription.setEditable(true);
+                textMoviesSearch.setEditable(false);
                 
                 buttonMoviesCancel.setEnabled(true);
                 buttonMoviesSave.setEnabled(true);
@@ -976,8 +1012,8 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 buttonMoviesDeleteGenres.setEnabled(true);
                 buttonMoviesAddImages.setEnabled(true);
                 buttonMoviesDeleteImages.setEnabled(true);
+                buttonMoviesChangeDate.setEnabled(true);
                 
-                textMoviesSearch.setEditable(false);
                 tableMoviesOverview.setEnabled(false);
                 tableMoviesDirectorsDetail.removeAll();
                 tableMoviesActorsDetail.removeAll();
@@ -1003,7 +1039,6 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 textMoviesID.setEditable(false);
                 textMoviesTitle.setEditable(true);
                 textMoviesTitle.setFocus();
-                textMoviesDate.setEditable(true);
                 textMoviesDescription.setEditable(true);
                 
                 buttonMoviesCancel.setEnabled(true);
@@ -1019,6 +1054,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                 buttonMoviesDeleteGenres.setEnabled(true);
                 buttonMoviesAddImages.setEnabled(true);
                 buttonMoviesDeleteImages.setEnabled(true);
+                buttonMoviesChangeDate.setEnabled(true);
                 
                 tableMoviesOverview.setEnabled(false);
                 textMoviesSearch.setEnabled(false);
@@ -1138,6 +1174,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
                     movie.setTitle(textMoviesTitle.getText());
                     movie.setDescription(textMoviesDescription.getText());
                     movie.setReleaseDate(new GregorianCalendar());
+                    movie.setRuntime(90);
                 }
                     /**
                      * @todo eine Exception bekommen wieder leider NOCH nicht mit
@@ -1207,7 +1244,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     /**
      * @param movie2
      */
-    protected void insertIntoMoviesOverviewTable(Movie movie2) {
+    private void insertIntoMoviesOverviewTable(Movie movie2) {
         // TODO Auto-generated method stub
         
     }
@@ -1215,12 +1252,11 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
     /**
      * 
      */
-    protected void setMoviesGroupButtonSaveCancel() {
+    private void setMoviesGroupButtonSaveCancel() {
         tableMoviesOverview.setEnabled(true);
         textMoviesTitle.setEditable(false);
-        textMoviesDate.setEditable(false);
         textMoviesDescription.setEditable(false);
-        textMoviesSearch.setEnabled(true);
+        textMoviesSearch.setEditable(true);
         buttonMoviesCancel.setEnabled(false);
         buttonMoviesSave.setEnabled(false);
         buttonMoviesNew.setEnabled(true);
@@ -1234,12 +1270,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         buttonMoviesDeleteGenres.setEnabled(false);
         buttonMoviesAddImages.setEnabled(false);
         buttonMoviesDeleteImages.setEnabled(false);
+        buttonMoviesChangeDate.setEnabled(true);
     }
 
     /**
      * @param text
      */
-    protected void refreshMoviesOverviewTable(String filter) {
+    private void refreshMoviesOverviewTable(String filter) {
         // TODO Auto-generated method stub
         if (tableMoviesOverview == null) {
             System.out
@@ -1256,8 +1293,13 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
 
             Movie o = (Movie) Movielist.get(i);
             item = new TableItem(tableMoviesOverview, SWT.NONE);
-            item.setText(new String[] { o.getMovieId() + "", o.getTitle(),
-                    o.getReleaseDate().getTime().toString() });
+            try {
+                item.setText(new String[] { o.getMovieId() + "", o.getTitle(),
+                        Util.getTextByDate(o.getReleaseDate()) });
+            } catch (DataBaseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
         }
     }
@@ -1289,7 +1331,12 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
         movie = object;
         textMoviesID.setText(object.getMovieId() + "");
         textMoviesTitle.setText(object.getTitle());
-        textMoviesDate.setText(object.getReleaseDate().getTime().toString());
+        try {
+            textMoviesDate.setText(Util.getTextByDate(object.getReleaseDate()));
+        } catch (DataBaseException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         textMoviesDescription.setText(object.getDescription());
         
         TableItem item;
@@ -1344,7 +1391,7 @@ public class CompositeMovie extends de.hsharz.provirent.management.gui.AbstractC
           
     }
 
-    protected void openDialogDescription() {
+    private void openDialogDescription() {
         // TODO Auto-generated method stub
         Shell dialogShell = new Shell();
         //Dialog dialogDescription=new Dialog(dialogShell);
