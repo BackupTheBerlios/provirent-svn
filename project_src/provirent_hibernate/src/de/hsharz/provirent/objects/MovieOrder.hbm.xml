@@ -4,9 +4,9 @@
              "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
   <hibernate-mapping>
  
-   <class name="de.hsharz.provirent.objects.Order" table="ORDER">
+   <class name="de.hsharz.provirent.objects.MovieOrder" table="MOVIEORDER">
       <meta attribute="class-description">
-        Represents an Order.
+        Represents an MovieOrder.
         @author Philipp Schneider
       </meta>
       
@@ -14,7 +14,7 @@
  			<meta attribute="implement-equals">true</meta>
  			<meta attribute="use-in-equals">true</meta>
  			
-      <id name="orderId" type="int" column="ORDERID">
+      <id name="movieOrderId" type="int" column="MOVIEORDERID">
         <meta attribute="scope-set">protected</meta>
         <meta attribute="use-in-equals">true</meta>
         <generator class="native"/>
@@ -27,11 +27,11 @@
 		 	<meta attribute="use-in-tostring">true</meta>
 		 </many-to-one>
 
- 			<list	name="orderItems"
- 						table="ORDERORDERITEMS"
+ 			<list	name="movieOrderItems"
+ 						table="MOVIEORDERORDERITEMS"
  						>
 				<meta attribute="use-in-tostring">true</meta>
-				<key column="ORDERID"/>
+				<key column="MOVIEORDERID"/>
 				<index column="POS"/>
 				<many-to-many class="de.hsharz.provirent.objects.OrderItem" column="ORDERITEMID"/>
 

@@ -1,5 +1,3 @@
-package test.provirent.hibernate;
-import junit.framework.TestCase;
 /*
  * Created on 09.10.2004
  *
@@ -32,25 +30,284 @@ import junit.framework.TestCase;
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
+package test.provirent.hibernate;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import junit.framework.TestCase;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+
+import org.apache.log4j.Logger;
+
+import de.hsharz.provirent.objects.Image;
 
 /**
  * @author Philipp Schneider
  *
  */
 public class TestImage extends TestCase {
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = Logger.getLogger(TestImage.class);
 
     /*
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("setUp() - start");
+        }
+
         super.setUp();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("setUp() - end");
+        }
     }
 
     /*
      * @see TestCase#tearDown()
      */
     protected void tearDown() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("tearDown() - start");
+        }
+
         super.tearDown();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("tearDown() - end");
+        }
+    }
+
+    public void testImage() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreating() - start");
+        }
+
+        //get new Session and begin Transaction
+        Session s = HibernateUtil.currentSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+
+            try {
+                //is DB open and connected
+                assertTrue("Connected to Db? ", s.isConnected());
+                assertTrue("Db Open? ", s.isOpen());
+
+                //cretae new objects
+                List Images = new ArrayList();
+
+                Image myd1 = new Image();
+                myd1.setImageFile(new byte[]{1,2,3,4});
+                myd1.setImageFileDescription("Bild 1");
+                myd1.setImageFileName("image1.jpg");
+                myd1.setImageFileSize(123);
+                
+                Image myd2 = new Image();
+                myd2.setImageFile(new byte[]{5,6,7,8});
+                myd2.setImageFileDescription("Bild 2");
+                myd2.setImageFileName("image2.jpg");
+                myd2.setImageFileSize(123);
+
+                Image myd3 = new Image();
+                myd3.setImageFile(new byte[]{9,10,11,12});
+                myd3.setImageFileDescription("Bild 3");
+                myd3.setImageFileName("image3.jpg");
+                myd3.setImageFileSize(123);
+
+                Image myd4 = new Image();
+                myd4.setImageFile(new byte[]{13,14,15,16});
+                myd4.setImageFileDescription("Bild 4");
+                myd4.setImageFileName("image4.jpg");
+                myd4.setImageFileSize(123);
+
+                
+                
+                Images.add(myd1);
+                Images.add(myd2);
+                Images.add(myd3);
+                Images.add(myd4);
+
+                List ids = new ArrayList();
+
+                //save objects
+                for (Iterator iter = Images.iterator(); iter.hasNext();) {
+                    Image dir = (Image) iter.next();
+                    ids.add((Integer) s.save(dir));
+
+                }
+                s.flush();
+
+                tx.commit();
+
+                for (int i = 0; i < ids.size(); i++) {
+                    int id = ((Integer) ids.get(i)).intValue();
+                    Image myd = (Image) Images.get(i);
+
+                    //get Image from Hibernate
+                    Image dbd = (Image) s.get(Image.class, new Integer(id));
+                    assertNotNull("Can't get Image" + id + " from DB", dbd);
+                    if (dbd == null) {
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("testCreating()Kein object mit id "
+                                    + id + "gefunden.");
+                        }
+                        return;
+                    }
+                    //are both equal?
+                    assertEquals(
+                            "Select: Image aus DB nicht gleich meiner. DB: "
+                                    + dbd + " My:" + myd, myd, dbd);
+
+                    //Update
+
+                    //delete the object
+                    s.delete(myd);
+                    s.flush();
+
+                    dbd = myd = null;
+
+                    Object obj = s.get(Image.class, new Integer(id));
+
+                    //should be null, because data deleted
+                    assertNull("Deleted: Image" + id + ", but still in DB", obj);
+
+                    if (logger.isDebugEnabled()) {
+                        logger
+                                .debug("testCreating() - Image aus DB gleich meiner? DB: "
+                                        + dbd + " My:" + myd);
+                    }
+
+                }
+
+                tx.commit();
+
+            } catch (Exception e) {
+                if (tx != null) {
+                    logger
+                            .error(
+                                    "testCreating() - Something went wrong here; discard all partial changes",
+                                    e);
+
+                    // Something went wrong; discard all partial changes
+                    tx.rollback();
+                }
+                throw e;
+            }
+
+        } catch (Exception e) {
+            logger.error(
+                    "testCreating() - Error while trying to beginTransaction",
+                    e);
+            throw e;
+        } finally {
+            // No matter what, close the session
+            s.close();
+        }
+
+        HibernateUtil.closeSession();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreating() - end");
+        }
+    }
+
+    public void testSaveImage() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSaveImage() - start");
+        }
+
+        //get new Session and begin Transaction
+        Session s = HibernateUtil.currentSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+
+            try {
+                //is DB open and connected
+                assertTrue("Connected to Db? ", s.isConnected());
+                assertTrue("Db Open? ", s.isOpen());
+
+                //cretae new objects
+                List Images = new ArrayList();
+
+                Image myd1 = new Image();
+                myd1.setImageFile(new byte[]{1,2,3,4});
+                myd1.setImageFileDescription("Bild 1");
+                myd1.setImageFileName("image1.jpg");
+                myd1.setImageFileSize(123);
+                
+                Image myd2 = new Image();
+                myd2.setImageFile(new byte[]{5,6,7,8});
+                myd2.setImageFileDescription("Bild 2");
+                myd2.setImageFileName("image2.jpg");
+                myd2.setImageFileSize(123);
+
+                Image myd3 = new Image();
+                myd3.setImageFile(new byte[]{9,10,11,12});
+                myd3.setImageFileDescription("Bild 3");
+                myd3.setImageFileName("image3.jpg");
+                myd3.setImageFileSize(123);
+
+                Image myd4 = new Image();
+                myd4.setImageFile(new byte[]{13,14,15,16});
+                myd4.setImageFileDescription("Bild 4");
+                myd4.setImageFileName("image4.jpg");
+                myd4.setImageFileSize(123);
+
+                
+                
+                Images.add(myd1);
+                Images.add(myd2);
+                Images.add(myd3);
+                Images.add(myd4);
+                
+                List ids = new ArrayList();
+
+                //save objects
+                for (Iterator iter = Images.iterator(); iter.hasNext();) {
+                    Image dir = (Image) iter.next();
+                    ids.add((Integer) s.save(dir));
+
+                }
+                s.flush();
+
+                tx.commit();
+
+            } catch (Exception e) {
+                if (tx != null) {
+                    logger
+                            .error(
+                                    "testSaveImage() - Something went wrong here; discard all partial changes",
+                                    e);
+
+                    // Something went wrong; discard all partial changes
+                    tx.rollback();
+                }
+                throw e;
+            }
+
+        } catch (Exception e) {
+            logger.error(
+                    "testSaveImage() - Error while trying to beginTransaction",
+                    e);
+            throw e;
+        } finally {
+            // No matter what, close the session
+            s.close();
+        }
+
+        HibernateUtil.closeSession();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSaveImage() - end");
+        }
     }
 
     /**

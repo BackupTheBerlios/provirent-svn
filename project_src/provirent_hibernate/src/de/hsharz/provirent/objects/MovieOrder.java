@@ -8,14 +8,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /** 
- *         Represents an Order.
+ *         Represents an MovieOrder.
  *         @author Philipp Schneider
- *       
+ *        
 */
-public class Order implements Serializable {
+public class MovieOrder implements Serializable {
 
     /** identifier field */
-    private Integer orderId;
+    private Integer movieOrderId;
 
     /** persistent field */
     private String name;
@@ -27,33 +27,33 @@ public class Order implements Serializable {
     private de.hsharz.provirent.objects.Customer customer;
 
     /** persistent field */
-    private List orderItems;
+    private List movieOrderItems;
 
     /** full constructor */
-    public Order(String name, String shortname, de.hsharz.provirent.objects.Customer customer, List orderItems) {
+    public MovieOrder(String name, String shortname, de.hsharz.provirent.objects.Customer customer, List movieOrderItems) {
         this.name = name;
         this.shortname = shortname;
         this.customer = customer;
-        this.orderItems = orderItems;
+        this.movieOrderItems = movieOrderItems;
     }
 
     /** default constructor */
-    public Order() {
+    public MovieOrder() {
     }
 
     /** minimal constructor */
-    public Order(String name, String shortname, List orderItems) {
+    public MovieOrder(String name, String shortname, List movieOrderItems) {
         this.name = name;
         this.shortname = shortname;
-        this.orderItems = orderItems;
+        this.movieOrderItems = movieOrderItems;
     }
 
-    public Integer getOrderId() {
-        return this.orderId;
+    public Integer getMovieOrderId() {
+        return this.movieOrderId;
     }
 
-    protected void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    protected void setMovieOrderId(Integer movieOrderId) {
+        this.movieOrderId = movieOrderId;
     }
 
     public String getName() {
@@ -80,44 +80,44 @@ public class Order implements Serializable {
         this.customer = customer;
     }
 
-    public List getOrderItems() {
-        return this.orderItems;
+    public List getMovieOrderItems() {
+        return this.movieOrderItems;
     }
 
-    public void setOrderItems(List orderItems) {
-        this.orderItems = orderItems;
+    public void setMovieOrderItems(List movieOrderItems) {
+        this.movieOrderItems = movieOrderItems;
     }
 
     public String toString() {
         return new ToStringBuilder(this)
-            .append("orderId", getOrderId())
+            .append("movieOrderId", getMovieOrderId())
             .append("name", getName())
             .append("shortname", getShortname())
             .append("customer", getCustomer())
-            .append("orderItems", getOrderItems())
+            .append("movieOrderItems", getMovieOrderItems())
             .toString();
     }
 
     public boolean equals(Object other) {
         if ( (this == other ) ) return true;
-        if ( !(other instanceof Order) ) return false;
-        Order castOther = (Order) other;
+        if ( !(other instanceof MovieOrder) ) return false;
+        MovieOrder castOther = (MovieOrder) other;
         return new EqualsBuilder()
-            .append(this.getOrderId(), castOther.getOrderId())
+            .append(this.getMovieOrderId(), castOther.getMovieOrderId())
             .append(this.getName(), castOther.getName())
             .append(this.getShortname(), castOther.getShortname())
             .append(this.getCustomer(), castOther.getCustomer())
-            .append(this.getOrderItems(), castOther.getOrderItems())
+            .append(this.getMovieOrderItems(), castOther.getMovieOrderItems())
             .isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder()
-            .append(getOrderId())
+            .append(getMovieOrderId())
             .append(getName())
             .append(getShortname())
             .append(getCustomer())
-            .append(getOrderItems())
+            .append(getMovieOrderItems())
             .toHashCode();
     }
 

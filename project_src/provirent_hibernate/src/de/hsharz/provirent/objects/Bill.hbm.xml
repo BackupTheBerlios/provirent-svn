@@ -30,7 +30,7 @@
 
  
       <property name="pdfFile" type="binary">
-      	<column name="pdffile" sql-type="blob" />
+      	<column name="pdffile" sql-type="binary" />
       </property>
 				
       <property name="pdfFileSize" type="int">

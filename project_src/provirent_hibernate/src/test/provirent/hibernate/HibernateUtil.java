@@ -51,7 +51,7 @@ import de.hsharz.provirent.objects.Genre;
 import de.hsharz.provirent.objects.Image;
 import de.hsharz.provirent.objects.Language;
 import de.hsharz.provirent.objects.Movie;
-import de.hsharz.provirent.objects.Order;
+import de.hsharz.provirent.objects.MovieOrder;
 import de.hsharz.provirent.objects.OrderItem;
 import de.hsharz.provirent.objects.Person;
 import de.hsharz.provirent.objects.Status;
@@ -79,7 +79,7 @@ public class HibernateUtil {
             .addClass(Status.class).addClass(Bill.class)
             .addClass(Subtitle.class).addClass(VideoFormat.class)
             .addClass(Customer.class).addClass(Image.class)
-            .addClass(Order.class).addClass(OrderItem.class)
+            .addClass(MovieOrder.class).addClass(OrderItem.class)
             .addClass(Person.class);
 
 
@@ -99,10 +99,6 @@ public class HibernateUtil {
             s = sessionFactory.openSession();
             session.set(s);
         }
-        
-        log.debug("HibernateUtil.currentSession() - Connected? " + s.isConnected());
-        log.debug("HibernateUtil.currentSession() - Open? " + s.isOpen());
-        
         return s;
     }
 

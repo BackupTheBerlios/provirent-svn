@@ -32,13 +32,17 @@
  */
 package test.provirent.hibernate;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import junit.framework.TestCase;
-import de.hsharz.provirent.objects.*;
-
 import net.sf.hibernate.Session;
 import net.sf.hibernate.Transaction;
+
+import org.apache.log4j.Logger;
+
+import de.hsharz.provirent.objects.Director;
 
 /**
  * @author Philipp Schneider
@@ -80,38 +84,91 @@ public class TestDirector extends TestCase {
         }
     }
 
-    public void testCreating() throws Exception {
+    public void testDirector() throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - start");
         }
 
+        //get new Session and begin Transaction
         Session s = HibernateUtil.currentSession();
         Transaction tx = null;
         try {
             tx = s.beginTransaction();
 
             try {
+                //is DB open and connected
+                assertTrue("Connected to Db? ", s.isConnected());
+                assertTrue("Db Open? ", s.isOpen());
 
-                if (logger.isDebugEnabled()) {
-                    logger.debug("testCreating() - Connected? "
-                            + s.isConnected());
-                    logger.debug("testCreating() - Open? " + s.isOpen());
+                //cretae new objects
+                List directors = new ArrayList();
+
+                Director myd1 = new Director("Bibo", "Bergeron");
+                Director myd2 = new Director("Vicky", "Jenson");
+                Director myd3 = new Director("Jay", "Russell");
+                Director myd4 = new Director("Joseph", "Ruben");
+
+                directors.add(myd1);
+                directors.add(myd2);
+                directors.add(myd3);
+                directors.add(myd4);
+
+                List ids = new ArrayList();
+
+                //save objects
+                for (Iterator iter = directors.iterator(); iter.hasNext();) {
+                    Director dir = (Director) iter.next();
+                    ids.add((Integer) s.save(dir));
+
                 }
-
-                Director d1 = new Director("Bibo", "Bergeron");
-                Director d2 = new Director("Vicky", "Jenson");
-                Director d3 = new Director("Jay", "Russell");
-                Director d4 = new Director("Joseph", "Ruben");
-                s.save(d1);
-                s.save(d2);
-                s.save(d3);
-                s.save(d4);
                 s.flush();
 
                 tx.commit();
-                
-                
-                
+
+                for (int i = 0; i < ids.size(); i++) {
+                    int id = ((Integer) ids.get(i)).intValue();
+                    Director myd = (Director) directors.get(i);
+
+                    //get Director from Hibernate
+                    Director dbd = (Director) s.get(Director.class,
+                            new Integer(id));
+                    assertNotNull("Can't get Director" + id + " from DB", dbd);
+                    if (dbd == null) {
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("testCreating()Kein object mit id "
+                                    + id + "gefunden.");
+                        }
+                        return;
+                    }
+                    //are both equal?
+                    assertEquals(
+                            "Select: Director aus DB nicht gleich meiner. DB: "
+                                    + dbd + " My:" + myd, myd, dbd);
+
+                    //Update
+
+                    //delete the object
+                    s.delete(myd);
+                    s.flush();
+
+                    dbd = myd = null;
+
+                    Object obj = s.get(Director.class, new Integer(id));
+
+                    //should be null, because data deleted
+                    assertNull("Deleted: Director" + id + ", but still in DB",
+                            obj);
+
+                    if (logger.isDebugEnabled()) {
+                        logger
+                                .debug("testCreating() - Director aus DB gleich meiner? DB: "
+                                        + dbd + " My:" + myd);
+                    }
+
+                }
+
+                tx.commit();
+
             } catch (Exception e) {
                 if (tx != null) {
                     logger
@@ -136,9 +193,81 @@ public class TestDirector extends TestCase {
         }
 
         HibernateUtil.closeSession();
-        
+
         if (logger.isDebugEnabled()) {
             logger.debug("testCreating() - end");
+        }
+    }
+
+    public void testSaveDirector() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSaveDirector() - start");
+        }
+
+        //get new Session and begin Transaction
+        Session s = HibernateUtil.currentSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+
+            try {
+                //is DB open and connected
+                assertTrue("Connected to Db? ", s.isConnected());
+                assertTrue("Db Open? ", s.isOpen());
+
+                //cretae new objects
+                List directors = new ArrayList();
+
+                Director myd1 = new Director("Bibo", "Bergeron");
+                Director myd2 = new Director("Vicky", "Jenson");
+                Director myd3 = new Director("Jay", "Russell");
+                Director myd4 = new Director("Joseph", "Ruben");
+
+                directors.add(myd1);
+                directors.add(myd2);
+                directors.add(myd3);
+                directors.add(myd4);
+
+                List ids = new ArrayList();
+
+                //save objects
+                for (Iterator iter = directors.iterator(); iter.hasNext();) {
+                    Director dir = (Director) iter.next();
+                    ids.add((Integer) s.save(dir));
+
+                }
+                s.flush();
+
+                tx.commit();
+
+            } catch (Exception e) {
+                if (tx != null) {
+                    logger
+                            .error(
+                                    "testSaveDirector() - Something went wrong here; discard all partial changes",
+                                    e);
+
+                    // Something went wrong; discard all partial changes
+                    tx.rollback();
+                }
+                throw e;
+            }
+
+        } catch (Exception e) {
+            logger
+                    .error(
+                            "testSaveDirector() - Error while trying to beginTransaction",
+                            e);
+            throw e;
+        } finally {
+            // No matter what, close the session
+            s.close();
+        }
+
+        HibernateUtil.closeSession();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSaveDirector() - end");
         }
     }
 

@@ -47,10 +47,10 @@ import de.hsharz.provirent.objects.*;
  * @author Philipp Schneider
  *  
  */
-public class TestDVDOld {
+public class TestDvdOld {
 
     public static void main(String args[]) throws Exception {
-        TestDVDOld th = new TestDVDOld();
+        TestDvdOld th = new TestDvdOld();
         //th.saveObjects();
         th.getObjects();
     }

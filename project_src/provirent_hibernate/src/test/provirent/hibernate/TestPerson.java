@@ -32,26 +32,255 @@
  */
 package test.provirent.hibernate;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import junit.framework.TestCase;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+
+import org.apache.log4j.Logger;
+
+import de.hsharz.provirent.objects.Person;
 
 /**
  * @author Philipp Schneider
  *
  */
 public class TestPerson extends TestCase {
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = Logger.getLogger(TestPerson.class);
 
     /*
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("setUp() - start");
+        }
+
         super.setUp();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("setUp() - end");
+        }
     }
 
     /*
      * @see TestCase#tearDown()
      */
     protected void tearDown() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("tearDown() - start");
+        }
+
         super.tearDown();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("tearDown() - end");
+        }
+    }
+
+    public void testPerson() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreating() - start");
+        }
+
+        //get new Session and begin Transaction
+        Session s = HibernateUtil.currentSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+
+            try {
+                //is DB open and connected
+                assertTrue("Connected to Db? ", s.isConnected());
+                assertTrue("Db Open? ", s.isOpen());
+
+                //cretae new objects
+                List Persons = new ArrayList();
+
+                Person myd1 = new Person();
+                Person myd2 = new Person();
+                
+                Person myd3 = new Person();
+                
+                Person myd4 = new Person();
+
+                Persons.add(myd1);
+                Persons.add(myd2);
+                Persons.add(myd3);
+                Persons.add(myd4);
+
+
+                List ids = new ArrayList();
+
+                //save objects
+                for (Iterator iter = Persons.iterator(); iter.hasNext();) {
+                    Person dir = (Person) iter.next();
+                    ids.add((Integer) s.save(dir));
+
+                }
+                s.flush();
+
+                tx.commit();
+
+                for (int i = 0; i < ids.size(); i++) {
+                    int id = ((Integer) ids.get(i)).intValue();
+                    Person myd = (Person) Persons.get(i);
+
+                    //get Person from Hibernate
+                    Person dbd = (Person) s.get(Person.class, new Integer(id));
+                    assertNotNull("Can't get Person" + id + " from DB", dbd);
+                    if (dbd == null) {
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("testCreating()Kein object mit id "
+                                    + id + "gefunden.");
+                        }
+                        return;
+                    }
+                    //are both equal?
+                    assertEquals(
+                            "Select: Person aus DB nicht gleich meiner. DB: "
+                                    + dbd + " My:" + myd, myd, dbd);
+
+                    //Update
+
+                    //delete the object
+                    s.delete(myd);
+                    s.flush();
+
+                    dbd = myd = null;
+
+                    Object obj = s.get(Person.class, new Integer(id));
+
+                    //should be null, because data deleted
+                    assertNull("Deleted: Person" + id + ", but still in DB", obj);
+
+                    if (logger.isDebugEnabled()) {
+                        logger
+                                .debug("testCreating() - Person aus DB gleich meiner? DB: "
+                                        + dbd + " My:" + myd);
+                    }
+
+                }
+
+                tx.commit();
+
+            } catch (Exception e) {
+                if (tx != null) {
+                    logger
+                            .error(
+                                    "testCreating() - Something went wrong here; discard all partial changes",
+                                    e);
+
+                    // Something went wrong; discard all partial changes
+                    tx.rollback();
+                }
+                throw e;
+            }
+
+        } catch (Exception e) {
+            logger.error(
+                    "testCreating() - Error while trying to beginTransaction",
+                    e);
+            throw e;
+        } finally {
+            // No matter what, close the session
+            s.close();
+        }
+
+        HibernateUtil.closeSession();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("testCreating() - end");
+        }
+    }
+
+    public void testSavePerson() throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSavePerson() - start");
+        }
+
+        //get new Session and begin Transaction
+        Session s = HibernateUtil.currentSession();
+        Transaction tx = null;
+        try {
+            tx = s.beginTransaction();
+
+            try {
+                //is DB open and connected
+                assertTrue("Connected to Db? ", s.isConnected());
+                assertTrue("Db Open? ", s.isOpen());
+
+                //cretae new objects
+                List Persons = new ArrayList();
+
+                Person myd1 = new Person();
+                myd1.setFirstName("");
+                myd1.setLastName("");
+                myd1.setStreet("");
+                myd1.setStreetNumber("");
+                myd1.setCity("");
+                myd1.setZipCode("");
+                myd1.setSalutation("");
+                myd1.setEmailAddress("");
+                
+                
+                Person myd2 = new Person();
+                
+                Person myd3 = new Person();
+                
+                Person myd4 = new Person();
+
+                Persons.add(myd1);
+                Persons.add(myd2);
+                Persons.add(myd3);
+                Persons.add(myd4);
+
+                List ids = new ArrayList();
+
+                //save objects
+                for (Iterator iter = Persons.iterator(); iter.hasNext();) {
+                    Person dir = (Person) iter.next();
+                    ids.add((Integer) s.save(dir));
+
+                }
+                s.flush();
+
+                tx.commit();
+
+            } catch (Exception e) {
+                if (tx != null) {
+                    logger
+                            .error(
+                                    "testSavePerson() - Something went wrong here; discard all partial changes",
+                                    e);
+
+                    // Something went wrong; discard all partial changes
+                    tx.rollback();
+                }
+                throw e;
+            }
+
+        } catch (Exception e) {
+            logger.error(
+                    "testSavePerson() - Error while trying to beginTransaction",
+                    e);
+            throw e;
+        } finally {
+            // No matter what, close the session
+            s.close();
+        }
+
+        HibernateUtil.closeSession();
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("testSavePerson() - end");
+        }
     }
 
     /**

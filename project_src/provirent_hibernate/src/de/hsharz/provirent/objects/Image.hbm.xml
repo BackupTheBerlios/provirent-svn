@@ -22,7 +22,7 @@
 
  
       <property name="imageFile" type="binary">
-      	<column name="pdffile" sql-type="BYTEA" />
+      	<column name="pdffile" sql-type="BINARY" />
       </property>
 				
       <property name="imageFileSize" type="int">
