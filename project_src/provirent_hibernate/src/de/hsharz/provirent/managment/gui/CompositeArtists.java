@@ -5,12 +5,16 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.layout.GridData;
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
@@ -37,6 +41,7 @@ public class CompositeArtists extends AbstractComposite{
     private final static int MODE_VIEW = 0;
 
     private final static int MODE_ADD = 1;
+    private Group groupArtist;
 
     private final static int MODE_EDIT = 2;
     
@@ -105,12 +110,35 @@ public class CompositeArtists extends AbstractComposite{
 	}
 
 	private void initGUI() {
-		try {
-			this.setLayout(new GridLayout());
-			this.layout();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        if (logger.isDebugEnabled()) {
+            logger.debug("initGUI() - start");
+        }
+
+        this.setLayout(new GridLayout());
+        this.setSize(816, 540);
+        {
+            groupArtist = new Group(this, SWT.NONE);
+            GridLayout groupArtistLayout = new GridLayout();
+            GridData groupArtistLData = new GridData();
+            groupArtistLData.grabExcessHorizontalSpace = true;
+            groupArtistLData.grabExcessVerticalSpace = true;
+            groupArtistLData.horizontalAlignment = GridData.FILL;
+            groupArtistLData.verticalAlignment = GridData.FILL;
+            groupArtist.setLayoutData(groupArtistLData);
+            groupArtistLayout.makeColumnsEqualWidth = true;
+            groupArtist.setLayout(groupArtistLayout);
+            groupArtist.setText("Artist");
+        }
+
+        this.layout();
+
+
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("initGUI() - end");
+        }
 	}
+
+	
 
 }
