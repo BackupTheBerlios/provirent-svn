@@ -32,7 +32,6 @@
  */
 package test.provirent.hibernate;
 
-
 import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.Session;
 import net.sf.hibernate.SessionFactory;
@@ -80,17 +79,15 @@ public class HibernateUtil {
         try {
             //     Create the SessionFactory
             Configuration cfg = new Configuration();
-            cfg
-            .addClass(Movie.class).addClass(Actor.class)
-            .addClass(AudioFormat.class).addClass(Condition.class)
-            .addClass(Director.class).addClass(Dvd.class)
-            .addClass(Genre.class).addClass(Language.class)
-            .addClass(Status.class).addClass(Bill.class)
-            .addClass(Subtitle.class).addClass(VideoFormat.class)
-            .addClass(Customer.class).addClass(Image.class)
-            .addClass(MovieOrder.class).addClass(OrderItem.class)
-            .addClass(Person.class).addClass(Payment.class);
-
+            cfg.addClass(Movie.class).addClass(Actor.class).addClass(
+                    AudioFormat.class).addClass(Condition.class).addClass(
+                    Director.class).addClass(Dvd.class).addClass(Genre.class)
+                    .addClass(Language.class).addClass(Status.class).addClass(
+                            Bill.class).addClass(Subtitle.class).addClass(
+                            VideoFormat.class).addClass(Customer.class)
+                    .addClass(Image.class).addClass(MovieOrder.class).addClass(
+                            OrderItem.class).addClass(Person.class).addClass(
+                            Payment.class);
 
             sessionFactory = cfg.buildSessionFactory();
         } catch (Throwable ex) {
@@ -134,45 +131,76 @@ public class HibernateUtil {
         }
     }
 
-    
-	public static Image getImagename(final String filter, Session s){
+    public static Image getImagename(final String filter, Session s) {
         if (logger.isDebugEnabled()) {
             logger
                     .debug("getImagename(String filter = " + filter
                             + ") - start");
         }
-	    
-	    //init the returnlist
-	    Image returnimg = null;
 
-	    
-	    try {
+        //init the returnlist
+        Image returnimg = null;
 
-	            
+        try {
 
-	        returnimg = (Image) s.createCriteria(Image.class).add(
+            returnimg = (Image) s.createCriteria(Image.class).add(
                     Expression.eq("imageFileName", filter)).list().get(0);
-            
-            if (logger.isDebugEnabled()) {
-                logger.debug("getImagename(String) - end");
-            }
-	
 
-	
-	
-	    } catch (Exception e) {
+        } catch (Exception e) {
             logger.error("getImagename(String)", e);
 
-	        logger.error(
-	                "getImagename() - Error while trying to do Transaction",
-	                e);
-	        returnimg = null;
-	    }
-	    return returnimg;
-	    	
-	}
-	
-	
+            returnimg = null;
+        }
+        return returnimg;
+
+    }
     
+    public static Condition getCondition(final String filter, Session s) {
+        if (logger.isDebugEnabled()) {
+            logger
+                    .debug("getCondition(String filter = " + filter
+                            + ") - start");
+        }
+
+        //init the returnlist
+        Condition returnobject = null;
+
+        try {
+
+            returnobject = (Condition) s.createCriteria(Condition.class).add(
+                    Expression.eq("conditionName", filter)).list().get(0);
+
+        } catch (Exception e) {
+            logger.error("getCondition(String)", e);
+
+            returnobject = null;
+        }
+        return returnobject;
+
+    }
+
     
+    public static Status getStatus(final String filter, Session s) {
+        if (logger.isDebugEnabled()) {
+            logger
+                    .debug("getStatus(String filter = " + filter
+                            + ") - start");
+        }
+
+        //init the returnlist
+        Status returnobject = null;
+
+        try {
+
+            returnobject = (Status) s.createCriteria(Status.class).add(
+                    Expression.eq("statusName", filter)).list().get(0);
+
+        } catch (Exception e) {
+            logger.error("getStatus(String)", e);
+
+            returnobject = null;
+        }
+        return returnobject;
+
+    }
 }

@@ -220,7 +220,7 @@ public class TestCondition extends TestCase {
                 Condition myd3 = new Condition("mittlere Kratzer","");
                 Condition myd4 = new Condition("schwere Kratzer","");
                 Condition myd5 = new Condition("nicht lesbar","");
-
+                
                 Conditions.add(myd1);
                 Conditions.add(myd2);
                 Conditions.add(myd3);

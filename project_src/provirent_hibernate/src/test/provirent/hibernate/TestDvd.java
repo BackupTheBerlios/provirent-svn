@@ -1,6 +1,18 @@
 package test.provirent.hibernate;
 
+import java.util.ArrayList;
+
 import junit.framework.TestCase;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.Session;
+import net.sf.hibernate.Transaction;
+
+import org.apache.log4j.Logger;
+
+import de.hsharz.provirent.objects.Condition;
+import de.hsharz.provirent.objects.Dvd;
+import de.hsharz.provirent.objects.Movie;
+import de.hsharz.provirent.objects.Status;
 
 /*
  * Created on 09.10.2004
@@ -40,6 +52,10 @@ import junit.framework.TestCase;
  *
  */
 public class TestDvd extends TestCase {
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = Logger.getLogger(TestDvd.class);
 
 	/*
 	 * @see TestCase#setUp()
@@ -63,4 +79,68 @@ public class TestDvd extends TestCase {
 		super(arg0);
 	}
 
+	
+	public void testCreateDvd(){
+	    
+        Session s = null;
+        Transaction tx = null;
+        RandomRange random;
+        
+	    
+	    try{
+	        //s= HibernateUtil.currentSession();
+	        //tx = s.beginTransaction();
+	        if(false)
+	            throw new HibernateException("");
+	        
+            //is DB open and connected
+            //assertTrue("Connected to Db? ", s.isConnected());
+            //assertTrue("Db Open? ", s.isOpen());
+	        
+            
+            Dvd dvd = new Dvd();
+            
+            
+            random = new RandomRange(1205, 4523682);
+            
+            dvd.setBarcode(random.getNumbers(1).get(0)+"");
+            
+            if (HibernateUtil.getCondition("neu",s) != null){
+                dvd.setCondition(HibernateUtil.getCondition("neu",s));
+            } else {
+                fail("Konnte keine Condition neu aus DB bekommen");
+            }
+            
+            if (HibernateUtil.getStatus("ausleihbar",s) != null){
+                dvd.setStatus(HibernateUtil.getStatus("ausleihbar",s));
+            } else {
+                fail("Konnte keinen Status ausleihbar aus DB bekommen");
+            }
+            
+            
+            dvd.setMovie(new Movie());
+            
+            
+            dvd.setLanguages(new ArrayList());
+            dvd.setSubtitles(new ArrayList());
+            
+            dvd.setAudioFormats(new ArrayList());
+            dvd.setVideoFormats(new ArrayList());
+	        
+	        
+	    }  catch (HibernateException hex){
+	        fail("Fehler beim Session oder Transaction aufbau");
+	        logger.error("Fehler beim Session oder Transaction aufbau",hex);
+	        
+    } finally {
+        try {
+            // No matter what, close the session
+            HibernateUtil.closeSession();
+        } catch (HibernateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+	    
+	}
 }
