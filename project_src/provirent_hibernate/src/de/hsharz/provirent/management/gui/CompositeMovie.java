@@ -1480,7 +1480,7 @@ public class CompositeMovie extends
             Movie o = (Movie) Movielist.get(i);
             item = new TableItem(tableMoviesOverview, SWT.NONE);
             item.setText(new String[] { o.getMovieId() + "", o.getTitle(),
-                    Util.getTextByDate(o.getReleaseDate()) });
+                    Util.getTextByDate(o.getReleaseDate(), "dd.MM.YYYY") });
 
         }
     }
@@ -1512,7 +1512,7 @@ public class CompositeMovie extends
         movie = object;
         textMoviesID.setText(object.getMovieId() + "");
         textMoviesTitle.setText(object.getTitle());
-        textMoviesDate.setText(Util.getTextByDate(object.getReleaseDate()));
+        textMoviesDate.setText(Util.getTextByDate(object.getReleaseDate(), "dd.MM.YYYY"));
 
         textMoviesDescription.setText(object.getDescription());
 

@@ -606,7 +606,7 @@ public class CompositePayment extends AbstractComposite {
                     o.setDuration1(Float.parseFloat(textduration1.getText()));
                     o.setDuration2(Float.parseFloat(textduration2.getText()));
                     o.setDuration3(Float.parseFloat(textduration3.getText()));
-                    o.setStartdate(Util.getDateByText(textstartdate.getText()));
+                    o.setStartdate(Util.getDateByText(textstartdate.getText(), "dd.MM.YYYY"));
 
                     //object speichern
                     // Fehlerbehandlung
@@ -668,10 +668,6 @@ public class CompositePayment extends AbstractComposite {
                         e.printStackTrace();
                     }
 
-                } catch (ParseException e) {
-                    /**
-                     * @todo Fehler beim Parsen des Datums
-                     */
                 }
 
             }
@@ -938,7 +934,7 @@ public class CompositePayment extends AbstractComposite {
                 Payment.getName(), Double.toString(Payment.getDuration1()),
                 Double.toString(Payment.getDuration2()),
                 Double.toString(Payment.getDuration3()),
-                Util.getTextByDate(Payment.getStartdate()) });
+                Util.getTextByDate(Payment.getStartdate(), "dd.MM.YYYY") });
 
         tablePayment.deselectAll();
         refreshPaymentDetail("");
@@ -1026,7 +1022,7 @@ public class CompositePayment extends AbstractComposite {
                     Double.toString(o.getDuration1()),
                     Double.toString(o.getDuration2()),
                     Double.toString(o.getDuration3()),
-                    Util.getTextByDate(o.getStartdate()) });
+                    Util.getTextByDate(o.getStartdate(), "dd.MM.YYYY") });
 
         }
 
@@ -1258,8 +1254,8 @@ public class CompositePayment extends AbstractComposite {
             for (int i = 0; i < vec.size(); i++) {
                 Calendar date = (Calendar) vec.get(i);
 
-                if (Util.getTextByDate(date).equals(
-                        Util.getTextByDate(object.getStartdate()))) {
+                if (Util.getTextByDate(date, "dd.MM.YYYY").equals(
+                        Util.getTextByDate(object.getStartdate(), "dd.MM.YYYY"))) {
                     buttonPaymentEdit.setEnabled(true);
 
                 }

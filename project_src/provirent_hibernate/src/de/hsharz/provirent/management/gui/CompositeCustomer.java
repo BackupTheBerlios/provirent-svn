@@ -1,11 +1,8 @@
 package de.hsharz.provirent.management.gui;
 
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -508,22 +505,13 @@ public class CompositeCustomer extends AbstractComposite{
 
                         public void dateChanged(SWTCalendarEvent calendarEvent) {
                             String date;
-                            try {
-                                date = Util.getTextByDate(calendarEvent.getCalendar());
-                                textBirthday.setText(date);
-                            } catch (DataBaseException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }                     
+                            date = Util.getTextByDate(calendarEvent.getCalendar(), "dd.MM.YYYY");
+                            textBirthday.setText(date);                     
                         }
                     });
                     if (textBirthday.getText() != null && textBirthday.getText().length() > 0) {
-                        try {
-                            Date date = Util.getDateByText(textBirthday.getText()).getTime();
-                            cal.setDate(date);
-                        } catch (DataBaseException dbe) {
-
-                        }
+                        Date date = Util.getDateByText(textBirthday.getText(), "dd.MM.YYYY").getTime();
+                        cal.setDate(date);
                     }
                     cal.open();                                                          
                 }
@@ -748,22 +736,13 @@ public class CompositeCustomer extends AbstractComposite{
 
                         public void dateChanged(SWTCalendarEvent calendarEvent) {
                             String date = null;
-                            try {
-                                date = Util.getTextByDate(calendarEvent.getCalendar());
-                                textRegistrationDate.setText(date);
-                            } catch (DataBaseException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }                          
+                            date = Util.getTextByDate(calendarEvent.getCalendar(), "dd.MM.YYYY");
+                            textRegistrationDate.setText(date);                          
                         }
                     });
                     if (textRegistrationDate.getText() != null && textRegistrationDate.getText().length() > 0) {
-                        try {
-                            Date date = Util.getDateByText(textRegistrationDate.getText()).getTime();
-                            cal.setDate(date);
-                        } catch (DataBaseException dbe) {
-
-                        }
+                        Date date = Util.getDateByText(textRegistrationDate.getText(), "dd.MM.YYYY").getTime();
+                        cal.setDate(date);
                     }
                     cal.open();                                                          
                 }
@@ -928,7 +907,7 @@ public class CompositeCustomer extends AbstractComposite{
 	                o.setUserName(textUserName.getText());
 	                Date regdate = null;
 	                if (textRegistrationDate.getText() != null) {
-	                    regdate = Util.getDateByText(textRegistrationDate.getText()).getTime();
+	                    regdate = Util.getDateByText(textRegistrationDate.getText(), "dd.MM.YYYY").getTime();
 	                }
 	                o.setDayOfRegistration(regdate);
 	                o.setUserPassword(textPassword.getText());
@@ -947,7 +926,7 @@ public class CompositeCustomer extends AbstractComposite{
 	                p.setEmailAddress(textEmail.getText());
 	                Calendar birthday = null;
 	                if (textBirthday.getText() != "") {
-	                    birthday = Util.getDateByText(textBirthday.getText());
+	                    birthday = Util.getDateByText(textBirthday.getText(), "dd.MM.YYYY");
 	                }
 	                p.setDayOfBirth(birthday);
 	                o.setPerson(p);
@@ -1073,7 +1052,7 @@ public class CompositeCustomer extends AbstractComposite{
     	                o.setUserName(textUserName.getText());
     	                Date regdate = null;
     	                if (textRegistrationDate.getText() != "") {
-    	                    regdate = Util.getDateByText(textRegistrationDate.getText()).getTime();
+    	                    regdate = Util.getDateByText(textRegistrationDate.getText(), "dd.MM.YYYY").getTime();
     	                }   	          
     	                o.setDayOfRegistration(regdate);
     	                o.setUserPassword(textPassword.getText());
@@ -1092,7 +1071,7 @@ public class CompositeCustomer extends AbstractComposite{
     	                p.setEmailAddress(textEmail.getText());
     	                Calendar birthday = null;
     	                if (textBirthday.getText() != "") {
-    	                    birthday = Util.getDateByText(textRegistrationDate.getText());
+    	                    birthday = Util.getDateByText(textRegistrationDate.getText(), "dd.MM.YYYY");
     	                }
     	                p.setDayOfBirth(birthday);
     	                o.setPerson(p);
@@ -1139,7 +1118,7 @@ public class CompositeCustomer extends AbstractComposite{
     	                Person p = o.getPerson();
     	                o.setCustomerId(new Integer(Integer.parseInt(textCustomerID.getText())));
     	                o.setUserName(textUserName.getText());
-    	                o.setDayOfRegistration(Util.getDateByText(textRegistrationDate.getText()).getTime());
+    	                o.setDayOfRegistration(Util.getDateByText(textRegistrationDate.getText(), "dd.MM.YYYY").getTime());
     	                o.setUserPassword(textPassword.getText());
     	                o.setHiddenQuestion(textQuestion.getText());
     	                o.setHiddenAnswer(textAnswer.getText());
@@ -1155,7 +1134,7 @@ public class CompositeCustomer extends AbstractComposite{
     	                p.setCity(textCity.getText());
     	                p.setCountry(textCountry.getText());
     	                p.setEmailAddress(textEmail.getText());
-    	                p.setDayOfBirth(Util.getDateByText(textBirthday.getText()));
+    	                p.setDayOfBirth(Util.getDateByText(textBirthday.getText(), "dd.MM.YYYY"));
     	                o.setPerson(p);
 	                
 	                    //object speichern
@@ -1260,13 +1239,13 @@ public class CompositeCustomer extends AbstractComposite{
         TableItem item = new TableItem(tableCustomer, SWT.NONE);
         String birthday = "";
         if (customer.getPerson().getDayOfBirth() != null) {
-            birthday = Util.getTextByDate(customer.getPerson().getDayOfBirth());
+            birthday = Util.getTextByDate(customer.getPerson().getDayOfBirth(), "dd.MM.YYYY");
         }
         String regdate = "";
         if (customer.getDayOfRegistration() != null) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(customer.getDayOfRegistration());
-            birthday = Util.getTextByDate(cal);            
+            birthday = Util.getTextByDate(cal, "dd.MM.YYYY");            
         }
         item.setText(new String[] { customer.getCustomerId() + "", 
                 					customer.getUserName(), 
@@ -1315,14 +1294,14 @@ public class CompositeCustomer extends AbstractComposite{
             if (o.getPerson().getDayOfBirth() == null) {
                 date = "";
             } else {
-                date = Util.getTextByDate(o.getPerson().getDayOfBirth());
+                date = Util.getTextByDate(o.getPerson().getDayOfBirth(), "dd.MM.YYYY");
             }
             item.setText(new String[] { o.getCustomerId() + "", 
                     					o.getUserName(), 
                     					o.getPerson().getLastName(),
                     					o.getPerson().getFirstName(),
                     					date,
-                    					Util.getTextByDate(regdate),              					
+                    					Util.getTextByDate(regdate, "dd.MM.YYYY"),              					
                     					});
 
         }
@@ -1569,27 +1548,22 @@ public class CompositeCustomer extends AbstractComposite{
 	        temp = object.getHiddenAnswer();
 	        textAnswer.setText(temp == null ? "" : temp);
 	        
-	        try {
-	            String date = null;
-	            String regdate = null;
-	            if (object.getPerson().getDayOfBirth() == null) {
-	                date = "";
-	            } else {
-	                date = Util.getTextByDate(object.getPerson().getDayOfBirth());
-	            }
-                textBirthday.setText(date);
-                if (object.getDayOfRegistration() == null) {
-                    regdate = "";
-                } else {
-                    Calendar cal = Calendar.getInstance();
-        	        cal.setTime(object.getDayOfRegistration());
-        	        regdate = Util.getTextByDate(cal);
-                }
-                textRegistrationDate.setText(regdate);
-            } catch (DataBaseException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+	        String date = null;
+            String regdate = null;
+            if (object.getPerson().getDayOfBirth() == null) {
+                date = "";
+            } else {
+                date = Util.getTextByDate(object.getPerson().getDayOfBirth(), "dd.MM.YYYY");
             }
+            textBirthday.setText(date);
+            if (object.getDayOfRegistration() == null) {
+                regdate = "";
+            } else {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(object.getDayOfRegistration());
+                regdate = Util.getTextByDate(cal, "dd.MM.YYYY");
+            }
+            textRegistrationDate.setText(regdate);
 	        
 	        //Buttons zum löschen und editieren aktivieren
 	        

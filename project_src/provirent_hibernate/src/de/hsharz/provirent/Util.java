@@ -133,8 +133,8 @@ public class Util {
      * @param text
      * @return
      */
-    public static Calendar getDateByText(String textdate) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+    public static Calendar getDateByText(String textdate, String format_string) {
+        SimpleDateFormat format = new SimpleDateFormat(format_string);
         Calendar date = Calendar.getInstance();
         try {
             date.setTime(format.parse(textdate));
@@ -145,8 +145,8 @@ public class Util {
         return date;
     }
     
-    public static String getTextByDate(Calendar date) {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");       
+    public static String getTextByDate(Calendar date, String format_string) {
+        SimpleDateFormat format = new SimpleDateFormat(format_string);       
         return date != null ? format.format(date.getTime()) : null;
     }
 
