@@ -291,7 +291,7 @@ public class CompositeDirectors extends AbstractComposite{
                         SWT.CENTER);
                     tableDirectorsOverview_ColumnFName.setText(l
                         .getString("directors.groupoverview.columnfirstname"));
-                    tableDirectorsOverview_ColumnFName.setWidth(80);
+                    tableDirectorsOverview_ColumnFName.setWidth(120);
                 }
                 {
                     tableDirectorsOverview_ColumnLName = new TableColumn(
@@ -299,7 +299,7 @@ public class CompositeDirectors extends AbstractComposite{
                         SWT.CENTER);
                     tableDirectorsOverview_ColumnLName.setText(l
                         .getString("directors.groupoverview.columnlastname"));
-                    tableDirectorsOverview_ColumnLName.setWidth(80);
+                    tableDirectorsOverview_ColumnLName.setWidth(120);
                 }
             }
             // table Actors Overview

@@ -292,7 +292,7 @@ public class CompositeActors extends AbstractComposite{
                         SWT.CENTER);
                     tableActorsOverview_ColumnFName.setText(l
                         .getString("actors.groupoverview.columnfirstname"));
-                    tableActorsOverview_ColumnFName.setWidth(80);
+                    tableActorsOverview_ColumnFName.setWidth(120);
                 }
                 {
                     tableActorsOverview_ColumnLName = new TableColumn(
@@ -300,7 +300,7 @@ public class CompositeActors extends AbstractComposite{
                         SWT.CENTER);
                     tableActorsOverview_ColumnLName.setText(l
                         .getString("actors.groupoverview.columnlastname"));
-                    tableActorsOverview_ColumnLName.setWidth(80);
+                    tableActorsOverview_ColumnLName.setWidth(120);
                 }
             }
             // table Actors Overview
