@@ -17,7 +17,9 @@
       <id name="actorId" type="int" column="ACTORID">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
-        <generator class="native"/>
+        <generator class="sequence">
+			<param name="sequence" >actors_id_sequence</param>
+		</generator>
       </id>
  
       <property name="firstName" type="string" not-null="true">

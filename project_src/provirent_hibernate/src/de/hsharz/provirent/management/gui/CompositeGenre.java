@@ -643,8 +643,7 @@ public class CompositeGenre extends AbstractComposite{
                 setGenreGroupButtonSaveCancel();
             }
         });
-
-        
+       
     }
 
     /**
@@ -687,7 +686,7 @@ public class CompositeGenre extends AbstractComposite{
                     .println("Konnte Genretable nicht refreshen, da diese null ist!");
             return;
         }
-        System.out.println("Versuche nun VideoListe zu refreshen. Filter: "
+        System.out.println("Versuche nun GenreListe zu refreshen. Filter: "
                 + filter);
         tableGenre.removeAll();
         TableItem item;

@@ -432,7 +432,7 @@ public class ManagementGui {
 				
 				cTabFolderMain.setSelection(tabItemActor);
 				viewActorMenuItem.setSelection(true);
-				cTabFolderMain.showSelection();
+				cTabFolderMain.showSelection();				
             
             }
         });         

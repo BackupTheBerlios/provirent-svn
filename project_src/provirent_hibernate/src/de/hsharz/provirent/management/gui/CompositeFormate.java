@@ -762,7 +762,7 @@ public class CompositeFormate extends AbstractComposite {
         }
         {
 
-            //die Buttons bekommen ein eigenes Composite
+//          die Buttons bekommen ein eigenes Composite
             composite2 = new Composite(groupVideoFormatDetail, SWT.EMBEDDED);
             GridLayout composite2Layout = new GridLayout();
             composite2Layout.numColumns = 6;
