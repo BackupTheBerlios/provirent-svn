@@ -42,6 +42,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
@@ -57,25 +59,8 @@ import org.eclipse.swt.widgets.Text;
 
 import com.cloudgarden.resource.SWTResourceManager;
 
-import de.hsharz.provirent.managment.exceptions.GuiInitException;
+import de.hsharz.provirent.management.exceptions.GuiInitException;
 import de.hsharz.provirent.persistence.Database;
-
-/**
-* This code was generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* *************************************
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED
-* for this machine, so Jigloo or this code cannot be used legally
-* for any corporate or commercial purpose.
-* *************************************
-*/
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.DisposeEvent;
 /**
  * @author Philipp Schneider
  *  

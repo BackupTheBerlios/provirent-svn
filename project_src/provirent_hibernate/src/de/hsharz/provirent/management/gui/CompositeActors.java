@@ -6,17 +6,15 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-
-
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.layout.GridData;
-import com.cloudgarden.resource.SWTResourceManager;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import com.cloudgarden.resource.SWTResourceManager;
 /**
 * This code was generated using CloudGarden's Jigloo
 * SWT/Swing GUI Builder, which is free for non-commercial
