@@ -58,9 +58,7 @@ import de.hsharz.provirent.persistence.Database;
  */
 public class ManagmentGui {
     private Text employeeFilterText;
-	private Button employeeNameRadio;
-	private Button employeeNumRadio;
-    
+
 	private Menu menu1;
 
 	private MenuItem aboutMenuItem;
@@ -84,8 +82,6 @@ public class ManagmentGui {
 	private CTabItem tabItem1;
 
 	private CTabFolder tabFolder1;
-
-	private Button button1;
 
 	private Composite composite2;
 
@@ -178,7 +174,7 @@ public class ManagmentGui {
 	}
 
 	private void initTabFolder() {
-		tabFolder1 = new CTabFolder(shell, SWT.CLOSE);
+		tabFolder1 = new CTabFolder(shell, SWT.NONE);
 
 		//sets the layout
 		FormLayout folderLayout = new FormLayout();
@@ -263,9 +259,9 @@ public class ManagmentGui {
 				group1Director.setLayout(gridLayout);
 
 				FormData formData = new FormData();
-				formData.right = new FormAttachment(100, 100, -5);
-				formData.top = new FormAttachment(0, 100, 5);
-				formData.bottom = new FormAttachment(100, 100, -5);
+				formData.right =  new FormAttachment(100, 100, -5);
+				formData.top =  new FormAttachment(0, 100, 5);
+				formData.bottom =  new FormAttachment(100, 100, -5);
 				group1Director.setLayoutData(formData);
 
 				{
@@ -366,10 +362,9 @@ public class ManagmentGui {
 				group2Director.setText("Filmliste");
 
 				FormData formData = new FormData();
-				formData.top = new FormAttachment(0, 5);
-				formData.left = new FormAttachment(0, 5);
-				formData.bottom = new FormAttachment(100, -5);
-				formData.right = new FormAttachment(33, -5);
+				formData.top =  new FormAttachment(0, 100, 5);
+				formData.left =  new FormAttachment(0, 100, 5);
+				formData.bottom =  new FormAttachment(100, 100, -5);
 				group2Director.setLayoutData(formData);
 
 				//Composite has a grid layout
