@@ -238,7 +238,7 @@ public class ManagmentGui {
         
         
         l = PropertyResourceBundle.getBundle(
-                "de.hsharz.provirent.managment.gui.language", locale);
+                "de.hsharz.provirent.managment.gui.language.main", locale);
 
         //hier muss noch was gemacht werden
         if (l == null) {
