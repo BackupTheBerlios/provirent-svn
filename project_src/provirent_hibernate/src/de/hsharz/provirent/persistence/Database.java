@@ -314,7 +314,9 @@ public class Database {
                 tx = s.beginTransaction();
                 
                 try{
+                    
                     s.delete(o);
+                    
                 
                 } catch (HibernateException e) {
                     logger.error("deleteObject(). Fehler beim Speichern/Updaten "
