@@ -2,7 +2,6 @@ package de.hsharz.provirent.objects;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -19,6 +18,9 @@ public class OrderItem implements Serializable {
     private Integer orderItemId;
 
     /** nullable persistent field */
+    private Calendar orderTime;
+
+    /** nullable persistent field */
     private Calendar senderTime;
 
     /** nullable persistent field */
@@ -26,9 +28,6 @@ public class OrderItem implements Serializable {
 
     /** persistent field */
     private int duration;
-
-    /** nullable persistent field */
-    private Date orderTime;
 
     /** nullable persistent field */
     private de.hsharz.provirent.objects.Customer customer;
@@ -46,11 +45,11 @@ public class OrderItem implements Serializable {
     private de.hsharz.provirent.objects.Condition conditionReceiving;
 
     /** full constructor */
-    public OrderItem(Calendar senderTime, Calendar receivingTime, int duration, Date orderTime, de.hsharz.provirent.objects.Customer customer, de.hsharz.provirent.objects.Dvd dvd, de.hsharz.provirent.objects.Payment payment, de.hsharz.provirent.objects.Condition conditionSend, de.hsharz.provirent.objects.Condition conditionReceiving) {
+    public OrderItem(Calendar orderTime, Calendar senderTime, Calendar receivingTime, int duration, de.hsharz.provirent.objects.Customer customer, de.hsharz.provirent.objects.Dvd dvd, de.hsharz.provirent.objects.Payment payment, de.hsharz.provirent.objects.Condition conditionSend, de.hsharz.provirent.objects.Condition conditionReceiving) {
+        this.orderTime = orderTime;
         this.senderTime = senderTime;
         this.receivingTime = receivingTime;
         this.duration = duration;
-        this.orderTime = orderTime;
         this.customer = customer;
         this.dvd = dvd;
         this.payment = payment;
@@ -75,6 +74,14 @@ public class OrderItem implements Serializable {
         this.orderItemId = orderItemId;
     }
 
+    public Calendar getOrderTime() {
+        return this.orderTime;
+    }
+
+    public void setOrderTime(Calendar orderTime) {
+        this.orderTime = orderTime;
+    }
+
     public Calendar getSenderTime() {
         return this.senderTime;
     }
@@ -97,14 +104,6 @@ public class OrderItem implements Serializable {
 
     public void setDuration(int duration) {
         this.duration = duration;
-    }
-
-    public Date getOrderTime() {
-        return this.orderTime;
-    }
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
     }
 
     public de.hsharz.provirent.objects.Customer getCustomer() {
@@ -150,10 +149,10 @@ public class OrderItem implements Serializable {
     public String toString() {
         return new ToStringBuilder(this)
             .append("orderItemId", getOrderItemId())
+            .append("orderTime", getOrderTime())
             .append("senderTime", getSenderTime())
             .append("receivingTime", getReceivingTime())
             .append("duration", getDuration())
-            .append("orderTime", getOrderTime())
             .append("customer", getCustomer())
             .append("dvd", getDvd())
             .append("payment", getPayment())
@@ -168,10 +167,10 @@ public class OrderItem implements Serializable {
         OrderItem castOther = (OrderItem) other;
         return new EqualsBuilder()
             .append(this.getOrderItemId(), castOther.getOrderItemId())
+            .append(this.getOrderTime(), castOther.getOrderTime())
             .append(this.getSenderTime(), castOther.getSenderTime())
             .append(this.getReceivingTime(), castOther.getReceivingTime())
             .append(this.getDuration(), castOther.getDuration())
-            .append(this.getOrderTime(), castOther.getOrderTime())
             .append(this.getCustomer(), castOther.getCustomer())
             .append(this.getDvd(), castOther.getDvd())
             .append(this.getPayment(), castOther.getPayment())
@@ -183,10 +182,10 @@ public class OrderItem implements Serializable {
     public int hashCode() {
         return new HashCodeBuilder()
             .append(getOrderItemId())
+            .append(getOrderTime())
             .append(getSenderTime())
             .append(getReceivingTime())
             .append(getDuration())
-            .append(getOrderTime())
             .append(getCustomer())
             .append(getDvd())
             .append(getPayment())
