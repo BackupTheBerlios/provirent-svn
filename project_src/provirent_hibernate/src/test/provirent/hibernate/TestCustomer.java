@@ -249,6 +249,9 @@ public class TestCustomer extends TestCase {
 				assertTrue("Connected to Db? ", s.isConnected());
 				assertTrue("Db Open? ", s.isOpen());
 
+				
+				List data = new ArrayList();
+				
 				List customer = new ArrayList();
 
 				//create new objects
@@ -278,6 +281,7 @@ public class TestCustomer extends TestCase {
 				person.setDayOfBirth(birthday);
 
 				c.setPerson(person);
+				c.setDayOfRegistration(Calendar.getInstance());
 				customer.add(c);
 
 				//second Customer
@@ -302,8 +306,9 @@ public class TestCustomer extends TestCase {
 				birthday.set(Calendar.DAY_OF_MONTH, 2);
 				birthday.set(Calendar.MONTH, 2);
 				birthday.set(Calendar.YEAR, 1954);
-
+				person.setDayOfBirth(birthday);
 				c.setPerson(person);
+				c.setDayOfRegistration(Calendar.getInstance());
 				customer.add(c);
 
 				//third Customer
@@ -328,7 +333,8 @@ public class TestCustomer extends TestCase {
 				birthday.set(Calendar.DAY_OF_MONTH, 10);
 				birthday.set(Calendar.MONTH, 8);
 				birthday.set(Calendar.YEAR, 1988);
-
+				person.setDayOfBirth(birthday);
+				c.setDayOfRegistration(Calendar.getInstance());
 				c.setPerson(person);
 				customer.add(c);
 

@@ -109,7 +109,7 @@ public class TestMovieOrder extends TestCase {
                     dvds.size() > 0);          
             
             //for each movie 
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < customers.size(); i++) {
 
                 Customer customer = (Customer) customers.get(i);
 
