@@ -10,7 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /** 
  *         Represents an MovieOrder.
  *         @author Philipp Schneider
- *        
+ *       
 */
 public class MovieOrder implements Serializable {
 

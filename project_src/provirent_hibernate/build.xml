@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
  <project name="Provirent"
           default="schema" basedir=".">
-   <!-- Set up properties containing important project directories -->
+   <!-- schema Set up properties containing important project directories -->
    <property name="source.root" value="src"/>
    <property name="class.root" value="bin"/>
    <property name="lib.dir" value="lib"/>

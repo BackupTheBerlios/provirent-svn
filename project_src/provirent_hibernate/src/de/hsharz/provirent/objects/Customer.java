@@ -1,7 +1,6 @@
 package de.hsharz.provirent.objects;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -31,21 +30,17 @@ public class Customer implements Serializable {
     private String hiddenAnswer;
 
     /** nullable persistent field */
-    private Calendar dayOfBirth;
-
-    /** nullable persistent field */
     private Date dayOfRegistration;
 
     /** nullable persistent field */
     private de.hsharz.provirent.objects.Person person;
 
     /** full constructor */
-    public Customer(String userName, String password, String hiddenQuestion, String hiddenAnswer, Calendar dayOfBirth, Date dayOfRegistration, de.hsharz.provirent.objects.Person person) {
+    public Customer(String userName, String password, String hiddenQuestion, String hiddenAnswer, Date dayOfRegistration, de.hsharz.provirent.objects.Person person) {
         this.userName = userName;
         this.password = password;
         this.hiddenQuestion = hiddenQuestion;
         this.hiddenAnswer = hiddenAnswer;
-        this.dayOfBirth = dayOfBirth;
         this.dayOfRegistration = dayOfRegistration;
         this.person = person;
     }
@@ -102,14 +97,6 @@ public class Customer implements Serializable {
         this.hiddenAnswer = hiddenAnswer;
     }
 
-    public Calendar getDayOfBirth() {
-        return this.dayOfBirth;
-    }
-
-    public void setDayOfBirth(Calendar dayOfBirth) {
-        this.dayOfBirth = dayOfBirth;
-    }
-
     public Date getDayOfRegistration() {
         return this.dayOfRegistration;
     }
@@ -133,7 +120,6 @@ public class Customer implements Serializable {
             .append("password", getPassword())
             .append("hiddenQuestion", getHiddenQuestion())
             .append("hiddenAnswer", getHiddenAnswer())
-            .append("dayOfBirth", getDayOfBirth())
             .append("dayOfRegistration", getDayOfRegistration())
             .toString();
     }
@@ -148,7 +134,6 @@ public class Customer implements Serializable {
             .append(this.getPassword(), castOther.getPassword())
             .append(this.getHiddenQuestion(), castOther.getHiddenQuestion())
             .append(this.getHiddenAnswer(), castOther.getHiddenAnswer())
-            .append(this.getDayOfBirth(), castOther.getDayOfBirth())
             .append(this.getDayOfRegistration(), castOther.getDayOfRegistration())
             .append(this.getPerson(), castOther.getPerson())
             .isEquals();
@@ -161,7 +146,6 @@ public class Customer implements Serializable {
             .append(getPassword())
             .append(getHiddenQuestion())
             .append(getHiddenAnswer())
-            .append(getDayOfBirth())
             .append(getDayOfRegistration())
             .append(getPerson())
             .toHashCode();

@@ -34,7 +34,7 @@
         <meta attribute="use-in-tostring">true</meta>
       </property>
  
-      <property name="releaseDate" type="date">
+      <property name="releaseDate" type="calendar">
         <meta attribute="field-description">When the movie was released or added</meta>
 				<meta attribute="use-in-tostring">true</meta>
       </property>

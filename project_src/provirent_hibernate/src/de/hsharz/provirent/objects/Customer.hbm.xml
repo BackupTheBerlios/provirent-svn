@@ -41,11 +41,6 @@
       	<meta attribute="use-in-tostring">true</meta>
       </property>
                          
-    
- 
-      <property name="dayOfBirth" type="calendar" >
-      	<meta attribute="use-in-tostring">true</meta>
-      </property>
  
  			
     </class>

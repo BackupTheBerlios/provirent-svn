@@ -1,7 +1,7 @@
 package de.hsharz.provirent.objects;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -28,7 +28,7 @@ public class Movie implements Serializable {
     private int runtime;
 
     /** nullable persistent field */
-    private Date releaseDate;
+    private Calendar releaseDate;
 
     /** nullable persistent field */
     private de.hsharz.provirent.objects.Image mainImage;
@@ -58,7 +58,7 @@ public class Movie implements Serializable {
     private List videoFormats;
 
     /** full constructor */
-    public Movie(String title, String description, int runtime, Date releaseDate, de.hsharz.provirent.objects.Image mainImage, List images, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
+    public Movie(String title, String description, int runtime, Calendar releaseDate, de.hsharz.provirent.objects.Image mainImage, List images, List actors, List director, List languages, List subtitles, List genres, List audioFormats, List videoFormats) {
         this.title = title;
         this.description = description;
         this.runtime = runtime;
@@ -130,11 +130,11 @@ public class Movie implements Serializable {
     /** 
      * When the movie was released or added
      */
-    public Date getReleaseDate() {
+    public Calendar getReleaseDate() {
         return this.releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(Calendar releaseDate) {
         this.releaseDate = releaseDate;
     }
 
