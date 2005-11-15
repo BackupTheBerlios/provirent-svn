@@ -1,0 +1,72 @@
+\chapter{Konzepte und Aufbau} \label{sec:KonzepteundAufbau}
+
+\section{Aufbau}
+\subsection{kurze Beschreibung}
+Das System soll eine komplette Videothek ersetzen. Die Videothek benötigt dann nur noch ein (grosses) Lager für die zu verleihenden Videos und einige Mitarbeiter für den Versand und die Verwaltung. Die Software soll aus drei Modulen bestehen. Das \textbf{Kundenmodul} ist die Internetpräsenz der Videothek. Auf dieser kann der Kunde die vorhanden Videos durchstöbern und nach Anmeldung deren Verfügbarkeit kontrollieren und auf Wunsch einige Video ausleihen. Dabei kann ein angemeldeter Kunde zusätzlich seine Bestellungen und Rechnungen betrachten. Das \textbf{Lagermodul} stellt die Software für das Lager und den Versand dar. Mit deren Hilfe kann ein Mitarbeiter der Videothek Videos für den Versand vorbereiten. D.h. er bekommt eine Liste mit Bestellungen von Kunden und arbeitet diese ab. Dabei arbeitet er viel mit Barcodes und einem Barcodescanner. Mit dessen Hilfe markiert er Videos für einen bestimmten Kunden und eine bestimmte Bestellung und versendet diese. Dem System wird somit mitgeteilt, dass KundeA jetzt das Video1 für x Tage ausgeliehen hat und dieses Video am Montag dem 1.1.2004 dem Versandunternehmen übergeben wurde. Rechnungen, Versandetiketten und eventuelle Lieferscheine werden dabei automatisch mit ausgedruckt. Zusätzlich bietet das Lagermodul die Möglichkeit die zurückgekommenen Videos des Kunden wieder in das System aufzunehmen. Somit wurde das Video wieder vom Kunden zurückgegeben und es kann im System als vorhanden/ausleihbar markiert werden oder gleich an den nächsten Kunden weitergeschickt werden. Das \textbf{Verwaltungsmodul} hilft der Verwaltung bei der Organisation der Videothek. Es können Kundedaten und Rechnungen betrachtet und ggf. gedruckt/exportiert werden, das Videosortiment bearbeitet werden und inhaltliche Änderungen (z.B. Angebote) an dem Kundenmodul vorgenommen werden. Weiterhin besteht die Möglichkeit ausführliche Reports \& Statistiken zu betrachten/exportieren.\\
+Abbildung \ref{pic-erstegedanken} auf Seite \pageref{pic-erstegedanken} stellt dies ein einfacher Weise grafisch dar.
+%===========================================
+			\begin{figure}[p]
+				\rotatebox{90}{
+					\includegraphics[scale=0.65]{images/erste-gedanken.jpg}
+					}
+				\caption{Erste Gedanken zu der Videosoftware}
+				\label{pic-erstegedanken}
+			\end{figure}
+
+
+
+
+\subsection{Kundenmodul}
+Die Kundensoftware ist eine Webapplikation. Auf dieser "`Webseite"' können sich sowohl Interessenten als auch Kunden über Videos informieren. Nach Registration kann man sich auch den Status von einzelnen Videos anschauen und verleihbare ausleihen. Neben Statistiken stehen dem Kunden auch ein Navigationspunkt mit seinen bisherigen Bestellungen und dem aktuellen Stand seiner Wunschliste zur Verfügung.
+
+	 	
+\subsection{Lagermodul / Versandmodul}
+Ein Mitarbeiter der Videothek hat dann die Möglichkeit über eine eigene Software die gewünschten Videos zum Versand vorzubereiten. Dabei wird er so weit vom System unterstützt, dass er nur noch die fehlenden Roboterarme ersetzen muss. Mit Hilfe eines Barcodescanners kann der Mitarbeiter, auf dem bereits fertig ausgedrucktem Bestellschein, die Kundenummer und die gewünschten Videos erfassen. Der Barcodescanner erleichtert dabei nur die Eingabe von Kundennummern, Rechnungsnummern und Artikelnummern. Die Aufgaben des Mitarbeiters für eine Bestellung können wie folgt zusammengefasst werden:
+\begin{itemize}
+				\item Bestellschein vom Drucker entnehmen
+				\item Bestellnummer vom Bestellschein dem System mitteilen
+				\item gewünschte Artikel aus dem Sortiment nehmen
+				\item Artikelnummern einzeln dem System mitteilen \emph{dadurch wird dem System mitgeteilt, daß diese Artikel verliehen sind}
+				\item Artikel in einen Versandumschlag packen und ggf. Versandaufkleber vom Bestellschein entnehmen
+			
+\end{itemize}
+	 	
+	
+\subsection{Verwaltungsmodul}
+Die Verwaltungssoftware wird von Mitarbeitern der Videothek bedient. Mit Hilfe dieser ist es möglich das Video-Sortiment zu bearbeiten und zu vervollständigen. Weiterhin ist es möglich mit der Verwaltungssoftware Rechnungen von Kunden, Bestellungen oder ähnliches zu bearbeiten. Zusätzlich steht eine ausführliche Statistik zu einzelnen Kunden, einzelnen Videos und Genre zur Verfügung.
+
+
+%===========================================
+\section{Einsatzbereich}
+Diese Software ist sowohl für kleine als auch für grosse Unternehmen gedacht. Dabei ist es unwichtig, ob es sich um eine reine OnlineVideothek oder um eine richtige Videothek, die jetzt auch per Versand irhe Videos verleihen möchte, handelt. Durch weitere Module kann die Software so erweitert werden, dass die Software auch für eine richtige Videothek geeignet ist. 
+%===========================================
+
+
+
+\section{verschiedene Versionen}
+Die einfache Version des System wird von uns implementiert. Diese Version soll die wichtigsten Bestandteile des Systems enthalten, jedoch nicht zu komplex sein. Es soll außerdem möglich sein, diese Version durch Updates mit zu erweitern, sodaß eine komplexes System entstehen kann.\\
+Diese einfache Version beinhaltet die Kundensoftware(Webanwendung) und die Lagersoftware in einfacher Form. Dies bedeutet für die Lagersoftware, dass keine grafische Oberfläche vorhanden ist. Als Ausgabemedium dient die Konsole, die man mit einem Dos Fenster vergleichen kann.\\
+Eine Verwaltungssoftware ist nicht geplant. Diese wird jedoch zu einem späteren Zeitpunkt auch als Consolenanwendung realisiert. Die einfache Version ist als Testversion gedacht, bei der die Daten bereits in der Datenbank vorhanden sind, somit ist eine Verwaltungssoftware erstmal überflüßig.
+			
+
+
+		\begin{itemize}
+			\item Kundenmodul
+				\begin{itemize}
+						\item 
+				\end{itemize}
+			\item Verwaltungsmodul
+				\begin{itemize}
+						\item grafische Benutzeroberfläche die unter Windows und Linux verfügbar ist
+						\item neue DVD's hinzufügen bzw. bearbeiten \& löschen
+						\item ausführliche Statistiken
+						\item 
+				\end{itemize}
+			
+			\item Versandmodul		
+				\begin{itemize}
+						\item grafische Benutzeroberfläche die unter Windows und Linux verfügbar ist
+						\item automatischer Ausdruck der Versandlabels und Rechnungen
+				\end{itemize}
+		
+		\end{itemize}

@@ -1,0 +1,140 @@
+\documentclass[12pt,a4paper]{report}
+%\documentclass[17pt]{extreport}
+\usepackage[latin1]{inputenc}
+\usepackage{ngerman}
+\usepackage{makeidx,longtable,geometry,fancyhdr,color}
+\usepackage{colortbl}
+\usepackage[]{graphicx}
+%-- dadurch werden zweizeilige Fussnoten eingerückt
+\usepackage[hang]{footmisc}
+%-- refpage und bei dem Abkürzungsverzeichniss steht die Seite auf der die Abkürzung definiert wird
+\usepackage[german,refpage]{nomencl}
+
+
+
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=0.5cm}
+
+\definecolor{dunkelgrau}{gray}{0.55}
+\definecolor{hellgrau}{gray}{0.90}
+
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize, numbers=left, numberstyle=\tiny, stepnumber=1,numbersep=10pt, firstnumber=1, backgroundcolor=\color{hellgrau}, frame=shadowbox, rulesepcolor=\color{dunkelgrau},
+framesep=5pt, framerule=0.75pt, captionpos=b, breaklines=true, breakatwhitespace=false, escapeinside={!*}{*!},
+aboveskip=0.25cm}
+
+\renewcommand{\lstlistlistingname}{Quellcode Verzeichnis}
+\renewcommand{\lstlistingname}{Quellcode}
+
+
+% variable referenzennamen
+\usepackage[german]{varioref}
+\labelformat{lstlisting}{Quellcode~#1}
+\labelformat{chapter}{Kapitel~#1}
+\labelformat{section}{Abschnitt~#1}
+\labelformat{subsection}{Unterabschnitt~#1}
+\labelformat{subsubsection}{Unterunterabschnitt~#1}
+\labelformat{paragraph}{Absatz~#1}
+\labelformat{subparagraph}{Unterabsatz~#1}
+\labelformat{figure}{Abbildung~#1}
+\labelformat{table}{Tabelle~#1}
+\labelformat{footnote}{Fussnote~#1}
+
+
+
+
+
+
+
+%----Fuer Quellenangaben
+\usepackage[square]{natbib}
+\citestyle{natdin}
+\bibliographystyle{natdin}
+
+
+
+
+
+\usepackage{hyperref}
+\hypersetup{% Ä=\304; Ö=\326; Ü=\334; ä=\344; ö=\366; ü=\374; ß=\377
+  pdftitle={Provirent - Dokumentation},
+  pdfauthor={Philipp Schneider},
+  pdfcreator={Creator Philipp Schneider},
+  pdfproducer={Producer Philipp Schneider},
+  pdfsubject={},
+  pdfkeywords={},
+  colorlinks=false,   
+  pdfpagemode=true,
+  breaklinks=true,
+  linkcolor = black, % blue
+  anchorcolor=black % green
+}
+
+
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{} % delete current setting for header and footer
+
+\fancyhead[L]{\bfseries\rightmark}
+\fancyhead[R]{}
+\fancyfoot[C]{\bfseries\thepage}
+\fancyfoot[L]{\bfseries\leftmark}
+\fancyfoot[R]{\bfseries \footnotesize Provirent-Doku}
+
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt} 
+\addtolength{\headheight}{2.5pt} % make space for the rule
+\fancypagestyle{plain} {%
+	\fancyhead{} % get rid of headers on plain pages
+	\renewcommand{\headrulewidth}{0pt} % and the line
+} 
+
+%-- Index
+\makeindex
+\renewcommand{\indexname}{Stichwortverzeichnis} 
+
+%--AbkuerzungsVerzeichnis
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+\makenomenclature
+
+%-- Zweilzeilig zum besseren Korrekturlesen 
+%\usepackage{setspace}
+%\doublespace      % doppelzeilig
+%\onehalfspacing  % anderthalbzeilig
+
+%hier werden die trennungen für spezielle Wörter definiert
+\hyphenation{
+Hal-lo
+}
+
+\begin{document}
+%------ Begin des Dokumentes ------ 
+   	\setlongtables
+		\definecolor{Gray}{gray}{0.8}
+ 		\newcolumntype{E}{|>{\columncolor{Gray}[\tabcolsep]}c|}
+ 		\newcolumntype{A}{|>{p{8cm}\columncolor{Gray}[\tabcolsep]}l}
+ 		\newcolumntype{B}{|>{\columncolor{Gray}[\tabcolsep]}c|}
+	 	\newcolumntype{C}{|>{\columncolor{Gray}[\tabcolsep]}c|}
+
+
+
+%\include{0-1-Titelblatt}
+%\include{0-2-Vorwort}
+\include{0-3-Verzeichnisse}
+\include{1-Einfuehrung}
+\include{2-Aufbau}
+\include{3-Technologien}
+\include{4-Implementierung}
+\include{5-Zusammenfassung}
+\include{9-0-Anhaenge}
+\include{9-1-Literatur}
+%\include{9-2-Abkuerzungsverzeichnis}
+%\addcontentsline{toc}{chapter}{Index}
+%\printindex
+%\include{9-3-Erklaerung}
+
+
+
+%------ Ende des Dokumentes ------
+\end{document}
