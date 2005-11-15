@@ -1,7 +1,10 @@
 \chapter{Konzepte und Aufbau} \label{sec:KonzepteundAufbau}
 
 \section{Aufbau}
-\subsection{kurze Beschreibung}
+\subsection{erste Gedanken und Beschreibung des Gesamtsystems}
+Zuerst die ersten Gedanken und grafik erläutern.\\
+dann das gesamte system im zusammenhang erklären, dabei aber nicht zu genau auf die einzelnen module eingehen, sondern nur deren Zusammenspiel erklären.\\
+
 Das System soll eine komplette Videothek ersetzen. Die Videothek benötigt dann nur noch ein (grosses) Lager für die zu verleihenden Videos und einige Mitarbeiter für den Versand und die Verwaltung. Die Software soll aus drei Modulen bestehen. Das \textbf{Kundenmodul} ist die Internetpräsenz der Videothek. Auf dieser kann der Kunde die vorhanden Videos durchstöbern und nach Anmeldung deren Verfügbarkeit kontrollieren und auf Wunsch einige Video ausleihen. Dabei kann ein angemeldeter Kunde zusätzlich seine Bestellungen und Rechnungen betrachten. Das \textbf{Lagermodul} stellt die Software für das Lager und den Versand dar. Mit deren Hilfe kann ein Mitarbeiter der Videothek Videos für den Versand vorbereiten. D.h. er bekommt eine Liste mit Bestellungen von Kunden und arbeitet diese ab. Dabei arbeitet er viel mit Barcodes und einem Barcodescanner. Mit dessen Hilfe markiert er Videos für einen bestimmten Kunden und eine bestimmte Bestellung und versendet diese. Dem System wird somit mitgeteilt, dass KundeA jetzt das Video1 für x Tage ausgeliehen hat und dieses Video am Montag dem 1.1.2004 dem Versandunternehmen übergeben wurde. Rechnungen, Versandetiketten und eventuelle Lieferscheine werden dabei automatisch mit ausgedruckt. Zusätzlich bietet das Lagermodul die Möglichkeit die zurückgekommenen Videos des Kunden wieder in das System aufzunehmen. Somit wurde das Video wieder vom Kunden zurückgegeben und es kann im System als vorhanden/ausleihbar markiert werden oder gleich an den nächsten Kunden weitergeschickt werden. Das \textbf{Verwaltungsmodul} hilft der Verwaltung bei der Organisation der Videothek. Es können Kundedaten und Rechnungen betrachtet und ggf. gedruckt/exportiert werden, das Videosortiment bearbeitet werden und inhaltliche Änderungen (z.B. Angebote) an dem Kundenmodul vorgenommen werden. Weiterhin besteht die Möglichkeit ausführliche Reports \& Statistiken zu betrachten/exportieren.\\
 Abbildung \ref{pic-erstegedanken} auf Seite \pageref{pic-erstegedanken} stellt dies ein einfacher Weise grafisch dar.
 %===========================================
@@ -17,6 +20,7 @@ Abbildung \ref{pic-erstegedanken} auf Seite \pageref{pic-erstegedanken} stellt d
 
 
 \subsection{Kundenmodul}
+Hier jetzt die gewünschte Funktionsweise erklären.\\
 Die Kundensoftware ist eine Webapplikation. Auf dieser "`Webseite"' können sich sowohl Interessenten als auch Kunden über Videos informieren. Nach Registration kann man sich auch den Status von einzelnen Videos anschauen und verleihbare ausleihen. Neben Statistiken stehen dem Kunden auch ein Navigationspunkt mit seinen bisherigen Bestellungen und dem aktuellen Stand seiner Wunschliste zur Verfügung.
 
 	 	
