@@ -4,6 +4,7 @@
 a:hover, a:active, a:focus, a:link, a:visited  {
 	color: Black;
 	text-decoration: none;
+	color: #005177;
 }
 
 a:link{
