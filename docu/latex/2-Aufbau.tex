@@ -1,30 +1,57 @@
 \chapter{Konzepte und Aufbau} \label{sec:KonzepteundAufbau}
 
-\section{Aufbau}
-\subsection{erste Gedanken und Beschreibung des Gesamtsystems}
-Zuerst die ersten Gedanken und grafik erläutern.\\
-dann das gesamte system im zusammenhang erklären, dabei aber nicht zu genau auf die einzelnen module eingehen, sondern nur deren Zusammenspiel erklären.\\
-
-Das System soll eine komplette Videothek ersetzen. Die Videothek benötigt dann nur noch ein (grosses) Lager für die zu verleihenden Videos und einige Mitarbeiter für den Versand und die Verwaltung. Die Software soll aus drei Modulen bestehen. Das \textbf{Kundenmodul} ist die Internetpräsenz der Videothek. Auf dieser kann der Kunde die vorhanden Videos durchstöbern und nach Anmeldung deren Verfügbarkeit kontrollieren und auf Wunsch einige Video ausleihen. Dabei kann ein angemeldeter Kunde zusätzlich seine Bestellungen und Rechnungen betrachten. Das \textbf{Lagermodul} stellt die Software für das Lager und den Versand dar. Mit deren Hilfe kann ein Mitarbeiter der Videothek Videos für den Versand vorbereiten. D.h. er bekommt eine Liste mit Bestellungen von Kunden und arbeitet diese ab. Dabei arbeitet er viel mit Barcodes und einem Barcodescanner. Mit dessen Hilfe markiert er Videos für einen bestimmten Kunden und eine bestimmte Bestellung und versendet diese. Dem System wird somit mitgeteilt, dass KundeA jetzt das Video1 für x Tage ausgeliehen hat und dieses Video am Montag dem 1.1.2004 dem Versandunternehmen übergeben wurde. Rechnungen, Versandetiketten und eventuelle Lieferscheine werden dabei automatisch mit ausgedruckt. Zusätzlich bietet das Lagermodul die Möglichkeit die zurückgekommenen Videos des Kunden wieder in das System aufzunehmen. Somit wurde das Video wieder vom Kunden zurückgegeben und es kann im System als vorhanden/ausleihbar markiert werden oder gleich an den nächsten Kunden weitergeschickt werden. Das \textbf{Verwaltungsmodul} hilft der Verwaltung bei der Organisation der Videothek. Es können Kundedaten und Rechnungen betrachtet und ggf. gedruckt/exportiert werden, das Videosortiment bearbeitet werden und inhaltliche Änderungen (z.B. Angebote) an dem Kundenmodul vorgenommen werden. Weiterhin besteht die Möglichkeit ausführliche Reports \& Statistiken zu betrachten/exportieren.\\
-Abbildung \ref{pic-erstegedanken} auf Seite \pageref{pic-erstegedanken} stellt dies ein einfacher Weise grafisch dar.
+\section{Aufbau}\label{sec:Aufbau}
+\subsection{Beschreibung des Gesamtsystems}\label{sec:ersteGedanken}
+Bei einer klassischen Videothek besucht der Kunde das Ladengeschäft der Videothek und stöbert dabei nach Videos, die er gerne an diesen Abend schauen möchte. Dabei muss die Videothek eine möglichst größe Ladenfläche besitzen um die Videos dem Kunden zu präsentieren. Nachdem der Kunde sich für ein Video entschieden hat, nimmt er entweder die leere Verpackung oder ein Plastikschild mit einer Nummer zum Verleihschalter der Videothek. Nachdem der Kunde seine Kundenkarte vorzeigt und durch sein Passwort oder seine Unterschrift verifiziert wurde, sucht der Mitarbeiter anhand einer Nummer in der Leerverpackung oder des Plastikschilds das entsprechende Video heraus, markiert dieses Video im System und gibt es dem Kunden. Dies ist der klasische Ablauf in einer Videothek.\\
+Bei einer Online-Videothek kann der Kunde, durch den Versand der Videos, keine Videos für den gleichen Abend ausleihen. Er ist gezwungen, sich einige Tage vorher für ein oder mehrere Videos zu entscheiden. Der Ablauf unterscheidet sich von einer klasischen Videothek. Der Kunden "`besucht"' die Webseite der Videothek und sucht im Angebot nach Filmen die er sich ausleihen möchte. Nachdem die Verfügbarkeit überprüft wurde, legt er Videos in seinem Warenkorb ab. Durch Eingabe seines Benutzernamens und das zugehörige Passwort wird der Kunde verifiziert. In dem Lager der Videothek nimmt ein Mitarbeiter die Bestellung über einen Monitor oder eine ausgedruckte Liste entgegeben und bearbeitet die Bestellung. Dabei sucht dieser die Videos für den Kunden heraus, nimmt die Videos in das System auf und versendet die Videos zu dem Kunden per Post. Der Kunde erhält seine gewünschten Videos, kann diese sich anschauen und schickt diese nach einer bestimmten Zeit an die Videothek zurück.\\
+Das hier gewünschte System soll dabei eine komplette Videothek ersetzen. Die Online-Videothek benötigt nur noch ein Lager für die zu verleihenden Videos und wenige Mitarbeiter für den Versand der Videos und die Verwaltung der Videothek. Die Software wird  dabei wie in \vref{fig:erstegedanken} zu sehen ist, von zwei verschiedenen Personenkreisen benutzt, dem Kunden und dem Mitarbeiter. Der Kunde kann die in der Abbildung dargestellten Aktionen ausführen, wie bspw. betrachten und bestellen von Videos. Der Mitarbeiter kann dabei das System verwalten und Bestellungen der Kunden bearbeiten.\\
 %===========================================
-			\begin{figure}[p]
-				\rotatebox{90}{
-					\includegraphics[scale=0.65]{images/erste-gedanken.jpg}
-					}
-				\caption{Erste Gedanken zu der Videosoftware}
-				\label{pic-erstegedanken}
-			\end{figure}
+\begin{figure}[p]
+	\rotatebox{90}{
+		\includegraphics[scale=0.65]{images/erste-gedanken.jpg}
+	}
+	\caption{Erste Gedanken zu der Videosoftware}
+	\label{fig:erstegedanken}
+\end{figure}
+%===========================================
+Nach einiger Überlegung wurde festgestellt, das die Software aus drei anstatt zwei Modulen bestehen muss, wie in \vref{fig:dreimodule} zu sehen ist. Bei den Mitarbeitern der Online-Videothek muss in Verwaltung und Versand/Lagen unterschieden werden, da diese unterschiedlichen Aufgaben von unterschiedlichen Mitarbeitern bearbeitet werden. Das \textbf{Kundenmodul} ist die Internetpräsenz der Videothek und repräsentiert das Unternehmen nach aussen. Auf dieser dynamischen Webseite kann der Kunde die vorhanden Videos durchstöbern und detalierte Informationen zu den Videos erhalten. Nach erfolgreicher Anmeldung im System kann der Kunde die Verfügbarkeit des jeweiligen Videos kontrollieren und auf Wunsch Videos ausleihen. In einem zusätzlichen Menüpunkt kann er seine bestellten Videos betrachten und sich ggf. Rechnungen ausdrucken. Das \textbf{Versandmodul} stellt die benötigte Software für das Lager und den Versand zur Verfügung. Mit deren Hilfe kann ein Mitarbeiter der Online-Videothek Videos für den Versand vorbereiten. D.h. der Mitarbeiter bekommt eine Liste mit Bestellungen von Kunden (elektronisch oder auf Papier) und arbeitet diese ab. Damit der Mitarbeiter nicht jedemal die Kundennummer und Nummern der Videos eintippen muss, wird seine Arbeit durch Barcodes und Barcodescanner unterstützt. Mit dessen Hilfe markiert er Videos für einen bestimmten Kunden und eine bestimmte Bestellung und versendet diese. Dem System teilt der Mitarbeiter dadurch mit, das bestimmte Videos nicht mehr verfügbar sind und von einem bestimmten Kunden ausgeliehen wurde. Rechnungen, Versandetiketten und eventuelle Lieferscheine werden dabei automatisch mit Hilfe eines Druckers erstellt. Zusätzlich bietet das Versandmodul die Möglichkeit, zurückgekommene Videos der Kunden wieder in das System aufzunehmen. Somit wurde das Video wieder vom Kunden zurückgegeben und es kann im System als vorhanden/ausleihbar markiert werden oder gleich an den nächsten Kunden weitergeschickt werden. Das \textbf{Verwaltungsmodul} hilft den Mitarbeitern in der Verwaltung bei der Organisation der Online-Videothek. Es können Kundendaten und Rechnungen betrachtet und ggf. gedruckt werden. Das Videosortiment kann bearbeitet und inhaltliche Änderungen (z.B. Sonderangebote) an dem Kundenmodul vorgenommen werden. Weiterhin besteht die Möglichkeit ausführliche Reports \& Statistiken zu erstellen und zu betrachten.\\
+%===========================================
+\begin{figure}[tbp]
+		\includegraphics[scale=0.65]{images/dreimodule.pdf}
+	\caption{Die drei Module der Software}
+	\label{fig:dreimodule}
+\end{figure}
+%===========================================
 
 
 
+\subsection{das Kundenmodul im Detail} \label{sec:Kundenmodul}
+Das Kundenmodul ist eine Webseite die der Nutzer über das Internet erreichen kann. 
 
-\subsection{Kundenmodul}
-Hier jetzt die gewünschte Funktionsweise erklären.\\
+- anmeldung
+- informationen zu den einzelnen Videos (beschreibung)
+- ausführliche Suche (auch inteligente)
+- verfügbarkeit (anzahl und wann das nächste video wieder da ist)
+- betrachung der VORBESTELLUNGEN (bzw. Abarbeitungsliste)
+- betrachtung der bestellhistorie
+- Rechnungen/Mahnungen
+- allgemeine Einstellungen
+
+
+
 Die Kundensoftware ist eine Webapplikation. Auf dieser "`Webseite"' können sich sowohl Interessenten als auch Kunden über Videos informieren. Nach Registration kann man sich auch den Status von einzelnen Videos anschauen und verleihbare ausleihen. Neben Statistiken stehen dem Kunden auch ein Navigationspunkt mit seinen bisherigen Bestellungen und dem aktuellen Stand seiner Wunschliste zur Verfügung.
 
 	 	
-\subsection{Lagermodul / Versandmodul}
+\subsection{das Versandmodul im Detail} \label{sec:Lagermodul}
+- Übersicht über offenen Bestellungen,
+- erstellung einer bestellliste für einen mitarbeiter
+- erstellung lieferschein/rechung, ettiketten
+- videos aus dem system nehmen (versand)
+- videos in das system nehmen (rückversand)
+- barcode als kundenummer, rechnungsnummer, und auf jedem Video
+- lagerplatz der videos (regal, reihe) eventuell automatisch
+- Ablauf einer Bestellung
+
 Ein Mitarbeiter der Videothek hat dann die Möglichkeit über eine eigene Software die gewünschten Videos zum Versand vorzubereiten. Dabei wird er so weit vom System unterstützt, dass er nur noch die fehlenden Roboterarme ersetzen muss. Mit Hilfe eines Barcodescanners kann der Mitarbeiter, auf dem bereits fertig ausgedrucktem Bestellschein, die Kundenummer und die gewünschten Videos erfassen. Der Barcodescanner erleichtert dabei nur die Eingabe von Kundennummern, Rechnungsnummern und Artikelnummern. Die Aufgaben des Mitarbeiters für eine Bestellung können wie folgt zusammengefasst werden:
 \begin{itemize}
 				\item Bestellschein vom Drucker entnehmen
@@ -36,12 +63,23 @@ Ein Mitarbeiter der Videothek hat dann die Möglichkeit über eine eigene Software
 \end{itemize}
 	 	
 	
-\subsection{Verwaltungsmodul}
+\subsection{das Verwaltungsmodul im Detail}  \label{sec:Verwaltungsmodul}
+- Supporttelefon
+- bestellungen betrachten, verändern
+- kundendaten betrachten
+- neue Filme ins System aufnehmen
+- neue Videos(dvds, vhs) ins system aufnehmen
+- preise ändern
+- sonderaktionen hinzufügen
+- statistiken (auslastung) betrachten,exportieren und drucken
+
+
+
 Die Verwaltungssoftware wird von Mitarbeitern der Videothek bedient. Mit Hilfe dieser ist es möglich das Video-Sortiment zu bearbeiten und zu vervollständigen. Weiterhin ist es möglich mit der Verwaltungssoftware Rechnungen von Kunden, Bestellungen oder ähnliches zu bearbeiten. Zusätzlich steht eine ausführliche Statistik zu einzelnen Kunden, einzelnen Videos und Genre zur Verfügung.
 
 
 %===========================================
-\section{Einsatzbereich}
+\section{Einsatzbereich} \label{sec:Einsatzbereich}
 Diese Software ist sowohl für kleine als auch für grosse Unternehmen gedacht. Dabei ist es unwichtig, ob es sich um eine reine OnlineVideothek oder um eine richtige Videothek, die jetzt auch per Versand irhe Videos verleihen möchte, handelt. Durch weitere Module kann die Software so erweitert werden, dass die Software auch für eine richtige Videothek geeignet ist. 
 %===========================================
 
