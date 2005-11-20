@@ -1,0 +1,73 @@
+\chapter{Technologien} \label{sec:Technologien}
+In diesem Abschnitt werden kurz die zu verwendeten Technologien verwendet.
+
+
+
+		
+		
+				
+
+
+		
+\section*{Datenbank - erste Ideen}	\label{asas}
+
+
+
+
+	\begin{itemize}
+			
+  		\item Kunden
+  		\begin{itemize}
+  			\setlength{\itemsep}{-1ex plus0.5ex minus0.3ex}
+  			\item kundenid \emph{Integer Autoincrement Primary Key}
+  			\item name \emph{VARCHAR(200)}
+  			\item vorname \emph{VARCHAR(200)}
+  			\item strasse \emph{VARCHAR(200)}
+  		\end{itemize}
+  	 \item benutzer
+  		\begin{itemize}
+  			\setlength{\itemsep}{-1ex plus0.5ex minus0.3ex}
+  			\item benutzerid \emph{Integer Autoincrement Primary Key}
+  		\end{itemize}
+
+  	 \item dvds
+  		\begin{itemize}
+  			\setlength{\itemsep}{-1ex plus0.5ex minus0.3ex}
+  			\item dvdid \emph{Integer Autoincrement Primary Key}
+  		\end{itemize}
+
+  	 \item genre
+  		\begin{itemize}
+  			\setlength{\itemsep}{-1ex plus0.5ex minus0.3ex}
+  			\item genreid \emph{Integer Autoincrement Primary Key}
+  		\end{itemize}
+
+  	 \item artikel
+  		\begin{itemize}
+  			\setlength{\itemsep}{-1ex plus0.5ex minus0.3ex}
+  			\item artikelid \emph{Integer Autoincrement Primary Key}
+  		\end{itemize}
+
+  	 \item verleih
+  		\begin{itemize}
+  			\setlength{\itemsep}{-1ex plus0.5ex minus0.3ex}
+  			\item verleihid \emph{Integer Autoincrement Primary Key}
+  		\end{itemize}
+
+  	 \item preis
+  		\begin{itemize}
+  			\setlength{\itemsep}{-1ex plus0.5ex minus0.3ex}
+  			\item preisid \emph{Integer Autoincrement Primary Key}
+  		\end{itemize}
+  	 
+
+   \end{itemize}			
+
+	\section*{Prototyp}
+	Bevor versuchen ein fertiges Produkt zu realisieren und daran vermutlich scheitern werden, haben wir beschlossen einen einfachen Prototyp zu programmieren. Dieser soll die wichtigsten Merkmale besitzen und zu Demostrationszwecken dienen.
+	Jedoch soll es auch möglich sein, diesen Prototypen zu einem fertigen Produkt fertig zu entwickeln. Der Prototyp soll also nicht quick \& dirty programmiert werden. \\
+	Der Prototyp soll hauptsächlich die Kundenseite implementieren. D.h. er soll eine Webanwendung bereitstellen, bei der der Kunde bzw. Interessent sich regiestrieren kann und die Videothek benutzen kann. Dies bedeutet er kann sich die vorhanden Videos anschauen (Informationen zu diesen), kann sich die Verfügbarkeit anschauen, Video ausleihen, Rechnungen ansehen bzw. ausdrucken und eine Liste mit all seinen bisherigen Bestellungen anschauen. \\
+	Das Modul für die Verwaltung der DVD's ist in diesem Prototypen noch nicht vorgesehen. \\
+	Das Modul für das Versenden und Empfangen ist nur in einfacher Variante vorgesehen. Der Mitarbeiter der Onlinevideothek bekommt eine kleine Anwendung auf Konsolenbasis ohne grafische Oberfläche.
+		
+		
