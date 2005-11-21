@@ -35,56 +35,31 @@ Ist der User eingeloggt hat er die gleiche Funktionsweise wie ein Interessent, n
 Das Versandmodul ist der Bestandteil der Videothek in der die Arbeit geschieht. Hier werden Videos herrausgesucht, verpackt und an den Kunden versendet. Dabei wird der Mitarbeiter soweit wie Möglich von der Technik unterstützt. Bei dieser Technik handelt es sich hauptsächlich um Barcodescanner. 
 
 Ein Barcodescanner ist ein Lesegerät, das mit Hilfe eines Lasers einen Strichcode auf einer Verpackung oder einem Blatt liest. Dieser Strichcode kann dabei je nach Art und Weise eine Nummer oder einen Wort repräsentieren. Diese Strichcodes sind aus dem heutigen Alltag nicht wegzudenken, denn sie sind auf jeder Verpackung vorhanden und werden in Supermärkten als Preisschild verwendet. Dabei hat jedes Produkt eine eindeutige Nummer, zu der mit Hilfe einer Datenbank ein Preis zugeordnet wird. Neben Strichcodes gibt es noch zweidimensionale Codes, die mehr Informationen speichern können.\\
-
-
-An einem Zentralen Rechner werden die Bestellungen der Kunden ausgedruckt. Solch ein Ausdruck besteht aus einer Seite, auf der oben zwei Adressetiketten und unten einem Lieferschein vorhanden sind. Das erste Adressetikett ist das für den Versand zu dem Kunden, das auf den Umschlag der Bestellung geklebt wird. Das zweite ist dasjenige, welches der Kunde auf dem Umschlag zur Rücksendung der Video klebt. Der Lieferschein ist sowohl für den Mitarbeiter als auch für den Kunden wichtig. Der Mitarbeiter liest mit Hilfe eines Barcodescanners die Bestellnummer ein. Aus dieser Rechnungsnummer kann der Computer sowohl auf den Kunden als auch auf die Videos schließen, die versendet werden sollen. Der Mitarbeiter sucht, mit Hilfe einer weiteren Software den Lagerort der jeweiligen Videos heraus und scannt deren eindeutige Nummer. Damit sind die Videos im System nicht mehr verfügbar und dem Kunden zugeordnet. Anschließend verpackt er die Videos in einen entsprechnenden Umschlag und verschickt die Videos mit dem Ausdruck an dem Kunden. Bei diesem Vorgang gibt es mehrere Möglichkeiten wie der Mitarbeiter vorgehen kann. Damit der Mitarbeiter nicht für jede Bestellung durch das Lager gehen muss, kann das System eine Liste mit Videos erstellen, für die nächsten 10 Bestellungen. Somit sucht der Mitarbeiter diese Videos heraus und bearbeitet dann nacheinandere diese zehn Bestellungen. Eine weitere Möglichkeit wäre, das der Mitarbeiter und das Lager durch ein automatisiertes Lager ersetzt wird. Dabei übernimmt ein Roboter in einem Lager die Aufgabe des Suchen und Finden der Videos. Schickt der Kunde die Videos an die Online-Videothek zurück, nimmt ein Mitarbeiter die Videos entgegen. Zuerst scannt er dabei die Bestellnummer und die eindeutige Nummer des jeweiligen Videos. Zusätzlich muss er den Zustand der Videos überprüfen und im System eintragen. Anschließend sind die Videos wieder im System verfügbar und können wieder eingeordnet werden oder an den nächsten Kunden versendet werden.\\
+%%http://www.4mation.com.au/images/softwaredevelopment/products/softwaredevelopment_barcodescanner.jpg
+%%http://jbars.sourceforge.net/
+%%http://jbarcodebean.sourceforge.net/
+\begin{figure}[tbp]
+		\includegraphics[scale=1.0]{images/Barcodescanner.jpg}
+	\caption{Abbildung eines Barcodescanners}
+	\label{fig:barcodescanner}
+\end{figure}
+An einem Zentralen Rechner werden die Bestellungen der Kunden ausgedruckt. Solch ein Ausdruck besteht aus einer Seite, auf der oben zwei Adressetiketten und unten einem Lieferschein vorhanden sind. Das erste Adressetikett ist das für den Versand zu dem Kunden, das auf den Umschlag der Bestellung geklebt wird. Das zweite ist dasjenige, welches der Kunde auf dem Umschlag zur Rücksendung der Video klebt. Der Lieferschein ist sowohl für den Mitarbeiter als auch für den Kunden wichtig. Der Mitarbeiter liest mit Hilfe eines Barcodescanners die Bestellnummer ein. Aus dieser Rechnungsnummer kann der Computer sowohl auf den Kunden als auch auf die Videos schließen, die versendet werden sollen. Der Mitarbeiter sucht, mit Hilfe einer weiteren Software den Lagerort der jeweiligen Videos heraus und scannt deren eindeutige Nummer. Damit sind die Videos im System nicht mehr verfügbar und dem Kunden zugeordnet. Anschließend verpackt er die Videos in einen entsprechenden Umschlag und verschickt die Videos mit dem Ausdruck an dem Kunden. Bei diesem Vorgang gibt es mehrere Möglichkeiten wie der Mitarbeiter vorgehen kann. Damit der Mitarbeiter nicht für jede Bestellung durch das Lager gehen muss, kann das System eine Liste mit Videos erstellen, für die nächsten 10 Bestellungen. Somit sucht der Mitarbeiter diese Videos heraus und bearbeitet dann nacheinandere diese zehn Bestellungen. Eine weitere Möglichkeit wäre, das der Mitarbeiter und das Lager durch ein automatisiertes Lager ersetzt wird. Dabei übernimmt ein Roboter in einem Lager die Aufgabe des Suchen und Finden der Videos. Schickt der Kunde die Videos an die Online-Videothek zurück, nimmt ein Mitarbeiter die Videos entgegen. Zuerst scannt er dabei die Bestellnummer und die eindeutige Nummer des jeweiligen Videos. Zusätzlich muss er den Zustand der Videos überprüfen und im System eintragen. Anschließend sind die Videos wieder im System verfügbar und können wieder eingeordnet werden oder an den nächsten Kunden versendet werden.\\
 Das komplette Lager könnte durch spezielle Maschinen vollständig automatisiert werden.
 
 
 	 	
 %===========================================
 \subsection{das Verwaltungsmodul im Detail}  \label{sec:Verwaltungsmodul}
-- Supporttelefon
-- bestellungen betrachten, verändern
-- kundendaten betrachten
-- neue Filme ins System aufnehmen
-- neue Videos(dvds, vhs) ins system aufnehmen
-- preise ändern
-- sonderaktionen hinzufügen
-- statistiken (auslastung) betrachten,exportieren und drucken
+Das Verwaltungsmodul ist für die Verwaltung der Online-Videothek in Büroräumen gedacht. Die Mitarbeiter des Unternehmens haben dabei Einblick in die verschiedenen Daten der Online-Videothek und können diese, sollten sie die benötigten Rechte besitzen, verändern. Unter zu Hilfenahme des Verwaltungsmodul können neue Videos in System aufgenommen werden. Dazu wird zuerst der jeweilige Film hinzugefügt und danach die einzelnen Videos dieses Filmes. Dabei werden sich wiederholende Daten wie Darsteller oder Genre in eigenen Elementen gespeichert. Nachdem der Mitarbeiter mit dem Hinzufügen von neuen  Videos fertig ist, werden diese automatisch im Kundenmodul verfügbar sein. Mit Hilfe dieses Moduls können auch Kundendaten betrachtet oder verändert werden. Somit kann z.B. eine Telefonhotline oder der Kundensupport Fragen der Kunden zu einzelnen Bestellungen beantworten. Für die Geschäftsleitung können ausführliche Statistiken erstellt werden.
 
-
-
-Die Verwaltungssoftware wird von Mitarbeitern der Videothek bedient. Mit Hilfe dieser ist es möglich das Video-Sortiment zu bearbeiten und zu vervollständigen. Weiterhin ist es möglich mit der Verwaltungssoftware Rechnungen von Kunden, Bestellungen oder ähnliches zu bearbeiten. Zusätzlich steht eine ausführliche Statistik zu einzelnen Kunden, einzelnen Videos und Genre zur Verfügung.
 
 
 
 
 %===========================================
-\section{verschiedene Versionen}
-Die einfache Version des System wird von uns implementiert. Diese Version soll die wichtigsten Bestandteile des Systems enthalten, jedoch nicht zu komplex sein. Es soll außerdem möglich sein, diese Version durch Updates mit zu erweitern, sodaß eine komplexes System entstehen kann.\\
-Diese einfache Version beinhaltet die Kundensoftware(Webanwendung) und die Lagersoftware in einfacher Form. Dies bedeutet für die Lagersoftware, dass keine grafische Oberfläche vorhanden ist. Als Ausgabemedium dient die Konsole, die man mit einem Dos Fenster vergleichen kann.\\
-Eine Verwaltungssoftware ist nicht geplant. Diese wird jedoch zu einem späteren Zeitpunkt auch als Consolenanwendung realisiert. Die einfache Version ist als Testversion gedacht, bei der die Daten bereits in der Datenbank vorhanden sind, somit ist eine Verwaltungssoftware erstmal überflüßig.
-			
+\section{geplante Module und Versionen}
+Da dieses Projekt nach ersten Überlegungen und Planungen nicht nur ein kleiner Projekt ist, wurde beschlossen, zuerst das Verwaltungstool, dann das Kundenmodul und danach das Versandmodul zu implementieren. Das Verwaltungstool ist das Herzstück der Online-Videothek. Hier werden die Daten erstellt und verwaltet, die von den beiden anderen Modulen verwendet werden. Das Verwaltungstool und das Versandmodul, soll dabei eine Anwendung auf einem beliebigen Rechner innerhalb des Firmennetzwerks sein. Das Kundenmodul hingegen soll eine weltweit verwendbare Webanwendung sein. Mit der realisierung des Verwaltungstool wurde zuerst begonnen.\\
 
 
-		\begin{itemize}
-			\item Kundenmodul
-				\begin{itemize}
-						\item 
-				\end{itemize}
-			\item Verwaltungsmodul
-				\begin{itemize}
-						\item grafische Benutzeroberfläche die unter Windows und Linux verfügbar ist
-						\item neue DVD's hinzufügen bzw. bearbeiten \& löschen
-						\item ausführliche Statistiken
-						\item 
-				\end{itemize}
-			
-			\item Versandmodul		
-				\begin{itemize}
-						\item grafische Benutzeroberfläche die unter Windows und Linux verfügbar ist
-						\item automatischer Ausdruck der Versandlabels und Rechnungen
-				\end{itemize}
-		
-		\end{itemize}
+Das Kundenmodul und das Versandmodul konnten aus Zeitgründen nicht mehr realisiert werden.\\
+
