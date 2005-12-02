@@ -412,9 +412,12 @@ public class ManagementGui {
 
 		exitMenuItem = new MenuItem(fileMenu, SWT.CASCADE);
 		exitMenuItem.setText(l.getString("menu.file.exit"));
-
+		exitMenuItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+			    shell.close();
+			}
+		});
 	}
-
 	/**
 	 * init the View Menu
 	 */
@@ -484,7 +487,7 @@ public class ManagementGui {
 
 		viewCustomerMenuItem = new MenuItem(viewMenu, SWT.CHECK);
 		viewCustomerMenuItem.setText(l.getString("menu.view.customer"));
-		viewCustomerMenuItem.setSelection(false);
+		viewCustomerMenuItem.setSelection(true);
 		viewCustomerMenuItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent evt) {
 				if (tabItemCustomer == null || tabItemCustomer.isDisposed()) {
@@ -599,7 +602,7 @@ public class ManagementGui {
 
 		viewMovieMenuItem = new MenuItem(viewMenu, SWT.CHECK);
 		viewMovieMenuItem.setText(l.getString("menu.view.movie"));
-		viewMovieMenuItem.setSelection(true);
+		viewMovieMenuItem.setSelection(false);
 		viewMovieMenuItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent evt) {
 				if (tabItemMovie == null || tabItemMovie.isDisposed()) {
