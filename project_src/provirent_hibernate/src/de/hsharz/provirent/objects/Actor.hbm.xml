@@ -17,20 +17,26 @@
       <id name="actorId" type="int" column="ACTORID">
         <meta attribute="scope-set">public</meta>
         <meta attribute="use-in-equals">true</meta>
-        <generator class="sequence">
-			<param name="sequence" >actors_id_sequence</param>
-		</generator>
+        <generator class="native" />
       </id>
  
       <property name="firstName" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
+      	
       </property>
 				
  
       <property name="lastName" type="string" not-null="true">
-      	<meta attribute="use-in-tostring">true</meta>
+      	
       </property>
              
+      <property name="externEmail" type="string" not-null="true">
+      	
+      </property>
+
+      <property name="internEmail" type="string" not-null="true">
+      	
+      </property>
+
  
     </class>
   </hibernate-mapping>
