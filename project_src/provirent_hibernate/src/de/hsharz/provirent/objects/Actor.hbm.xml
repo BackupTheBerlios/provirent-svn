@@ -29,13 +29,6 @@
       	
       </property>
              
-      <property name="externEmail" type="string" not-null="true">
-      	
-      </property>
-
-      <property name="internEmail" type="string" not-null="true">
-      	
-      </property>
 
  
     </class>
