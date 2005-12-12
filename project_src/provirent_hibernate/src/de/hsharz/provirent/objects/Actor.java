@@ -22,10 +22,18 @@ public class Actor implements Serializable {
     /** persistent field */
     private String lastName;
 
+    /** persistent field */
+    private String externEmail;
+
+    /** persistent field */
+    private String internEmail;
+
     /** full constructor */
-    public Actor(String firstName, String lastName) {
+    public Actor(String firstName, String lastName, String externEmail, String internEmail) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.externEmail = externEmail;
+        this.internEmail = internEmail;
     }
 
     /** default constructor */
@@ -56,11 +64,25 @@ public class Actor implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getExternEmail() {
+        return this.externEmail;
+    }
+
+    public void setExternEmail(String externEmail) {
+        this.externEmail = externEmail;
+    }
+
+    public String getInternEmail() {
+        return this.internEmail;
+    }
+
+    public void setInternEmail(String internEmail) {
+        this.internEmail = internEmail;
+    }
+
     public String toString() {
         return new ToStringBuilder(this)
             .append("actorId", getActorId())
-            .append("firstName", getFirstName())
-            .append("lastName", getLastName())
             .toString();
     }
 
@@ -72,6 +94,8 @@ public class Actor implements Serializable {
             .append(this.getActorId(), castOther.getActorId())
             .append(this.getFirstName(), castOther.getFirstName())
             .append(this.getLastName(), castOther.getLastName())
+            .append(this.getExternEmail(), castOther.getExternEmail())
+            .append(this.getInternEmail(), castOther.getInternEmail())
             .isEquals();
     }
 
@@ -80,6 +104,8 @@ public class Actor implements Serializable {
             .append(getActorId())
             .append(getFirstName())
             .append(getLastName())
+            .append(getExternEmail())
+            .append(getInternEmail())
             .toHashCode();
     }
 
