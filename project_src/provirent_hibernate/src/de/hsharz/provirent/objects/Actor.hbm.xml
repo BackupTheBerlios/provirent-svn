@@ -20,14 +20,10 @@
         <generator class="native" />
       </id>
  
-      <property name="firstName" type="string" not-null="true">
-      	
-      </property>
+      <property name="firstName" type="string" not-null="true" />
 				
  
-      <property name="lastName" type="string" not-null="true">
-      	
-      </property>
+      <property name="lastName" type="string" not-null="true" />
              
 
  
