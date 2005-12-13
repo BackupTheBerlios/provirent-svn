@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+<tiles-definitions>
+
+    <definition name="provirent.default"
+				path="/jsp/main_template.jsp" >
+		<put name="members" value="/jsp/main_members.jsp" />
+		<put name="navigation" value="/jsp/main_navigation.jsp" />
+		<put name="inhalt" value="/jsp/main_index.jsp" />
+    </definition>
+
+
+
+
+	<definition name="provirent.index" extends="provirent.default" >
+  </definition>
+
+
+	<definition name="provirent.movie.list" extends="provirent.default" >
+		<put name="inhalt" value="/jsp/movie_list.jsp" />
+  </definition>
+
+</tiles-definitions>

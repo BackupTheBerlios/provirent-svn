@@ -1,0 +1,342 @@
+body { 
+	background-image:url("../pics/background.jpg");
+	padding:0 0 0 0; 
+	margin:0 0 0 0;
+}
+
+
+/* neuer WF mit div Container start*/
+/* Mozilla */
+html {height:100%;}
+/* IE */
+body {height:100%;}
+
+
+body, input, select, td, textarea{ 
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif; 
+	font-size: 11px;
+}
+h1, h2, h3, h4, h5, h6, p, strong, div, form, acronym, label, table, td, th, span, a, hr, code, pre, hr {
+	margin:0;
+	padding:0;
+	font-size: 1em;
+	background-repeat:no-repeat;
+	list-style-type:none;
+}
+a, a:visited, a:hover { 
+	color:black; text-decoration:none; 
+}
+
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+#linkerTeil {
+float:left;
+width:250px;
+
+
+border-right:2px solid #aaaa91;
+background-color:#cdcdbe;
+height:100%;
+}
+
+#rechterTeil {
+float:left;
+
+padding: 10px;
+height:100%;
+}
+
+#scharfLogo{
+
+
+}
+
+.navigation_img {
+	margin: 6px 3px 0 2px;
+	padding-left:5px;
+
+}
+.navigation_title{
+	vertical-align: 2px;
+	padding-left:5px;
+}
+.navigation1 {
+	border-top:1px solid #e6e6dc;
+	border-left:1px solid #e6e6dc;
+	border-right:2px solid #55554b;
+	border-bottom:1px solid #55554b;
+	background-color:#bebeaa;
+	height:20px;
+	padding:3px;
+}
+
+.navigation2 {
+	border-top:1px solid #e2e1d0;
+	border-left:1px solid #dedec8;
+	border-right:2px solid #dedec8;
+	border-bottom:1px solid #c6c6b7;
+	background-color:#dedec8; 
+	height:20px;
+	padding:3px;
+}
+
+.navigation3 {
+	border-top:1px solid #f5f4e7;
+	border-left:1px solid #e2e1d0;
+	border-right:2px solid #e2e1d0
+	border-bottom:1px solid #dedec8;
+	background-color:#e2e1d0; 
+	height:20px;
+	padding:3px;
+}
+
+.navilink, a.navilink:link, a.navilink:visited {
+color:black;
+font-family:arial,sans-serif;
+font-size:8pt;
+
+
+}
+
+
+/* Der Inhalt */
+.vkbWF, .vkbErrorWF {
+		width:650px;
+		margin: 0.5cm auto;
+		border:1px solid #4F556A;
+		border-right:1px solid #575e75;
+		border-bottom:1px solid #575e75;
+		background-color:#DEDEC8;
+		padding-bottom: 35px;
+
+}
+.vkbErrorWF {
+
+		background-color:  #FEB1B1;
+		border:1px solid #B70000;
+		border-right:1px solid #910000;
+		border-bottom:1px solid #910000;
+		padding-bottom: 10px;
+
+}
+.inhalt {
+	clear:both;
+	padding: 15px 5px 0px 15px;
+
+}
+
+UL.inhaltError {
+/*		background-color: #FFFFD9;
+		color: #FF0000;
+		border:1px solid black;
+*/
+		
+
+		font-family:monospace;
+		font-size:medium;
+		color: black;
+		padding: 10px 20px;
+		list-style-position:outside;
+		list-style-image: url("/scharf-admin/pics/errorlist.gif");
+}
+UL.inhaltError li {
+	padding: 2px 0;
+}
+
+.vkbWF_imgL {
+		float:left;
+		width:22px;
+		height:16px;
+		padding-right:-5px;
+		margin:0 -3px 0 -3px;
+}
+
+.vkbWF_imgR {
+		width:16px;
+		height:16px;
+		float:left;
+		margin-right:-3px;
+}
+
+
+.vkbWF_Title {
+	background-color:#6780B8;
+	font-family:arial,sans-serif; 
+	font-size:9pt; 
+	color:#FFFFFF;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 0px;
+	margin: 0px 0px 0px 0px;
+	float:left;
+	line-height: 16px;
+	font-weight: normal;
+	font-variant: normal;
+	font-style: normal;
+	margin-right:-3px;
+}
+
+
+
+.input_title {
+font-family:arial,sans-serif;
+font-size:9pt;
+margin-left: 15px;
+border-bottom:1px solid #F5F4E7;
+padding-right: 15px;
+padding-left: 10px;
+
+
+}
+.input_feld {
+    font-family:arial,sans-serif;
+    font-size:9pt;
+    background-color: #FFFFFF;
+    height:16px;
+	border: 0px solid #FFFFFF;
+    padding-left:5px;
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-right:5px;
+	margin-right: 20px;
+}
+
+.button {
+margin-right: 35px;
+
+}
+
+.button_imgL{
+		float:right;
+		width:2px;
+		height:18px;
+		margin-right:-3px;
+}
+
+.button_imgR{
+		float:right;
+		width:2px;
+		height:18px;
+		margin-right: 35px;
+}
+.submit_button {
+float:right;
+				background-image:url("/scharf-admin/pics/butb_back1.gif");
+        background-repeat:repeat-x;
+        border-width: 0px;
+        color: #FFFFFF;
+        font-family:arial,sans-serif;
+        font-size:9pt;
+        height:18px;
+        background-position:middle;
+
+}
+
+.vkb_text {
+	background-color: #f5f4e7;
+	font-family:arial,sans-serif; 
+	font-size:9pt;
+	color: black;
+	text-align:left;
+	padding-left: 5px;
+	padding-right: 2px;
+	border-bottom:1px solid #F5F4E7;
+
+}
+
+.vkb_text_label{
+	font-family:arial,sans-serif;
+	font-size:9pt;
+	margin-left: 5px;
+	border-bottom:1px solid #F5F4E7;
+	padding-right: 3px;
+	padding-left: 5px;
+	margin-right:0px;
+	text-align:left;
+}
+
+
+table.list {
+	border: 1px solid #666;
+
+	width: 98%;
+	margin: 20px 10px 20px 0;
+}
+table.list th, table.list td {
+	padding: 2px 4px 2px 4px;
+	text-align: left;
+	vertical-align: top;
+}
+table.list th a, table.list th a:visited {
+  color: black;
+}
+table.list th a:hover {
+  text-decoration: underline;
+  color: black;
+}
+table.list th.sorted a, table.list th.sortable a {
+	background-position: left;
+	background-repeat:no-repeat;
+	text-indent:15px;
+	display: block;
+	width: 100%;
+}
+table.list th.sortable a {
+	background-image: url("/scharf-admin/pics/arrow_off.png");
+}
+table.list th.order1 a {
+	background-image: url("/scharf-admin/pics/arrow_down.png");
+}
+table.list th.order2 a {
+	background-image: url("/scharf-admin/pics/arrow_up.png");
+}
+
+table.list tr.tableRowEven, table.list tr.even {
+  background-color: #EBEAD8
+}
+
+table.list tr.odd {
+	background-color: #CDCDBE;
+}
+table.list thead tr , table.list th.sorted, table.list th.sorted a, table.list th.sortable, table.list th.sortable a{
+	background-color: #6780B8;
+	color: white;
+}
+
+table.list tr.odd , table.list tr.even {
+	padding-top: 10px;
+	height:25px;
+}
+
+table.list tr.odd a, table.list tr.even a {
+	color: black;
+}
+
+table.list tr.odd a:hover, table.list tr.even a:hover {
+	color:#666;
+}
+
+
+
+/* neuer WF mit div Container ende*/
+
+A.navi:link      {  color:black;
+               text-decoration:none;
+            }
+
+A.navi:visited 	{  color:black;
+               text-decoration:none;
+            }
+
+A.navi:hover 	{  color:blue;
+               text-decoration: underline;
+            }
+
+A.navi:active 	{ 	color:blue;
+                text-decoration: none;
+            }
+/* navi ende */

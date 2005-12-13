@@ -1,0 +1,269 @@
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+<struts-config>
+<!-- ================================================ Form Bean Definitions -->
+    <form-beans>
+
+		<form-bean 	name="NullForm" 
+					type="org.apache.struts.action.DynaActionForm" />
+
+		<form-bean 	name="LoginForm" 
+					type="de.hsharz.provirent.customer.form.LoginForm" />
+<!--
+		<form-bean 	name="SqlForm" 
+					type="org.apache.struts.action.DynaActionForm" >
+			<form-property
+				name="sqlBefehl"
+				type="java.lang.String"/>
+			<form-property
+				name="sqlBefehlHistory"
+				type="java.lang.String"/>
+			<form-property
+				name="sqlHistory"
+				type="java.util.List"/>
+		</form-bean>
+
+		<form-bean 	name="UploadForm" 
+					type="org.apache.struts.action.DynaActionForm" >
+			<form-property
+				name="datei"
+				type="java.lang.Object"/>
+			<form-property
+				name="text"
+				type="java.lang.String"/>
+		</form-bean>
+
+		<form-bean 	name="ListForm" 
+					type="org.apache.struts.action.DynaActionForm" >
+			<form-property
+				name="vudetailid"
+				type="java.lang.String[]"/>
+			<form-property
+				name="sbdetailid"
+				type="java.lang.String[]"/>
+		</form-bean>
+		
+		<form-bean 	name="SbDetailForm" 
+					type="org.apache.struts.action.DynaActionForm" >
+			<form-property
+				name="sbDetail"
+				type="com.vkb.scharf.business.object.Sachbearbeiter"/>
+			<form-property
+				name="sbDetailId"
+				type="java.lang.String"/>
+			<form-property
+				name="action"
+				type="java.lang.String"/>
+		</form-bean>
+		
+		<form-bean 	name="VuDetailForm" 
+					type="org.apache.struts.action.DynaActionForm" >
+			<form-property
+				name="vuDetail"
+				type="com.vkb.scharf.business.object.Versicherungsunternehmen"/>
+			<form-property
+				name="vuDetailId"
+				type="java.lang.String"/>
+			<form-property
+				name="action"
+				type="java.lang.String"/>
+		</form-bean>
+		
+		<form-bean 	name="VuImportExcelForm" 
+					type="com.vkb.scharf.admin.form.VuImportExcelForm" />
+-->
+    </form-beans>
+
+
+    <global-exceptions>
+    </global-exceptions>
+
+    <global-forwards>
+    		<forward name="index" path="/index.do" />
+        <forward name="login" path="/Login.do" />
+        <forward name="logout" path="/Logout.do" />
+    </global-forwards>
+
+
+<!-- =========================================== Action Mapping Definitions -->
+
+    <action-mappings>
+
+		
+    	<action path="/index"
+				forward="provirent.index" />
+			
+			<action path="/genre/*"
+					type="de.hsharz.provirent.customer.action.GenreAction"
+          name="NullForm"
+					forward="provirent.movie.list"/>
+		
+		
+   		<action path="/Login" 
+   				input="vkb.scharf.admin.login" 
+				type="de.hsharz.provirent.customer.action.LoginAction"
+				name="LoginForm"
+				validate="true" >
+   		</action>
+   		
+<!--		
+   		
+
+		<action path="/Sql"
+				name="SqlForm"
+				input="vkb.scharf.admin.sql"
+				type="com.vkb.scharf.admin.action.SqlAction" 
+				scope="session">
+   				<forward
+   					name="success"
+   					path="/SqlResult.do"
+   				/>
+   		</action>
+
+    	<action path="/SqlResult"
+				forward="vkb.scharf.admin.sqlresult" />
+
+    	<action path="/Login" 
+				forward="vkb.scharf.admin.login" />
+
+    	<action path="/Logout" 
+				type="com.vkb.scharf.admin.action.LogoutAction"
+				>
+   				<forward
+   					name="success"
+   					path="vkb.scharf.admin.login"
+   				/>
+   		</action>
+	
+
+   		<action path="/MainLogin" 
+   				input="vkb.scharf.admin.login" 
+				type="com.vkb.scharf.admin.action.LoginAction"
+				name="LoginForm"
+				validate="true" >
+   				<forward
+   					name="success"
+   					path="/Index.do"
+   				/>
+   		</action>
+
+    	<action path="/Index" 
+				forward="vkb.scharf.admin.index" />
+
+		<action path="/VuList" 
+				type="com.vkb.scharf.admin.action.VersicherungsunternehmenListAction"
+				name="ListForm"
+				>
+   				<forward
+   					name="success"
+   					path="vkb.scharf.admin.vu.list"
+   				/>
+   				<forward
+   					name="hinzufuegen"
+   					path="/VuDetail.do"
+   				/>
+   		</action>
+
+		<action path="/SbList" 
+				type="com.vkb.scharf.admin.action.SachbearbeiterListAction"
+				name="ListForm"
+				>
+   				<forward
+   					name="success"
+   					path="vkb.scharf.admin.sb.list"
+   				/>
+   				<forward
+   					name="hinzufuegen"
+   					path="/SbDetail.do"
+   				/>
+   		</action>
+
+
+
+		<action	path="/SbDetail"
+				name="SbDetailForm"
+				type="com.vkb.scharf.admin.action.SbDetailAction"
+				input="vkb.scharf.admin.sb.detail"
+				scope="session"	>
+  				<forward
+   					name="success"
+   					path="/SbList.do"
+   				/>
+   		</action>
+
+		<action	path="/VuDetail"
+				name="VuDetailForm"
+				type="com.vkb.scharf.admin.action.VuDetailAction"
+				scope="session"
+				input="vkb.scharf.admin.vu.detail"	>
+  				<forward
+   					name="success"
+   					path="/VuList.do"
+   				/>   				
+   		</action>
+
+    	<action path="/VuImport" 
+				input="vkb.scharf.admin.vuimport"
+				name="UploadForm"
+				type="com.vkb.scharf.admin.action.VuImportAction"
+				scope="request" >
+  				<forward
+   					name="excel"
+   					path="/VuImportExcel.do"
+   				/>
+   		</action>
+   		
+    	<action path="/VuImportExcel" 
+				input="vkb.scharf.admin.vuimport.excel"
+				name="VuImportExcelForm"
+				scope="session"
+				type="com.vkb.scharf.admin.action.VuImportExcelAction" >
+  				<forward
+   					name="success"
+   					path="/VuImportResult.do"
+   				/>
+   				<forward
+   					name="failure"
+   					path="/VuImport.do"
+   				/>
+   		</action>
+
+    	<action path="/VuImportResult" 
+				forward="vkb.scharf.admin.vuimport.result" />
+
+--> 		
+	</action-mappings>
+
+
+<!-- ============================================= Controller Configuration -->
+
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+
+
+<!-- ======================================== Message Resources Definitions -->
+
+    <message-resources parameter="MessageResources" />
+
+
+<!-- =============================================== Plug Ins Configuration -->
+
+  <!-- ======================================================= Tiles plugin -->
+
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+
+      <!-- Path to XML definition file -->
+      <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+      <!-- Set Module-awareness to true -->
+      <set-property property="definitions-debug" value="2" />
+      <set-property property="definitions-parser-details" value="2" />
+      <set-property property="definitions-parser-validate" value="true" />
+      <set-property property="moduleAware" value="true" />
+    </plug-in>
+
+
+  <!-- =================================================== Validator plugin -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+  </plug-in>
+
+</struts-config>
