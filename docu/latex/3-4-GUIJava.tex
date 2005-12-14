@@ -1,8 +1,70 @@
 \section{grafischen Benutzerschnittstellen in Java} \label{sec:tech-Benutzerschnittstellen}
-		\subsection{Abstract Window Toolkit - AWT}
-		\subsection{Swing}
-		\subsection{Standard Widget Toolkit - SWT}
+\subsection{Abstract Window Toolkit - AWT}
+Die Abkürzung AWT steht für Abstract Window Toolkit. AWT stellt eine Standard-API für die Erzeugung und Darstellung von plattformunabhängigen Benutzerschnittstellen für grafische Oberflächen in Java zur Verfügung. AWT verwendet die nativen GUI-Komponenten des jeweiligen Betriebssystem zur Darstellung der grafischen Oberflächen. Da diese nativen GUI-Komponenten teilweise mit umfangreichen Betriebssystem Ressourcen verbunden sind, wird AWT auch als Heavyweight-Framework bzw. die einzelnen GUI-Elemenete als Heavyweight-Components bezeichnet.\\ 
+Seit dem JDK ( Java Development Kit ) 1.0 steht AWT als Grafik-Bibliothek für die Anwender zur Verfügung. Dabei lässt sich AWT in 4 Gruppen unterteilen:
+\begin{itemize}
+	\item Grafische Primitivoperationen zum Zeichen von Linien oder Füllen von Flächen und zur Ausgabe von Text
+	\item	Methoden zur Steuerung von des Programmablaufs über Nachrichten durch Tastatur-, Maus- oder Fensterereignisse.
+	\item portables Design für Dialogboxen für Darstellung der Dialogelemente und die Kommunikation mit dem Anwender
+	\item Fortgeschrittene Grafikfunktionen für die Bearbeitung und Darstellung von Bitmaps, sowie zur Ausgabe von Sound
+\end{itemize}
+Aufgrund der hohen Performance-Ansprüche von AWT, besonders für große GUI-Anwendungen, wurde es im JDK 1.1 von SUN massiv verändert. Dabei wurden viele Fehler behoben und auch viele Methodennamen verändert. Des Weiteren wurde das Event Handling-Modell, also der Transfer von GUI-Ereignissen, komplett überarbeitet. Dazu wurde AWT die Fähigkeit gegeben GUI-Ereignisse an beliebige Objekte zu übergeben und dort abzuarbeiten. Aufgrund dieser Fähigkeit erreicht man eine klare Trennung zwischen Benutzeroberfläche und Applikationslogik.\citep{Krueger2003}
+
+
+
+
+\subsection{Swing}
+Swing ist eine weitere Grafikbibliothek die im JDK 1.1 als Add-on verfügbar war und seit Version 1.2 fester Bestandteil des Java Development Kit ist. Swing wurde von SUN entwickelt um die grafische Benutzeroberfläche von Java Programmen zu verbessern, da man folgende Eigenschaften von AWT als nachteilig ansah:
+\begin{itemize}
+	\item Aufgrund der Verwendung der jeweiligen nativen GUI-Elemente des eingesetzten Betriebssystems, war es sehr schwer einen einheitliches Look-an-Feel ( Aussehen ) zu realisieren.
+	\item Um das Verhalten der verschiedenen GUI-Elemete der einzelnen Betriebssystemen annähernd anzugleichen war sehr viel Portierungsaufwand notwendig.
+	\item Des Weiteren gibt es in AWT nur eine Grundmenge an Dialogelementen mit denen sich aufwendige grafische Oberflächen nur mit sehr viel Zeitaufwand realisieren lassen.
+\end{itemize}
+Das Ziel der Entwickler war es diese Nachteile mit Swing zu beseitigen.\\
+Der erste Schritt die Nachteile zu beseitigen ist, das mit Swing nur noch eingeschränkt auf die jeweiligen nativen GUI-Elemente zugreift. Die restlichen GUI-Elemente werden von Swing selbst erzeugt und gezeichnet.
+\begin{itemize}
+	\item Aufgrund dieser Vorgehensweise entfällt ein Großteil der plattformspezifischen Besonderheiten weg.
+	\item Des Weiteren entfällt die unterschiedliche Bedienung und Darstellung zwischen den verschiedenen Betriebssystemen, so dass ein Anwender auf allen Betriebssystemen dasselbe Aussehen vorfindet.
+	\item Zusätzlich ist SWING nicht mehr angewiesen auf den kleinsten gemeinsamen Nenner der GUI-Elemente der Betriebsysteme aufzubauen, sondern kann unabhängig davon komplexere GUI-Elemente bereitstellen ohne auf das jeweilige Betriebssystem zu achten. Außerdem stehen in Swing dem Programmierer viel mehr Dialogelemente zur Verfügung als das bei AWT der Fall war.
+\end{itemize}
+
+\subsubsection{Leichtgewicht-Komponenten}
+Aus diesem Grund werden die GUI-Elemente in Swing als Lightweight-Components bezeichnet, da sie nicht mehr über die betriebssystemspezifische Klassen erstellt werden müssen sondern durch Komponenten-Klassen mit Hilfe von Primitivoperationen erzeugt werden.\\
+Mit Hilfe der Leichtgewicht-Komponenten war es zusätzlich möglich Tooltips ( kleine Fenster mit nützlichen Informationen ) unabhängig vom verwendeten Grafiksystem und einen Debug-Modus ( Debug-Grafik ), zum Finden von Fehlern während der Erzeugung von grafischen Oberflächen, zu implementieren.
+
+
+\subsubsection{Pluggable Look-and-Feel}
+Eine der spektakulärsten Eigenschaften von Swing ist das Look-and-Feel der GUI-Elemente zur  Laufzeit zu verändern. Dabei hat der Anwender die Möglichkeit zwischen einer bestimmte Menge an Look-and-Feels auszuwählen. Des Weiteren ist es möglich auch eigene Look-and-Feels zu erstellen.\\
+Die Entscheidung welches Look-and-Feel verwendet werden soll, muss dazu nicht während der Design-Phase entschieden werden. Sondern man kann dem Anwender ein Menü zur Verfügung stellen indem er er während der Laufzeit das ihm passende Look-and-Feel auswählt. Das Umschalten erfolgt praktisch ohne weiteren Aufwand des Programms, sondern wird von einem User-Interface-Manager erledigt, der alle notwendigen Maßnahmen ausführt.
+
+
+\subsubsection{Das Model-View-Controller Prinzip}
+Beim Model-View-Controller Prinzip wird nicht die gesamte Funktionalität in eine Klasse gepackt sondern in drei Bestandteile zerlegt:
+\begin{itemize}
+	\item Das Modell enthält die Daten des Dialogelements und speichert seinen Zustand.
+	\item Der View ist für die grafische Darstellung der Komponente verantwortlich.
+	\item Der Controller wirkt als Verbindungsglied zwischen dem Modell und View und stößt bei Ereignissen die notwendigen Maßnahmen zur Veränderung von Modell und View an.
+\end{itemize}
+Eine wichtige Eigenschaft bei diesem Prinzip ist, dass ein Modell mehrere Views gleichzeitig haben kann. Dazu werden bei Veränderungen am Modell die Views benachrichtigt und aktualisieren sich entsprechend.\\
+Bei Swing sind der View und der Controller in einer Klasse untergebracht, dadurch wird die Komplexität reduziert. Außerdem ist in den meisten Fällen der Controller so einfach strukturiert, das es sich gar nicht lohnt ihn in einer zusätzlichen Klasse zu implementieren.\\
+Die hier genannten Eigenschaften bringen aber auch Nachteile mit sich:
+\begin{itemize}
+	\item Swing-Anwendungen sind ressourcenhungrig. Da alle Komponenten selbst gezeichnet werden müssen, erfordert es die dementsprechende CPU-Leistung und Hauptspeicher.
+	\item Im JDK 1.2 gab es Speicherprobleme mit Swing-Elementen, da diese den Speicher den sie belegten nicht wieder komplett freigaben und sich dadurch der verfügbare Speicher mit der Zeit verringerte.
+	\item Für Applet-Programmierer gab es keine Browser mit eingebauter Swing- Unterstützung und müssen dies dem Anwender durch einen zusätzlichen Download und Installationsschritt zumuten oder auf AWT zurückgreifen.
+\end{itemize}
+Aufgrund der steigenden Rechenleistung der PCs und der im JDK 1.3 verbesserten Swing-Grafikbibliothek konnten jedoch viele der Probleme behoben werden. \citep{Krueger2003}
+
+
+\subsection{Standard Widget Toolkit und JFace}
+SWT ist ebenfalls eine Grafikbibliothek für Java und steht für Standard Widget Toolkit. Im Gegensatz zu den anderen genannten Grafikbibliotheken ist SWT von IBM und nicht von SUN entwickelt wurden. SWT wurde im Jahr 2001 für die Entwicklungsumgebung Eclipse entwickelt. Im Gegensatz zu Swing verwendet SWT die nativen grafischen Elemente des Betriebssystems und schließt sich damit AWT an.\\
+Des Weiteren ist SWT im Gegensatz zu AWT und Swing nicht als plattformunabhängig zu betrachten. Dies resultiert daraus, das  SWT die entsprechende Bibliothek für den betriebssystemabhängigen Code für die GUI-Elemente zur Laufzeit benötigt. Zusätzlich werden die  Java-Klassen der SWT-Bibliothek benötigt, die auf die betriebsystemabhänige Bibliothek zugreifen.\\
+Leider leidet SWT aufgrund des eben beschriebenen Sachverhalts auf einigen nicht Windows-Plattformen an Effizienzproblemen, da bestimmte Funktionalitäten eventuell nicht verfügbar sind und dadurch emuliert werden müssen.\\
+JFace ist ein UI-Toolkit und setzt aus den gelieferten Basiskomponenten von SWT komplexere Widgets zusammen. JFace kann daher überall eingesetzt werden wo auch SWT zur Verfügung steht.\citep[SWT]{Wikipedia2005} \citep{SWTBasic}
 		
+Krueger2003
+SWTBasic
+EclipseISV
 		
 
 

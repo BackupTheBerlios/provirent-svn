@@ -1,14 +1,51 @@
 \section{Entwicklungsumgebung} \label{sec:tech-Entwicklungsumgebung}
-		\subsection{JBuilder}
-		\subsection{Netbeans}
-		\subsection{Eclipse}
+\subsection{Eclipse}
+Eclipse ist eine Open-Source-Framework, das meist als Entwicklungsumgebung genutzt wird und auf 11 verschiedenen Systemen und Architekturen verwendet werden kann. Darunter befinden sich unter anderem Windows, Linux, MAC OS X, etc. Eclipse ist der Nachfolger von Visual Age for Java von IBM. Der Quellcode von Eclipse wurde 2001 von IBM freigegeben. Eclipse bildet nur den Kern, die Funktionalität wird über Plug-ins realisiert. Je nach verwendeten Plug-ins stellt sich somit die gesamte Funktionalität der Entwicklungsumgebung zusammen. Sowohl Eclipse als auch die Plug-ins sind in Java implementiert. Die Plug-Ins sind teilweise frei verwendbar und teilweise kommerziell. Dabei werden neben Java auch andere Sprachen wie zum Beispiel: C, C++. Perl und PHP  unterstützt. Das dynamische Hinzufügen und Entfernen von Plug-ins und die daraus entstehende Gesamtfunktionalität der Eclipse-Entwicklungsumgebung bezeichnet man als Rich Client Platform, das wiederum auf den OSGi-Standard basiert.\\
+Der OSGi-Standard (Open Services Gateway Initiative) ist ein Industriekonsortium, das ein  Framework, für die Vernetzung von intelligenten Embedded-Geräten und das Bereitstellen von Diensten zur Laufzeit ermöglicht, entwickelt hat. Eclipse verwendet das OSGi-Framework außerhalb dieser Embedded-Ausrichtung.\\
+Für die GUI-Erstellung wurde in Eclipse SWT verwendet, da SWT auf die nativen GUI-Komponenten des jeweiligen Betriebssystems zugreift ist Eclipse, trotz Java, nicht als plattformunbhängig zu betrachten.\\
+Der Aufbau von Eclipse setzt sich dabei aus folgenden Subsystemen zusammen, die teilweise aus einem oder mehreren Plug-ins bestehen wie in \vref{fig:eclipse-aufbau} zu sehen ist.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1.0]{images/Eclipse-Aufbau.png}
+	\caption{Aufbau der Eclipse-Plattform}
+	\label{fig:eclipse-aufbau}
+\end{figure}
+Die einzelnen Subsysteme definieren Erweiterungs-Schnittstellen um deren Funktionalität der Plattform zugänglich zu machen, wie in Tabelle 3.1 auf Seite \pageref{tab:eclipse-subsystem} zu sehen ist. 
+
+\begin{table}[htbp]
+	\centering
+	
+\begin{longtable}{|c|p{10cm}|}
+\caption{Subsysteme von Eclipse}\\
+
+\hline
+\textbf{Subsystem} & \textbf{Funktion} \endhead
+\hline
+Plattform-Runtime & Definiert die Erweiterungs-Schnittstellen und das Plug-in Model. Es findet dynamisch Plug-ins und enthält Informationen zu den Plug-ins und deren Schnittstellen in einem Register. Die eingefügten Plug-ins werden gestartet, wenn der Anwender sie über die Plattform aufruft. \\
+\hline
+Resource Management & Definiert die API für das Erzeugen und Verwalten von Projekten, Dateien und Verzeichnissen, die von Tools erzeugt wurden und im Dateisystem abgelegt sind.\\
+\hline
+Workbench (UI) & Implementiert das Bedienfeld um mit der Plattform zu arbeiten. Definiert Erweiterungs-Schnittstellen für weitere UI-Komponenten, um vorhandene Funktionalitäten aus bereits bestehenden Ansichten und Menüs zu erweitern oder zu verwenden. Als Grundlage dienen dazu JFace und SWT, die im Kapitel SWT beschrieben sind.\\
+\hline
+Help System & Definiert Erweiterungs-Schnittstellen für Plug-ins, um eine Hilfe oder andere Informationen als durchsuchbare Bücher bereitzustellen. \\
+\hline
+Team Support & Definiert ein Team-Programmierungsmodell zum Verwalten von Ressourcen. \\
+\hline
+Debug Support & Definiert ein sprachunabhängiges Debug-Modell und UI-Klassen für das Erstellen von Debuggern und Launchers.\\
+\hline
+Other Utilities & Andere nützliche Plug-ins unterstützen Funktionen für das Vergleichen von Ressourcen, das Erzeugen von Konfigurationen über XML-Files und das dynamische Updaten der Plattform über einen Server.\\
+\hline
+			
+\end{longtable}
+\label{tab:eclipse-subsystem}
+\end{table}
 
 
 
 
 
-
-
+\citep[Eclipse]{Wikipedia2005}
+\citep{EclipseISV}
 
 
 
