@@ -69,16 +69,6 @@
     <taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
   </taglib>
 
-  <taglib>
-    <taglib-uri>/tags/taglibs-log.tld</taglib-uri>
-    <taglib-location>/WEB-INF/taglibs-log.tld</taglib-location>
-  </taglib>
-  
-  <taglib>
-    <taglib-uri>/tags/c.tld</taglib-uri>
-    <taglib-location>/WEB-INF/c.tld</taglib-location>
-  </taglib>
-
 	<taglib> 
 	    <taglib-uri>http://displaytag.sf.net</taglib-uri> 
 	    <taglib-location>/WEB-INF/displaytag-12.tld</taglib-location>

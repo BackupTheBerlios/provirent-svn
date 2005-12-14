@@ -37,9 +37,7 @@ Bestellen </td>
               </tbody>
             </table>
 
-<display:table name="sessionScope.sessiongenrelist"  pagesize="2" class="list">
-	<display:column property="id" />
-	<display:column property="id" />
+<display:table name="sessiongenrelist"  pagesize="2" class="list">
 	<display:column property="id" />
 
 </display:table> 

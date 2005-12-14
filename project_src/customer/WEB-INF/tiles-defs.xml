@@ -7,7 +7,7 @@
 
     <definition name="provirent.default"
 				path="/jsp/main_template.jsp" >
-		<put name="members" value="/jsp/main_members.jsp" />
+		<put name="mitglieder" value="/jsp/main_members.jsp" />
 		<put name="navigation" value="/jsp/main_navigation.jsp" />
 		<put name="inhalt" value="/jsp/main_index.jsp" />
     </definition>

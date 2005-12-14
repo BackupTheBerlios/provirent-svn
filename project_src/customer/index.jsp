@@ -1,2 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:redirect url="/index.do" />
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+
+<logic:redirect forward="index" />

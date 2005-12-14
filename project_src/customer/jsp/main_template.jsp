@@ -1,9 +1,7 @@
 <%@ taglib uri="/tags/struts-tiles.tld"  prefix="tiles"  %>
 <%@ taglib uri="/tags/struts-html.tld"  prefix="html"  %>
 <%@ taglib uri="/tags/struts-bean.tld"  prefix="bean"  %>
-<%@ taglib uri="/tags/c.tld" prefix="c" %>
 <%@ taglib uri="/tags/struts-logic.tld"  prefix="logic"  %>
-<%@ taglib uri="/tags/taglibs-log.tld" prefix="log" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html:html>
 <head>
@@ -49,10 +47,10 @@
 				 <td>
 <!--head start-->
 
-<tiles:insert attribute="members" />
+<tiles:insert attribute="mitglieder" />
 
 <!--head end-->
-                  </td>
+          </td>
 				</tr>
               </tbody>
             </table>

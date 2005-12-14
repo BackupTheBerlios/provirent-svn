@@ -1,6 +1,5 @@
 <%@ taglib uri="/tags/struts-bean.tld"  prefix="bean"  %>
 <%@ taglib uri="/tags/struts-html.tld"  prefix="html"  %>
-<%@ taglib uri="/tags/c.tld" prefix="c" %>
 
 
             <table class="menue_tbl" border="0" cellpadding="0" cellspacing="0">
