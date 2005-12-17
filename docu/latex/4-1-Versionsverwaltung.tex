@@ -1,5 +1,11 @@
 \section{Versionsverwaltung mit Subversion} \label{sec:impl-Versionsverwaltung}
 
+Es wurde Subversion verwendet, da es eine neue Technologie ist, zu diesem zeitpunkt relativ unbekannt war. Weiterhin wurde es als Nachfolger von CVS "`verkauft"' und bot im Vergleich zu CVS einige Vorteile in Bezug auf Geschwindigkeit und Netztwerklast.
+Nun war die Frage wo und wie einen Subversion Server installieren. Linux war nicht möglich, da keiner ausreichend Linux-kenntinisse besitzt, also einen Windows Server.
+Mit Subversion gibt es verschiedene Möglichkeiten um mit dem Server zu kommunizieren. den eigene Subversion Server und das eigene svn protokoll. Nachteil ist, dass dies nicht Verschlüsselt ist. Die sicherste methode ist über ssh+svn, eine Kombination aus der Secure Shell (bekannt aus Linux) und dem Subversion Server. Der Nachteil hier ist wieder Windows. Für linux ist solch ein setup nicht kompliziert, da es einfache Schritt-für-Schritt Anleitungen gibt. Unter Windows gibt es zwar Secure Shell Server, jedoch keine Anleitungen bzw. Hinweise, Tipps wie man diese mit dem Subversion Server integriert.
+
+
+
 maximal zwei Seiten
 		
 
