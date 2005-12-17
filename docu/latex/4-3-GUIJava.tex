@@ -1,22 +1,172 @@
 \section{grafischen Benutzerschnittstellen mit SWT} \label{sec:impl-Benutzerschnittstellen}
+Dieses Kapitel beginnt mit der Vorstellung allgemeiner Komponenten, die während der Implementierung verwendet wurden. Danach wird auf den Aufbau der grafischen Benutzeroberfläche und dazu auf einzelne Klassen eingegangen, um einen Überblick über die gesamte Implementierung zu vermitteln. Aufgrund dessen das dieses Projekt noch nicht beendet wurde, sind nicht alle hier erwähnten Funktionalitäten bereits vollständig realisiert.
+
+\subsection{Log4j} \label{sec:Log4j}
+Log4j\footnote{\url{org.apache.log4j}} wurde während der Implementierung der einzelnen Klassen genutzt um evtl. Debug- und Fehlermeldungen über eine gemeinsame Schnittstelle zu verwalten. Dabei unterstützt Log4j Hierarchien, das bedeutet man kann Logger-Ausgaben einer bestimmten Hierarchie zuordnen und dadurch entscheiden welche Ausgaben man im Moment benötigt.\\
+Aufgrund dieser Debug- und Fehlermeldungen konnte das Programmverhalten bei Bedienungsfehlern entsprechend angepasst werden. Des Weiteren konnte auf diese Weise der Programmablauf verfolgt und evtl. Fehler in der Programmierung beseitigt werden.
+
+\subsection{PropertyResourceBundle-Klasse} \label{sec:PropertyResourceBundleKlasse}
+Die PropertyResourceBundle-Klasse befindet sich java.util package. Um die Möglichkeit zu haben vor und während des Programmablaufs die Sprache im Programm zu ändern, sind, anstatt des eigentlichen Namen von Buttons oder der Inhalt von Hilfetexten, entsprechende Bezeichner definiert wurden. Diese Bezeichner befinden sich mit dem zugehörigen Inhalten in verschiedenen Textdateien. Mit Hilfe der PropertyResourceBundle-Klasse können nun die entsprechenden Dateien ausgelesen werden und ersetzen die definierten Bezeichner mit dem eigentlichen Inhalt. Dazu wird die Datei ausgelesen und ein entsprechendes ResourceBundle erzeugt, über den man Zugriff auf die definierten Bezeichner und deren Inhalt hat. Dadurch ist es möglich verschiedene Sprachen zu unterstützen, indem man für jede Sprache entsprechende Dateien erzeugt bei denen die selben Bezeichner definiert sind, der Inhalt aber in der entsprechenden Sprache vorliegt.
+
+\subsection{Locale-Klasse} \label{sec:LocaleKlasse}
+Mit Hilfe der Locale-Klasse ( java.util package ) ist man in der Lage sich an bestimmte geographische, politische oder kulturelle Eigenschaften bestimmter Gebiete anzupassen. Im Zusammenhang mit diesem Projekt wird Locale dazu verwendet sich der entsprechenden Zeitzone und, wenn vom Programm unterstützt, die dortige Sprache als Standard-Sprache zu übernehmen. Das Einstellen der Region,Sprache,etc. muss aber durch den Benutzer erfolgen.
+
+\subsection{Aufbau der grafischen Benutzeroberfläche} \label{sec:AufbauDerGrafischenBenutzeroberflaeche}
+Für die grafische Benutzeroberfläche wurde auf die SWT-Bibliothek zurückgegriffen. Die Entwicklungsumgebung Eclipse baut auch auf SWT auf. Aus diesem Grund stand die SWT-Bibliothek ohne weiteren Aufwand zur Verfügung. Auf die einzelnen Klassen von SWT wird hier nicht eingegangen, da sich der Umfang des Dokumentes erheblich erhöht. Alle verwendeten grafischen Komponenten für Fenster, Buttons, Textfelder, etc. wurden aus der SWT-Bibliothek verwendet. Genauere Informationen können über die API abgefragt werden.\\
+Die grafische Oberfläche baut sich aus einem Hauptfenster ( mit Menüleiste ) auf, das es erlaubt zwischen den einzelnen Unterfenster ( Menüpunkten ) zu navigieren und über eine Statusleiste verfügt, die entsprechende Meldungen bei Fehlern oder erfolgreichen Abschließen von implementierten Aktionen informiert. Die Untermenüs werden über das Hauptfenster aufgerufen, erhalten gleichzeitig den Fokus und werden damit dem Benutzer angezeigt. Um zwischen den verschiedenen Untermenüs zu navigieren kann zum einen das entsprechende Menü aufgerufen werden und zum anderen wird jedes geöffnete Menü als Reiter dargestellt. Über diesen Reiter kann der Fokus auf das gewünschte Menü gegeben werden. In einzelnen Untermenüs werden für kritische Eingaben entsprechende Dialogboxen verwendet, die die Bedienung vereinfachen und verhindern das ein Benutzer falsche Angaben machen kann.\\
+Der oben vorgestellte Aufbau wird durch folgenden Klassen realisiert:\\
+\begin{enumerate}
+	\item SWTResourceManager ( realisiert das korrekte Freigeben der grafischen Objekte, siehe \vref{sec:StandardWidgetToolkitundJFace})
+	\item ManagementGui ( bildet das Hauptfenster, mit Menü und Statusleiste / ist die zentrale Verwaltungsstelle der Untermenüs)
+	
+		\begin{enumerate}
+			\item CompositeActors ( Untermenü für Schauspieler )
+			\item CompositeCustomer ( Untermenü für Kunden )
+			\item CompositeDirectors ( Untermenü für Regisseure )
+			\item CompositeDVD ( Untermenü für vorhandene DVDs / Lagerbestand,Status )
+				\begin{enumerate}
+					\item DialogDVD ( Dialoge für einfachere Bedienung des DVD-Menüs )
+				\end{enumerate}
+			\item CompositeFormate ( Untermenü für Audio- und Videoformate )
+			\item CompositeGenre ( Untermenü für Genre )
+			\item CompositeImage ( Untermenü für Cover,Poster und Bilder zu Filmen)
+			\item CompositeLanguage ( Untermenü für unterstützte Untertitel und Sprachen )
+			\item CompositeMovie ( Untermenü für Filme )
+				\begin{enumerate}
+					\item DialogDVD ( Dialoge für einfachere Bedienung des DVD-Menüs )
+				\end{enumerate}
+			\item CompositeOrder ( Untermenü für Bestellungen )
+			\item CompositePayment ( Untermenü für Rechnungen )
+			\item CompositeStatus ( Untermenü für den Zustand von DVDs )
+			
+		\end{enumerate}
+	\item StatusLineStyledText ( definiert das Aussehen der Statusleiste bei Fehler oder anderen Ereignissen )
+	\item SWTCalendarDialog ( bietet eine grafische Kalenderoberfläche, zur einfacheren Eingabe von Datum- und Zeitangaben )
+	\item ColorDef ( definiert Farben für festgelegte Ereignisse )
+\end{enumerate}
+
+\subsection{SWTResourceManager-Klasse} \label{sec:SWTResourceManagerKlasse}
+Diese Klasse ist verantwortlich dafür, das grafische Objekte ( Fenster, Buttons, etc. ) wieder freigegeben werden. Dazu wird bei einem nicht mehr verwendeten Objekt die dispose()-Methode aufgerufen und gibt somit das Objekt und den damit verbundenen Speicherplatz wieder frei.
+
+\subsection{ManagementGui-Klasse} \label{sec:ManagementGuiKlasse}
+Die ManagementGui-Klasse erzeugt das Hauptfenster indem die anderen Untermenüs angezeigt werden. Des Weiteren wird eine Menüleiste und eine Statusleiste implementiert.\\
+Dazu wird als Erstes das Hauptfenster erzeugt, der Titel des Fensters über Locale l ermittelt und an das Fenster übergeben. Die Größe des Fensters ist in Konstanten festgelegt, da sich aufgrund von Bildschirmeinstellungen die jeweilige Auflösung sich von System zu System unterscheiden kann.
+\begin{lstlisting}[language=Java, showstringspaces=false]
+display = Display.getDefault();
+shell = new Shell(display);
+shell.setText(l.getString("mainwindow.title"));
+//set size
+shell.setSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
+shell.setLocation(MAIN_WINDOW_X, MAIN_WINDOW_Y);
+\end{lstlisting}
+
+Anschließend wird die Menüleiste mit den entsprechenden Menüpunkten erzeugt und initialisiert.
+\begin{lstlisting}[language=Java, showstringspaces=false]
+rootMenu = new Menu(shell, SWT.BAR);
+shell.setMenuBar(rootMenu);
+//init the other menu's
+initFileMenu();
+initViewMenu();
+initHelpMenu();
+\end{lstlisting}
+
+Das \texttt{ViewMenu} beinhaltet alle implementierten und auswählbaren Untermenüs. Die Bezeichnung der einzelnen Menüpunkte ist wieder in Locale \texttt{l} festgelegt. Nachdem der Menüpunkt erzeugt wurde, werden die einzelnen Untermenüpunkte erzeugt und festgelegt ob sie bereits nach dem Start aktiv sein sollen. Der folgende Quellcodeabschnitt zeigt diese Vorgehensweise mit dem Menüpunkt \texttt{menu.view} und dem Untermenü
+\texttt{menu.view.format}.
+
+\begin{lstlisting}[language=Java, showstringspaces=false]
+viewMenuItem = new MenuItem(rootMenu, SWT.CASCADE);
+viewMenuItem.setText(l.getString("menu.view"));
+viewMenu = new Menu(viewMenuItem);
+viewMenuItem.setMenu(viewMenu);
+viewVideoFormatMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+viewVideoFormatMenuItem.setText(l.getString("menu. view.format"));
+viewVideoFormatMenuItem.setSelection(false);
+\end{lstlisting}
+
+Darauf wird dem Untermenüpunkt ein \texttt{SelectionListener} zugeordnet der die entsprechende Behandlung festlegt, wenn der Untermenüpunkt ausgewählt wurde. Bevor das Hauptfenster angezeigt werden kann, wird vorher noch das Layout des Fensters festgelegt und die Statusleiste initialisiert.
+
+\begin{lstlisting}[language=Java, showstringspaces=false]
+//init the MainComposite
+compositeMain = new Composite(compositeRoot, SWT.EMBEDDED);
+GridLayout composite3Layout = new GridLayout();
+...
+//StatusLine
+initStatusLine();
+\end{lstlisting}
 
 
+Das fertige Hauptfenster sieht wie in \vref{fig:fensterstart} zu sehen aus.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.5]{images/Fenster_Start}
+	\caption{Hauptfenster der Management Anwendung}
+	\label{fig:fensterstart}
+\end{figure}
 
 
+\subsection{CompositeDVD-Klasse} \label{sec:CompositeDVDKlasse}
+Die CompositeDVD-Klasse legt das Aussehen und Verhalten des DVD-Menüpunktes fest. Wird der DVD-Menüpunkt aufgerufen, sorgt die ManagementGui-Klasse dafür das das DVD-Fenster den Fokus erhält und fügt den DVD-Reiter zu den bereits vorhandenen Reitern hinzu. Die Erzeugung des DVD-Fensters ist ähnlich des Hauptfensters. Der Unterschied besteht darin, das zusätzlich die ganzen Eigenschaften die ein DVD-Objekt besitzt mit Hilfe des Menüpunktes bearbeitet werden können müssen. Dazu wird eine Reihe von Buttons, Labels, Tables, Comboboxen, etc.. benötigt.\\
+Die grafische Oberfläche wird im DVD-Fenster in eine linke und rechte Hälfte unterteilt. In der linken Hälfte werden alle DVD-Objekte angezeigt, die sich in der Datenbank befinden. Des Weiteren befindet sich auf der linken Seite ein Suchfeld um die evtl. Massen an DVD-Objekten einfacher zu handhaben. Auf der rechten Seite des DVD-Fensters befindet sich die Editor-Umgebung. Mit Hilfe der verschiedenen Textfelder, Buttons, Comboboxen im Editor können nun existierende DVDs bearbeitet und neue DVDs in die Datenbank eingefügt werden.
+\begin{lstlisting}[language=Java, showstringspaces=false]
+if (mode_dvd == ManagementGui.MODE_ADD)   {
+  Database.saveObject(localdvd);
+  ...
+} else if (mode_dvd == ManagementGui.MODE_EDIT)   {
+  Database.updateObject(localdvd);
+}
+\end{lstlisting}
 
+Das DVD-Fenster sieht wie in \vref{fig:dvdfenster} aus:
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.5]{images/Fenster_DVD}
+	\caption{DVD-Fenster}
+	\label{fig:dvdfenster}
+\end{figure}
 
+Wie oben beschrieben, werden auf der linken Seite des Fenster die in der Datenbank vorhandenen Objekte angezeigt und darunter befindet sich das Suchfeld. Auf der rechten Seiten befinden sich mehrere Buttons, Textfelder, etc. die je nach gewünschter Tätigkeit aktiviert oder deaktivert sind. Auf diese Art und Weise lassen sich Benutzerfehler verhindern, da je nach gewünschter Tätigkeit nur die in diesem Zustand möglichen Aktionen ( Buttons,Textfelder,etc. ) funktionstüchtig sind.\\
+Wird das DVD-Fenster geschlossen wechselt der Fokus zum nächsten vorhandenen Reiter, ansonsten ist nur das Hauptfenster sichtbar.\\
+Die anderen Untermenüs sind je nach Funktionalität komplexer oder weniger komplexer aufgebaut. Trotzdem sind sie im Großen und Ganzen identisch zum DVD-Fenster. Aus diesem Grund werden sie hier nicht weiter behandelt.
 
+\subsection{DialogDVD-Klasse} \label{sec:DialogDVDKlasse}
+Zur einfacheren Handhabung wurden für bestimmte Felder, die zum Beispiel mehrere Werte erlauben oder von Benutzern unterschiedlich eingegeben werden könnten, Dialogfenster erstellt, um die Eingabe durch den Benutzer einheitlich zu halten. Die DialiogDVD-Klasse realisiert mehrere Dialogfenster unter anderem für die Auswahl der Sprache und Untertitel die eine DVD unterstützt. Wie der folgenden Quellcodeauschnitt zeigt, wird dazu der gewünschte Dialogtyp übergeben und dementsprechend behandelt.
+\begin{lstlisting}[language=Java, showstringspaces=false]
+if (type == TYPE_LANGUAGE) {
+  groupDialogDescription.setText(l.getString("dvd.dialog.title.language"));
+} else if (type == TYPE_SUBTITLE) {
+  groupDialogDescription.setText(l.getString("dvd.dialog.title.subtitle"));
+...
+\end{lstlisting}
 
+Die folgende (siehe \vref{fig:dvddialogfenster}) Grafik zeigt das Dialogfenster um die Sprachen die eine DVD unterstützt auszuwählen:
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1.0]{images/Dialog_DVD_Sprachen}
+	\caption{DVD-Dialogfenster für Sprachen}
+	\label{fig:dvddialogfenster}
+\end{figure}
 
+Je nach verwendeten Dialog steht dem Benutzer ein Suchfeld zur Verfügung und eine Auswahl an erlaubten Werten. Aus diesen kann über das Dialogfenster eine bestimmte Menge ausgewählt werden. Die Menge wird über eine Liste an die aufrufende Klasse zurückgegeben und von ihr für das entsprechende Feld übernommen. Doppelte Eingaben werden dabei durch das Ausblenden bereits ausgewählter Werte verhindert.\\
+Die DialogMovie-Klasse geht in ähnlicher Weise vor und wird deshalb hier nicht weiter behandelt.\\
+Die SWTCalendarDialog-Klasse realisiert ein Dialogfenster für Datum-Eingaben, dazu existiert in der SWT-Bibliothek eine dafür bereits entwickelte Klasse. Diese SWTCalender-Klasse wird in der SWTCalendarDialog-Klasse verwendet und muss als Argument das anzuzeigende Dialogfenster erhalten.
+\begin{lstlisting}[language=Java, showstringspaces=false]
+swtcal = new SWTCalendar(shell);
+\end{lstlisting}
+Die folgende Grafik (siehe \vref{fig:dvddialogfensterdatum}) zeigt ein solches Dialogfenster:
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1.0]{images/Calendar_Fenster}
+	\caption{DialogFenster für Datum-Eingaben}
+	\label{fig:dvddialogfensterdatum}
+\end{figure}
 
+\subsection{StatusLineStyledText- und ColorDef-Klasse} \label{sec:StatusLineStyledTextUndColorDefKlasse}
+Beide Klassen realisieren ein einheitliches Aussehen der Statusleiste bzw. Farben für die verschiedenen Menüs. In der ColorDef-Klasse sind verschiedenen Farben definiert, um bei Fehlermeldungen oder Ereignisse ein einheitliches Farbschema zu haben. Die StatusLineStyledText-Klasse nutzt dieses Farbschema für ensprechende Ausgabe auf der Statuszeile.
 
-
-
-
-
-
-
+\subsection{Zusammenfassung}
+\label{sec:Zusammenfassung}
+Aufgrund der SWT-Bibliothek konnte eine einfach zu bedienende Benutzeroberfläche erstellt werden, mit der alle notwendigen Objekte für eine Online-Videothek einfach editiert und erstellt werden können. Aufgrund der verwendeten Reiter für jedes Untermenü kann schnell zwischen den einzelnen Menüs umgeschaltet und Veränderungen vorgenommen werden. Die verschiedenen Dialogfenster erleichtern die Eingabe für den Benutzer und zugleich die Bearbeitung im Quellcode.
 
 
 %Hier danach nicht mehr schreiben
