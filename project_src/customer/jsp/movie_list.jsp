@@ -38,4 +38,9 @@ Bestellen </td>
             </table>
 
 
-<display:table name="sessionScope.sessiongenrelist" />
+<display:table name="sessionScope.sessiongenrelist" size="10">
+		<display:column property="ActorId" title="ID"/>
+		<display:column property="FirstName" />
+		<display:column property="LastName" maxLength="100"/>		
+</display:table>
+	
