@@ -1,13 +1,20 @@
 \section{Versionsverwaltung mit Subversion} \label{sec:impl-Versionsverwaltung}
-
-Es wurde Subversion verwendet, da es eine neue Technologie ist, zu diesem zeitpunkt relativ unbekannt war. Weiterhin wurde es als Nachfolger von CVS "`verkauft"' und bot im Vergleich zu CVS einige Vorteile in Bezug auf Geschwindigkeit und Netztwerklast.
-Nun war die Frage wo und wie einen Subversion Server installieren. Linux war nicht möglich, da keiner ausreichend Linux-kenntinisse besitzt, also einen Windows Server.
-Mit Subversion gibt es verschiedene Möglichkeiten um mit dem Server zu kommunizieren. den eigene Subversion Server und das eigene svn protokoll. Nachteil ist, dass dies nicht Verschlüsselt ist. Die sicherste methode ist über ssh+svn, eine Kombination aus der Secure Shell (bekannt aus Linux) und dem Subversion Server. Der Nachteil hier ist wieder Windows. Für linux ist solch ein setup nicht kompliziert, da es einfache Schritt-für-Schritt Anleitungen gibt. Unter Windows gibt es zwar Secure Shell Server, jedoch keine Anleitungen bzw. Hinweise, Tipps wie man diese mit dem Subversion Server integriert.
+Als Versionsverwaltung wurde Subversion verwendet. Dies hat mehrere Gründe: Zum einen war Subversion zu diesem Zeitpunkt eine neue und z.T. auch unbekannte Technologie, die somit ihren Reiz hatte. Zum anderen wurde Subversion als Nachfolger von CVS angepriesen und sollte viele Nachteile eliminieren. Eins der wichtigen Vorteile von Subversion ist die geringe Netzwerklast. Bei einem "`Commit"' werden nur die Unterschiede zur Vorgängerversion übertragen und nicht wie bei CVS jede Datei komplett. Um Subversion verwenden zu können, wurde ein Rechner mit einem installieren Subversion Server benötigt, der möglichst 24h im Internet verfügbar ist. Um mit einem Client auf einen Subversion Server zuzugreifen, gibt es verschiedene Übertragungsprotokolle: Ein eigenes Subversion protokoll (svn), eine Kombination aus Secure Shell und dem eigenen Protokoll (ssh+svn), über http oder über https. Die sicherste Methode über ssh+svn, jedoch erfordert diese die Installation eines SSH Server, was unter Linux, dank verschiedener Anleitungen, einfach geht, jedoch unter Windows nicht so einfach zu realisieren ist. Unter Windows wurde zu Testzwecken ein Apache2 Webserver mit einem Zertifikat zur Übertragung von Daten per https installiert. Dieser Webserver wurde mit dem Subversion Server kombiniert und jeglicher Datentransfer für Subversion erfolgte über https und dessen eingestellen Port. Der Nachteil war jedoch, dass keiner die Möglichkeit hatte, einen PC 24h online zur Verfügung zu stellen. So wurde nach einiger Suche im Internet der Open Source Anbieter berlios.de entdeckt. Dort konnten Open-Source Projekte ihre Quellcodes in einer Subversion Versionsverwaltung mittels ssh+svn kostenlos hosten.\\
 
 
 
-maximal zwei Seiten
-		
+
+
+\texttt{\textbf{maximal zwei Seiten}}
+
+
+Befehl zum Erzeugen eines neues Repository.
+Zugangsbeschränkungen
+Clientauswahl und Verwendung mit Screenshoots.
+Typischer Aufbau eines Root-Verzeichnisses (trink,branches,tags)
+Tags erstellen
+mit TortoiseSVn nur ein bestimmtes Verzeichniss auschecken, sichbar machen.
+automatischer Versand von Emails, nach dem Commit.
 
 
 
