@@ -4,7 +4,7 @@
     <form-beans>
 
 		<form-bean 	name="NullForm" 
-					type="org.apache.struts.action.DynaActionForm" />
+					type="de.hsharz.provirent.customer.form.DynaActionForm" />
 
 		<form-bean 	name="LoginForm" 
 					type="de.hsharz.provirent.customer.form.LoginForm" />
@@ -91,18 +91,31 @@
 		
     	<action path="/index"
 				forward="provirent.index" />
-			
-			<action path="/genre/*"
-					type="de.hsharz.provirent.customer.action.GenreAction"
-          name="NullForm"
-					forward="provirent.movie.list"/>
-		
-		
+
+
+   		<action path="/Genre/*"
+   				parameter="{1}"
+					type="de.hsharz.provirent.customer.action.GenreAction" 
+					input="provirent.movie.list" />
+		   		<forward
+   					name="success"
+   					path="/ShowGenre.do"
+   				/>
+   		</action>
+
+   		<action path="/ShowGenre"
+				forward="provirent.movie.list" />
+   		
+   		
    		<action path="/Login" 
-   				input="vkb.scharf.admin.login" 
-				type="de.hsharz.provirent.customer.action.LoginAction"
-				name="LoginForm"
-				validate="true" >
+   				input="provirent.index" 
+					type="de.hsharz.provirent.customer.action.LoginAction"
+					name="LoginForm"
+					validate="true" >
+   				<forward
+   					name="success"
+   					path="/index.do"
+   				/>
    		</action>
    		
 <!--		

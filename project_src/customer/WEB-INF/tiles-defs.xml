@@ -7,20 +7,25 @@
 
     <definition name="provirent.default"
 				path="/jsp/main_template.jsp" >
-		<put name="mitglieder" value="/jsp/main_members.jsp" />
-		<put name="navigation" value="/jsp/main_navigation.jsp" />
-		<put name="inhalt" value="/jsp/main_index.jsp" />
+			<put name="page.title" value="professional Video rental Software" />
+			<put name="mitglieder" value="/jsp/main_members.jsp" />
+			<put name="navigation" value="/jsp/main_navigation.jsp" />
+			<put name="inhalt" value="/jsp/main_index.jsp" />
     </definition>
 
 
 
 
 	<definition name="provirent.index" extends="provirent.default" >
+		<put name="page.title" value="herzlich willkommen" />
   </definition>
 
 
 	<definition name="provirent.movie.list" extends="provirent.default" >
+		<put name="page.title" value="Ergebniss Uebersicht" />
 		<put name="inhalt" value="/jsp/movie_list.jsp" />
   </definition>
+
+
 
 </tiles-definitions>
