@@ -24,18 +24,14 @@ public class GenreAction extends Action{
   /**
    * Logger for this class
    */
-  private static final Logger logger = Logger
-      .getLogger(GenreAction.class);
+  private static final Logger logger = Logger.getLogger(GenreAction.class);
 
   public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     //System.out.println("execute von genreAction");
     
+	
+	  
     List list = new ArrayList();
-    System.out.println("execute von genreAction");
-    System.out.println("mapping.getPath: "+mapping.getPath());
-    System.out.println("mapping.getParameter(): "+mapping.getParameter());
-    Actor actor = new Actor(mapping.getPath(),mapping.getParameter());
-    list.add(actor);
     
     Actor actor1 = new Actor("Thomas","Mann");
     list.add(actor1);

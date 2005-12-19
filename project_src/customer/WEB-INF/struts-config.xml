@@ -8,6 +8,9 @@
 
 		<form-bean 	name="LoginForm" 
 					type="de.hsharz.provirent.customer.form.LoginForm" />
+					
+		<form-bean 	name="SearchForm" 
+					type="de.hsharz.provirent.customer.form.SearchForm" />
 <!--
 		<form-bean 	name="SqlForm" 
 					type="org.apache.struts.action.DynaActionForm" >
@@ -96,7 +99,7 @@
    		<action path="/Genre/*"
    				parameter="{1}"
 					type="de.hsharz.provirent.customer.action.GenreAction" 
-					input="provirent.movie.list" />
+					input="provirent.movie.list" >
 		   		<forward
    					name="success"
    					path="/ShowGenre.do"
@@ -106,6 +109,11 @@
    		<action path="/ShowGenre"
 				forward="provirent.movie.list" />
    		
+   		<action path="/Logout" 
+   				type="de.hsharz.provirent.customer.action.LogoutAction"
+   				input="provirent.index">
+   				
+   		</action>
    		
    		<action path="/Login" 
    				input="provirent.index" 
