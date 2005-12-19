@@ -11,7 +11,7 @@ JDO kann sehr unterschiedliche (Speicher-) Technologien verwenden. Applikationen
 
 \begin{figure}[h]
 	\centering
-	%\includegraphics[scale=1]{images/Architektur-JDO.jpg}
+	\includegraphics[scale=1]{images/Architektur-JDO.jpg}
 	\caption{Architektur von JDO \citep[Bild 2.0]{JDO2003}}
 	\label{fig:architecture_jdo}
 \end{figure}
@@ -58,7 +58,7 @@ Das Abbilden von Java-Objekten auf eine entsprechende Datenbank erfolgt auf eine
 
 \begin{figure}[h]
 	\centering
-	%\includegraphics[scale=1]{images/Architektur-Hibernate.jpg}
+	\includegraphics[scale=1]{images/Architektur-Hibernate.jpg}
 	\caption{Architektur von Hibernate \citep[Bild 2.1]{Bauer2004}}
 	\label{fig:architecture_hibernate}
 \end{figure}
@@ -119,8 +119,6 @@ try {
 Hibernate besitzt auch eine Transaktionsschnittstelle. So lassen sich über eine Transaktions-Instanz, die über das Session-Objekt erzeugt werden kann, Transaktionen durch geeignete Methoden (\textit{begin}/\textit{commit}/\textit{rollback}) abgrenzen. Diese Schnittstelle ist insofern erweiterbar, dass sie leicht mit anderen Systemen integriert werden kann. Weiterhin stehen dem Entwickler als Transaktionsstrategien sowohl optimistisches als auch pessimistisches Locking  zur Verfügung.\\
 Ein weiteres Merkmal von Hibernate ist die Möglichkeit der automatischen Generierung von Primärschlüsseln, wobei an die 10 verschiedenen Möglichkeiten, wie z.B. Sequenzen, im Vordergrund stehen.\\
 Darüber hinaus stellt Hibernate verschiedene Abfragesprachen zur Verfügung. Hierbei sind die Hibernate Query Language (HQL), Query By Criteria und Query By Example zu nennen. HQL ist an SQL angelehnt, beherrscht aber auch objektorientierte Konzepte wie Vererbung und Assoziationen. Die Anfragen werden dabei in Zeichenketten abgelegt und Hibernate übergeben. Dieses Konzept lässt sich in den Referenz-Dokumenten\footnote{siehe \citep{Hibernate2005}} von Hibernate  genauer betrachten. Bei der Verwendung von Query By Criteria werden keine Zeichenketten benutzt, sondern eine Anfrage setzt sich aus einzelnen Ausdrücken zusammen, die zu einer so genannten \textit{CriteriaQuery} hinzugefügt werden. Demnach wird die Syntax der Abfragen bereits zur Übersetzungszeit durch den Compiler und nicht erst zur Laufzeit überprüft. Die Query By Example Schnittstelle nutzt das Konzept von Query By Criteria. Hierbei wird eine mit entsprechenden Suchdaten versehene Beispielklasse einer \textit{CriteriaQuery} übergeben, woraufhin diese alle Klassen zurückliefert, die den Eigenschaften der übergebenen Klasse entsprechen.
-
-
 
 
 

@@ -1,20 +1,113 @@
+\chapter{Implementierung} \label{sec:Implementierung}
 \section{Versionsverwaltung mit Subversion} \label{sec:impl-Versionsverwaltung}
-Als Versionsverwaltung wurde Subversion verwendet. Dies hat mehrere Gründe: Zum einen war Subversion zu diesem Zeitpunkt eine neue und z.T. auch unbekannte Technologie, die somit ihren Reiz hatte. Zum anderen wurde Subversion als Nachfolger von CVS angepriesen und sollte viele Nachteile eliminieren. Eins der wichtigen Vorteile von Subversion ist die geringe Netzwerklast. Bei einem "`Commit"' werden nur die Unterschiede zur Vorgängerversion übertragen und nicht wie bei CVS jede Datei komplett. Um Subversion verwenden zu können, wurde ein Rechner mit einem installieren Subversion Server benötigt, der möglichst 24h im Internet verfügbar ist. Um mit einem Client auf einen Subversion Server zuzugreifen, gibt es verschiedene Übertragungsprotokolle: Ein eigenes Subversion protokoll (svn), eine Kombination aus Secure Shell und dem eigenen Protokoll (ssh+svn), über http oder über https. Die sicherste Methode über ssh+svn, jedoch erfordert diese die Installation eines SSH Server, was unter Linux, dank verschiedener Anleitungen, einfach geht, jedoch unter Windows nicht so einfach zu realisieren ist. Unter Windows wurde zu Testzwecken ein Apache2 Webserver mit einem Zertifikat zur Übertragung von Daten per https installiert. Dieser Webserver wurde mit dem Subversion Server kombiniert und jeglicher Datentransfer für Subversion erfolgte über https und dessen eingestellen Port. Der Nachteil war jedoch, dass keiner die Möglichkeit hatte, einen PC 24h online zur Verfügung zu stellen. So wurde nach einiger Suche im Internet der Open Source Anbieter berlios.de entdeckt. Dort konnten Open-Source Projekte ihre Quellcodes in einer Subversion Versionsverwaltung mittels ssh+svn kostenlos hosten.\\
+Als Versionsverwaltung wurde Subversion verwendet. Dies hat mehrere Gründe: Zum einen war Subversion zu diesem Zeitpunkt eine neue und z.T. auch unbekannte Technologie, die somit ihren Reiz hatte. Zum anderen wurde Subversion als Nachfolger von CVS angepriesen und sollte viele Nachteile eliminieren. Eins der wichtigen Vorteile von Subversion ist die geringe Netzwerklast. Bei einem "`Commit"' werden nur die Unterschiede zur Vorgängerversion übertragen und nicht wie bei CVS jede Datei komplett. Um Subversion verwenden zu können, wurde ein Rechner mit einem installieren Subversion Server benötigt, der möglichst 24h im Internet verfügbar ist. Um mit einem Client auf einen Subversion Server zuzugreifen, gibt es verschiedene Übertragungsprotokolle: Ein eigenes Subversion protokoll (svn), eine Kombination aus Secure Shell und dem eigenen Protokoll (ssh+svn), über http oder über https. Die sicherste Methode über ssh+svn, jedoch erfordert diese die Installation eines SSH Server, was unter Linux, dank verschiedener Anleitungen, einfach geht, jedoch unter Windows nicht so einfach zu realisieren ist. Unter Windows wurde zu Testzwecken ein Apache2 Webserver mit einem Zertifikat zur Übertragung von Daten per https installiert. Dieser Webserver wurde mit dem Subversion Server kombiniert und jeglicher Datentransfer für Subversion erfolgte über https und dessen eingestellen Port. Der Nachteil war jedoch, dass keiner die Möglichkeit hatte, einen PC 24h online zur Verfügung zu stellen. So wurde nach einiger Suche im Internet der Open Source Anbieter Berlios Developer\footnote{\url{http://developer.berlios.de/}} entdeckt. Dort können Open-Source Projekte ihre Quellcodes in einer Subversion Versionsverwaltung mittels ssh+svn kostenlos speichern. Bei Berlios ist das Repository bereits erstellt, bei unseren Testsystem musste dies mit einem einfachen Befehl manuell erfolgen:
+\begin{verbatim}
+svnadmin create f:/subversion/phil/daten
+\end{verbatim}
+Durch diesen Befehl wurde in dem angegebenen Verzeichniss durch den Befehl \texttt{svadmin create} ein neues Repository erzeugt, das im Dateisystem auf dem Server die folgende Verzeichnissstruktur wie in \vref{fig:svnverzeichniss} zu sehen ist, besitzt.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=1.0]{images/svn-verzeichniss-struktur.jpg}
+	\caption{Verzeichnissstruktur des Repository auf dem Server}
+	\label{fig:svnverzeichniss}
+\end{figure}
+Im Verzeichniss \texttt{conf} befinden sich zwei wichtige Dateien. In der svnserve.conf, wie in \vref{code:svnserve} zu sehen, sind grundlegende Eigenschaften wie Zugangsberechntigungen, Begrüßung und Passwortdatei festgelegt. In der Passwortdatei, wie in \vref{code:svnuser} zu sehen, werden Benutzernamen und Passwörter für die Benutzer dieses Repository vergeben. Diese Methode der Authentisierung ist jedoch nicht zu empfehlen, da die Passwörter in diesen Dateien lesbar sind und diese Datei, zusätzlich zu anderen bereits vorhandenen Zugangslisten, aktuell gehalten werden muss.
+\begin{lstlisting}[language=Java, showstringspaces=false, caption={Datei /conf/svnserve.conf},label=code:svnserve]
+[general]
+anon-access = none
+auth-access = write
+realm = Repository for my personal diplomarbeit
+password-db = user
+\end{lstlisting}
+\begin{lstlisting}[language=Java, showstringspaces=false, caption={/conf/user},label=code:svnuser]
+[users]
+pschneider = geheim
+\end{lstlisting}
+Eine bessere Möglichkeit der Authentisierung wäre die Überprüfung, bevor der Benutzer Zugang zum System erhält. Bei einer ssh+svn erfolgt die Authensisierung durch ssh und bei https erfolgt diese über htaccess, in beiden Fällen wird dabei wahrscheinlich auf einen vorhandenen Authentisierungsinfrastruktur zurückgegriffen.\\
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.75]{images/svn-verzeichniss-client.jpg}
+	\caption{Ansicht des Clients TortoiseSVN}
+	\label{fig:svnclient}
+\end{figure}
+In unserem Projekt wurde als Client für den Zugriff auf das Subversionrepository TortoiseSvn\footnote{\url{http://tortoisesvn.tigris.org/}} verwendet. Dabei handelt es sich wie in \vref{fig:svnclient} zu sehen, um eine Windows-Shellerweiterung, die sich in den Explorer integriert. Ist ein Verzeichniss oder eine Datei Teil eines Projektes, das in einer Subversionversionsverwaltung gespeichert wird, sind diese durch kleine farbige Symbole markiert. Diese Symbole geben den Zustand der Dateien an, ob diese aktuell sind, verändert wurde oder ob eventuelle Konflikte bestehen. Weiterhin können damit auch alle anderen Aktionen wie Log Datei betrachten, Rückgänging, Tagging/Merging und Verschiebungen wie in \vref{fig:svnclient} zu sehen, vorgenommen werden. Mit TortoiseSVN ist auch möglich nur ein bestimmtes Verzeichnis des meist sehr strukturiertes Projektes auszuchecken und zu bearbeiten. Dazu wird 
+\texttt{TortoiseSVN $\Rightarrow$ Wechseln zu }
+wie in \vref{fig:svnwechselnzu} zu sehen ausgewählt. In dem sich öffnenden Dialog wird das entsprechende Verzeichnis im Repository gewählt und die lokale Arbeitskopie wird automatisch auf die entsprechenden Verzeichnisse und Dateien aktualisiert.\\
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.75]{images/svn-wechselnzu.jpg}
+	\caption{Ansicht des Fensters zum wechseln der Arbeitskopie}
+	\label{fig:svnwechselnzu}
+\end{figure}
+In den Einstellungen des Subversionservers können auch wie in \vref{tech-svn} bereits beschrieben, automatisch Email verschickt werden. Die in \vref{code:emailcommit} gezeigte Email soll verdeutlichen, welche Informationen mit diesem Mechanismus verschickt werden können. Im Betreff der Email befindet sich die neue Revisionnummer und das Verzeichnis in dem die Änderungen stattgefunden haben. Am Anfang der Email ist der Name des Authors, das Datum, eine Auflistung der geänderten Dateien und die Logmeldung zu sehen. Am Ende befinden sich die kompletten Änderungen als Text.
+
+
+\begin{lstlisting}[language=Java, showstringspaces=false, caption={Auszug aus einer automatisch erzeugten Email},label=code:emailcommit]
+Author: rgriesch
+Date: 2005-12-02 21:04:22 +0100 (Fri, 02 Dec 2005)
+New Revision: 276
+
+Modified:
+   project_src/provirent_hibernate/src/de/hsharz/provirent/management/gui/ManagementGui.java
+Log:
+Menu Rechnung fehlt  - sollte aber aus Zeitgr?\195?\188nden                                nicht mehr implementiert                                   werden !!
+ManagementGui        - Reiter Film war aktiv, obwohl
+                       Fenster kunden angezeigt wurde
+                       ( Fehler behoben )
+ManagementGui        - Button Beenden im Menu "Datei"
+                       wurde Funktionalit?\195?\164t eingef?\195?\188gt   
+
+Modified: project_src/provirent_hibernate/src/de/hsharz/provirent/management/gui/ManagementGui.java
+===================================================================
+--- project_src/provirent_hibernate/src/de/hsharz/provirent/management/gui/ManagementGui.java	2005-11-30 15:04:55 UTC (rev 275)
++++ project_src/provirent_hibernate/src/de/hsharz/provirent/management/gui/ManagementGui.java	2005-12-02 20:04:22 UTC (rev 276)
+@@ -412,9 +412,12 @@
+ 
+ 		exitMenuItem = new MenuItem(fileMenu, SWT.CASCADE);
+ 		exitMenuItem.setText(l.getString("menu.file.exit"));
+-
++		exitMenuItem.addSelectionListener(new SelectionAdapter() {
++			public void widgetSelected(SelectionEvent evt) {
++			    shell.close();
++			}
++		});
+ 	}
+-
+ 	/**
+ 	 * init the View Menu
+ 	 */
+@@ -484,7 +487,7 @@
+ 
+ 		viewCustomerMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+ 		viewCustomerMenuItem.setText(l.getString("menu.view.customer"));
+-		viewCustomerMenuItem.setSelection(false);
++		viewCustomerMenuItem.setSelection(true);
+ 		viewCustomerMenuItem.addSelectionListener(new SelectionAdapter() {
+ 			public void widgetSelected(SelectionEvent evt) {
+ 				if (tabItemCustomer == null || tabItemCustomer.isDisposed()) {
+@@ -599,7 +602,7 @@
+ 
+ 		viewMovieMenuItem = new MenuItem(viewMenu, SWT.CHECK);
+ 		viewMovieMenuItem.setText(l.getString("menu.view.movie"));
+-		viewMovieMenuItem.setSelection(true);
++		viewMovieMenuItem.setSelection(false);
+ 		viewMovieMenuItem.addSelectionListener(new SelectionAdapter() {
+ 			public void widgetSelected(SelectionEvent evt) {
+ 				if (tabItemMovie == null || tabItemMovie.isDisposed()) {
+
+_______________________________________________
+Provirent-svn-commit mailing list
+Provirent-svn-commit@lists.berlios.de
+http://lists.berlios.de/mailman/listinfo/provirent-svn-commit
+\end{lstlisting}
 
 
 
 
 
-\texttt{\textbf{maximal zwei Seiten}}
 
 
-Befehl zum Erzeugen eines neues Repository.
-Zugangsbeschränkungen
-Clientauswahl und Verwendung mit Screenshoots.
-Typischer Aufbau eines Root-Verzeichnisses (trink,branches,tags)
-Tags erstellen
-mit TortoiseSVn nur ein bestimmtes Verzeichniss auschecken, sichbar machen.
-automatischer Versand von Emails, nach dem Commit.
+
 
 
 
