@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -19,7 +20,7 @@ import de.hsharz.provirent.objects.Actor;
 
 
 
-public class GenreAction {
+public class GenreAction extends Action{
   /**
    * Logger for this class
    */
@@ -27,11 +28,15 @@ public class GenreAction {
       .getLogger(GenreAction.class);
 
   public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-    System.out.println("Mapping.getPath: " + mapping.getPath());
-    logger.debug("Mapping.getPath: "+mapping.getPath());
+    //System.out.println("execute von genreAction");
     
     List list = new ArrayList();
+    System.out.println("execute von genreAction");
+    System.out.println("mapping.getPath: "+mapping.getPath());
+    System.out.println("mapping.getParameter(): "+mapping.getParameter());
+    Actor actor = new Actor(mapping.getPath(),mapping.getParameter());
+    list.add(actor);
+    
     Actor actor1 = new Actor("Thomas","Mann");
     list.add(actor1);
     Actor actor2 = new Actor("Dieter","Bohlen");
@@ -44,8 +49,8 @@ public class GenreAction {
     list.add(actor5);
     
     request.getSession().setAttribute(StrutsConstant.SESSION_GENRELIST_KEY, list);
-    
-    return mapping.getInputForward();
+
+    return mapping.findForward(StrutsConstant.FWD_SUCCESS);
 
   }
 
