@@ -1,27 +1,115 @@
-\section{Java-Web-Anwendungen mit Struts} \label{sec:impl-WebAnwendungen}
+\section{Java-Web-Anwendung mit Struts} \label{sec:impl-WebAnwendungen}
+
+Die Webanwendung ist dafür gedacht, dass Kunden von überall die Möglichkeit (mit der Voraussetzung eines Internetzugangs) haben sollen, nach DVDs im Datenbestand zu suchen, Informationen darüber abzurufen und diese zu bestellen.\\
+Der aktuelle Stand dieser Webanwendung ist insofern implementiert, dass sich bereits Kunden in das System einloggen können. Anhand dieser Funktionalität wird auf die Implementierung unter Verwendung des Web-Frameworks Apache Struts eingegangen.\\
+Folgende Schritte waren dabei notwendig:
+
+\begin{itemize}
+
+\item Login-Formular in JSP integrieren
+\item ActionForm Bean für das Formular erzeugen
+\item Action-Klasse für das Login erzeugen
+\item ActionForm und Action in struts-config.xml registrieren
+
+\end{itemize}
+
+\subsection{Login-Formular}
+
+Um den Kunden die Möglichkeit zu geben, sich am System anzumelden, gibt es ein entsprechendes Formular. Darin muss der Benutzer seinen Benutzernamen sowie sein persönliches Passwort eingeben mit Bestätigung seiner Eingaben über den Login-Button soll diese Anfrage mit den Daten in der Datenbank verglichen werden und bei Erfolg eine dem Benutzer angepassten Seite geladen werden.\\
+Das Login-Formular wird in \vref{code:login_jsp} mit den entsprechenden Tags der Struts-Taglibrary gebildet. Das \verb|<html:form>|-Tag grenzt darin das Formular ein. Über das Attribut \textit{action} wird dem Servlet signalisiert, dass die in der \textit{struts-config.xml} definierte Action mit dem Pfad \textit{/Login} beim Klick des Submit-Buttons ausgeführt werden soll.\\
+Mit der Verwendung von \verb|<html:text>|-Tags werden dem Benutzer Eingabefelder erzeugt, worin dieser seine Daten zum Einloggen eintragen kann. Über das Attribut \textit{property} wird auf das entsprechende Attribut in der ActionForm Bean referenziert. Das bedeutet bei einer Betätigung des Login-Buttons, der durch das Tag \verb|<html:submit| dargestellt wird, dass die Instanz der ActionForm Bean mit den eingegebenen Daten aus dem Formular versehen wird.
+
+\begin{lstlisting}[language=XML, caption={Login-Formular in der JSP}, label=code:login_jsp, showstringspaces=false]
+<html:form action="/Login" method="post">
+  <tr>
+    <td>
+      <label class="login_label"><bean:message key="main.login.username"/>:</label>
+      <html:text property="username" styleClass="login" style="font-weight: bold;" size="13"/>
+    </td>
+    <td>
+      <label class="login_label"><bean:message key="main.login.passwort"/>:</label>
+      <html:password property="password" styleClass="login" size="14" />
+    </td>
+    <td>
+       <html:submit title="main.login.submit" styleId="submit_search"/>
+    </td>
+  </tr>
+</html:form>
+\end{lstlisting}
+
+\subsection{Erzeugung der ActionForm Bean}
+
+Die Klasse zur Aufbewahrung der Daten eines Formulars besteht prinzipiell aus den Attributen und ihren Getter- bzw. Setter-Methoden. Dementsprechend wurde die Klasse \textit{LoginForm} mit den Attributen \textit{username} und \textit{password} implementiert. Die Methoden zum Erhalt bzw. Setzen der Attribute wurden in diesem Fall noch durch zwei weitere Methoden zum Validieren der Eingaben bzw. zum Zurücksetzen der Formulareingaben komplettiert.
 
 
+\subsection{Erzeugung der Action-Klasse}
 
-\footnote{So wird eine Fussnote gemacht}\\
-% das ist ein Kommentar
-\url{http:/www.phil-schneider.de}
-\citep{Frotscher2004b} Verweis auf eine Literaturquelle
-\emph{hervorgehoben}\\
-\textbf{Fett}\\
-\texttt{Typewriter}\\
+Zur Ausführung der Geschäftslogik, in diesem Anwendungsfall des Logins, war es notwendig die Klasse \textit{LoginAction}, die von der Klasse \textit{Action} aus dem Struts-Framework erbt, zu implementieren. Die Methode \textit{execute}() spielt dabei die größte Rolle, da diese zwingend implementiert werden musste. Darin wird die Logik ausgeführt, um den Kunden zu identifizieren und authentifizieren. In dieser Methode (siehe \vref{code:login_action}) werden zunächst die Daten aus der ActionForm Bean ausgelesen, d.h. Benutzername und Passwort. Unter Verwendung der Klasse \textit{Database}, die im Kapitel \ref{sec:impl-Persistenzschichten} beschrieben wird, werden die Benutzerdaten mit denen aus der Datenbank verglichen. Bei erfolgreichem Ergebnis wird das aus der Datenbank geladene \textit{Customer}-Objekt (gleichzusetzen mit dem Kunden des Systems) in die Session der Webanwendung gespeichert und eine entsprechende Antwort (Response) an den Browser gesendet.
 
+\begin{lstlisting}[language=Java, caption={execute()-Methode der LoginAction}, label=code:login_action, showstringspaces=false]
+public ActionForward execute(
+			ActionMapping mapping, ActionForm form,
+			HttpServletRequest request,
+			HttpServletResponse response)
+      	throws Exception {
+    
+  LoginForm lf = (LoginForm) form;
+		
+  boolean existUser = false;
+		
+  //	Laden von Benutzername und Passwort
+  String aktUsername = lf.getUsername();
+  String aktPassword = lf.getPassword();
+		
+  Customer user = null;
+		
+  List users = Database.getUsersByLogin(aktUsername, aktPassword);
+		
+  //über die Benutzerliste iterieren
+  while (users.iterator().hasNext()) {
 
+    existUser = true;
+			
+    //Benutzer aus Liste laden
+    user = (Customer) it.next();
+  }
 
+  //		wenn Benutzer nicht existiert
+  if (!existUser) {
+  
+    //Eingabeformular laden
+    return mapping.getInputForward();
+    
+  } else {
+  
+    request.getSession().setAttribute(StrutsConstant.SESSION_USER_KEY, user);	
+    return mapping.findForward(StrutsConstant.FWD_SUCCESS);	
+    		
+  }
+}
+\end{lstlisting}
 
+\subsection{Einträge in die \textit{struts-config.xml}}
 
+Die Zuordnung von AcctionForm Bean und Action-Klasse erfolgt in der Struts-Konfigurationsdatei. Zum einen musste die Form Bean registriert werden:
 
+\begin{lstlisting}[language=XML, showstringspaces=false]
+<form-bean name="LoginForm" type="de.hsharz.provirent.customer.form.LoginForm"/>
+\end{lstlisting}
 
+Ferner wurde hier ein entsprechendes Action-Mapping definiert:
 
+\begin{lstlisting}[language=XML, showstringspaces=false]
+<action path="/Login" 
+	input="provirent.index" 
+	type="de.hsharz.provirent.customer.action.LoginAction"
+	name="LoginForm"
+	validate="true" >
+  <forward name="success" path="/index.do"/>
+</action>
+\end{lstlisting}
 
-
-
-
-
+In diesem Mapping erfolgt zum einen die Zuordnung der Form Bean \textit{LoginForm} zur Action \textit{LoginAction} und zum anderen wird der Forward, also das Weiterleiten des Requests, bei erfolgreichem Login definiert.
 
 
 

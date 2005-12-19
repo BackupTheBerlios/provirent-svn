@@ -1,56 +1,4 @@
-\section{Persistenzschichten in Java} 	\label{sec:tech-Persistenzschichten}
-		
-\subsection{Java Data Objects} 
-		
-JDO wurde im Rahmen eines von Sun initiierten JCR entwickelt. Neben Sun beteiligten sich zahlreiche weitere Firmen an der Entwicklung der Spezifikation, darunter Ericcson, IBM, Informix, Oracle, Poet, Rational, SAP, Software AG und Versant. Der Spezifikationsprozess begann Mitte 1999 und im April 2002 wurde der "`Final Release"' der Spezifikation veröffentlicht, wobei die gesammelten Erfahrungen aller beteiligten Firmen mit objektorientierten Datenbanken eingeflossen sind.\\
-Die JDO-Spezifikation gibt verschiedene APIs (Application Programming Interface)
-und ebenso Richtlinien zu Ihrer Implementierung als sogenannte Contracts vor. SUN selbst
-stellt nur eine Referenzimplementation bereit. Auf dem Markt existieren aber viele
-weitere Implementationen.\\
-JDO kann sehr unterschiedliche (Speicher-) Technologien verwenden. Applikationen mit JDO sollen portabel über verschiedene Implementationen wie auch über verschiedene Speichertechnologien sein. Hierunter fallen insbesondere relationale und objektorientierte Datenbanksysteme, aber auch Dateisysteme, XML und andere. JDO kann sowohl mit Applikationsservern (Application Server) als auch innerhalb gewöhnlicher (standalone) Java Applikationen eingesetzt werden. Welche Speichertechnologien aber tatsächlich unterstützt werden, ist implementationsabhängig und kann sehr unterschiedlich sein. (siehe \vref{fig:architecture_jdo})
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=1]{images/Architektur-JDO.jpg}
-	\caption{Architektur von JDO \citep[Bild 2.0]{JDO2003}}
-	\label{fig:architecture_jdo}
-\end{figure}
-
-Im folgenden werden die nach \citep{Stadtherr2003} wichtigsten Eigenschaften von JDO genannt:
-
-\begin{enumerate}
-
-\item Unabhängigkeit von der JDO-Implementierung: Eine für JDO vorbereitete Applikation kann mit einer beliebigen JDO-Implementierung betrieben werden.
-
-\item Unabhängigkeit vom Datenspeicher: Die API von JDO abstrahiert vollständig von
-dem dahinter liegenden Datenspeicher. Dabei kann es sich um eine flache Datei, eine
-objektorientierte Datenbank oder eine relationale Datenbank handeln.
-
-\item Transparente und transitive Persistenz: Transparente Persistenz bedeutet, dass diese nicht im Quellcode sichtbar ist. Wenn z.B. mit setX das Attribut X einer persistenten Instanz verändern und anschließend die Transaktion beende wird, dann soll das geänderte Attribut automatisch in die Datenbank geschrieben werden. Aufgrund transitiver Persistenz wird ein Objekt auch dann persistent, wenn es bei Transaktionsende über einen Pfad von Referenzen von einem bereits persistenten Objekt aus erreichbar ist.
-
-\item Klassen-Enhancement: Die JDO-Persistenzschicht einer Applikation wird durch eine
-automatische Instrumentierung der Java-Klassen erzeugt. Diese Instrumentierung
-wird im Englischen Enhancing genannt. Die automatische Instrumentierung der
-Klassen ist der Schlüssel für transparente und transitive Persistenz, da auf diese Art
-die notwendigen Mechanismen vor dem Programmierer versteckt werden können.
-
-\item XML-Metadaten: Die persistenten Klassen müssen in einer XML-Datei beschrieben werden. Im einfachsten Fall besteht die Datei nur aus den Namen der persistenten Klassen. Wenn Arrays, Collections oder Maps verwendet werden sollen, müssen dazu auch einige wichtige Informationen (z.B. der Typ in der Collection) in dieser Beschreibungsdatei eingetragen werden.
-
-\item JDO Query Language: JDOQL ist eine Querysprache, die eng an die Syntax von
-Java angelehnt ist. Sie ist nicht so mächtig wie SQL, bietet aber die wichtigsten Elemente
-einer Datenbank-Querysprache.
-
-\item J2EE Integration: Die JDO-Spezifikation sieht es vor, kompatibel zu den existierenden J2EE-Frameworks zu sein. JDO ist dabei unabhängig von den EJB-Konzepten für Container Managed Persistence und Bean Managed Persistence.
-
-\end{enumerate}
-
-\textbf{Fazit:} Da in der Projektplanungsphase die damalige Version von JDO nur eine eingeschränkte Abfragesprache und eine mangelnde Standardisierung für die Anbindung relationaler
-Datenbanksysteme besaß, was für das Projekt als Nachteil anzusehen war, wurde nach anderen Möglichkeiten der Persistierung gesucht. Hierbei erschien Hibernate als die umfassendste Lösung.
-
-\newpage
-
-
-\subsection{Hibernate}
+\section{Hibernate} 	\label{sec:tech-hibernate}
 		
 Hibernate ist ein Open Source-Persistenz-Tool, das basierend auf so genannten Mappings das Bindeglied zwischen JavaBeans und einer Datenbank darstellt. Seit September 2003 gehört das Hibernate-Projekt zur JBoss Group und liegt in der aktuellen Version 3.0 kostenlos zum Download\footnote{\url{http://www.hibernate.org}} bereit. Zur Zeit werden 16 Datenbanken unterstützt, worunter unter anderem Oracle, DB2, MySQL sowie PostgreSQL zählen. Zu den weiteren Besonderheiten zählen die Hibernate Query Language, Native SQL Queries sowie Lazy- und Outer-Join Fetching zur Steigerung der Performance. Ferner lässt sich Hibernate problemlos in alle bekannten J2EE Application Server integrieren.\\
 Hibernate stellt den Entwicklern ein umfangreiches Werkzeug für die Realisierung einer leistungsfähigen Persistenzschicht zur Verfügung. Hierbei werden grundlegende Mechanismen für das Laden, Speichern, Aktualisieren und Löschen von Java-Objekten, sowie deren Beziehungen, bereitgestellt.\\
@@ -58,7 +6,7 @@ Das Abbilden von Java-Objekten auf eine entsprechende Datenbank erfolgt auf eine
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=1]{images/Architektur-Hibernate.jpg}
+	\includegraphics[scale=0.95]{images/Architektur-Hibernate.jpg}
 	\caption{Architektur von Hibernate \citep[Bild 2.1]{Bauer2004}}
 	\label{fig:architecture_hibernate}
 \end{figure}
@@ -143,4 +91,4 @@ Darüber hinaus stellt Hibernate verschiedene Abfragesprachen zur Verfügung. Hier
 
 
 %Hier danach nicht mehr schreiben
-\label{sec:tech-Persistenzschichten-ende}
+\label{sec:tech-hibernate-ende}

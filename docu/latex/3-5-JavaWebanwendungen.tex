@@ -1,47 +1,4 @@
-\section{Java-Web-Anwendungen} \label{sec:tech-WebAnwendungen}
-		
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%      Kapitel JSF           %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		
-\subsection{Java Server Faces - JSF}
-		
-Nach \citep{Bill2004} ist JavaServer Faces (JSF) ein komponenten-abhängiges Web-Framework, mit dessen Hilfe sich Benutzerschnittstellen mit einer Reihe von wiederverwendbaren GUI-Komponenten, z.B. Labels, Buttons, Eingabefelder usw.,einfach erstellen lassen. JSF ist ein erster offizieller Standard von Sun hinsichtlich der Erstellung von UIs\footnote{User Interface (engl. Benutzerschnittstelle)} von Webanwendungen und wurde im Rahmen des Java Community Process (JCP) unter dem JSR 127\footnote{\url{http://www.jcp.org/en/jsr/detail?id=127}} im September 2002 veröffentlicht. Im Experten-Gremium sind viele namhafte Firmen wie IBM, BEA, IONA, Novell, Borland, HP, Oracle oder Siemens, wodurch eine große Unterstützung seitens der Industrie erwartet wird.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=1]{images/Architektur-JSF.jpg}
-	\caption{Architektur von JSF \citep[Bild 1.6]{Bill2004}}
-	\label{fig:architecture_jsf}
-\end{figure}
-
-Die auf dem bekannten Model View Controller 2(MVC2)-Modell basierende JSF-Technologie besteht aus den folgenden zwei Hauptkomponenten:
-\begin{itemize}
-	\item JSF API
-	\item JSF Tag Libraries
-\end{itemize}
-
-Das Präsentations-Framework JSF muss die von MVC definierten Komponenten abbilden. Wie in \vref{fig:architecture_jsf} zu sehen ist, wird das Modell durch einfache JavaBeans, aber auch durch EJBs\footnote{Enterprise Java Beans} oder JDOs\footnote{Java Data Objects} abgebildet. Der Controller wird durch Action Handler bzw. Event Listener der jeweiligen UI-Komponenten dargestellt. Im Zentrum des Controllers steht das FacesServlet, welches mit Hilfe der Konfiguration reagieren, agieren und navigieren kann. JSPs und Komponenten sowie deren Renderer, Converter und Validatoren bilden die Views ab. In jeder View, welche meistens durch eine JavaServer Page (JSP) aufgebaut ist, existiert ein entsprechender Component Tree. Dieser beinhaltet alle Komponenten, die in der JSP durch definierte Tags dargestellt werden. Somit hat der Entwickler Zugriff auf alle Komponenten im Laufe des Lebenszyklus der Request-Bearbeitung.\\
-Dieser Lebenszyklus wird zu jeder Anfrage an die JSF-Applikation durchlaufen und enthält folgende Phasen:
- 
-\begin{enumerate}
-	\item Restore View: Aufbau des Component Tree
-	\item Apply Request Values: Die Daten aus dem Request werden den Komponenten zugeordnet
-	\item Process Validations: Die Variablen der Komponenten werden validiert
-	\item Update Model Values: Die Variablen der Komponenten werden in deren Datenmodellen gespeichert
-	\item Invoke Application: Ausführung der Business-Logik
-	\item Render Response: Der Component Tree wird aktualisiert und ein Response generiert
-\end{enumerate}
-
-Die Navigation in einer JSF-Applikation wird in einer Konfigurationsdatei definiert. Darin ist für jede JSP jeweils eine Navigationsregel festgelegt. Diese Regeln bestehen aus der Aufrufenden Seite sowie verschiedenen Navigationsfällen. Solche Fallunterscheidungen machen die Navigation abhängig von den Ergebnissen der Businesslogik und sorgen für die Dynamik der Anwendung. (vgl. \citep[S.~46ff]{Oeztuerk2004})\\
-
-\textbf{Fazit:} Da in der Projektplanungsphase die derzeitige JSF-Spezifikation zwar relativ ausgereift war, aber noch nicht in einer Finalversion vorlag, wurde in der Phase der Implementierung auf dessen Verwendung verzichtet und stattdessen auf Apache Struts zurückgegriffen.
-
-\newpage
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%      Kapitel Struts        %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Apache Struts}
+\section{Apache Struts} \label{sec:tech-struts}
 
 Struts basiert auf dem Model 2 (MVC 2) und ist ein leistungsstarkes und frei erhältliches Framework. Hierbei wird die Präsentationsebene durch JavaServer Pages konstruiert, der Model-Teil durch JavaBeans übernommen und Servlets als Controller dieses Frameworks eingesetzt.
 Das Struts Framework Projekt wurde nach \citep{ASF2005} im Mai 2000 von Craig R. McCalahan ins Leben gerufen und versuchte die Vorteile von Java Servlets und JavaServer Pages zu vereinen. Zu Beginn wurde ein Model-View-Controller Framework für die Java-Welt erarbeitet, welches im Juli 2001 von der Apache Software Foundation (ASF) unter dem Namen Struts 1.0 veröffentlicht wurde.  Die ASF ist eine ehrenamtlich arbeitende Organisation zur Förderung der Apache-Softwareprojekte. Sie entstand im Juni 1999 aus der Apache Group und soll den Apache Open-Source-Software Projekten organisatorische, juristische und finan-zielle Unterstützung zur Verfügung stellen. Die ASF ist eine nicht kommerzielle Organisation aus Entwicklern, die an Open-Source-Softwareprojekten arbeiten. Auch Struts ist ein Open-Source Projekt und unterliegt der Apache Software License\footnote{\url{http://www.apache.org/licenses/}}.
@@ -53,11 +10,9 @@ Das Struts Framework Projekt wurde nach \citep{ASF2005} im Mai 2000 von Craig R.
 	\label{fig:architecture_struts}
 \end{figure}
 
-\newpage
-
 Wie bereits erwähnt, verfolgt Struts das Model2-Konzept und lässt sich somit in die drei Komponenten (Model, View und Controller) unterteilen. \vref{fig:architecture_struts} gibt einen Überblick der Architektur von Struts, welche diese Komponenten vereint. Diese einzelnen Komponenten werden in den folgenden Abschnitten detailliert beschrieben.
 
-\subsubsection*{Die Strutskomponente Model}
+\subsection*{Die Strutskomponente Model}
 
 Das Model von Struts wird durch JavaBeans implementiert. Je nach Funktionalität
 können sie in drei Kategorien unterteilt werden:
@@ -73,7 +28,7 @@ deren Attribute. Der interne Zustand der Anwendung wird somit durch eine oder me
 Die Anwendungslogik kann durch JavaBeans ergänzt werden. Damit eine Wiederverwendung der Anwendungslogik gewährleistet werden kann, sollten die JavaBeans möglichst so implementiert werden, dass sie unabhängig von der Umgebung der Anwendung ausgeführt werden können. Zum Beispiel sollte die Logik zum Speichern von Bestellungen in die Datenbank ausgelagert werden. Hierbei müssen die Funktionalitäten für den Zugriff auf die Datenbank korrekt implementiert werden. Diese Methoden der JavaBeans können dann sowohl in der Struts-Applikation als auch in anderen Umgebungen, wo Datenbankzugriffe gebraucht werden, aufgerufen werden.\\
 Die ActionForm-Beans dienen zur Behandlung eines Formulars einer Webanwendung. Für jedes Eingabeformular ist ein entsprechendes ActionForm-Bean vorgesehen. Dieses ermöglicht das Zwischenspeichern von Formulareingabedaten, wobei jedes Eingabefeld einem Attribut der Bean entspricht. Mit der Verwendung von ActionForm Beans ist es möglich, auf die Daten des Formulars in verschiedenen Bereichen der Anwendung zuzugreifen. Eine solche Bean ist von der Klasse \textit{ActionForm} abgeleitet und kann neben den "`get"'- und "`set"'-Methoden optional noch zwei spezielle Methoden besitzen: \textit{validate}() und \textit{reset}(). Die Methode validate() dient dazu, Eingabedaten aus dem Formular zu validieren. Die Attribute eines Formulars lassen sich durch die Methode reset() zurücksetzen. Aufgrund der zwingend erforderlichen Namensgleichheit zwischen den Formularelementen und den Attributen der ActionForm Beans wird die Kommunikation zwischen dem Bean und dem HTML-Formular sichergestellt.
 
-\subsubsection*{Die Strutskomponente View}
+\subsection*{Die Strutskomponente View}
 
 Die View ist für die Präsentation der Daten zuständig, die meist durch JavaServer Pages umgesetzt wird. Die JSPs können neben HTML, XML und JavaScript, auch zur Laufzeit dynamisch generierten Code enthalten. Da es möglichst vermieden werden sollte, Java-Code in die JSP einzubauen werden so genannte Tags eingesetzt. Die JSP-eigenen Tags werden durch die umfangreichen Struts Tag-Bibliotheken (Taglibs) erweitert, wodurch eine größere Funktionalität erreicht werden kann. Wie in \vref{code:integration_struts_taglibs} zu erkennen ist, wird jeder einzelnen Bibliothek ein Präfix zugeordnet, damit der Compiler diese auseinander halten kann.
 
@@ -98,7 +53,7 @@ Für die Interaktion von JSPs mit den ActionForm Beans wurden die Standard HTML-T
 Wenn durch die \textit{validate}()-Methode ein Fehler festgestellt wird, kann dem Benutzer eine entsprechende Fehlermeldung über den Tag \verb|<html:errors\>| mitgeteilt werden. Dieser Tag wird nur aktiv, wenn die mit dem Attribut property definierte Fehlermeldung während der Validierung erzeugt wurde.\\
 Zusätzlich zu den oben genannten Tags der Struts-Taglibs stehen dem Struts-Framework noch eine Reihe weiterer Tags zur Verfügung. Es können auch die Taglibraries der JSTL Spezifikation\footnote{\url{http://java.sun.com/products/jsp/jstl/index.jsp}} eingesetzt werden.
 
-\subsubsection*{Die Strutskomponente Controller}
+\subsection*{Die Strutskomponente Controller}
 
 Der gesamte Ablauf einer Struts-Anwendung wird über den zentral im Struts-Framework vorliegenden Controller gesteuert. Dessen Aufgabe ist es, HTTP-Requests vom Client zu empfangen, diese auszuwerten und zu entscheiden, welche Maßnahme als nächstes durchgeführt werden soll. Wenn z.B. kein Verarbeitungsschritt mehr notwendig sein sollte, so wird die Anfrage direkt an die JSP weitergeleitet, ansonsten an die spezifische Action-Klasse. Besonders vorteilhaft ist nach \citep{Cavaness2004} die an einem zentralen Punkt liegende Ablaufsteuerung der Anwendung durch den Controller. Bei daran notwendigen Änderungen muss nicht die ganze Anwendung sondern nur ein relativ kleiner Bereich des Programms angepasst werden.
 Der Controller umfasst folgende Komponenten:
@@ -189,4 +144,4 @@ Bei der Erstellung von Action-Klassen muss darauf geachtet werden, dass diese th
 
 
 %Hier danach nicht mehr schreiben
-\label{sec:tech-WebAnwendungen-ende}
+\label{sec:tech-struts-ende}

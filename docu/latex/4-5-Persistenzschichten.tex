@@ -1,11 +1,138 @@
-\section{Persistenzschichten mit Hibernate} \label{sec:impl-Persistenzschichten}
+\section{Persistenzschicht mit Hibernate} \label{sec:impl-Persistenzschichten}
 
-Die Implementation der Persistenzschicht unter Verwendung von Hibernate
+Die Implementation der Persistenzschicht unter Verwendung von Hibernate wurde in mehreren Schritten vollzogen:
 
+\begin{enumerate}
 
+\item Erzeugen der Hibernate-Mapping-Dateien
+\item Generieren der Mapping-Klassen aus den XML-Dateien
+\item Generieren des Datenbankschemas
+\item Erzeugen der Hibernate-Konfiguration
+\item Entwicklung der Klasse \textit{Database} für die Interaktion mit der Datenbank
 
+\end{enumerate}
 
+Diese Schritte werden im Folgenden etwas genauer beschrieben.
 
+\subsection{Erzeugen der Hibernate-Mapping-Dateien}
+
+Wie in Kapitel \ref{sec:tech-hibernate} beschrieben, sind die Mapping-Dateien für das Abbilden eines Datenbankobjekts auf eine Java-Klasse notwendig.\\
+Zunächst wurde in der Phase der Implementierung ein entsprechendes Datenmodell mit allen benötigten Entitäten und Beziehungen erzeugt. Daraus wurden die entsprechenden Hibernate-Mapping-Dateien gebildet, indem hier unter Angabe von Name, Typ, Name der korrespondierenden Tabellenspalte der Datenbank und einigen anderen zum Teil auch optionalen Attributen alle Properties eines persistenten Objekts definiert wurden.
+Wichtig ist auch, dass neben den Properties mit einfachen Datentypen auch sämtliche Beziehungen zu anderen Objekten bekannt gemacht werden mußten.
+
+\subsection{Generieren der Mapping-Klassen aus den XML-Dateien}
+
+Nachdem alle Mapping-Dateien erzeugt wurden, war es notwendig daraus die entsprechenden Java-Klassen erzeugen zu lassen. Hierfür wurde das Tool zur Code-Generierung von Hibernate verwendet. Die Automatisierung dieses Prozesses wurde in ein Ant Build-Skript eingefügt, indem das Tool mit den entsprechenden Optionen von diesem Skript aus ausgeführt werden kann.\\
+Wie in \vref{code:generate_classes} ersichtlich, wird über das Element \textit{taskdef} das Tool in das Skript integriert und über \textit{target} die Anweisungen zur Ausführung definiert.
+Mithilfe des Ant-Plugins für Eclipse konnte dieses Skript zur Ausführung gebracht werden.
+
+\begin{lstlisting}[language=XML, caption={Erzeugung der persistenten Java-Klassen über Apache Ant}, label=code:generate_classes, showstringspaces=false]
+    <!-- Teach Ant how to use Hibernate's code generation tool -->
+    <taskdef name="hbm2java"
+             classname="net.sf.hibernate.tool.hbm2java.Hbm2JavaTask"
+             classpathref="project.class.path"/>
+
+    <!-- Generate the java code for all mapping files in our source tree -->
+    <target name="codegen"
+             description="Generate Java source from the O/R mapping files">
+        <hbm2java output="${source.root}">
+          <fileset dir="${source.root}">
+            <include name="**/*.hbm.xml"/>
+          </fileset>
+        </hbm2java>
+    </target>
+\end{lstlisting}
+
+\subsection{Generieren des Datenbankschemas}
+
+Für die Verwaltung der Provirent-Datenbank wurde die Verwendung des DBMS Firebird vorgezogen.
+Dabei wurde ein entsprechender Server auf den Entwicklungsrechnern installiert. Mithilfe des Firebird-Clients FlameRobin war der projekt-externe Zugriff auf diesen Datenbankserver und dementsprechend auf die Datenbank möglich.\\
+Zuvor musste jedoch erst das Datenbankschema generiert werden. Hierbei wurde das Hibernate-Tool zur Generierung von Datenbankschemata verwendet. Wie bei der Generierung der persistenten Java-Klassen wurden die Anweisungen für die Generierung in ein Ant Build-Skript, wie in \vref{code:generate_schema} zu sehen, integriert.
+
+\begin{lstlisting}[language=XML, caption={Erzeugung des Datenbankschemas über Apache Ant}, label=code:generate_schema, showstringspaces=false]
+    <!-- Generate the schemas for all mapping files in our class tree -->
+    <target name="schema" depends="compile"
+            description="Generate DB schema from the O/R mapping files">
+
+      <!-- Teach Ant how to use Hibernate's schema generation tool -->
+      <taskdef name="schemaexport"
+               classname="net.sf.hibernate.tool.hbm2ddl.SchemaExportTask"
+               classpathref="project.class.path"/>
+
+      <schemaexport properties="\${class.root}/hibernate.properties" quiet="no" text="no" drop="no" delimiter=";">
+        <fileset dir="\${class.root}">
+          <include name="**/*.hbm.xml"/>
+        </fileset>
+      </schemaexport>
+    </target>
+\end{lstlisting}
+
+\subsection{Erzeugen der Hibernate-Konfiguration}
+
+Die Konfiguration des Hibernate-Frameworks bedurfte es, zum einen die Eigenschaften der Datenbankverbindung zu deklarieren und zum anderen die verschiedenen Mapping-Dateien dem Framework bekannt zu machen.\\
+Die Datenbankverbindung wurde in einer Properties-Datei (siehe \vref{code:hibernate_properties}) beschrieben. Dabei war es unter anderem notwendig, folgende Eigenschaften zu definieren:
+
+\begin{itemize}
+
+\item Dialekt der Datenbank
+\item Datenbanktreiber
+\item URL der Datenbank
+\item Benutzername und Passwort für die DB
+
+\end{itemize}
+
+\begin{lstlisting}[language=XML, caption={hibernate.properties}, label=code:hibernate_properties, showstringspaces=false]
+
+hibernate.dialect=net.sf.hibernate.dialect.FirebirdDialect
+hibernate.connection.driver_class=org.firebirdsql.jdbc.FBDriver
+hibernate.connection.url=jdbc:firebirdsql:localhost:c:/video
+hibernate.connection.username=SYSDBA
+hibernate.connection.password=masterkey
+hibernate.jdbc.use_streams_for_binary=true
+
+\end{lstlisting}
+
+Zusätzlich dazu musste noch eine Klasse implementiert werden, die Sessions für das Hibernate-Framework bereitstellt. Mithilfe der Klasse \textit{HibernateUtil} wurden nicht nur Methoden zum Erzeugen und Beenden von Sessions angeboten, sondern auch das objektrelationale Mapping der Provirent-Datenbank für Hibernate sichtbar gemacht. Hierbei wird eine SessionFactory erzeugt, dessen Konfiguration die Namen aller persistenten Klassen besitzt und somit Zugriff darauf hat.
+
+\subsection{Entwicklung der Klasse \textit{Database} für die Interaktion mit der Datenbank}
+
+Nachdem nun das Hibernate-Framework alle entsprechenden Einstellungen erhalten hat, war es möglich darüber mit der Datenbank zu interagieren. Um jedoch eine zentrale Klasse mit allen Operationen zu erhalten, wurde die Klasse \textit{Database} implementiert. Hier befinden sich z.B. Methoden zum Laden, Speichern, Aktualisieren oder Löschen von einzelnen oder mehreren Datenbankobjekten.\\
+Die Methode \textit{getSingleActor}() in \vref{code:method_getSingleActor} lädt einen Schauspieler anhand seiner ID aus der Datenbank und gibt diesen als Objekt der Klasse \textit{Actor} zurück.
+
+\begin{lstlisting}[language=Java, caption={Methode zum Laden eines Schauspielers aus der DB}, label=code:method_getSingleActor, showstringspaces=false]
+public static Actor getSingleActor(final int id) {
+	if (logger.isDebugEnabled()) {
+		logger.debug("getSingleActor() - start. int filter= " + id);
+	}
+	//init the returnlist
+	Actor returnobject = null;
+
+	Session s = null;
+	Transaction tx = null;
+	try {
+		//get new Session and begin Transaction
+		s = HibernateUtil.currentSession();
+
+		returnobject = (Actor) s.get(Actor.class, new Integer(id));
+
+	} catch (Exception e) {
+		logger.error("getSingleActor() - Error while trying to do Transaction", e);
+
+	} finally {
+		try {
+			// No matter what, close the session
+			HibernateUtil.closeSession();
+		} catch (HibernateException e1) {
+			logger.error("getSingleActor() - Could not Close the Session", e1);
+		}
+	}
+
+	if (logger.isDebugEnabled()) {
+		logger.debug("getSingleActor() - end");
+	}
+	return returnobject;
+}
+\end{lstlisting}
 
 
 
