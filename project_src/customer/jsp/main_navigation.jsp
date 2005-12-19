@@ -1,5 +1,5 @@
-<%@ taglib uri="/tags/struts-bean.tld"  prefix="bean"  %>
-<%@ taglib uri="/tags/struts-html.tld"  prefix="html"  %>
+<%@ taglib uri="/WEB-INF/struts-html.tld"  prefix="html"  %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld"  prefix="bean"  %>
 
 
             <table class="menue_tbl" border="0" cellpadding="0" cellspacing="0">
@@ -56,7 +56,7 @@
               </tr>
               </thead> <tbody  class="menue_tbl">
                 <tr>
-                  <td class="menue_tbl"><html:link action="genre/action.do"> Action </html:link></td>
+                  <td class="menue_tbl"><html:link action="Genre/Action.do"> Action </html:link></td>
                 </tr>
                 <tr>
                   <td class="menue_tbl"><a href="#"> Drama </a></td>

@@ -1,5 +1,5 @@
-<%@ taglib uri="/tags/struts-bean.tld"  prefix="bean"  %>
-<%@ taglib uri="/tags/struts-html.tld"  prefix="html"  %>
+<%@ taglib uri="/WEB-INF/struts-html.tld"  prefix="html"  %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld"  prefix="bean"  %>
 <%@ taglib uri="http://displaytag.sf.net"  prefix="display"  %>
 
 
@@ -37,8 +37,5 @@ Bestellen </td>
               </tbody>
             </table>
 
-<display:table name="sessiongenrelist"  pagesize="2" class="list">
-	<display:column property="id" />
 
-</display:table> 
-
+<display:table name="sessionScope.sessiongenrelist" />

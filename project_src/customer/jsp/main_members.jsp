@@ -1,10 +1,11 @@
-<%@ taglib uri="/tags/struts-html.tld"  prefix="html"  %>
-<%@ taglib uri="/tags/struts-bean.tld"  prefix="bean"  %>
+<%@ taglib uri="/WEB-INF/struts-html.tld"  prefix="html"  %>
+<%@ taglib uri="/WEB-INF/struts-bean.tld"  prefix="bean"  %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!--
+
 <c:choose>
     <c:when test="${empty sessionScope.sessionuser}">
--->
+
 				  <div align="right">
 					<table cellspacing="0" cellpadding="0" border="0">
 					<html:form action="/Login" method="post">
@@ -24,7 +25,7 @@
 				  </html:form>
 				  </table>
 				  </div>
-<!--
+
     </c:when>
 	<c:otherwise>
 
@@ -32,7 +33,7 @@
 
     </c:otherwise>	
 </c:choose>
--->
+
 <!--
                   </td>
 				  </tr>
