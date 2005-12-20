@@ -3,13 +3,13 @@
 Eclipse ist eine Open-Source-Framework, das meist als Entwicklungsumgebung genutzt wird und auf 11 verschiedenen Systemen und Architekturen verwendet werden kann. Darunter befinden sich unter anderem Windows, Linux, MAC OS X, etc. Eclipse ist der Nachfolger von Visual Age for Java von IBM. Der Quellcode von Eclipse wurde 2001 von IBM freigegeben. Eclipse bildet nur den Kern, die Funktionalität wird über Plug-ins realisiert. Je nach verwendeten Plug-ins stellt sich somit die gesamte Funktionalität der Entwicklungsumgebung zusammen. Sowohl Eclipse als auch die Plug-ins sind in Java implementiert. Die Plug-Ins sind teilweise frei verwendbar und teilweise kommerziell. Dabei werden neben Java auch andere Sprachen wie zum Beispiel: C, C++. Perl und PHP  unterstützt. Das dynamische Hinzufügen und Entfernen von Plug-ins und die daraus entstehende Gesamtfunktionalität der Eclipse-Entwicklungsumgebung bezeichnet man als Rich Client Platform, das wiederum auf den OSGi-Standard basiert.\\
 Der OSGi-Standard (Open Services Gateway Initiative) ist ein Industriekonsortium, das ein  Framework, für die Vernetzung von intelligenten Embedded-Geräten und das Bereitstellen von Diensten zur Laufzeit ermöglicht, entwickelt hat. Eclipse verwendet das OSGi-Framework außerhalb dieser Embedded-Ausrichtung.\\
 Für die GUI-Erstellung wurde in Eclipse SWT verwendet, da SWT auf die nativen GUI-Komponenten des jeweiligen Betriebssystems zugreift ist Eclipse, trotz Java, nicht als plattformunbhängig zu betrachten.\\
-Der Aufbau von Eclipse setzt sich dabei aus folgenden Subsystemen zusammen, die teilweise aus einem oder mehreren Plug-ins bestehen wie in \vref{fig:eclipse-aufbau} zu sehen ist.
-\begin{figure}[htbp]
+\begin{figure}[htb]
 	\centering
-	\includegraphics[scale=1.0]{images/Eclipse-Aufbau.png}
+	\includegraphics[scale=0.5]{images/Eclipse-Aufbau.png}
 	\caption{Aufbau der Eclipse-Plattform}
 	\label{fig:eclipse-aufbau}
 \end{figure}
+Der Aufbau von Eclipse setzt sich dabei aus folgenden Subsystemen zusammen, die teilweise aus einem oder mehreren Plug-ins bestehen wie in \vref{fig:eclipse-aufbau} zu sehen ist.
 Die einzelnen Subsysteme definieren Erweiterungs-Schnittstellen um deren Funktionalität der Plattform zugänglich zu machen, wie in Tabelle 3.1 auf Seite \pageref{tab:eclipse-subsystem} zu sehen ist. 
 
 \begin{table}[htbp]
